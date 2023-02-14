@@ -34,11 +34,11 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
-    implementation files('libs/retrofit-2.9.0.jar')
-    implementation files('libs/rxjava-3.1.6.jar')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.6'
 }
 
 task makeJar(type: Jar, dependsOn: ['build']) {
