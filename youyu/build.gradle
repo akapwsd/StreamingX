@@ -1,0 +1,71 @@
+plugins {
+    id 'com.android.library'
+}
+
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.akapwsd'
+
+android {
+    compileSdkVersion 30
+
+    defaultConfig {
+        minSdkVersion 26
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'com.google.android.material:material:1.0.0'
+    implementation files('libs/retrofit-2.9.0.jar')
+    implementation files('libs/rxjava-3.1.6.jar')
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+}
+
+task makeJar(type: Jar, dependsOn: ['build']) {
+    //删除存在的
+    delete 'build/libs/youyu.jar'
+    archiveName 'youyu.jar'//目标jar包名称
+    //设置拷贝的文件
+    from(project.zipTree('build/intermediates/aar_main_jar/release/classes.jar'))
+    //此行很重要，否则该项目编写的代码无法打进jar包，具体路径与gradle版本有关，//之前网上说的都是老版本的路径，害我浪费半天时间
+    from(project.zipTree("libs/retrofit-2.9.0.jar"))
+    from(project.zipTree("libs/rxjava-3.1.6.jar"))
+    include('com/**')
+    include('**/')
+    exclude('com.example/BuildConfig.class')//需排除一些无用文件
+    exclude('com.example/BuildConfig\$*.class')
+    exclude('**/R.class')
+    exclude('**/R\$*.class')
+    //打进jar包后的文件目录
+    destinationDir = file('build/libs')
+}
+
+def androidSDKDir = project.android.sdkDirectory.absolutePath
+def androidJarDir = androidSDKDir.toString() + '/platforms/' + "${android.compileSdkVersion}" + '/android.jar'
+
+task proguardMyLib(type: proguard.gradle.ProGuardTask, dependsOn: ['makeJar']) {
+    injars('build/libs/youyu.jar')
+    outjars('build/libs/pro-youyu.jar')
+    libraryjars(androidJarDir)
+    configuration 'proguard-rules.pro'
+}
