@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         bindService();
         Button sendBtn = findViewById(R.id.send_btn);
-        sendBtn.setOnClickListener(view -> client.send("123"));
+        sendBtn.setOnClickListener(view -> sendMsg("123"));
     }
 
     private void bindService() {
@@ -48,4 +48,19 @@ public class MainActivity extends Activity {
         Intent bindIntent = new Intent(MainActivity.this, WebSocketService.class);
         bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE);
     }
+
+    /**
+     * 发送消息
+     */
+    public void sendMsg(String msg) {
+        if (null != client) {
+            Log.i("ZHIZHI", "发送的消息：" + msg);
+            try {
+                client.send(msg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 }

@@ -124,20 +124,6 @@ public class WebSocketService extends Service {
         }).start();
     }
 
-    /**
-     * 发送消息
-     */
-    public void sendMsg(String msg) {
-        if (null != client) {
-            Log.i(TAG, "发送的消息：" + msg);
-            try {
-                client.send(msg);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     @Override
     public boolean onUnbind(Intent intent) {
         Log.e(TAG, "Service onUnbind");
