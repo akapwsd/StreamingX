@@ -6,7 +6,7 @@ import java.net.URI;
 public class JWebSocketUtils {
     public static final String TAG = "JWebSocketUtils";
     private static JWebSocketUtils jWebSocketUtils;
-    URI uri = URI.create("ws://*******");
+    URI uri = URI.create("ws://echo.websocket.org");
     public JWebSocketClient client;
 
     public static JWebSocketUtils getInstance() {

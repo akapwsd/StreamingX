@@ -15,7 +15,7 @@ import java.net.URI;
 
 
 public class WebSocketService extends Service {
-    private final static String TAG = WebSocketService.class.getSimpleName();
+    private final static String TAG = "ZHIZHI";
 
     public JWebSocketClient client;
     private JWebSocketClientBinder mBinder = new JWebSocketClientBinder();
@@ -50,6 +50,17 @@ public class WebSocketService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         Log.i(TAG, "WebSocketService onBind");
+        initSocketClient();
+        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            startForeground(GRAY_SERVICE_ID, new Notification());
+        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            Intent innerIntent = new Intent(this, GrayInnerService.class);
+            startService(innerIntent);
+            startForeground(GRAY_SERVICE_ID, new Notification());
+        } else {
+
+        }
         return mBinder;
     }
 
@@ -60,44 +71,19 @@ public class WebSocketService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        //初始化WebSocket
-        initSocketClient();
-        mHandler.postDelayed(heartBeatRunnable, HEART_BEAT_RATE);//开启心跳检测
-
-
-        //设置service为前台服务，提高优先级
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
-            //Android4.3以下 ，隐藏Notification上的图标
-            startForeground(GRAY_SERVICE_ID, new Notification());
-        } else if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            //Android4.3 - Android8.0，隐藏Notification上的图标
-            Intent innerIntent = new Intent(this, GrayInnerService.class);
-            startService(innerIntent);
-            startForeground(GRAY_SERVICE_ID, new Notification());
-        } else {
-//            //Android8.0以上app启动后通知栏会出现一条"正在运行"的通知
-//            NotificationChannel channel = new NotificationChannel(NotificationUtil.channel_id, NotificationUtil.channel_name,
-//                    NotificationManager.IMPORTANCE_HIGH);
-//            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-//            if (manager != null) {
-//                manager.createNotificationChannel(channel);
-//                Notification notification = new Notification.Builder(getApplicationContext(), NotificationUtil.channel_id_tai_bang).build();
-//                startForeground(GRAY_SERVICE_ID, notification);
-//            }
-        }
+        Log.i(TAG, "onStartCommand is start");
         return START_STICKY;
     }
 
     private void initSocketClient() {
-        String url = "";
+        Log.i(TAG, "initSocketClient is start");
+        String url = "ws://echo.websocket.org";
         URI uri = URI.create(url);
         client = new JWebSocketClient(uri) {
             @Override
             public void onMessage(String message) {
                 //message就是接收到的消息
                 Log.i(TAG, "WebSocketService收到的消息：" + message);
-
-//                EventBus.getDefault().post(new WebSocketEvent(message));
             }
 
             @Override

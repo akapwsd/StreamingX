@@ -7,6 +7,6 @@ import com.example.youyu.api.SdkApi;
 public class TestUtils {
     public static void showTest() {
         int resultNumber = SdkApi.TestSdkApi(1, 2);
-        Log.d("youyu", "this is test model resultNumber:" + resultNumber);
+        Log.d("ZHIZHI", "this is test model resultNumber:" + resultNumber);
     }
 }
