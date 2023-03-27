@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             //服务与活动成功绑定
-            Log.d("ZHIZHI", "服务与活动成功绑定");
+            Log.d("ZHIZHI", "service bind success");
             binder = (WebSocketService.JWebSocketClientBinder) iBinder;
             jWebSClientService = binder.getService();
             client = jWebSClientService.client;
@@ -29,8 +29,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onServiceDisconnected(ComponentName componentName) {
-            //服务与活动断开
-            Log.d("ZHIZHI", "服务与活动成功断开");
+            Log.d("ZHIZHI", "service disconnect");
         }
     };
 
@@ -49,12 +48,9 @@ public class MainActivity extends Activity {
         bindService(bindIntent, serviceConnection, BIND_AUTO_CREATE);
     }
 
-    /**
-     * 发送消息
-     */
     public void sendMsg(String msg) {
         if (null != client) {
-            Log.i("ZHIZHI", "发送的消息：" + msg);
+            Log.i("ZHIZHI", "send msg：" + msg);
             try {
                 client.send(msg);
             } catch (Exception e) {
