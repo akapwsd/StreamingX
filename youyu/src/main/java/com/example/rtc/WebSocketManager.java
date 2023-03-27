@@ -9,13 +9,16 @@ import android.util.Log;
 
 import com.example.sokect.JWebSocketClient;
 import com.example.sokect.WebSocketService;
+import com.example.youyu.api.WebSocketResultListener;
 
 public class WebSocketManager {
     private static WebSocketManager webSocketManager;
-    public static WebSocketManager getInstance(){
-        if(webSocketManager == null){
-            synchronized (WebSocketManager.class){
-                if(webSocketManager == null){
+    private WebSocketResultListener mWebSocketResultListener;
+
+    public static WebSocketManager getInstance() {
+        if (webSocketManager == null) {
+            synchronized (WebSocketManager.class) {
+                if (webSocketManager == null) {
                     webSocketManager = new WebSocketManager();
                 }
             }
@@ -41,17 +44,28 @@ public class WebSocketManager {
             Log.d("ZHIZHI", "service disconnect");
         }
     };
-    public JWebSocketClient getClient(){
-        if(client != null){
+
+    public JWebSocketClient getClient() {
+        if (client != null) {
             return client;
-        }else {
+        } else {
             return null;
         }
     }
-    public void bindService(Context context) {
+
+    public void bindService(Context context, WebSocketResultListener webSocketResultListener) {
         Log.d("ZHIZHI", "bindService is start");
+        this.mWebSocketResultListener = webSocketResultListener;
         Intent bindIntent = new Intent(context, WebSocketService.class);
         context.bindService(bindIntent, serviceConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    public WebSocketResultListener getWebSocketResultListener() {
+        if (mWebSocketResultListener != null) {
+            return mWebSocketResultListener;
+        } else {
+            return null;
+        }
     }
 
     public void sendMsg(String msg) {

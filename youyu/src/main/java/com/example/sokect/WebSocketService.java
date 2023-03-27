@@ -9,6 +9,9 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import com.example.rtc.WebSocketManager;
+import com.example.youyu.api.WebSocketResultListener;
+
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -79,22 +82,25 @@ public class WebSocketService extends Service {
         Log.i(TAG, "initSocketClient is start");
         String url = "ws://echo.websocket.org";
         URI uri = URI.create(url);
+        WebSocketResultListener webSocketResultListener = WebSocketManager.getInstance().getWebSocketResultListener();
         client = new JWebSocketClient(uri) {
             @Override
             public void onMessage(String message) {
                 //message就是接收到的消息
                 Log.i(TAG, "WebSocketService收到的消息：" + message);
+                webSocketResultListener.onMessage();
             }
 
             @Override
             public void onOpen(ServerHandshake handShakeData) {//在webSocket连接开启时调用
                 Log.i(TAG, "WebSocket 连接成功");
+                webSocketResultListener.onOpen();
             }
 
             @Override
             public void onClose(int code, String reason, boolean remote) {//在连接断开时调用
                 Log.e(TAG, "onClose() 连接断开_reason：" + reason);
-
+                webSocketResultListener.onClose();
                 mHandler.removeCallbacks(heartBeatRunnable);
                 mHandler.postDelayed(heartBeatRunnable, CLOSE_RECON_TIME);//开启心跳检测
             }
@@ -102,7 +108,7 @@ public class WebSocketService extends Service {
             @Override
             public void onError(Exception ex) {//在连接出错时调用
                 Log.e(TAG, "onError() 连接出错：" + ex.getMessage());
-
+                webSocketResultListener.onError();
                 mHandler.removeCallbacks(heartBeatRunnable);
                 mHandler.postDelayed(heartBeatRunnable, CLOSE_RECON_TIME);//开启心跳检测
             }
