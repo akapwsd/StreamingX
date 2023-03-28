@@ -1,0 +1,16 @@
+syntax = "proto3";
+package batprotobuf;
+
+option go_package = ".;uyujoyapi";
+
+enum channelState {
+  ChannelStateClosed = 0;
+  ChannelStateFree = 1;
+  ChannelStateBusy = 2;
+  ChannelStateRefreshing = 3;
+}
+
+enum channelUserState{
+  ChannelUserStateJoin = 0;
+  ChannelUserStateQuit = 1;
+}
