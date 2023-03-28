@@ -12,10 +12,30 @@ import android.util.Log;
 import com.example.rtc.WebSocketManager;
 import com.example.youyu.api.WebSocketResultListener;
 
+import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateException;
+
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 
 public class WebSocketService extends Service {
@@ -79,7 +99,40 @@ public class WebSocketService extends Service {
         return START_STICKY;
     }
 
-    private void initSocketClient() {
+    private void initSSLSocketClient() {
+        try {
+            initSocketClient();
+            String STORETYPE = "JKS";
+            String KEYSTORE = Paths.get("src", "test", "java", "org", "java_websocket", "keystore.jks")
+                    .toString();
+            String STOREPASSWORD = "storepassword";
+            String KEYPASSWORD = "keypassword";
+
+            KeyStore ks = KeyStore.getInstance(STORETYPE);
+            File kf = new File(KEYSTORE);
+            ks.load(Files.newInputStream(kf.toPath()), STOREPASSWORD.toCharArray());
+
+            KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+            kmf.init(ks, KEYPASSWORD.toCharArray());
+            TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+            tmf.init(ks);
+
+            SSLContext sslContext;
+            sslContext = SSLContext.getInstance("TLS");
+            sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+
+            SSLSocketFactory factory = sslContext
+                    .getSocketFactory();
+
+            client.setSocketFactory(factory);
+            connect();
+        } catch (CertificateException | KeyStoreException | IOException | NoSuchAlgorithmException |
+                 UnrecoverableKeyException | KeyManagementException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void initBaseSocketClient() {
         Log.i(TAG, "initSocketClient is start");
         String url = "ws://echo.websocket.org";
         URI uri = URI.create(url);
@@ -119,6 +172,10 @@ public class WebSocketService extends Service {
                 webSocketResultListener.onMessage(bytes);
             }
         };
+    }
+
+    private void initSocketClient() {
+        initBaseSocketClient();
         connect();
     }
 
