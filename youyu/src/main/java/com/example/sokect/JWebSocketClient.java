@@ -24,7 +24,7 @@ public class JWebSocketClient extends WebSocketClient {
     }
 
     @Override
-    public void onOpen(ServerHandshake handshakedata) {
+    public void onOpen(ServerHandshake handShakeData) {
 
     }
 
