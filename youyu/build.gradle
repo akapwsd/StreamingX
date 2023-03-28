@@ -81,6 +81,8 @@ dependencies {
     api 'com.google.protobuf:protobuf-java:3.11.1'
     api 'com.google.protobuf:protoc:3.1.0'
     api 'com.googlecode.protobuf-java-format:protobuf-java-format:1.4'
+
+    api 'com.squareup.okhttp3:okhttp:4.10.0'
 }
 
 task makeJar(type: Jar, dependsOn: ['build']) {
