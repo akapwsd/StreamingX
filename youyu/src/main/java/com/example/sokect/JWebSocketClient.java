@@ -5,6 +5,7 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.nio.ByteBuffer;
 
 public class JWebSocketClient extends WebSocketClient {
 
@@ -30,5 +31,10 @@ public class JWebSocketClient extends WebSocketClient {
     @Override
     public void onError(Exception ex) {
 
+    }
+
+    @Override
+    public void onMessage(ByteBuffer bytes) {
+        super.onMessage(bytes);
     }
 }

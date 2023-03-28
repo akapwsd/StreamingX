@@ -15,6 +15,7 @@ import com.example.youyu.api.WebSocketResultListener;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
+import java.nio.ByteBuffer;
 
 
 public class WebSocketService extends Service {
@@ -88,7 +89,7 @@ public class WebSocketService extends Service {
             public void onMessage(String message) {
                 //message就是接收到的消息
                 Log.i(TAG, "WebSocketService收到的消息：" + message);
-                webSocketResultListener.onMessage();
+                webSocketResultListener.onMessage(message);
             }
 
             @Override
@@ -111,6 +112,11 @@ public class WebSocketService extends Service {
                 webSocketResultListener.onError();
                 mHandler.removeCallbacks(heartBeatRunnable);
                 mHandler.postDelayed(heartBeatRunnable, CLOSE_RECON_TIME);//开启心跳检测
+            }
+
+            @Override
+            public void onMessage(ByteBuffer bytes) {
+                webSocketResultListener.onMessage(bytes);
             }
         };
         connect();

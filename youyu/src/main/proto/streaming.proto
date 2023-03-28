@@ -1,0 +1,22 @@
+syntax = "proto3";
+package batprotobuf;
+
+option go_package = ".;uyujoyapi";
+
+import "streamingBase.proto";
+
+message channelStateChange{
+  channel ch = 1;
+}
+
+message channelUserStateChange{
+  channelUser chu = 1;
+}
+
+message ping{
+
+}
+
+message pong{
+
+}

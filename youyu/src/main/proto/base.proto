@@ -1,0 +1,9 @@
+syntax = "proto3";
+package batprotobuf;
+
+option go_package = ".;uyujoyapi";
+
+message messageFrame {
+  uint32 crc32 = 1;
+  bytes data = 2; //这里的data是用protobuf转成二进制的结构体，该结构体就是crcId对应的类型
+}

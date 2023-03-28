@@ -1,0 +1,20 @@
+syntax = "proto3";
+package batprotobuf;
+
+option go_package = ".;uyujoyapi";
+
+message channel{
+  string id = 1;
+  string token = 2;
+  uint32 type = 3;
+  int64 expiration = 4;
+  uint32 state = 5;
+  int64 startTs = 6;
+  int64 endTs = 7;
+}
+
+message channelUser{
+  string channelId = 1;
+  string uid = 2;
+  uint32 state = 3;
+}
