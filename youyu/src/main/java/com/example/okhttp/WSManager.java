@@ -23,7 +23,6 @@ import okio.ByteString;
 public class WSManager {
     private final String TAG = "WSManager";
     private static ArrayList<WeakReference<WebSocketDataListener>> sWeakRefListeners;
-    private static WSManager sInstance;
 
     private WebSocket mWebSocket;
     private OkHttpClient mClient;
@@ -33,27 +32,23 @@ public class WSManager {
 
     private boolean isReceivePong;
 
-    public static WSManager getInstance() {
-        if (sInstance == null) {
-            synchronized (WSManager.class) {
-                if (sInstance == null) {
-                    sInstance = new WSManager();
-                }
-            }
-        }
+    private static final class SInstanceHolder {
+        static final WSManager sInstance = new WSManager();
+    }
 
-        return sInstance;
+    public static WSManager getInstance() {
+
+        return SInstanceHolder.sInstance;
     }
 
 
     /**
      * 初始化WebSocket
      */
-    public void init(String url, WebSocketDataListener webSocketDataListener) {
+    public void init(WebSocketDataListener webSocketDataListener) {
         sWeakRefListeners = new ArrayList<>();
         registerWSDataListener(webSocketDataListener);
         //使用模拟服务器（不支持断线重连）
-        mWbSocketUrl = url;
         //使用测试url（支持断线重连）
         mWbSocketUrl = "ws://echo.websocket.org";
         Log.e(TAG, "mWbSocketUrl=" + mWbSocketUrl);
@@ -141,8 +136,6 @@ public class WSManager {
 
     /**
      * 发送消息
-     *
-     * @param message
      */
     public void send(final String message) {
         if (mWebSocket != null) {
@@ -152,8 +145,6 @@ public class WSManager {
 
     /**
      * 发送消息
-     *
-     * @param message
      */
     public void send(final ByteString message) {
         if (mWebSocket != null) {
@@ -163,13 +154,11 @@ public class WSManager {
 
     /**
      * 主动断开连接
-     *
-     * @param code
-     * @param reason
      */
     public void disconnect(int code, String reason, WebSocketDataListener webSocketDataListener) {
         if (mWebSocket != null)
             unregisterWSDataListener(webSocketDataListener);
+        assert mWebSocket != null;
         mWebSocket.close(code, reason);
     }
 
@@ -182,8 +171,6 @@ public class WSManager {
 
     /**
      * 注册监听者
-     *
-     * @param listener
      */
     private void registerWSDataListener(WebSocketDataListener listener) {
         if (!sWeakRefListeners.contains(listener)) {
@@ -193,8 +180,6 @@ public class WSManager {
 
     /**
      * 解绑监听
-     *
-     * @param listener
      */
     private void unregisterWSDataListener(WebSocketDataListener listener) {
         Iterator<WeakReference<WebSocketDataListener>> iterator = sWeakRefListeners.iterator();
