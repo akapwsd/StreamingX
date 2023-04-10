@@ -133,4 +133,20 @@ public class RtcManager {
             localView.setZOrderMediaOverlay(true);
         }
     }
+
+    public void startCall(){
+
+    }
+
+    public void hangUpCall(){
+
+    }
+
+    public void acceptCall(){
+
+    }
+
+    public void rejectCall(){
+
+    }
 }
