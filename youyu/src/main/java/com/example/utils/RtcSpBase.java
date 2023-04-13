@@ -1,5 +1,6 @@
 package com.example.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 
@@ -11,9 +12,10 @@ public class RtcSpBase {
 
     private static final String TAG = "RtcSpBase";
 
+    @SuppressLint("StaticFieldLeak")
     private static Context mContext;
 
-    private static String USER_FILE_NAME = "sisisan_bat_user"; //存放配置的名字前缀
+    private static final String USER_FILE_NAME = "rtc_sp";
 
     private RtcSpBase() {
         throw new UnsupportedOperationException("cannot be instantiated");
@@ -21,8 +23,6 @@ public class RtcSpBase {
 
     /**
      * 初始化上下文
-     *
-     * @param context
      */
     public static void initContent(Context context) {
         mContext = context;
@@ -58,9 +58,6 @@ public class RtcSpBase {
 
     /**
      * 得到保存数据的方法，我们根据默认值得到保存的数据的具体类型，然后调用相对于的方法获取值
-     *
-     * @param key
-     * @param defaultObject
      * @return
      */
     public static Object get(String key, Object defaultObject) {
@@ -82,7 +79,6 @@ public class RtcSpBase {
 
     /**
      * 移除某个key值已经对应的值
-     * @param key
      */
     public static void remove(String key) {
         SharedPreferences sp = mContext.getSharedPreferences(USER_FILE_NAME, Context.MODE_PRIVATE);

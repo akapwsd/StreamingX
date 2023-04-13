@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.rtc.BaseRtcEngineManager;
+import com.example.utils.RtcSpBase;
 
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
@@ -22,6 +23,7 @@ public class RtcManager {
 
     public void initRtc(Context context) {
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
+        RtcSpBase.initContent(context);
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;
@@ -134,19 +136,19 @@ public class RtcManager {
         }
     }
 
-    public void startCall(){
+    public void startCall() {
 
     }
 
-    public void hangUpCall(){
+    public void hangUpCall() {
 
     }
 
-    public void acceptCall(){
+    public void acceptCall() {
 
     }
 
-    public void rejectCall(){
+    public void rejectCall() {
 
     }
 }
