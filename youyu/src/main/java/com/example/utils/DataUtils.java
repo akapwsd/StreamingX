@@ -1,5 +1,4 @@
 package com.example.utils;
-
 import java.nio.ByteBuffer;
 
 public class DataUtils {

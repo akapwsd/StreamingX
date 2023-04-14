@@ -9,5 +9,5 @@ public interface HttpApi {
     String BASE_URL = "";
     String SUMMARY = "relationship/summary";
     @GET(SUMMARY)
-    Observable<String> getSummary(@Header("Authorization") String token, @Header("uid") int uid);
+    Observable<String> getToken(@Header("sign") String sign, @Header("account_token") String token);
 }

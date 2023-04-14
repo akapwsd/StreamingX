@@ -3,14 +3,19 @@ package com.example.youyu.api;
 
 import android.content.Context;
 import android.view.SurfaceView;
-import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.okhttp.WSManager;
 import com.example.rtc.BaseRtcEngineManager;
+import com.example.utils.DataUtils;
+import com.example.utils.HttpRequestUtils;
 import com.example.utils.RtcSpBase;
+import com.example.utils.RtcSpUtils;
 
+import batprotobuf.Streaming;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
+import okio.ByteString;
 
 public class RtcManager {
     private static final class RtcManagerHolder {
@@ -21,9 +26,21 @@ public class RtcManager {
         return RtcManagerHolder.rtcManager;
     }
 
-    public void initRtc(Context context) {
+    public void initRtc(Context context, String accountToken) {
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
         RtcSpBase.initContent(context);
+        HttpRequestUtils.getInstance().requestToken(context, accountToken, new HttpRequestUtils.HttpRequestListener() {
+            @Override
+            public void requestSuccess(String o, String msg) {
+                RtcSpUtils.getInstance().setToken(msg);
+            }
+
+            @Override
+            public void requestError(int code, String error) {
+
+            }
+        });
+        WSManager.getInstance().init();
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;
@@ -135,7 +152,10 @@ public class RtcManager {
             localView.setZOrderMediaOverlay(true);
         }
     }
-
+    public void ping(){
+        Streaming.ping ping = Streaming.ping.newBuilder().build();
+        WSManager.getInstance().send(ByteString.of(ping.toByteArray()));
+    }
     public void startCall() {
 
     }

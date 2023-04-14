@@ -5,6 +5,9 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.utils.LogUtil;
+import com.example.youyu.api.RtcManager;
+
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
@@ -23,13 +26,9 @@ import okio.ByteString;
 public class WSManager {
     private final String TAG = "WSManager";
     private static ArrayList<WeakReference<WebSocketDataListener>> sWeakRefListeners;
-
     private WebSocket mWebSocket;
     private OkHttpClient mClient;
-
-    //连接的websocket地址
     private String mWbSocketUrl;
-
     private boolean isReceivePong;
 
     private static final class SInstanceHolder {
@@ -43,13 +42,10 @@ public class WSManager {
 
 
     /**
-     * 初始化WebSocket
+     * init WebSocket
      */
-    public void init(WebSocketDataListener webSocketDataListener) {
+    public void init() {
         sWeakRefListeners = new ArrayList<>();
-        registerWSDataListener(webSocketDataListener);
-        //使用模拟服务器（不支持断线重连）
-        //使用测试url（支持断线重连）
         mWbSocketUrl = "ws://echo.websocket.org";
         Log.e(TAG, "mWbSocketUrl=" + mWbSocketUrl);
         mClient = new OkHttpClient.Builder()
@@ -70,7 +66,7 @@ public class WSManager {
         public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             Log.e(TAG, "onClosed！");
             super.onClosed(webSocket, code, reason);
-            wsOnClosed(code,reason);
+            wsOnClosed(code, reason);
             //断线重连
             if (code == 1001) {
                 Log.e(TAG, "断线重连！");
@@ -81,7 +77,7 @@ public class WSManager {
         @Override
         public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             super.onClosing(webSocket, code, reason);
-            wsOnClosing(code,reason);
+            wsOnClosing(code, reason);
         }
 
         @Override
@@ -94,57 +90,55 @@ public class WSManager {
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
             super.onMessage(webSocket, text);
-            Log.e(TAG, "客户端收到消息:" + text);
+            Log.e(TAG, "receive message:" + text);
         }
 
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull ByteString bytes) {
             super.onMessage(webSocket, bytes);
+            Log.e(TAG, "receive bytes:" + bytes);
             wsOnMessage(bytes);
         }
 
         @Override
         public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
             super.onOpen(webSocket, response);
-            Log.e(TAG, "连接成功！");
+            LogUtil.e(TAG, "connect success！");
             wsOnOpen();
             mWebSocket = webSocket;
-            //主动发送心跳包
             isReceivePong = true;
             heartHandler.sendEmptyMessage(10);
         }
     }
 
-    // 发送心跳包
+    // send ping
     Handler heartHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
             if (msg.what != 10) return false;
-            final String message = "{\"action\":\"ping\"}";
             if (isReceivePong) {
-                send(message);
+                RtcManager.getInstance().ping();
                 isReceivePong = false;
                 heartHandler.sendEmptyMessageDelayed(10, 10000);
             } else {
-                //没有收到pong命令，进行重连
-                closeConnect(1001, "断线重连");
+                closeConnect(1001, "disconnect");
             }
             return false;
         }
     });
 
 
-    /**
-     * 发送消息
-     */
-    public void send(final String message) {
-        if (mWebSocket != null) {
-            mWebSocket.send(message);
-        }
-    }
+//    /**
+//     * send msg
+//     */
+//    public void send(final String message) {
+//        if (mWebSocket != null) {
+//            mWebSocket.send(message);
+//        }
+//    }
 
     /**
-     * 发送消息
+     * send msg
      */
     public void send(final ByteString message) {
         if (mWebSocket != null) {
@@ -153,7 +147,7 @@ public class WSManager {
     }
 
     /**
-     * 主动断开连接
+     * go disconnect
      */
     public void disconnect(int code, String reason, WebSocketDataListener webSocketDataListener) {
         if (mWebSocket != null)
@@ -170,16 +164,16 @@ public class WSManager {
     }
 
     /**
-     * 注册监听者
+     * register listener
      */
-    private void registerWSDataListener(WebSocketDataListener listener) {
+    public void registerWSDataListener(WebSocketDataListener listener) {
         if (!sWeakRefListeners.contains(listener)) {
             sWeakRefListeners.add(new WeakReference<>(listener));
         }
     }
 
     /**
-     * 解绑监听
+     * unregister listener
      */
     private void unregisterWSDataListener(WebSocketDataListener listener) {
         Iterator<WeakReference<WebSocketDataListener>> iterator = sWeakRefListeners.iterator();
@@ -198,10 +192,10 @@ public class WSManager {
         }
     }
 
-    private void wsOnClosed(int code,String reason) {
+    private void wsOnClosed(int code, String reason) {
         for (WeakReference<WebSocketDataListener> info : sWeakRefListeners) {
             if (info.get() != null) {
-                info.get().onClosed(code,reason);
+                info.get().onClosed(code, reason);
             }
         }
     }
@@ -214,10 +208,10 @@ public class WSManager {
         }
     }
 
-    private void wsOnClosing(int code,String reason) {
+    private void wsOnClosing(int code, String reason) {
         for (WeakReference<WebSocketDataListener> info : sWeakRefListeners) {
             if (info.get() != null) {
-                info.get().onClosing(code,reason);
+                info.get().onClosing(code, reason);
             }
         }
     }
@@ -239,11 +233,12 @@ public class WSManager {
     }
 
     public interface WebSocketDataListener {
-        void onClosed(int code,String reason);
+        void onClosed(int code, String reason);
 
-        void onClosing(int code,String reason);
+        void onClosing(int code, String reason);
 
         void onFailure(String reason);
+
         void onMessage(Object data);
 
         void onOpen();
