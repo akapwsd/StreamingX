@@ -5,14 +5,13 @@ import android.content.Context;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
+import com.example.listener.RtcRequestEventHandler;
 import com.example.okhttp.WSManager;
 import com.example.rtc.BaseRtcEngineManager;
-import com.example.utils.DataUtils;
 import com.example.utils.HttpRequestUtils;
 import com.example.utils.RtcSpBase;
 import com.example.utils.RtcSpUtils;
 
-import batprotobuf.Streaming;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoCanvas;
 import okio.ByteString;
@@ -26,7 +25,7 @@ public class RtcManager {
         return RtcManagerHolder.rtcManager;
     }
 
-    public void initRtc(Context context, String accountToken) {
+    public void initRtc(Context context, String accountToken, RtcRequestEventHandler rtcRequestEventHandler) {
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
         RtcSpBase.initContent(context);
         HttpRequestUtils.getInstance().requestToken(context, accountToken, new HttpRequestUtils.HttpRequestListener() {
@@ -40,7 +39,7 @@ public class RtcManager {
 
             }
         });
-        WSManager.getInstance().init();
+        WSManager.getInstance().init(context, rtcRequestEventHandler);
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;
@@ -152,23 +151,34 @@ public class RtcManager {
             localView.setZOrderMediaOverlay(true);
         }
     }
-    public void ping(){
-        Streaming.ping ping = Streaming.ping.newBuilder().build();
-        WSManager.getInstance().send(ByteString.of(ping.toByteArray()));
-    }
-    public void startCall() {
 
-    }
-
-    public void hangUpCall() {
-
+    public void startCall(WSManager.WebSocketResultListener listener) {
+        WSManager.getInstance().registerWSDataListener(Constants.START_CALL, listener);
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
     }
 
-    public void acceptCall() {
-
+    public void hangUpCall(WSManager.WebSocketResultListener listener) {
+        WSManager.getInstance().registerWSDataListener(Constants.HANG_UP, listener);
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
     }
 
-    public void rejectCall() {
+    public void acceptCall(WSManager.WebSocketResultListener listener) {
+        WSManager.getInstance().registerWSDataListener(Constants.ACCEPT_CALL, listener);
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
+    }
 
+    public void rejectCall(WSManager.WebSocketResultListener listener) {
+        WSManager.getInstance().registerWSDataListener(Constants.REJECT_CALL, listener);
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
+    }
+
+    public void getModelList(WSManager.RequestModelListListener listener) {
+        WSManager.getInstance().registerModelListener(listener);
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
     }
 }
