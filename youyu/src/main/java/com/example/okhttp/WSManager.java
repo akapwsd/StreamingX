@@ -6,10 +6,14 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.example.bean.ModelBean;
 import com.example.listener.RtcRequestEventHandler;
+import com.example.rtc.BaseRtcEngineManager;
 import com.example.utils.LogUtil;
 import com.example.youyu.api.Constants;
+import com.example.youyu.api.RtcManager;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -21,6 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import batprotobuf.Streaming;
+import io.agora.rtc.RtcEngine;
 import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -37,9 +42,13 @@ public class WSManager {
     private WebSocket mWebSocket;
     private OkHttpClient mClient;
     private String mWbSocketUrl;
-    private boolean isReceivePong;
-    private Context mContext;
+    private boolean isReceivePong = true;
+    private boolean isReceiveRoomAlivePong = true;
 
+    private boolean isCallIng = false;
+    private Context mContext;
+    public String channelId = "";
+    public String token = "";
     private final ConcurrentHashMap<RtcRequestEventHandler, Integer> mRtcHandlers = new ConcurrentHashMap();
 
     private static final class SInstanceHolder {
@@ -63,17 +72,13 @@ public class WSManager {
             mRequestListeners = new ArrayList<>();
             mWbSocketUrl = "ws://echo.websocket.org";
             Log.e(TAG, "mWbSocketUrl=" + mWbSocketUrl);
-            mClient = new OkHttpClient.Builder()
-                    .pingInterval(10, TimeUnit.SECONDS)
-                    .build();
+            mClient = new OkHttpClient.Builder().pingInterval(10, TimeUnit.SECONDS).build();
             connect();
         }
     }
 
     public void connect() {
-        Request request = new Request.Builder()
-                .url(mWbSocketUrl)
-                .build();
+        Request request = new Request.Builder().url(mWbSocketUrl).build();
         mWebSocket = mClient.newWebSocket(request, new WsListener());
     }
 
@@ -117,8 +122,22 @@ public class WSManager {
                     case Constants.PONG:
                         isReceivePong = true;
                         break;
-                    case Constants.START_CALL | Constants.HANG_UP
-                            | Constants.ACCEPT_CALL | Constants.REJECT_CALL:
+                    case Constants.ROOM_PONG:
+                        isReceiveRoomAlivePong = true;
+                        break;
+                    case Constants.START_CALL:
+                    case Constants.ACCEPT_CALL:
+                        channelId = "channelId";
+                        token = "token";
+                        isCallIng = true;
+                        roomAliveHeartHandler.sendEmptyMessage(11);
+                        eventSuccessWsDataListener(type, msg);
+                        break;
+                    case Constants.HANG_UP:
+                    case Constants.REJECT_CALL:
+                        channelId = "";
+                        token = "";
+                        closeVideoChat();
                         eventSuccessWsDataListener(type, msg);
                         break;
                     case Constants.GET_MODEL_LIST:
@@ -147,7 +166,28 @@ public class WSManager {
         }
     }
 
-    // send ping
+    /**
+     * send room alive ping
+     */
+    Handler roomAliveHeartHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+        @Override
+        public boolean handleMessage(@NonNull Message message) {
+            if (message.what != 11) return false;
+            if (isCallIng) {
+                if (isReceiveRoomAlivePong) {
+                    roomPing();
+                    isReceiveRoomAlivePong = false;
+                    roomAliveHeartHandler.sendEmptyMessageDelayed(11, 10000);
+                } else {
+                    closeVideoChat();
+                }
+            }
+            return false;
+        }
+    });
+    /**
+     * send rtc all ping
+     */
     Handler heartHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
         @Override
         public boolean handleMessage(Message msg) {
@@ -168,6 +208,11 @@ public class WSManager {
         WSManager.getInstance().send(ByteString.of(ping.toByteArray()));
     }
 
+    protected void roomPing() {
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
+    }
+
     /**
      * send msg
      */
@@ -181,15 +226,13 @@ public class WSManager {
      * go disconnect
      */
     public void disconnect(int code, String reason) {
-        if (mWebSocket != null)
-            sWeakRefListeners.clear();
+        if (mWebSocket != null) sWeakRefListeners.clear();
         assert mWebSocket != null;
         mWebSocket.close(code, reason);
     }
 
     public void closeConnect(int code, String reason) {
-        if (mWebSocket != null)
-            sWeakRefListeners.clear();
+        if (mWebSocket != null) sWeakRefListeners.clear();
         assert mWebSocket != null;
         mWebSocket.close(code, reason);
     }
@@ -318,6 +361,13 @@ public class WSManager {
                 handler.onPeerUserDisAgreeCall(evt);
                 break;
         }
+    }
+
+    private void closeVideoChat() {
+        isCallIng = false;
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.leaveChannel();
+        rtcEngine.stopPreview();
     }
 
     public interface WebSocketResultListener {

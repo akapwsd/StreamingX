@@ -2,6 +2,8 @@ package com.example.youyu.api;
 
 
 import android.content.Context;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
@@ -14,6 +16,7 @@ import com.example.utils.RtcSpBase;
 import com.example.utils.RtcSpUtils;
 
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.models.ChannelMediaOptions;
 import io.agora.rtc.video.VideoCanvas;
 import okio.ByteString;
 
@@ -85,6 +88,19 @@ public class RtcManager {
                 )
         );
         localView.setZOrderMediaOverlay(true);
+        new Handler().postDelayed(() -> userJoinChannel(uid), 500);
+    }
+
+    private void userJoinChannel(int uid) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        String accessToken = WSManager.getInstance().token;
+        String channel = WSManager.getInstance().channelId;
+        if (rtcEngine != null && !TextUtils.isEmpty(accessToken) && TextUtils.isEmpty(channel)) {
+            ChannelMediaOptions option = new ChannelMediaOptions();
+            option.autoSubscribeAudio = true;
+            option.autoSubscribeVideo = true;
+            rtcEngine.joinChannel(accessToken, channel, "Extra Optional Data", uid, option);
+        }
     }
 
     public void switchView(Context context) {
@@ -189,15 +205,38 @@ public class RtcManager {
         WSManager.getInstance().send(ByteString.of(a));
     }
 
-    public void switchCamera(){
-
+    public void switchCamera() {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.switchCamera();
     }
 
-    public void actionVoice(){
-
+    public void actionAllAudio(boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.muteAllRemoteAudioStreams(isEnable);
     }
 
-    public void actionVideo(){
+    public void actionAudio(int uid, boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.muteRemoteAudioStream(uid, isEnable);
+    }
 
+    public void actionLocalAudio(boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.muteLocalAudioStream(isEnable);
+    }
+
+    public void actionAllVideo(boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.muteAllRemoteVideoStreams(isEnable);
+    }
+
+    public void actionLocalVideo(boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.muteLocalVideoStream(isEnable);
+    }
+
+    public void actionVideo(int uid, boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.muteRemoteVideoStream(uid, isEnable);
     }
 }
