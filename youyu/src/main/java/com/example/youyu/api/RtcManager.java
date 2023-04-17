@@ -33,8 +33,9 @@ public class RtcManager {
 
     public void initRtc(Context context, String accountToken, InitResultListener initResultListener) {
         mInitResultListener = initResultListener;
-        BaseRtcEngineManager.getInstance().initBaseRtc(context);
         RtcSpBase.initContent(context);
+        BaseRtcEngineManager.getInstance().initBaseRtc(context);
+        WSManager.getInstance().init(context);
         HttpRequestUtils.getInstance().requestToken(context, accountToken, new HttpRequestUtils.HttpRequestListener() {
             @Override
             public void requestSuccess(String o, String msg) {
@@ -49,8 +50,8 @@ public class RtcManager {
         });
     }
 
-    public void createRtc(Context context, RtcRequestEventHandler rtcRequestEventHandler) {
-        WSManager.getInstance().init(context, rtcRequestEventHandler);
+    public void createRtc(RtcRequestEventHandler rtcRequestEventHandler) {
+        WSManager.getInstance().create(rtcRequestEventHandler);
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;

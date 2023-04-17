@@ -64,10 +64,9 @@ public class WSManager {
     /**
      * init WebSocket
      */
-    public void init(Context context, RtcRequestEventHandler rtcRequestEventHandler) {
+    public void init(Context context) {
         if (context != null) {
             mContext = context;
-            addHandler(rtcRequestEventHandler);
             sWeakRefListeners = new HashMap<>();
             mRequestListeners = new ArrayList<>();
             mWbSocketUrl = "ws://echo.websocket.org";
@@ -75,6 +74,10 @@ public class WSManager {
             mClient = new OkHttpClient.Builder().pingInterval(10, TimeUnit.SECONDS).build();
             connect();
         }
+    }
+
+    public void create(RtcRequestEventHandler rtcRequestEventHandler) {
+        addHandler(rtcRequestEventHandler);
     }
 
     public void connect() {

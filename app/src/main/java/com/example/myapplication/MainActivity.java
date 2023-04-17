@@ -18,7 +18,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button sendBtn = findViewById(R.id.send_btn);
-        RtcManager.getInstance().createRtc(this, new RtcRequestEventHandler() {
+        RtcManager.getInstance().createRtc(new RtcRequestEventHandler() {
             @Override
             public void onReceiveCall(ModelBean modelBean) {
                 startActivity(new Intent(MainActivity.this, AgoCallActivity.class));
