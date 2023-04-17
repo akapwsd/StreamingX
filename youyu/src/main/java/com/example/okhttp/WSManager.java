@@ -146,6 +146,11 @@ public class WSManager {
                     case Constants.GET_MODEL_LIST:
                         eventResultModelListener(true, new ArrayList<>(), 0, "");
                         break;
+                    case Constants.REQUEST_NEW_TOKEN:
+                        String newToken = "";
+                        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+                        rtcEngine.renewToken(newToken);
+                        break;
                     default:
                         onEvent(type, bytes.toByteArray());
                         break;

@@ -7,12 +7,9 @@ import android.os.Message;
 
 import androidx.annotation.NonNull;
 
-import com.example.listener.FacePositionListener;
 import com.example.listener.IRtcEngineEventCallBackHandler;
 import com.example.rawdata.MediaDataObserverPlugin;
-
-import java.util.Timer;
-import java.util.TimerTask;
+import com.example.youyu.api.RtcManager;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -20,11 +17,9 @@ import io.agora.rtc.video.VideoEncoderConfiguration;
 
 public class BaseRtcEngineManager {
     public static final String TAG = "BaseRtcEngineManager";
-    private FacePositionListener facePositionListener;
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private static BaseRtcEngineManager baseRtcEngineManager;
     private RtcEngine mRtcEngine;
-    private boolean haveFace = false;
 
     public static BaseRtcEngineManager getInstance() {
         if (baseRtcEngineManager == null) {
@@ -35,16 +30,6 @@ public class BaseRtcEngineManager {
             }
         }
         return baseRtcEngineManager;
-    }
-
-    public void setFacePositionListener(FacePositionListener facePositionListener) {
-        this.facePositionListener = facePositionListener;
-    }
-
-    public void removeFacePositionListener() {
-        if (facePositionListener != null) {
-            facePositionListener = null;
-        }
     }
 
     public RtcEngine getRtcEngine() {
@@ -68,22 +53,11 @@ public class BaseRtcEngineManager {
             e.printStackTrace();
         }
     }
+
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
         @Override
         public void onFacePositionChanged(int imageWidth, int imageHeight, AgoraFacePositionInfo[] agoraFacePositionInfos) {
-            super.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
-            if (agoraFacePositionInfos.length > 0) {
-                haveFace = true;
-                if (facePositionListener != null) {
-                    AgoraFacePositionInfo agoraFacePositionInfo = agoraFacePositionInfos[0];
-                    facePositionListener.haveFace(agoraFacePositionInfo);
-                }
-            } else {
-                haveFace = false;
-                if (facePositionListener != null) {
-                    facePositionListener.noFace();
-                }
-            }
+            iRtcEngineEventCallBackHandler.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
         }
 
         @Override
@@ -104,26 +78,17 @@ public class BaseRtcEngineManager {
         @Override
         public void onUserJoined(int uid, int elapsed) {
             iRtcEngineEventCallBackHandler.onUserJoined(uid, elapsed);
-            handler.post(() -> {
-                if (mediaDataObserverPlugin != null) {
-                    mediaDataObserverPlugin.addDecodeBuffer(uid);
-                }
-            });
-        }
-
-        @Override
-        public void onRejoinChannelSuccess(String channel, int uid, int elapsed) {
-            super.onRejoinChannelSuccess(channel, uid, elapsed);
         }
 
         @Override
         public void onRequestToken() {
-            super.onRequestToken();
+            iRtcEngineEventCallBackHandler.onRequestToken();
         }
 
         @Override
-        public void onClientRoleChanged(int oldRole, int newRole) {
-            super.onClientRoleChanged(oldRole, newRole);
+        public void onTokenPrivilegeWillExpire(String token) {
+            iRtcEngineEventCallBackHandler.onTokenPrivilegeWillExpire(token);
+            RtcManager.getInstance().requestNewToken(token);
         }
     };
 

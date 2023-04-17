@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 
 import com.example.constants.AgoraConstants;
-import com.example.listener.FacePositionListener;
 import com.example.rawdata.MediaDataObserverPlugin;
 import com.example.service.AgoraLocalService;
 import com.example.utils.RtcSpUtils;
@@ -68,8 +67,6 @@ public class RtcEngineManager {
     private boolean isNeedMatchDelay = true;//跳转到匹配界面后是否延时几秒后在进行匹配 默认true
 
     private boolean isCallForModel = false;
-
-    private FacePositionListener facePositionListener;
 
     public boolean isCallForModel() {
         return isCallForModel;
@@ -123,17 +120,6 @@ public class RtcEngineManager {
     public void setHaveCalling(boolean haveCalling) {
         this.haveCalling = haveCalling;
     }
-
-    public void setFacePositionListener(FacePositionListener facePositionListener) {
-        this.facePositionListener = facePositionListener;
-    }
-
-    public void removeFacePositionListener() {
-        if (facePositionListener != null) {
-            facePositionListener = null;
-        }
-    }
-
     /**
      * 自己加入房间通知
      *
@@ -761,19 +747,6 @@ public class RtcEngineManager {
                 )
         );
         mLocalView.setZOrderMediaOverlay(true);
-        BaseRtcEngineManager.getInstance().setFacePositionListener(new FacePositionListener() {
-            @Override
-            public void haveFace(IRtcEngineEventHandler.AgoraFacePositionInfo agoraFacePositionInfo) {
-                if (agoraFacePositionInfo.x > 0) {
-
-                }
-            }
-
-            @Override
-            public void noFace() {
-
-            }
-        });
     }
 
     /**

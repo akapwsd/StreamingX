@@ -1,11 +1,32 @@
 package com.example.listener;
 
-public interface IRtcEngineEventCallBackHandler {
-    void onJoinChannelSuccess(String channel, int uid, int elapsed);
+import io.agora.rtc.IRtcEngineEventHandler;
 
-    void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed);
+public abstract class IRtcEngineEventCallBackHandler {
+    public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
 
-    void onUserOffline(int uid, int reason);
+    }
 
-    void onUserJoined(int uid, int elapsed);
+    public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
+
+    }
+
+    public void onUserOffline(int uid, int reason) {
+
+    }
+
+    public void onUserJoined(int uid, int elapsed) {
+    }
+
+    public void onFacePositionChanged(int imageWidth, int imageHeight, IRtcEngineEventHandler.AgoraFacePositionInfo[] agoraFacePositionInfos) {
+
+    }
+
+    public void onTokenPrivilegeWillExpire(String token){
+
+    }
+
+    public void onRequestToken() {
+
+    }
 }

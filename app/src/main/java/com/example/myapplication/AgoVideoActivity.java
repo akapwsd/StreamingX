@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 
+import com.example.listener.IRtcEngineEventCallBackHandler;
 import com.example.okhttp.WSManager;
 import com.example.youyu.api.RtcManager;
 
@@ -15,6 +16,7 @@ public class AgoVideoActivity extends AppCompatActivity {
     public FrameLayout bigView;
     public int localUid = 0;
     public int peerUid = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,8 @@ public class AgoVideoActivity extends AppCompatActivity {
 
             }
         }));
+        RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
+        });
         initVideoView();
     }
 

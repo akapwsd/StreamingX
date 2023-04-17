@@ -8,4 +8,6 @@ public class Constants {
     public static final int ACCEPT_CALL = 4;
     public static final int REJECT_CALL = 5;
     public static final int ROOM_PONG = 6;
+
+    public static final int REQUEST_NEW_TOKEN = 7;
 }

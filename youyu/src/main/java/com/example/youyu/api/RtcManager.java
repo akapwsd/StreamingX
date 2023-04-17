@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
+import com.example.listener.IRtcEngineEventCallBackHandler;
 import com.example.listener.InitResultListener;
 import com.example.listener.RtcRequestEventHandler;
 import com.example.okhttp.WSManager;
@@ -63,6 +64,10 @@ public class RtcManager {
     public int localUid;
     private FrameLayout remoteFrameLayout;
     private FrameLayout localFrameLayout;
+
+    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
+        BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
+    }
 
     public void showRemoteView(Context context, int uid, FrameLayout view) {
         remoteFrameLayout = view;
@@ -239,5 +244,10 @@ public class RtcManager {
     public void actionVideo(int uid, boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteRemoteVideoStream(uid, isEnable);
+    }
+
+    public void requestNewToken(String oldToken) {
+        byte[] a = new byte[0];
+        WSManager.getInstance().send(ByteString.of(a));
     }
 }
