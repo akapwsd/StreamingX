@@ -1,10 +1,12 @@
 package com.example.listener;
 
+import com.example.bean.ModelBean;
+
 public abstract class RtcRequestEventHandler {
     public RtcRequestEventHandler() {
     }
 
-    public void onReceiveCall(byte[] evt) {
+    public void onReceiveCall(ModelBean modelBean) {
 
     }
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
+import com.example.listener.InitResultListener;
 import com.example.listener.RtcRequestEventHandler;
 import com.example.okhttp.WSManager;
 import com.example.rtc.BaseRtcEngineManager;
@@ -25,25 +26,31 @@ public class RtcManager {
         return RtcManagerHolder.rtcManager;
     }
 
-    public void initRtc(Context context, String accountToken, RtcRequestEventHandler rtcRequestEventHandler) {
+    private InitResultListener mInitResultListener;
+
+    public void initRtc(Context context, String accountToken, InitResultListener initResultListener) {
+        mInitResultListener = initResultListener;
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
         RtcSpBase.initContent(context);
         HttpRequestUtils.getInstance().requestToken(context, accountToken, new HttpRequestUtils.HttpRequestListener() {
             @Override
             public void requestSuccess(String o, String msg) {
                 RtcSpUtils.getInstance().setToken(msg);
+                mInitResultListener.onSuccess();
             }
 
             @Override
             public void requestError(int code, String error) {
-
+                mInitResultListener.onFail(code, error);
             }
         });
+    }
+
+    public void createRtc(Context context, RtcRequestEventHandler rtcRequestEventHandler) {
         WSManager.getInstance().init(context, rtcRequestEventHandler);
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;
-
     public static final int BIG_VIEW_STATE_LOCAL = 1;
     private SurfaceView remoteView;
     private SurfaceView localView;
@@ -180,5 +187,17 @@ public class RtcManager {
         WSManager.getInstance().registerModelListener(listener);
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
+    }
+
+    public void switchCamera(){
+
+    }
+
+    public void actionVoice(){
+
+    }
+
+    public void actionVideo(){
+
     }
 }

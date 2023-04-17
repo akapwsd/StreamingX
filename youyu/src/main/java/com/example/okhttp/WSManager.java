@@ -305,7 +305,8 @@ public class WSManager {
     protected void handleEvent(int eventId, byte[] evt, RtcRequestEventHandler handler) {
         switch (eventId) {
             case 1001:
-                handler.onReceiveCall(evt);
+                ModelBean modelBean = new ModelBean();
+                handler.onReceiveCall(modelBean);
                 break;
             case 1002:
                 handler.onReceiveHangUp(evt);
