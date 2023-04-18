@@ -22,11 +22,11 @@ public abstract class IRtcEngineEventCallBackHandler {
 
     }
 
-    public void onTokenPrivilegeWillExpire(String token){
-
-    }
-
-    public void onRequestToken() {
-
-    }
+//    public void onTokenPrivilegeWillExpire(String token){
+//
+//    }
+//
+//    public void onRequestToken() {
+//
+//    }
 }

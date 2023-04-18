@@ -13,15 +13,18 @@ import com.example.listener.RtcRequestEventHandler;
 import com.example.okhttp.WSManager;
 import com.example.rtc.BaseRtcEngineManager;
 import com.example.utils.HttpRequestUtils;
+import com.example.utils.LogUtil;
 import com.example.utils.RtcSpBase;
 import com.example.utils.RtcSpUtils;
 
+import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.models.ChannelMediaOptions;
 import io.agora.rtc.video.VideoCanvas;
 import okio.ByteString;
 
 public class RtcManager {
+    public static final String TAG = "RtcManager";
     private static final class RtcManagerHolder {
         static final RtcManager rtcManager = new RtcManager();
     }
@@ -33,6 +36,7 @@ public class RtcManager {
     private InitResultListener mInitResultListener;
 
     public void initRtc(Context context, String accountToken, InitResultListener initResultListener) {
+        LogUtil.d(TAG,"initRtc is start");
         mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
@@ -50,9 +54,15 @@ public class RtcManager {
             }
         });
     }
-
-    public void createRtc(RtcRequestEventHandler rtcRequestEventHandler) {
+    public void enableLog(){
+        LogUtil.setLogLevel(LogUtil.Level.Level_HIGH.ordinal());
+    }
+    public void setRtcRequestEventHandler(RtcRequestEventHandler rtcRequestEventHandler) {
         WSManager.getInstance().create(rtcRequestEventHandler);
+    }
+
+    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
+        BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;
@@ -65,8 +75,29 @@ public class RtcManager {
     private FrameLayout remoteFrameLayout;
     private FrameLayout localFrameLayout;
 
-    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
-        BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
+    public void quickShowView(Context context, int myUid, int peerUid, FrameLayout bigView, FrameLayout smallView) {
+        setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
+            @Override
+            public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
+                super.onFirstRemoteVideoDecoded(uid, width, height, elapsed);
+            }
+
+            @Override
+            public void onUserOffline(int uid, int reason) {
+                super.onUserOffline(uid, reason);
+            }
+
+            @Override
+            public void onUserJoined(int uid, int elapsed) {
+                super.onUserJoined(uid, elapsed);
+            }
+
+            @Override
+            public void onFacePositionChanged(int imageWidth, int imageHeight, IRtcEngineEventHandler.AgoraFacePositionInfo[] agoraFacePositionInfos) {
+                super.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
+            }
+        });
+        showLocalView(context, myUid, smallView);
     }
 
     public void showRemoteView(Context context, int uid, FrameLayout view) {
@@ -181,7 +212,7 @@ public class RtcManager {
         }
     }
 
-    public void startCall(WSManager.WebSocketResultListener listener) {
+    public void startCall(int uid, WSManager.WebSocketResultListener listener) {
         WSManager.getInstance().registerWSDataListener(Constants.START_CALL, listener);
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
@@ -249,5 +280,10 @@ public class RtcManager {
     public void requestNewToken(String oldToken) {
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
+    }
+    public void closeVideoChat() {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.leaveChannel();
+        rtcEngine.stopPreview();
     }
 }

@@ -1,14 +1,12 @@
 package com.example.myapplication;
 
 import android.app.Activity;
-import android.app.Application;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
 import com.example.bean.ModelBean;
 import com.example.listener.RtcRequestEventHandler;
-import com.example.okhttp.WSManager;
 import com.example.youyu.api.RtcManager;
 
 
@@ -18,7 +16,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button sendBtn = findViewById(R.id.send_btn);
-        RtcManager.getInstance().createRtc(new RtcRequestEventHandler() {
+        RtcManager.getInstance().setRtcRequestEventHandler(new RtcRequestEventHandler() {
             @Override
             public void onReceiveCall(ModelBean modelBean) {
                 startActivity(new Intent(MainActivity.this, AgoCallActivity.class));

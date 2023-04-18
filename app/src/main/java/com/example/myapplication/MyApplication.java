@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.app.Application;
 
 import com.example.listener.InitResultListener;
+import com.example.utils.LogUtil;
 import com.example.youyu.api.RtcManager;
 
 public class MyApplication extends Application {
@@ -20,5 +21,6 @@ public class MyApplication extends Application {
 
             }
         });
+        RtcManager.getInstance().enableLog();
     }
 }

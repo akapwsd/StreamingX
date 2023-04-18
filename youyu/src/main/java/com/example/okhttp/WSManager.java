@@ -65,6 +65,7 @@ public class WSManager {
      * init WebSocket
      */
     public void init(Context context) {
+        LogUtil.d(TAG, "init is start");
         if (context != null) {
             mContext = context;
             sWeakRefListeners = new HashMap<>();
@@ -74,6 +75,7 @@ public class WSManager {
             mClient = new OkHttpClient.Builder().pingInterval(10, TimeUnit.SECONDS).build();
             connect();
         }
+        LogUtil.d(TAG, "init is end");
     }
 
     public void create(RtcRequestEventHandler rtcRequestEventHandler) {
@@ -81,23 +83,26 @@ public class WSManager {
     }
 
     public void connect() {
+        LogUtil.d(TAG, "connect is start");
         Request request = new Request.Builder().url(mWbSocketUrl).build();
         mWebSocket = mClient.newWebSocket(request, new WsListener());
+        LogUtil.d(TAG, "connect is end");
     }
 
     class WsListener extends WebSocketListener {
         @Override
         public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-            Log.e(TAG, "onClosed！");
+            LogUtil.e(TAG, "onClosed code:" + code + " reason:" + reason);
             super.onClosed(webSocket, code, reason);
             if (code == 1001) {
-                Log.e(TAG, "disconnect！");
+                LogUtil.e(TAG, "disconnect");
                 connect();
             }
         }
 
         @Override
         public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
+            LogUtil.d(TAG, "onClosing code:" + code + " reason:" + reason);
             super.onClosing(webSocket, code, reason);
         }
 
@@ -110,16 +115,16 @@ public class WSManager {
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull String text) {
             super.onMessage(webSocket, text);
-            Log.e(TAG, "receive message:" + text);
+            LogUtil.e(TAG, "receive message:" + text);
         }
 
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull ByteString bytes) {
             super.onMessage(webSocket, bytes);
-            LogUtil.e(TAG, "receive bytes:" + bytes);
             int type = 0;
             int code = 0;
             String msg = "";
+            LogUtil.e(TAG, "onMessage is start receive code:" + code + " type:" + type);
             if (code == 200) {
                 switch (type) {
                     case Constants.PONG:
@@ -140,7 +145,8 @@ public class WSManager {
                     case Constants.REJECT_CALL:
                         channelId = "";
                         token = "";
-                        closeVideoChat();
+                        isCallIng = false;
+                        RtcManager.getInstance().closeVideoChat();
                         eventSuccessWsDataListener(type, msg);
                         break;
                     case Constants.GET_MODEL_LIST:
@@ -187,7 +193,8 @@ public class WSManager {
                     isReceiveRoomAlivePong = false;
                     roomAliveHeartHandler.sendEmptyMessageDelayed(11, 10000);
                 } else {
-                    closeVideoChat();
+                    isCallIng = false;
+                    RtcManager.getInstance().closeVideoChat();
                 }
             }
             return false;
@@ -299,6 +306,7 @@ public class WSManager {
     }
 
     public void eventSuccessWsDataListener(int tag, String data) {
+        LogUtil.e(TAG, "eventSuccessWsDataListener is start tag:" + tag);
         WeakReference<WebSocketResultListener> webSocketDataListenerWeakReference = sWeakRefListeners.get(tag);
         if (webSocketDataListenerWeakReference != null) {
             WebSocketResultListener webSocketResultListener = webSocketDataListenerWeakReference.get();
@@ -308,6 +316,7 @@ public class WSManager {
     }
 
     public void eventFailWsDataListener(int tag, int code, String error) {
+        LogUtil.e(TAG, "eventFailWsDataListener is start tag:" + tag);
         WeakReference<WebSocketResultListener> webSocketDataListenerWeakReference = sWeakRefListeners.get(tag);
         if (webSocketDataListenerWeakReference != null) {
             WebSocketResultListener webSocketResultListener = webSocketDataListenerWeakReference.get();
@@ -320,16 +329,19 @@ public class WSManager {
      * unregister listener
      */
     private void unregisterWSDataListener(int tag) {
+        LogUtil.e(TAG, "unregisterWSDataListener is start tag:" + tag);
         if (sWeakRefListeners.get(tag) != null) {
             sWeakRefListeners.remove(tag);
         }
     }
 
     public void addHandler(RtcRequestEventHandler handler) {
+        LogUtil.e(TAG, "addHandler add one handler");
         this.mRtcHandlers.put(handler, 0);
     }
 
     public void removeHandler(RtcRequestEventHandler handler) {
+        LogUtil.e(TAG, "removeHandler one handler");
         if (this.mRtcHandlers.containsKey(handler)) {
             this.mRtcHandlers.remove(handler);
         }
@@ -354,6 +366,7 @@ public class WSManager {
     }
 
     protected void handleEvent(int eventId, byte[] evt, RtcRequestEventHandler handler) {
+        LogUtil.e(TAG, "handleEvent is start eventId:" + eventId);
         switch (eventId) {
             case 1001:
                 ModelBean modelBean = new ModelBean();
@@ -369,13 +382,6 @@ public class WSManager {
                 handler.onPeerUserDisAgreeCall(evt);
                 break;
         }
-    }
-
-    private void closeVideoChat() {
-        isCallIng = false;
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.leaveChannel();
-        rtcEngine.stopPreview();
     }
 
     public interface WebSocketResultListener {
