@@ -1,32 +1,14 @@
 package com.example.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.PixelFormat;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Binder;
-import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.WindowManager;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.bean.AgoraBean;
-import com.example.rtc.RtcEngineManager;
-import com.example.utils.AgoraSizeUtils;
 import com.example.utils.RtcSpUtils;
-import com.example.youyu.R;
 
 import java.lang.ref.SoftReference;
 import java.util.Timer;
@@ -144,11 +126,11 @@ public class AgoraLocalService extends Service {
             return;
         }
         if ((currentTime - lastTime) / 1000 > checkTime) {
-            boolean callVideo = RtcEngineManager.getRtcEngineManager().isCallVideo();
-            if (callVideo) {
-                RtcEngineManager.getRtcEngineManager().closeVideoChat(this);
-                //TODO listener out heart is dead
-            }
+//            boolean callVideo = RtcEngineManager.getRtcEngineManager().isCallVideo();
+//            if (callVideo) {
+//                RtcEngineManager.getRtcEngineManager().closeVideoChat(this);
+//                //TODO listener out heart is dead
+//            }
         }
     }
 

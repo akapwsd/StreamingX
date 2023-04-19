@@ -107,7 +107,7 @@ public class BaseRtcEngineManager {
 
     public static MediaDataObserverPlugin getMediaDataObserverPlugin() {
         if (mediaDataObserverPlugin == null) {
-            synchronized (RtcEngineManager.class) {
+            synchronized (BaseRtcEngineManager.class) {
                 if (mediaDataObserverPlugin == null) {
                     mediaDataObserverPlugin = MediaDataObserverPlugin.the();
                 }
