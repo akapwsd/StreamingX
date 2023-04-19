@@ -67,7 +67,7 @@
 -keepattributes *Annotation*
 
 # 保持哪些类不被混淆
--keep public class * extends com.example.utils.**
+-keep public class * extends com.code.utils.**
 
 #-keeps
 -keepattributes Signature, Annotation

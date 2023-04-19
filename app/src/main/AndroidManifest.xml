@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.myapplication">
+    package="com.code.myapplication">
 
     <application
-        android:name=".MyApplication"
+        android:name="com.code.myapplication.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".AgoVideoActivity"
+            android:name="com.code.myapplication.AgoVideoActivity"
             android:exported="false" />
         <activity
-            android:name=".AgoCallActivity"
+            android:name="com.code.myapplication.AgoCallActivity"
             android:exported="false" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.code.myapplication.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
