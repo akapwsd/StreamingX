@@ -25,6 +25,7 @@ import okio.ByteString;
 
 public class RtcManager {
     public static final String TAG = "RtcManager";
+
     private static final class RtcManagerHolder {
         static final RtcManager rtcManager = new RtcManager();
     }
@@ -36,7 +37,7 @@ public class RtcManager {
     private InitResultListener mInitResultListener;
 
     public void initRtc(Context context, String accountToken, InitResultListener initResultListener) {
-        LogUtil.d(TAG,"initRtc is start");
+        LogUtil.d(TAG, "initRtc is start");
         mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
@@ -54,9 +55,11 @@ public class RtcManager {
             }
         });
     }
-    public void enableLog(){
+
+    public void enableLog() {
         LogUtil.setLogLevel(LogUtil.Level.Level_HIGH.ordinal());
     }
+
     public void setRtcRequestEventHandler(RtcRequestEventHandler rtcRequestEventHandler) {
         WSManager.getInstance().create(rtcRequestEventHandler);
     }
@@ -125,6 +128,12 @@ public class RtcManager {
                 )
         );
         localView.setZOrderMediaOverlay(true);
+        new Handler().postDelayed(() -> userJoinChannel(uid), 500);
+    }
+
+    public void joinAudio(int uid) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.enableLocalVideo(false);
         new Handler().postDelayed(() -> userJoinChannel(uid), 500);
     }
 
@@ -212,25 +221,25 @@ public class RtcManager {
         }
     }
 
-    public void startCall(int uid, WSManager.WebSocketResultListener listener) {
+    public void startCall(int uid, WSManager.WebSocketResultListener listener, int callType) {
         WSManager.getInstance().registerWSDataListener(Constants.START_CALL, listener);
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
     }
 
-    public void hangUpCall(WSManager.WebSocketResultListener listener) {
+    public void hangUpCall(WSManager.WebSocketResultListener listener, int callType) {
         WSManager.getInstance().registerWSDataListener(Constants.HANG_UP, listener);
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
     }
 
-    public void acceptCall(WSManager.WebSocketResultListener listener) {
+    public void acceptCall(WSManager.WebSocketResultListener listener, int callType) {
         WSManager.getInstance().registerWSDataListener(Constants.ACCEPT_CALL, listener);
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
     }
 
-    public void rejectCall(WSManager.WebSocketResultListener listener) {
+    public void rejectCall(WSManager.WebSocketResultListener listener, int callType) {
         WSManager.getInstance().registerWSDataListener(Constants.REJECT_CALL, listener);
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
@@ -281,6 +290,7 @@ public class RtcManager {
         byte[] a = new byte[0];
         WSManager.getInstance().send(ByteString.of(a));
     }
+
     public void closeVideoChat() {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.leaveChannel();

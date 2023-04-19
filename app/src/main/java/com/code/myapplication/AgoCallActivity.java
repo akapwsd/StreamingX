@@ -1,8 +1,10 @@
 package com.code.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import android.os.Bundle;
 import android.widget.Button;
+
 import com.code.okhttp.WSManager;
 import com.code.youyu.api.RtcManager;
 
@@ -15,30 +17,10 @@ public class AgoCallActivity extends AppCompatActivity {
         Button disagreeBtn = findViewById(R.id.dis_btn);
 
         acceptBtn.setOnClickListener(view -> {
-            RtcManager.getInstance().acceptCall(new WSManager.WebSocketResultListener() {
-                @Override
-                public void onSuccess(int code, String data) {
 
-                }
-
-                @Override
-                public void onFailure(int code, String reason) {
-
-                }
-            });
         });
         disagreeBtn.setOnClickListener(view -> {
-            RtcManager.getInstance().rejectCall(new WSManager.WebSocketResultListener() {
-                @Override
-                public void onSuccess(int code, String data) {
 
-                }
-
-                @Override
-                public void onFailure(int code, String reason) {
-
-                }
-            });
         });
     }
 }
