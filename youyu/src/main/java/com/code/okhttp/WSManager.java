@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 import batprotobuf.Streaming;
 import io.agora.rtc.RtcEngine;
@@ -49,6 +53,9 @@ public class WSManager {
     private Context mContext;
     public String channelId = "";
     public String token = "";
+    private String access_key_id;
+    private String access_key_secret;
+    private String session_token;
     private final ConcurrentHashMap<RtcRequestEventHandler, Integer> mRtcHandlers = new ConcurrentHashMap();
 
     private static final class SInstanceHolder {
@@ -64,15 +71,18 @@ public class WSManager {
     /**
      * init WebSocket
      */
-    public void init(Context context) {
+    public void init(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             mContext = context;
             sWeakRefListeners = new HashMap<>();
             mRequestListeners = new ArrayList<>();
-            mWbSocketUrl = "ws://echo.websocket.org";
+            this.access_key_id = access_key_id;
+            this.access_key_secret = access_key_secret;
+            this.session_token = session_token;
+            mWbSocketUrl = "wss://api.hitradegate.com/v1/ws";
             Log.e(TAG, "mWbSocketUrl=" + mWbSocketUrl);
-            mClient = new OkHttpClient.Builder().pingInterval(10, TimeUnit.SECONDS).build();
+            mClient = new OkHttpClient.Builder().build();
             connect();
         }
         LogUtil.d(TAG, "init is end");
@@ -83,10 +93,41 @@ public class WSManager {
     }
 
     public void connect() {
-        LogUtil.d(TAG, "connect is start");
-        Request request = new Request.Builder().url(mWbSocketUrl).build();
+        LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
+        long l = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(l);
+        String Content_Type = "application/json";
+        String data = X_Uyj_Timestamp + Content_Type;
+        String sign = sha256_HMAC(access_key_secret, data);
+        Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
         mWebSocket = mClient.newWebSocket(request, new WsListener());
         LogUtil.d(TAG, "connect is end");
+    }
+
+    private String sha256_HMAC(String secret, String data) {
+        String hash = "";
+        try {
+            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256_HMAC.init(secret_key);
+            byte[] bytes = sha256_HMAC.doFinal(data.getBytes());
+            hash = byteArrayToHexString(bytes);
+            System.out.println(hash);
+        } catch (Exception e) {
+            System.out.println("Error HmacSHA256 ===========" + e.getMessage());
+        }
+        return hash;
+    }
+
+    private String byteArrayToHexString(byte[] b) {
+        StringBuilder hs = new StringBuilder();
+        String stmp;
+        for (int n = 0; b != null && n < b.length; n++) {
+            stmp = Integer.toHexString(b[n] & 0XFF);
+            if (stmp.length() == 1) hs.append('0');
+            hs.append(stmp);
+        }
+        return hs.toString().toLowerCase();
     }
 
     class WsListener extends WebSocketListener {
@@ -94,10 +135,6 @@ public class WSManager {
         public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             LogUtil.e(TAG, "onClosed code:" + code + " reason:" + reason);
             super.onClosed(webSocket, code, reason);
-            if (code == 1001) {
-                LogUtil.e(TAG, "disconnect");
-                connect();
-            }
         }
 
         @Override

@@ -36,12 +36,16 @@ public class RtcManager {
 
     private InitResultListener mInitResultListener;
 
-    public void initRtc(Context context, String accountToken, InitResultListener initResultListener) {
+    public void initRtc(Context context, String accountToken,
+                        String access_key_id,
+                        String access_key_secret,
+                        String session_token,
+                        InitResultListener initResultListener) {
         LogUtil.d(TAG, "initRtc is start");
         mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
-        WSManager.getInstance().init(context);
+        WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
         HttpRequestUtils.getInstance().requestToken(context, accountToken, new HttpRequestUtils.HttpRequestListener() {
             @Override
             public void requestSuccess(String o, String msg) {

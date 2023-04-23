@@ -9,7 +9,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RtcManager.getInstance().initRtc(this, "", new InitResultListener() {
+        RtcManager.getInstance().initRtc(this, "", "", "", "", new InitResultListener() {
             @Override
             public void onSuccess() {
 
