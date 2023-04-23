@@ -36,17 +36,13 @@ public class RtcManager {
 
     private InitResultListener mInitResultListener;
 
-    public void initRtc(Context context, String accountToken,
-                        String access_key_id,
-                        String access_key_secret,
-                        String session_token,
-                        InitResultListener initResultListener) {
+    public void initRtc(Context context, String accountToken, String access_key_id, String access_key_secret, String session_token, InitResultListener initResultListener) {
         LogUtil.d(TAG, "initRtc is start");
         mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
         BaseRtcEngineManager.getInstance().initBaseRtc(context);
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
-        HttpRequestUtils.getInstance().requestToken(context, accountToken, new HttpRequestUtils.HttpRequestListener() {
+        HttpRequestUtils.getInstance().requestToken(context, accountToken, access_key_id, access_key_secret, session_token, new HttpRequestUtils.HttpRequestListener() {
             @Override
             public void requestSuccess(String o, String msg) {
                 RtcSpUtils.getInstance().setToken(msg);
@@ -113,8 +109,7 @@ public class RtcManager {
         remoteView = RtcEngine.CreateRendererView(context);
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
-        remoteFrameLayout.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                FrameLayout.LayoutParams.MATCH_PARENT));
+        remoteFrameLayout.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
     }
 
     public void showLocalView(Context context, int uid, FrameLayout view) {
@@ -124,13 +119,7 @@ public class RtcManager {
         localView = RtcEngine.CreateRendererView(context);
         localView.setZOrderOnTop(true);
         localFrameLayout.addView(localView);
-        rtcEngine.setupLocalVideo(
-                new VideoCanvas(
-                        localView,
-                        VideoCanvas.RENDER_MODE_HIDDEN,
-                        localUid
-                )
-        );
+        rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
         localView.setZOrderMediaOverlay(true);
         new Handler().postDelayed(() -> userJoinChannel(uid), 500);
     }
@@ -167,22 +156,10 @@ public class RtcManager {
                 remoteView = null;
             }
             remoteView = RtcEngine.CreateRendererView(context);
-            rtcEngine.setupRemoteVideo(
-                    new VideoCanvas(
-                            remoteView,
-                            VideoCanvas.RENDER_MODE_HIDDEN,
-                            mRemoteUid
-                    )
-            );
+            rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
             localFrameLayout.addView(remoteView);
             localView = RtcEngine.CreateRendererView(context);
-            rtcEngine.setupLocalVideo(
-                    new VideoCanvas(
-                            localView,
-                            VideoCanvas.RENDER_MODE_HIDDEN,
-                            localUid
-                    )
-            );
+            rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
             remoteFrameLayout.addView(localView);
             remoteView.setZOrderMediaOverlay(true);
         } else {
@@ -197,30 +174,11 @@ public class RtcManager {
             }
             localView = RtcEngine.CreateRendererView(context);
             localFrameLayout.addView(localView);
-            rtcEngine.setupLocalVideo(
-                    new VideoCanvas(
-                            localView,
-                            VideoCanvas.RENDER_MODE_HIDDEN,
-                            localUid
-                    )
-            );
+            rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
 
             remoteView = RtcEngine.CreateRendererView(context);
-            rtcEngine.setupRemoteVideo(
-                    new VideoCanvas(
-                            remoteView,
-                            VideoCanvas.RENDER_MODE_HIDDEN,
-                            mRemoteUid
-                    )
-            );
-            remoteFrameLayout.addView(
-                    remoteView,
-                    0,
-                    new FrameLayout.LayoutParams(
-                            FrameLayout.LayoutParams.MATCH_PARENT,
-                            FrameLayout.LayoutParams.MATCH_PARENT
-                    )
-            );
+            rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
+            remoteFrameLayout.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
             localView.setZOrderMediaOverlay(true);
         }
     }

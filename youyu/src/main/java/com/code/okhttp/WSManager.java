@@ -4,7 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import com.code.bean.ModelBean;
 import com.code.listener.RtcRequestEventHandler;
 import com.code.rtc.BaseRtcEngineManager;
+import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.RtcManager;
@@ -40,6 +41,11 @@ import okio.ByteString;
 
 public class WSManager {
     private final String TAG = "WSManager";
+    private final static int MAX_RECONNECT_NUM = 5;
+    private final static int RECONNECT_MILLS = 5000;
+    private final static int GLOBAL_HEART_BEAT_RATE = 10000;
+    private final static int ROOM_HEART_BEAT_RATE = 10000;
+    private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
 
     private static ArrayList<WeakReference<RequestModelListListener>> mRequestListeners;
@@ -48,7 +54,7 @@ public class WSManager {
     private String mWbSocketUrl;
     private boolean isReceivePong = true;
     private boolean isReceiveRoomAlivePong = true;
-
+    private boolean isConnect = false;
     private boolean isCallIng = false;
     private Context mContext;
     public String channelId = "";
@@ -56,6 +62,11 @@ public class WSManager {
     private String access_key_id;
     private String access_key_secret;
     private String session_token;
+    private int reconnectNum = 0;
+    private Handler heartHandler = new Handler();
+    private Handler roomAliveHeartHandler = new Handler();
+    private long global_ping_send_time = 0L;
+    private long room_ping_send_time = 0L;
     private final ConcurrentHashMap<RtcRequestEventHandler, Integer> mRtcHandlers = new ConcurrentHashMap();
 
     private static final class SInstanceHolder {
@@ -80,9 +91,9 @@ public class WSManager {
             this.access_key_id = access_key_id;
             this.access_key_secret = access_key_secret;
             this.session_token = session_token;
-            mWbSocketUrl = "wss://api.hitradegate.com/v1/ws";
+            mWbSocketUrl = BASE_URL;
             Log.e(TAG, "mWbSocketUrl=" + mWbSocketUrl);
-            mClient = new OkHttpClient.Builder().build();
+            mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).build();
             connect();
         }
         LogUtil.d(TAG, "init is end");
@@ -92,42 +103,57 @@ public class WSManager {
         addHandler(rtcRequestEventHandler);
     }
 
-    public void connect() {
+    public void disconnect(int code, String reason) {
+        if (isConnect()) {
+            sWeakRefListeners.clear();
+            mWebSocket.cancel();
+            mWebSocket.close(code, reason);
+        }
+        closeConnect();
+    }
+
+    private void closeConnect() {
+        isConnect = false;
+        global_ping_send_time = 0L;
+        if (heartHandler != null) {
+            heartHandler.removeCallbacksAndMessages(null);
+            heartHandler = null;
+        }
+        if (roomAliveHeartHandler != null) {
+            roomAliveHeartHandler.removeCallbacksAndMessages(null);
+            roomAliveHeartHandler = null;
+        }
+    }
+
+    private void reconnect() {
+        LogUtil.d(TAG, "reconnect is start reconnectNum:" + reconnectNum);
+        if (reconnectNum <= MAX_RECONNECT_NUM) {
+            try {
+                Thread.sleep(RECONNECT_MILLS);
+                connect();
+                reconnectNum++;
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        } else {
+            LogUtil.e(TAG, "reconnect over,please check url or network");
+        }
+    }
+
+    private boolean isConnect() {
+        return mWebSocket != null && isConnect;
+    }
+
+    private void connect() {
         LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
         long l = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(l);
         String Content_Type = "application/json";
         String data = X_Uyj_Timestamp + Content_Type;
-        String sign = sha256_HMAC(access_key_secret, data);
+        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
         mWebSocket = mClient.newWebSocket(request, new WsListener());
         LogUtil.d(TAG, "connect is end");
-    }
-
-    private String sha256_HMAC(String secret, String data) {
-        String hash = "";
-        try {
-            Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
-            SecretKeySpec secret_key = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-            sha256_HMAC.init(secret_key);
-            byte[] bytes = sha256_HMAC.doFinal(data.getBytes());
-            hash = byteArrayToHexString(bytes);
-            System.out.println(hash);
-        } catch (Exception e) {
-            System.out.println("Error HmacSHA256 ===========" + e.getMessage());
-        }
-        return hash;
-    }
-
-    private String byteArrayToHexString(byte[] b) {
-        StringBuilder hs = new StringBuilder();
-        String stmp;
-        for (int n = 0; b != null && n < b.length; n++) {
-            stmp = Integer.toHexString(b[n] & 0XFF);
-            if (stmp.length() == 1) hs.append('0');
-            hs.append(stmp);
-        }
-        return hs.toString().toLowerCase();
     }
 
     class WsListener extends WebSocketListener {
@@ -135,18 +161,29 @@ public class WSManager {
         public void onClosed(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             LogUtil.e(TAG, "onClosed code:" + code + " reason:" + reason);
             super.onClosed(webSocket, code, reason);
+            mWebSocket = null;
+            closeConnect();
         }
 
         @Override
         public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             LogUtil.d(TAG, "onClosing code:" + code + " reason:" + reason);
             super.onClosing(webSocket, code, reason);
+            mWebSocket = null;
+            closeConnect();
         }
 
         @Override
         public void onFailure(@NotNull WebSocket webSocket, @NotNull Throwable t, @Nullable Response response) {
             super.onFailure(webSocket, t, response);
-            LogUtil.e(TAG, "onFailure！" + t.getMessage());
+            if (response != null) {
+                LogUtil.e(TAG, "websocket onFailure:" + response.message());
+            }
+            LogUtil.i(TAG, "websocket fail reason：" + t.getMessage());
+            closeConnect();
+            if (!TextUtils.isEmpty(t.getMessage()) && !t.getMessage().equals("socket closed")) {
+                reconnect();
+            }
         }
 
         @Override
@@ -175,7 +212,10 @@ public class WSManager {
                         channelId = "channelId";
                         token = "token";
                         isCallIng = true;
-                        roomAliveHeartHandler.sendEmptyMessage(11);
+                        room_ping_send_time = 0L;
+                        if (roomAliveHeartHandler != null) {
+                            roomAliveHeartHandler.post(roomHeartBeatRunnable);
+                        }
                         eventSuccessWsDataListener(type, msg);
                         break;
                     case Constants.HANG_UP:
@@ -183,6 +223,10 @@ public class WSManager {
                         channelId = "";
                         token = "";
                         isCallIng = false;
+                        room_ping_send_time = 0L;
+                        if (roomAliveHeartHandler != null) {
+                            roomAliveHeartHandler.removeCallbacksAndMessages(null);
+                        }
                         RtcManager.getInstance().closeVideoChat();
                         eventSuccessWsDataListener(type, msg);
                         break;
@@ -210,50 +254,51 @@ public class WSManager {
         @Override
         public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
             super.onOpen(webSocket, response);
-            LogUtil.e(TAG, "connect success！");
+            LogUtil.e(TAG, "websocket is connect:" + response);
             mWebSocket = webSocket;
-            isReceivePong = true;
-            heartHandler.sendEmptyMessage(10);
+            isConnect = response.code() == 101;
+            if (!isConnect) {
+                reconnect();
+            } else {
+                LogUtil.d(TAG, "websocket is connect success");
+                isReceivePong = true;
+                heartHandler.post(heartBeatRunnable);
+            }
         }
     }
 
-    /**
-     * send room alive ping
-     */
-    Handler roomAliveHeartHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
+    Runnable heartBeatRunnable = new Runnable() {
         @Override
-        public boolean handleMessage(@NonNull Message message) {
-            if (message.what != 11) return false;
+        public void run() {
+            long currentTimeMillis = System.currentTimeMillis();
+            if (currentTimeMillis - global_ping_send_time >= GLOBAL_HEART_BEAT_RATE && isReceivePong) {
+                isReceivePong = false;
+                global_ping_send_time = currentTimeMillis;
+                ping();
+                heartHandler.postDelayed(this, GLOBAL_HEART_BEAT_RATE);
+            } else {
+                disconnect(1001, "disconnect");
+            }
+        }
+    };
+
+    Runnable roomHeartBeatRunnable = new Runnable() {
+        @Override
+        public void run() {
             if (isCallIng) {
-                if (isReceiveRoomAlivePong) {
-                    roomPing();
+                long currentTimeMillis = System.currentTimeMillis();
+                if (currentTimeMillis - room_ping_send_time >= ROOM_HEART_BEAT_RATE && isReceiveRoomAlivePong) {
                     isReceiveRoomAlivePong = false;
-                    roomAliveHeartHandler.sendEmptyMessageDelayed(11, 10000);
+                    room_ping_send_time = currentTimeMillis;
+                    ping();
+                    roomAliveHeartHandler.postDelayed(this, ROOM_HEART_BEAT_RATE);
                 } else {
                     isCallIng = false;
                     RtcManager.getInstance().closeVideoChat();
                 }
             }
-            return false;
         }
-    });
-    /**
-     * send rtc all ping
-     */
-    Handler heartHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {
-        @Override
-        public boolean handleMessage(Message msg) {
-            if (msg.what != 10) return false;
-            if (isReceivePong) {
-                ping();
-                isReceivePong = false;
-                heartHandler.sendEmptyMessageDelayed(10, 10000);
-            } else {
-                closeConnect(1001, "disconnect");
-            }
-            return false;
-        }
-    });
+    };
 
     protected void ping() {
         Streaming.ping ping = Streaming.ping.newBuilder().build();
@@ -262,6 +307,7 @@ public class WSManager {
 
     protected void roomPing() {
         byte[] a = new byte[0];
+        //channelId
         WSManager.getInstance().send(ByteString.of(a));
     }
 
@@ -269,24 +315,11 @@ public class WSManager {
      * send msg
      */
     public void send(final ByteString message) {
-        if (mWebSocket != null) {
+        if (isConnect()) {
             mWebSocket.send(message);
+        } else {
+            LogUtil.e(TAG, "send fail ,disconnected");
         }
-    }
-
-    /**
-     * go disconnect
-     */
-    public void disconnect(int code, String reason) {
-        if (mWebSocket != null) sWeakRefListeners.clear();
-        assert mWebSocket != null;
-        mWebSocket.close(code, reason);
-    }
-
-    public void closeConnect(int code, String reason) {
-        if (mWebSocket != null) sWeakRefListeners.clear();
-        assert mWebSocket != null;
-        mWebSocket.close(code, reason);
     }
 
     public void registerModelListener(RequestModelListListener listener) {
@@ -295,7 +328,7 @@ public class WSManager {
         }
     }
 
-    public void eventResultModelListener(boolean isSuccess, ArrayList<ModelBean> list, int code, String error) {
+    private void eventResultModelListener(boolean isSuccess, ArrayList<ModelBean> list, int code, String error) {
         Iterator<WeakReference<RequestModelListListener>> iterator = mRequestListeners.iterator();
         while (iterator.hasNext()) {
             WeakReference<RequestModelListListener> ref = iterator.next();
@@ -316,7 +349,7 @@ public class WSManager {
         }
     }
 
-    private void unregisterModelListener(RequestModelListListener listener) {
+    public void unregisterModelListener(RequestModelListListener listener) {
         Iterator<WeakReference<RequestModelListListener>> iterator = mRequestListeners.iterator();
         while (iterator.hasNext()) {
             WeakReference<RequestModelListListener> ref = iterator.next();
@@ -342,7 +375,7 @@ public class WSManager {
         }
     }
 
-    public void eventSuccessWsDataListener(int tag, String data) {
+    private void eventSuccessWsDataListener(int tag, String data) {
         LogUtil.e(TAG, "eventSuccessWsDataListener is start tag:" + tag);
         WeakReference<WebSocketResultListener> webSocketDataListenerWeakReference = sWeakRefListeners.get(tag);
         if (webSocketDataListenerWeakReference != null) {
@@ -372,12 +405,12 @@ public class WSManager {
         }
     }
 
-    public void addHandler(RtcRequestEventHandler handler) {
+    private void addHandler(RtcRequestEventHandler handler) {
         LogUtil.e(TAG, "addHandler add one handler");
         this.mRtcHandlers.put(handler, 0);
     }
 
-    public void removeHandler(RtcRequestEventHandler handler) {
+    private void removeHandler(RtcRequestEventHandler handler) {
         LogUtil.e(TAG, "removeHandler one handler");
         if (this.mRtcHandlers.containsKey(handler)) {
             this.mRtcHandlers.remove(handler);
