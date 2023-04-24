@@ -146,11 +146,12 @@ public class WSManager {
 
     private void connect() {
         LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
-        long l = System.currentTimeMillis();
-        String X_Uyj_Timestamp = String.valueOf(l);
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
         String Content_Type = "application/json";
-        String data = X_Uyj_Timestamp + Content_Type;
+        String data = X_Uyj_Timestamp;// + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+        LogUtil.d(TAG, "sign:" + sign);
         Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
         mWebSocket = mClient.newWebSocket(request, new WsListener());
         LogUtil.d(TAG, "connect is end");

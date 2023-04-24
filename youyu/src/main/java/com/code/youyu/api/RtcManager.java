@@ -40,9 +40,9 @@ public class RtcManager {
         LogUtil.d(TAG, "initRtc is start");
         mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
-        BaseRtcEngineManager.getInstance().initBaseRtc(context);
+        //BaseRtcEngineManager.getInstance().initBaseRtc(context);
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
-        HttpRequestUtils.getInstance().requestToken(context, accountToken, access_key_id, access_key_secret, session_token, new HttpRequestUtils.HttpRequestListener() {
+        HttpRequestUtils.getInstance().requestToken(context, new HttpRequestUtils.HttpRequestListener() {
             @Override
             public void requestSuccess(String o, String msg) {
                 RtcSpUtils.getInstance().setToken(msg);

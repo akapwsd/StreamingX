@@ -6,6 +6,7 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class DataUtils {
+    public static final String TAG = "DataUtils";
     public static ByteBuffer byte2ByteBuffer(byte[] byteArray) {
         ByteBuffer byteBuffer = ByteBuffer.allocate(byteArray.length);
         byteBuffer.put(byteArray);
@@ -24,6 +25,7 @@ public class DataUtils {
     }
 
     public static String sha256_HMAC(String secret, String data) {
+        LogUtil.d(TAG,"sha256_HMAC start secret:"+secret+" data:"+data);
         String hash = "";
         try {
             Mac sha256_HMAC = Mac.getInstance("HmacSHA256");
