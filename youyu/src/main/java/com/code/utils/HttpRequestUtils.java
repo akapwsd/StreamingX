@@ -2,13 +2,13 @@ package com.code.utils;
 
 import android.content.Context;
 
+import com.code.listener.HttpRequestListener;
 import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
 
 public class HttpRequestUtils {
     private static HttpRequestUtils httpRequestUtils;
-    private HttpRequestListener mHttpRequestListener;
 
     public static HttpRequestUtils getInstance() {
         if (httpRequestUtils == null) {
@@ -21,33 +21,54 @@ public class HttpRequestUtils {
         return httpRequestUtils;
     }
 
-    public void requestToken(Context context, HttpRequestListener httpRequestListener) {
-        mHttpRequestListener = httpRequestListener;
+    public void getChannelToken(Context context, String channelId, HttpRequestListener httpRequestListener) {
         RetrofitHelper.createApi(HttpApi.class, context)
-                .getToken(AppSigningUtils.getSha1(context))
+                .getChannelToken(channelId)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver<String>() {
                     @Override
                     public void Success(String o, String msg) {
-                        mHttpRequestListener.requestSuccess(o, msg);
+                        httpRequestListener.requestSuccess(o, msg);
                     }
 
                     @Override
                     public void error(int code, String error) {
-                        mHttpRequestListener.requestError(code, error);
+                        httpRequestListener.requestError(code, error);
                     }
                 });
     }
 
-    public interface HttpRequestListener {
-        void requestSuccess(String o, String msg);
+    public void joinChannel(Context context, String channelId, HttpRequestListener httpRequestListener) {
+        RetrofitHelper.createApi(HttpApi.class, context)
+                .joinChannel(channelId)
+                .compose(RetrofitHelper.schedulersTransformer())
+                .subscribe(new RxObserver<String>() {
+                    @Override
+                    public void Success(String o, String msg) {
+                        httpRequestListener.requestSuccess(o, msg);
+                    }
 
-        void requestError(int code, String error);
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
     }
 
-    public void removeListener() {
-        if (mHttpRequestListener != null) {
-            mHttpRequestListener = null;
-        }
+    public void createChannel(Context context, HttpRequestListener httpRequestListener) {
+        RetrofitHelper.createApi(HttpApi.class, context)
+                .createChannel()
+                .compose(RetrofitHelper.schedulersTransformer())
+                .subscribe(new RxObserver<String>() {
+                    @Override
+                    public void Success(String o, String msg) {
+                        httpRequestListener.requestSuccess(o, msg);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
     }
 }

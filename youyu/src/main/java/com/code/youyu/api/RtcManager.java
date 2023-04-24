@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
+import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.listener.InitResultListener;
 import com.code.listener.RtcRequestEventHandler;
@@ -35,25 +36,15 @@ public class RtcManager {
     }
 
     private InitResultListener mInitResultListener;
+    private Context mContext;
 
-    public void initRtc(Context context, String accountToken, String access_key_id, String access_key_secret, String session_token, InitResultListener initResultListener) {
+    public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token, InitResultListener initResultListener) {
         LogUtil.d(TAG, "initRtc is start");
+        mContext = context;
         mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
         //BaseRtcEngineManager.getInstance().initBaseRtc(context);
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
-        HttpRequestUtils.getInstance().requestToken(context, new HttpRequestUtils.HttpRequestListener() {
-            @Override
-            public void requestSuccess(String o, String msg) {
-                RtcSpUtils.getInstance().setToken(msg);
-                mInitResultListener.onSuccess();
-            }
-
-            @Override
-            public void requestError(int code, String error) {
-                mInitResultListener.onFail(code, error);
-            }
-        });
     }
 
     public void enableLog() {
@@ -183,10 +174,9 @@ public class RtcManager {
         }
     }
 
-    public void startCall(int uid, WSManager.WebSocketResultListener listener, int callType) {
-        WSManager.getInstance().registerWSDataListener(Constants.START_CALL, listener);
-        byte[] a = new byte[0];
-        WSManager.getInstance().send(ByteString.of(a));
+    //*=====================================================================================================================//
+    public void startCall(String channel, String uid, int callType, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().joinChannel(mContext, channel, listener);
     }
 
     public void hangUpCall(WSManager.WebSocketResultListener listener, int callType) {
