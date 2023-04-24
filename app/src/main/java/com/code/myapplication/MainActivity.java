@@ -7,35 +7,20 @@ import android.widget.Button;
 
 import com.code.bean.ModelBean;
 import com.code.listener.RtcRequestEventHandler;
+import com.code.utils.LogUtil;
+import com.code.utils.ThreadPoolUtils;
 import com.code.youyu.api.RtcManager;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class MainActivity extends Activity {
+    private final HashMap<Integer, String> map = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button sendBtn = findViewById(R.id.send_btn);
-        RtcManager.getInstance().setRtcRequestEventHandler(new RtcRequestEventHandler() {
-            @Override
-            public void onReceiveCall(ModelBean modelBean) {
-                startActivity(new Intent(MainActivity.this, AgoCallActivity.class));
-            }
-
-            @Override
-            public void onReceiveHangUp(byte[] evt) {
-                super.onReceiveHangUp(evt);
-            }
-
-            @Override
-            public void onPeerUserAcceptCall(byte[] evt) {
-                super.onPeerUserAcceptCall(evt);
-            }
-
-            @Override
-            public void onPeerUserDisAgreeCall(byte[] evt) {
-                super.onPeerUserDisAgreeCall(evt);
-            }
-        });
     }
 }

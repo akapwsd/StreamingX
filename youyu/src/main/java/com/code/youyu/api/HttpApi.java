@@ -6,7 +6,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Header;
 
 public interface HttpApi {
-    String BASE_URL = "wss://api.hitradegate.com/v1/ws";
+    String BASE_URL = "https://api.hitradegate.com/v1/ws/";
     String SUMMARY = "relationship/summary";
 
     @GET(SUMMARY)

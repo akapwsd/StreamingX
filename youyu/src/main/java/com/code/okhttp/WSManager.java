@@ -43,8 +43,8 @@ public class WSManager {
     private final String TAG = "WSManager";
     private final static int MAX_RECONNECT_NUM = 5;
     private final static int RECONNECT_MILLS = 5000;
-    private final static int GLOBAL_HEART_BEAT_RATE = 10000;
-    private final static int ROOM_HEART_BEAT_RATE = 10000;
+    private final static int GLOBAL_HEART_BEAT_RATE = 5000;
+    private final static int ROOM_HEART_BEAT_RATE = 5000;
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
 
@@ -92,7 +92,7 @@ public class WSManager {
             this.access_key_secret = access_key_secret;
             this.session_token = session_token;
             mWbSocketUrl = BASE_URL;
-            Log.e(TAG, "mWbSocketUrl=" + mWbSocketUrl);
+            LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).build();
             connect();
         }
@@ -179,7 +179,7 @@ public class WSManager {
             if (response != null) {
                 LogUtil.e(TAG, "websocket onFailure:" + response.message());
             }
-            LogUtil.i(TAG, "websocket fail reason：" + t.getMessage());
+            LogUtil.e(TAG, "websocket fail reason：" + t.getMessage());
             closeConnect();
             if (!TextUtils.isEmpty(t.getMessage()) && !t.getMessage().equals("socket closed")) {
                 reconnect();
