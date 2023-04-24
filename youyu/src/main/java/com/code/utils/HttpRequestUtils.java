@@ -3,6 +3,7 @@ package com.code.utils;
 import android.content.Context;
 
 import com.code.listener.HttpRequestListener;
+import com.code.okhttp.WSManager;
 import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
@@ -46,6 +47,8 @@ public class HttpRequestUtils {
                     @Override
                     public void Success(String o, String msg) {
                         httpRequestListener.requestSuccess(o, msg);
+                        String token = "";
+                        WSManager.getInstance().joinChannel(channelId, token);
                     }
 
                     @Override
@@ -63,6 +66,9 @@ public class HttpRequestUtils {
                     @Override
                     public void Success(String o, String msg) {
                         httpRequestListener.requestSuccess(o, msg);
+                        String channelId = "";
+                        String token = "";
+                        WSManager.getInstance().joinChannel(channelId, token);
                     }
 
                     @Override

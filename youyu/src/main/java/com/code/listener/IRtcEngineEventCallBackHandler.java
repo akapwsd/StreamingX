@@ -21,12 +21,4 @@ public abstract class IRtcEngineEventCallBackHandler {
     public void onFacePositionChanged(int imageWidth, int imageHeight, IRtcEngineEventHandler.AgoraFacePositionInfo[] agoraFacePositionInfos) {
 
     }
-
-//    public void onTokenPrivilegeWillExpire(String token){
-//
-//    }
-//
-//    public void onRequestToken() {
-//
-//    }
 }

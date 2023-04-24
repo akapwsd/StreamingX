@@ -10,13 +10,11 @@ import android.widget.FrameLayout;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.listener.InitResultListener;
-import com.code.listener.RtcRequestEventHandler;
 import com.code.okhttp.WSManager;
 import com.code.rtc.BaseRtcEngineManager;
 import com.code.utils.HttpRequestUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpBase;
-import com.code.utils.RtcSpUtils;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -37,6 +35,7 @@ public class RtcManager {
 
     private InitResultListener mInitResultListener;
     private Context mContext;
+    private String mChannelId;
 
     public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token, InitResultListener initResultListener) {
         LogUtil.d(TAG, "initRtc is start");
@@ -49,10 +48,6 @@ public class RtcManager {
 
     public void enableLog() {
         LogUtil.setLogLevel(LogUtil.Level.Level_HIGH.ordinal());
-    }
-
-    public void setRtcRequestEventHandler(RtcRequestEventHandler rtcRequestEventHandler) {
-        WSManager.getInstance().create(rtcRequestEventHandler);
     }
 
     public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
@@ -123,8 +118,8 @@ public class RtcManager {
 
     private void userJoinChannel(int uid) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        String accessToken = WSManager.getInstance().token;
-        String channel = WSManager.getInstance().channelId;
+        String accessToken = WSManager.getInstance().mToken;
+        String channel = WSManager.getInstance().mChannelId;
         if (rtcEngine != null && !TextUtils.isEmpty(accessToken) && TextUtils.isEmpty(channel)) {
             ChannelMediaOptions option = new ChannelMediaOptions();
             option.autoSubscribeAudio = true;
@@ -175,26 +170,20 @@ public class RtcManager {
     }
 
     //*=====================================================================================================================//
-    public void startCall(String channel, String uid, int callType, HttpRequestListener listener) {
+    public void createChannel(String uid, int callType, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().createChannel(mContext, listener);
+    }
+
+    public void joinChannel(String channel, String uid, int callType, HttpRequestListener listener) {
         HttpRequestUtils.getInstance().joinChannel(mContext, channel, listener);
     }
 
-    public void hangUpCall(WSManager.WebSocketResultListener listener, int callType) {
-        WSManager.getInstance().registerWSDataListener(Constants.HANG_UP, listener);
-        byte[] a = new byte[0];
-        WSManager.getInstance().send(ByteString.of(a));
+    public void leaveChannel() {
+        WSManager.getInstance().leaveChannel();
     }
 
-    public void acceptCall(WSManager.WebSocketResultListener listener, int callType) {
-        WSManager.getInstance().registerWSDataListener(Constants.ACCEPT_CALL, listener);
-        byte[] a = new byte[0];
-        WSManager.getInstance().send(ByteString.of(a));
-    }
-
-    public void rejectCall(WSManager.WebSocketResultListener listener, int callType) {
-        WSManager.getInstance().registerWSDataListener(Constants.REJECT_CALL, listener);
-        byte[] a = new byte[0];
-        WSManager.getInstance().send(ByteString.of(a));
+    public void requestChannelToken(String channel, String uid, int callType, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, listener);
     }
 
     public void getModelList(WSManager.RequestModelListListener listener) {
@@ -239,8 +228,21 @@ public class RtcManager {
     }
 
     public void requestNewToken(String oldToken) {
-        byte[] a = new byte[0];
-        WSManager.getInstance().send(ByteString.of(a));
+        String channel = WSManager.getInstance().mChannelId;
+        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, new HttpRequestListener() {
+            @Override
+            public void requestSuccess(String o, String msg) {
+                String newToken = "";
+                LogUtil.e(TAG, "requestSuccess newToken:" + newToken);
+                RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+                rtcEngine.renewToken(newToken);
+            }
+
+            @Override
+            public void requestError(int code, String error) {
+                LogUtil.e(TAG, "requestError code:" + code + " error:" + error);
+            }
+        });
     }
 
     public void closeVideoChat() {
