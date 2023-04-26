@@ -9,7 +9,6 @@ import android.widget.FrameLayout;
 
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
-import com.code.listener.InitResultListener;
 import com.code.okhttp.WSManager;
 import com.code.rtc.BaseRtcEngineManager;
 import com.code.utils.HttpRequestUtils;
@@ -33,16 +32,13 @@ public class RtcManager {
         return RtcManagerHolder.rtcManager;
     }
 
-    private InitResultListener mInitResultListener;
     private Context mContext;
-    private String mChannelId;
 
-    public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token, InitResultListener initResultListener) {
+    public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "initRtc is start");
         mContext = context;
-        mInitResultListener = initResultListener;
         RtcSpBase.initContent(context);
-        //BaseRtcEngineManager.getInstance().initBaseRtc(context);
+        BaseRtcEngineManager.getInstance().initBaseRtc(context);
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
     }
 

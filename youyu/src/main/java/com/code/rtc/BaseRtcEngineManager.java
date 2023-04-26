@@ -1,21 +1,12 @@
 package com.code.rtc;
 
 import android.content.Context;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
-
-import androidx.annotation.NonNull;
-
 import com.code.listener.IRtcEngineEventCallBackHandler;
-import com.code.rawdata.MediaDataObserverPlugin;
 import com.code.utils.LogUtil;
 import com.code.youyu.api.RtcManager;
-
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoEncoderConfiguration;
-
 public class BaseRtcEngineManager {
     public static final String TAG = "BaseRtcEngineManager";
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
@@ -98,30 +89,6 @@ public class BaseRtcEngineManager {
         public void onTokenPrivilegeWillExpire(String token) {
             LogUtil.d(TAG, "onTokenPrivilegeWillExpire is start token:" + token);
             RtcManager.getInstance().requestNewToken(token);
-        }
-    };
-
-    private static MediaDataObserverPlugin mediaDataObserverPlugin;
-
-    public static MediaDataObserverPlugin getMediaDataObserverPlugin() {
-        if (mediaDataObserverPlugin == null) {
-            synchronized (BaseRtcEngineManager.class) {
-                if (mediaDataObserverPlugin == null) {
-                    mediaDataObserverPlugin = MediaDataObserverPlugin.the();
-                }
-            }
-        }
-        return mediaDataObserverPlugin;
-    }
-
-    public static void clearMediaDataObserverPlugin() {
-        mediaDataObserverPlugin = null;
-    }
-
-    Handler handler = new Handler(Looper.myLooper()) {
-        @Override
-        public void handleMessage(@NonNull Message msg) {
-            super.handleMessage(msg);
         }
     };
 }

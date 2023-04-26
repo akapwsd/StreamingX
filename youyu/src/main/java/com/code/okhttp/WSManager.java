@@ -45,7 +45,6 @@ public class WSManager {
     private boolean isReceiveRoomAlivePong = true;
     private boolean isConnect = false;
     private boolean isCallIng = false;
-    private Context mContext;
     public String mChannelId = "";
     public String mToken = "";
     private String access_key_id;
@@ -76,7 +75,6 @@ public class WSManager {
     public void init(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
-            mContext = context;
             sWeakRefListeners = new HashMap<>();
             mRequestListeners = new ArrayList<>();
             this.access_key_id = access_key_id;
