@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.code.bean.ModelBean;
+import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
 import com.code.youyu.api.Constants;
@@ -35,7 +36,7 @@ public class WSManager {
     private final static int ROOM_HEART_BEAT_RATE = 5000;
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
-
+    private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private static ArrayList<WeakReference<RequestModelListListener>> mRequestListeners;
     private WebSocket mWebSocket;
     private OkHttpClient mClient;
@@ -65,6 +66,9 @@ public class WSManager {
         return SInstanceHolder.sInstance;
     }
 
+    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
+        this.iRtcEngineEventCallBackHandler = callBackHandler;
+    }
 
     /**
      * init WebSocket
@@ -190,6 +194,9 @@ public class WSManager {
                         break;
                     case Constants.ROOM_PONG:
                         isReceiveRoomAlivePong = true;
+                        break;
+                    case Constants.BAN_ROOM:
+                        iRtcEngineEventCallBackHandler.banRoom();
                         break;
                     case Constants.GET_MODEL_LIST:
                         eventResultModelListener(true, new ArrayList<>(), 0, "");

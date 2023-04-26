@@ -52,6 +52,7 @@ public class RtcManager {
 
     public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
         BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
+        WSManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
     }
 
     public static final int BIG_VIEW_STATE_REMOTE = 0;
