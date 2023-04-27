@@ -17,6 +17,7 @@ import com.code.utils.RtcSpBase;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
+import io.agora.rtc.internal.LastmileProbeConfig;
 import io.agora.rtc.models.ChannelMediaOptions;
 import io.agora.rtc.video.VideoCanvas;
 import okio.ByteString;
@@ -172,6 +173,11 @@ public class RtcManager {
     }
 
     public void joinChannel(String channel, String uid, int callType, HttpRequestListener listener) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        LastmileProbeConfig lastmileProbeConfig = new LastmileProbeConfig();
+        lastmileProbeConfig.probeUplink = true;
+        lastmileProbeConfig.probeDownlink = true;
+        rtcEngine.startLastmileProbeTest(lastmileProbeConfig);
         HttpRequestUtils.getInstance().joinChannel(mContext, channel, listener);
     }
 

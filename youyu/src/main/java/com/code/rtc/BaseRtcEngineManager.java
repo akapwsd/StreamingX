@@ -1,12 +1,16 @@
 package com.code.rtc;
 
 import android.content.Context;
+
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.LogUtil;
 import com.code.youyu.api.RtcManager;
+
+import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
 import io.agora.rtc.video.VideoEncoderConfiguration;
+
 public class BaseRtcEngineManager {
     public static final String TAG = "BaseRtcEngineManager";
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
@@ -33,19 +37,15 @@ public class BaseRtcEngineManager {
     }
 
     public void initBaseRtc(Context context) {
-        LogUtil.d(TAG,"initBaseRtc is start");
+        LogUtil.d(TAG, "initBaseRtc is start");
         try {
             mRtcEngine = RtcEngine.create(context, "", mRtcEventHandler);
             mRtcEngine.enableVideo();
-            mRtcEngine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(
-                    VideoEncoderConfiguration.VD_640x360,
-                    VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15,
-                    VideoEncoderConfiguration.STANDARD_BITRATE,
-                    VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
+            mRtcEngine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        LogUtil.d(TAG,"initBaseRtc is end");
+        LogUtil.d(TAG, "initBaseRtc is end");
     }
 
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
@@ -89,6 +89,24 @@ public class BaseRtcEngineManager {
         public void onTokenPrivilegeWillExpire(String token) {
             LogUtil.d(TAG, "onTokenPrivilegeWillExpire is start token:" + token);
             RtcManager.getInstance().requestNewToken(token);
+        }
+
+        @Override
+        public void onLastmileQuality(int quality) {
+            super.onLastmileQuality(quality);
+            VideoEncoderConfiguration videoEncoderConfiguration = null;
+            switch (quality) {
+                case Constants.QUALITY_EXCELLENT:
+                case Constants.QUALITY_GOOD:
+                case Constants.QUALITY_POOR:
+                    videoEncoderConfiguration = new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
+                    break;
+                case Constants.QUALITY_BAD:
+                case Constants.QUALITY_VBAD:
+                    videoEncoderConfiguration = new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_10, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT);
+                    break;
+            }
+            mRtcEngine.setVideoEncoderConfiguration(videoEncoderConfiguration);
         }
     };
 }
