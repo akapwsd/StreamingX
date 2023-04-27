@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
+import com.code.listener.RequestModelListListener;
 import com.code.okhttp.WSManager;
 import com.code.rtc.BaseRtcEngineManager;
 import com.code.utils.HttpRequestUtils;
@@ -189,10 +190,8 @@ public class RtcManager {
         HttpRequestUtils.getInstance().getChannelToken(mContext, channel, listener);
     }
 
-    public void getModelList(WSManager.RequestModelListListener listener) {
-        WSManager.getInstance().registerModelListener(listener);
-        byte[] a = new byte[0];
-        WSManager.getInstance().send(ByteString.of(a));
+    public void getModelList(RequestModelListListener listener) {
+        HttpRequestUtils.getInstance().getModelList(mContext, listener);
     }
 
     public void switchCamera() {

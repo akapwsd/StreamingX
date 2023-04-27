@@ -37,7 +37,6 @@ public class WSManager {
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
-    private static ArrayList<WeakReference<RequestModelListListener>> mRequestListeners;
     private WebSocket mWebSocket;
     private OkHttpClient mClient;
     private String mWbSocketUrl;
@@ -76,7 +75,6 @@ public class WSManager {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             sWeakRefListeners = new HashMap<>();
-            mRequestListeners = new ArrayList<>();
             this.access_key_id = access_key_id;
             this.access_key_secret = access_key_secret;
             this.session_token = session_token;
@@ -196,16 +194,9 @@ public class WSManager {
                     case Constants.BAN_ROOM:
                         iRtcEngineEventCallBackHandler.banRoom();
                         break;
-                    case Constants.GET_MODEL_LIST:
-                        eventResultModelListener(true, new ArrayList<>(), 0, "");
-                        break;
                 }
             } else {
-                if (type == Constants.GET_MODEL_LIST) {
-                    eventResultModelListener(false, new ArrayList<>(), code, msg);
-                } else {
-                    eventFailWsDataListener(type, code, msg);
-                }
+                eventFailWsDataListener(type, code, msg);
             }
         }
 
@@ -301,50 +292,6 @@ public class WSManager {
         }
     }
 
-    public void registerModelListener(RequestModelListListener listener) {
-        if (!mRequestListeners.contains(listener)) {
-            mRequestListeners.add(new WeakReference<>(listener));
-        }
-    }
-
-    private void eventResultModelListener(boolean isSuccess, ArrayList<ModelBean> list, int code, String error) {
-        Iterator<WeakReference<RequestModelListListener>> iterator = mRequestListeners.iterator();
-        while (iterator.hasNext()) {
-            WeakReference<RequestModelListListener> ref = iterator.next();
-            if (ref == null) {
-                break;
-            }
-            if (ref.get() == null) {
-                iterator.remove();
-            } else {
-                if (isSuccess) {
-                    ref.get().onResult(list);
-                } else {
-                    ref.get().onFailure(code, error);
-                }
-                unregisterModelListener(ref.get());
-            }
-            break;
-        }
-    }
-
-    public void unregisterModelListener(RequestModelListListener listener) {
-        Iterator<WeakReference<RequestModelListListener>> iterator = mRequestListeners.iterator();
-        while (iterator.hasNext()) {
-            WeakReference<RequestModelListListener> ref = iterator.next();
-            if (ref == null) {
-                break;
-            }
-            if (ref.get() == null) {
-                iterator.remove();
-            }
-            if (ref.get() == listener) {
-                iterator.remove();
-                break;
-            }
-        }
-    }
-
     /**
      * register listener
      */
@@ -386,12 +333,6 @@ public class WSManager {
 
     public interface WebSocketResultListener {
         void onSuccess(int code, String data);
-
-        void onFailure(int code, String reason);
-    }
-
-    public interface RequestModelListListener {
-        void onResult(ArrayList<ModelBean> dataList);
 
         void onFailure(int code, String reason);
     }

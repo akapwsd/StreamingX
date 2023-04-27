@@ -2,11 +2,15 @@ package com.code.utils;
 
 import android.content.Context;
 
+import com.code.bean.ModelBean;
 import com.code.listener.HttpRequestListener;
+import com.code.listener.RequestModelListListener;
 import com.code.okhttp.WSManager;
 import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
+
+import java.util.ArrayList;
 
 public class HttpRequestUtils {
     private static HttpRequestUtils httpRequestUtils;
@@ -20,6 +24,24 @@ public class HttpRequestUtils {
             }
         }
         return httpRequestUtils;
+    }
+
+    public void getModelList(Context context, RequestModelListListener requestModelListListener) {
+        RetrofitHelper.createApi(HttpApi.class, context)
+                .getModelList()
+                .compose(RetrofitHelper.schedulersTransformer())
+                .subscribe(new RxObserver<ArrayList<ModelBean>>() {
+
+                    @Override
+                    public void Success(ArrayList<ModelBean> modelBeans, String msg) {
+                        requestModelListListener.onResult(modelBeans);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        requestModelListListener.onFailure(code, error);
+                    }
+                });
     }
 
     public void getChannelToken(Context context, String channelId, HttpRequestListener httpRequestListener) {
