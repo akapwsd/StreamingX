@@ -31,11 +31,27 @@ public class RtcSpUtils {
         return (long) RtcSpBase.get("agora_time", 0L);
     }
 
-    public void setToken(String token) {
-        RtcSpBase.put("rtc_token", token);
+    public void setAccessKeyId(String access_key_id) {
+        RtcSpBase.put("access_key_id", access_key_id);
     }
 
-    public String getToken() {
-        return (String) RtcSpBase.get("rtc_token", "");
+    public String getAccessKeyId() {
+        return (String) RtcSpBase.get("access_key_id", "");
+    }
+
+    public void setAccessKeySecret(String access_key_secret) {
+        RtcSpBase.put("access_key_secret", access_key_secret);
+    }
+
+    public String getAccessKeySecret() {
+        return (String) RtcSpBase.get("access_key_secret", "");
+    }
+
+    public void setSessionToken(String session_token) {
+        RtcSpBase.put("session_token", session_token);
+    }
+
+    public String getSessionToken() {
+        return (String) RtcSpBase.get("session_token", "");
     }
 }

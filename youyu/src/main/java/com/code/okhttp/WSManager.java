@@ -8,6 +8,7 @@ import com.code.bean.ModelBean;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
+import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.RtcManager;
 
@@ -79,6 +80,9 @@ public class WSManager {
             this.access_key_secret = access_key_secret;
             this.session_token = session_token;
             mWbSocketUrl = BASE_URL;
+            RtcSpUtils.getInstance().setAccessKeyId(access_key_id);
+            RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
+            RtcSpUtils.getInstance().setSessionToken(session_token);
             LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).build();
             connect();

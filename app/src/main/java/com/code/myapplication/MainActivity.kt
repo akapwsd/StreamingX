@@ -13,10 +13,7 @@ class MainActivity : Activity() {
         send_btn.setOnClickListener {
             val uid = "0"
             val callType = 1
-            val accessKeyId = ""
-            val accessKeySecret = ""
-            val sessionToken = ""
-            RtcManager.getInstance().createChannel(uid, callType, accessKeyId, accessKeySecret, sessionToken, object : HttpRequestListener {
+            RtcManager.getInstance().createChannel(uid, callType, object : HttpRequestListener {
                 override fun requestSuccess(o: String?, msg: String?) {
 
                 }

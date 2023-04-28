@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.Log;
 
+import com.code.utils.LogUtil;
 import com.code.youyu.api.HttpApi;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
@@ -31,22 +32,11 @@ public class RetrofitHelper {
 
     private static Context mContext;
 
-    /**
-     * 创建Retrofit请求Api
-     *
-     * @param clazz Retrofit Api接口
-     * @return api实例
-     */
     public static <T> T createApi(Class<T> clazz, Context context) {
         mContext = context;
         return getInstance().create(clazz);
     }
 
-    /**
-     * 获取Retrofit实例
-     *
-     * @return Retrofit
-     */
     private static Retrofit getInstance() {
         if (null == retrofitInstance) {
             synchronized (Retrofit.class) {
@@ -64,10 +54,12 @@ public class RetrofitHelper {
     }
 
     private static OkHttpClient buildOKHttpsClient() {
+        LogUtil.d(TAG, "buildOKHttpsClient is start");
         HttpLoggingInterceptor.Level level = HttpLoggingInterceptor.Level.BODY;
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Log.d(TAG, "OkHttp====Message:" + message));
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> LogUtil.d(TAG, "OkHttp====Message:" + message));
         loggingInterceptor.setLevel(level);
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        LogUtil.d(TAG, "buildOKHttpsClient sdk version:" + Build.VERSION.SDK_INT);
         if (Build.VERSION.SDK_INT < 29) {
             builder.sslSocketFactory(SSLSocketClient.getSSLSocketFactory());
         } else {
@@ -105,8 +97,9 @@ public class RetrofitHelper {
     }
 
     private static OkHttpClient buildOKHttpClient() {
+        LogUtil.d(TAG, "buildOKHttpClient is start");
         HttpLoggingInterceptor.Level level = HttpLoggingInterceptor.Level.BODY;
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> Log.d(TAG, "OkHttp====Message:" + message));
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(message -> LogUtil.d(TAG, "OkHttp====Message:" + message));
         loggingInterceptor.setLevel(level);
         return new OkHttpClient.Builder()
                 .retryOnConnectionFailure(false)
