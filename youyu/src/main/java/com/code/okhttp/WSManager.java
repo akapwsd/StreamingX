@@ -11,12 +11,15 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.RtcManager;
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.Message;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
@@ -93,15 +96,16 @@ public class WSManager {
     }
 
     public void disconnect(int code, String reason) {
+        LogUtil.e(TAG, "disconnect is start code:" + code + " reason:" + reason);
         if (isConnect()) {
             sWeakRefListeners.clear();
             mWebSocket.cancel();
             mWebSocket.close(code, reason);
         }
-        closeConnect();
     }
 
     private void closeConnect() {
+        LogUtil.e(TAG, "closeConnect is start");
         isConnect = false;
         global_ping_send_time = 0L;
         if (heartHandler != null) {
@@ -112,6 +116,7 @@ public class WSManager {
             roomAliveHeartHandler.removeCallbacksAndMessages(null);
             roomAliveHeartHandler = null;
         }
+        LogUtil.e(TAG, "closeConnect is end");
     }
 
     private void reconnect() {
@@ -170,9 +175,10 @@ public class WSManager {
                 LogUtil.e(TAG, "websocket onFailure:" + response.message());
             }
             LogUtil.e(TAG, "websocket fail reason：" + t.getMessage());
-            closeConnect();
-            if (!TextUtils.isEmpty(t.getMessage()) && !t.getMessage().equals("socket closed")) {
+            if (!TextUtils.isEmpty(t.getMessage()) && !t.getMessage().equals("Socket closed")) {
                 reconnect();
+            } else {
+                closeConnect();
             }
         }
 
@@ -185,25 +191,32 @@ public class WSManager {
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull ByteString bytes) {
             super.onMessage(webSocket, bytes);
-            int type = 0;
-            int code = 0;
-            String msg = "";
-            LogUtil.e(TAG, "onMessage is start receive code:" + code + " type:" + type);
-            if (code == 200) {
-                switch (type) {
-                    case Constants.PONG:
-                        isReceivePong = true;
-                        break;
-                    case Constants.ROOM_PONG:
-                        isReceiveRoomAlivePong = true;
-                        break;
-                    case Constants.BAN_ROOM:
-                        iRtcEngineEventCallBackHandler.banRoom();
-                        break;
-                }
-            } else {
-                eventFailWsDataListener(type, code, msg);
+            LogUtil.i(TAG, "onMessage receive bytes:" + Arrays.toString(bytes.toByteArray()));
+            Base.messageFrame messageFrame;
+            try {
+                messageFrame = Base.messageFrame.parseFrom(bytes.toByteArray());
+            } catch (InvalidProtocolBufferException e) {
+                throw new RuntimeException(e);
             }
+            int crc32 = messageFrame.getCrc32();
+            LogUtil.i(TAG, "onMessage receive crc32:" + crc32);
+            String OxCrcId = Integer.toHexString(crc32);
+            com.google.protobuf.ByteString resultData = messageFrame.getData();
+            LogUtil.i(TAG, "onMessage receive OxCrcId:" + OxCrcId);
+            switch (OxCrcId) {
+                case Constants.PONG:
+                    isReceivePong = true;
+                    break;
+//                case Constants.ROOM_PONG:
+//                    isReceiveRoomAlivePong = true;
+//                    break;
+//                case Constants.BAN_ROOM:
+//                    iRtcEngineEventCallBackHandler.banRoom();
+//                    break;
+            }
+//            } else {
+//                eventFailWsDataListener(type, code, msg);
+//            }
         }
 
         @Override
@@ -226,13 +239,14 @@ public class WSManager {
         @Override
         public void run() {
             long currentTimeMillis = System.currentTimeMillis();
+            LogUtil.d(TAG, "heartBeat receive currentTimeMillis:" + currentTimeMillis + " global_ping_send_time:" + global_ping_send_time + " isReceivePong:" + isReceivePong);
             if (currentTimeMillis - global_ping_send_time >= GLOBAL_HEART_BEAT_RATE && isReceivePong) {
                 isReceivePong = false;
                 global_ping_send_time = currentTimeMillis;
                 ping();
                 heartHandler.postDelayed(this, GLOBAL_HEART_BEAT_RATE);
             } else {
-                disconnect(1001, "disconnect");
+                disconnect(1001, "heart beat is disconnect");
             }
         }
     };
@@ -277,10 +291,10 @@ public class WSManager {
     }
 
     protected void ping() {
-        LogUtil.d(TAG,"rtc ping is start");
+        LogUtil.d(TAG, "rtc ping is start");
         Streaming.ping ping = Streaming.ping.newBuilder().build();
         byte[] bytes = DataUtils.assembleData(0xde174df3, ping.toByteArray());
-        LogUtil.d(TAG,"rtc ping send data:"+ bytes);
+        LogUtil.d(TAG, "rtc ping send data:" + Arrays.toString(bytes));
         WSManager.getInstance().send(ByteString.of(bytes));
     }
 

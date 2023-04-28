@@ -1,6 +1,7 @@
 package com.code.utils;
 
 import com.google.protobuf.ByteString;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import java.nio.ByteBuffer;
 
