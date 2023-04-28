@@ -11,7 +11,7 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         send_btn.setOnClickListener {
-            val uid = "0"
+            val uid = "110"
             val callType = 1
             RtcManager.getInstance().createChannel(uid, callType, object : HttpRequestListener {
                 override fun requestSuccess(o: String?, msg: String?) {

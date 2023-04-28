@@ -11,6 +11,7 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.RtcManager;
+import com.google.protobuf.Message;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
+import batprotobuf.Base;
 import batprotobuf.Streaming;
 import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
@@ -84,7 +86,7 @@ public class WSManager {
             RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
             RtcSpUtils.getInstance().setSessionToken(session_token);
             LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
-            mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).build();
+            mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
             connect();
         }
         LogUtil.d(TAG, "init is end");
@@ -207,7 +209,7 @@ public class WSManager {
         @Override
         public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
             super.onOpen(webSocket, response);
-            LogUtil.e(TAG, "websocket is connect:" + response);
+            LogUtil.i(TAG, "websocket is connect:" + response);
             mWebSocket = webSocket;
             isConnect = response.code() == 101;
             if (!isConnect) {
@@ -275,8 +277,11 @@ public class WSManager {
     }
 
     protected void ping() {
+        LogUtil.d(TAG,"rtc ping is start");
         Streaming.ping ping = Streaming.ping.newBuilder().build();
-        WSManager.getInstance().send(ByteString.of(ping.toByteArray()));
+        byte[] bytes = DataUtils.assembleData(0xde174df3, ping.toByteArray());
+        LogUtil.d(TAG,"rtc ping send data:"+ bytes);
+        WSManager.getInstance().send(ByteString.of(bytes));
     }
 
     protected void roomPing() {
