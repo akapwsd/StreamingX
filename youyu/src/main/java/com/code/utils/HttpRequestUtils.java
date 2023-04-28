@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 public class HttpRequestUtils {
     private static HttpRequestUtils httpRequestUtils;
+    public static final String TAG = "HttpRequestUtils";
 
     public static HttpRequestUtils getInstance() {
         if (httpRequestUtils == null) {
@@ -114,11 +115,12 @@ public class HttpRequestUtils {
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
         String Content_Type = "application/json";
-        String data = X_Uyj_Timestamp;// + Content_Type;
+        String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+        LogUtil.d(TAG, "aaaaa authorization:" + authorization + "\n X_Uyj_Timestamp:" + X_Uyj_Timestamp + "\n Content_Type:" + Content_Type);
         RetrofitHelper.createApi(HttpApi.class, context)
-                .createChannel(authorization, session_token, X_Uyj_Timestamp, uid)
+                .createChannel(authorization, X_Uyj_Timestamp, Content_Type, uid)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver<String>() {
                     @Override
