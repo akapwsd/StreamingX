@@ -169,8 +169,8 @@ public class RtcManager {
     }
 
     //*=====================================================================================================================//
-    public void createChannel(String uid, int callType, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().createChannel(mContext, listener);
+    public void createChannel(String uid, int callType, String access_key_id, String access_key_secret, String session_token, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().createChannel(mContext, access_key_id, access_key_secret, session_token, listener);
     }
 
     public void joinChannel(String channel, String uid, int callType, HttpRequestListener listener) {

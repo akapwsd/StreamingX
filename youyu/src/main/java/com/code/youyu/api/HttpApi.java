@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -23,7 +24,7 @@ public interface HttpApi {
     Observable<String> getChannelToken(@Path("channelId") String channelId);
 
     @POST(CREATE_CHANNEL)
-    Observable<String> createChannel();
+    Observable<String> createChannel(@Header("Authorization") String authorization,@Header("Session-Token") String sessionToken,@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp);
 
     @PUT(JOIN_CHANNEL)
     Observable<String> joinChannel(@Path("channelId") String channelId);

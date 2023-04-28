@@ -80,9 +80,15 @@ public class HttpRequestUtils {
                 });
     }
 
-    public void createChannel(Context context, HttpRequestListener httpRequestListener) {
+    public void createChannel(Context context, String access_key_id, String access_key_secret, String session_token, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        String Content_Type = "application/json";
+        String data = X_Uyj_Timestamp;// + Content_Type;
+        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+        String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
         RetrofitHelper.createApi(HttpApi.class, context)
-                .createChannel()
+                .createChannel(authorization, session_token, X_Uyj_Timestamp)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver<String>() {
                     @Override
