@@ -22,6 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.protobuf.ProtoConverterFactory;
 
 public class RetrofitHelper {
     private static final String TAG = "RetrofitHelper";
@@ -52,7 +53,7 @@ public class RetrofitHelper {
                 if (null == retrofitInstance) { // 双重检验锁,仅第一次调用时实例化
                     retrofitInstance = new Retrofit.Builder()
                             .client(buildOKHttpsClient())
-                            .addConverterFactory(GsonConverterFactory.create())
+                            .addConverterFactory(ProtoConverterFactory.create())
                             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
                             .baseUrl(baseUrl)
                             .build();
