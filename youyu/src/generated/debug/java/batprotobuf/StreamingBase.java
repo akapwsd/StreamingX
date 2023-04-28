@@ -29,37 +29,22 @@ public final class StreamingBase {
         getIdBytes();
 
     /**
-     * <code>optional string token = 2;</code>
+     * <code>optional uint32 category = 2;</code>
      */
-    java.lang.String getToken();
-    /**
-     * <code>optional string token = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTokenBytes();
+    int getCategory();
 
     /**
-     * <code>optional uint32 type = 3;</code>
-     */
-    int getType();
-
-    /**
-     * <code>optional int64 expiration = 4;</code>
-     */
-    long getExpiration();
-
-    /**
-     * <code>optional uint32 state = 5;</code>
+     * <code>optional uint32 state = 3;</code>
      */
     int getState();
 
     /**
-     * <code>optional int64 startTs = 6;</code>
+     * <code>optional int64 startTs = 4;</code>
      */
     long getStartTs();
 
     /**
-     * <code>optional int64 endTs = 7;</code>
+     * <code>optional int64 endTs = 5;</code>
      */
     long getEndTs();
   }
@@ -76,9 +61,7 @@ public final class StreamingBase {
     }
     private channel() {
       id_ = "";
-      token_ = "";
-      type_ = 0;
-      expiration_ = 0L;
+      category_ = 0;
       state_ = 0;
       startTs_ = 0L;
       endTs_ = 0L;
@@ -115,33 +98,22 @@ public final class StreamingBase {
               id_ = s;
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+            case 16: {
 
-              token_ = s;
+              category_ = input.readUInt32();
               break;
             }
             case 24: {
 
-              type_ = input.readUInt32();
+              state_ = input.readUInt32();
               break;
             }
             case 32: {
 
-              expiration_ = input.readInt64();
-              break;
-            }
-            case 40: {
-
-              state_ = input.readUInt32();
-              break;
-            }
-            case 48: {
-
               startTs_ = input.readInt64();
               break;
             }
-            case 56: {
+            case 40: {
 
               endTs_ = input.readInt64();
               break;
@@ -203,80 +175,37 @@ public final class StreamingBase {
       }
     }
 
-    public static final int TOKEN_FIELD_NUMBER = 2;
-    private volatile java.lang.Object token_;
+    public static final int CATEGORY_FIELD_NUMBER = 2;
+    private int category_;
     /**
-     * <code>optional string token = 2;</code>
+     * <code>optional uint32 category = 2;</code>
      */
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
-    }
-    /**
-     * <code>optional string token = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public int getCategory() {
+      return category_;
     }
 
-    public static final int TYPE_FIELD_NUMBER = 3;
-    private int type_;
-    /**
-     * <code>optional uint32 type = 3;</code>
-     */
-    public int getType() {
-      return type_;
-    }
-
-    public static final int EXPIRATION_FIELD_NUMBER = 4;
-    private long expiration_;
-    /**
-     * <code>optional int64 expiration = 4;</code>
-     */
-    public long getExpiration() {
-      return expiration_;
-    }
-
-    public static final int STATE_FIELD_NUMBER = 5;
+    public static final int STATE_FIELD_NUMBER = 3;
     private int state_;
     /**
-     * <code>optional uint32 state = 5;</code>
+     * <code>optional uint32 state = 3;</code>
      */
     public int getState() {
       return state_;
     }
 
-    public static final int STARTTS_FIELD_NUMBER = 6;
+    public static final int STARTTS_FIELD_NUMBER = 4;
     private long startTs_;
     /**
-     * <code>optional int64 startTs = 6;</code>
+     * <code>optional int64 startTs = 4;</code>
      */
     public long getStartTs() {
       return startTs_;
     }
 
-    public static final int ENDTS_FIELD_NUMBER = 7;
+    public static final int ENDTS_FIELD_NUMBER = 5;
     private long endTs_;
     /**
-     * <code>optional int64 endTs = 7;</code>
+     * <code>optional int64 endTs = 5;</code>
      */
     public long getEndTs() {
       return endTs_;
@@ -297,23 +226,17 @@ public final class StreamingBase {
       if (!getIdBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
-      }
-      if (type_ != 0) {
-        output.writeUInt32(3, type_);
-      }
-      if (expiration_ != 0L) {
-        output.writeInt64(4, expiration_);
+      if (category_ != 0) {
+        output.writeUInt32(2, category_);
       }
       if (state_ != 0) {
-        output.writeUInt32(5, state_);
+        output.writeUInt32(3, state_);
       }
       if (startTs_ != 0L) {
-        output.writeInt64(6, startTs_);
+        output.writeInt64(4, startTs_);
       }
       if (endTs_ != 0L) {
-        output.writeInt64(7, endTs_);
+        output.writeInt64(5, endTs_);
       }
     }
 
@@ -325,28 +248,21 @@ public final class StreamingBase {
       if (!getIdBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
-      }
-      if (type_ != 0) {
+      if (category_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(3, type_);
-      }
-      if (expiration_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, expiration_);
+          .computeUInt32Size(2, category_);
       }
       if (state_ != 0) {
         size += com.google.protobuf.CodedOutputStream
-          .computeUInt32Size(5, state_);
+          .computeUInt32Size(3, state_);
       }
       if (startTs_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(6, startTs_);
+          .computeInt64Size(4, startTs_);
       }
       if (endTs_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(7, endTs_);
+          .computeInt64Size(5, endTs_);
       }
       memoizedSize = size;
       return size;
@@ -366,12 +282,8 @@ public final class StreamingBase {
       boolean result = true;
       result = result && getId()
           .equals(other.getId());
-      result = result && getToken()
-          .equals(other.getToken());
-      result = result && (getType()
-          == other.getType());
-      result = result && (getExpiration()
-          == other.getExpiration());
+      result = result && (getCategory()
+          == other.getCategory());
       result = result && (getState()
           == other.getState());
       result = result && (getStartTs()
@@ -390,13 +302,8 @@ public final class StreamingBase {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId().hashCode();
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
-      hash = (37 * hash) + TYPE_FIELD_NUMBER;
-      hash = (53 * hash) + getType();
-      hash = (37 * hash) + EXPIRATION_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getExpiration());
+      hash = (37 * hash) + CATEGORY_FIELD_NUMBER;
+      hash = (53 * hash) + getCategory();
       hash = (37 * hash) + STATE_FIELD_NUMBER;
       hash = (53 * hash) + getState();
       hash = (37 * hash) + STARTTS_FIELD_NUMBER;
@@ -525,11 +432,7 @@ public final class StreamingBase {
         super.clear();
         id_ = "";
 
-        token_ = "";
-
-        type_ = 0;
-
-        expiration_ = 0L;
+        category_ = 0;
 
         state_ = 0;
 
@@ -560,9 +463,7 @@ public final class StreamingBase {
       public batprotobuf.StreamingBase.channel buildPartial() {
         batprotobuf.StreamingBase.channel result = new batprotobuf.StreamingBase.channel(this);
         result.id_ = id_;
-        result.token_ = token_;
-        result.type_ = type_;
-        result.expiration_ = expiration_;
+        result.category_ = category_;
         result.state_ = state_;
         result.startTs_ = startTs_;
         result.endTs_ = endTs_;
@@ -611,15 +512,8 @@ public final class StreamingBase {
           id_ = other.id_;
           onChanged();
         }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
-        }
-        if (other.getType() != 0) {
-          setType(other.getType());
-        }
-        if (other.getExpiration() != 0L) {
-          setExpiration(other.getExpiration());
+        if (other.getCategory() != 0) {
+          setCategory(other.getCategory());
         }
         if (other.getState() != 0) {
           setState(other.getState());
@@ -725,6 +619,738 @@ public final class StreamingBase {
         return this;
       }
 
+      private int category_ ;
+      /**
+       * <code>optional uint32 category = 2;</code>
+       */
+      public int getCategory() {
+        return category_;
+      }
+      /**
+       * <code>optional uint32 category = 2;</code>
+       */
+      public Builder setCategory(int value) {
+        
+        category_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 category = 2;</code>
+       */
+      public Builder clearCategory() {
+        
+        category_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private int state_ ;
+      /**
+       * <code>optional uint32 state = 3;</code>
+       */
+      public int getState() {
+        return state_;
+      }
+      /**
+       * <code>optional uint32 state = 3;</code>
+       */
+      public Builder setState(int value) {
+        
+        state_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional uint32 state = 3;</code>
+       */
+      public Builder clearState() {
+        
+        state_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long startTs_ ;
+      /**
+       * <code>optional int64 startTs = 4;</code>
+       */
+      public long getStartTs() {
+        return startTs_;
+      }
+      /**
+       * <code>optional int64 startTs = 4;</code>
+       */
+      public Builder setStartTs(long value) {
+        
+        startTs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 startTs = 4;</code>
+       */
+      public Builder clearStartTs() {
+        
+        startTs_ = 0L;
+        onChanged();
+        return this;
+      }
+
+      private long endTs_ ;
+      /**
+       * <code>optional int64 endTs = 5;</code>
+       */
+      public long getEndTs() {
+        return endTs_;
+      }
+      /**
+       * <code>optional int64 endTs = 5;</code>
+       */
+      public Builder setEndTs(long value) {
+        
+        endTs_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 endTs = 5;</code>
+       */
+      public Builder clearEndTs() {
+        
+        endTs_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:batprotobuf.channel)
+    }
+
+    // @@protoc_insertion_point(class_scope:batprotobuf.channel)
+    private static final batprotobuf.StreamingBase.channel DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new batprotobuf.StreamingBase.channel();
+    }
+
+    public static batprotobuf.StreamingBase.channel getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<channel>
+        PARSER = new com.google.protobuf.AbstractParser<channel>() {
+      public channel parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new channel(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<channel> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<channel> getParserForType() {
+      return PARSER;
+    }
+
+    public batprotobuf.StreamingBase.channel getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface resCreateChannelOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:batprotobuf.resCreateChannel)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional .batprotobuf.channel ch = 1;</code>
+     */
+    boolean hasCh();
+    /**
+     * <code>optional .batprotobuf.channel ch = 1;</code>
+     */
+    batprotobuf.StreamingBase.channel getCh();
+    /**
+     * <code>optional .batprotobuf.channel ch = 1;</code>
+     */
+    batprotobuf.StreamingBase.channelOrBuilder getChOrBuilder();
+
+    /**
+     * <code>optional string token = 2;</code>
+     */
+    java.lang.String getToken();
+    /**
+     * <code>optional string token = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+  }
+  /**
+   * Protobuf type {@code batprotobuf.resCreateChannel}
+   */
+  public  static final class resCreateChannel extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:batprotobuf.resCreateChannel)
+      resCreateChannelOrBuilder {
+    // Use resCreateChannel.newBuilder() to construct.
+    private resCreateChannel(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private resCreateChannel() {
+      token_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private resCreateChannel(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              batprotobuf.StreamingBase.channel.Builder subBuilder = null;
+              if (ch_ != null) {
+                subBuilder = ch_.toBuilder();
+              }
+              ch_ = input.readMessage(batprotobuf.StreamingBase.channel.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(ch_);
+                ch_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              token_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return batprotobuf.StreamingBase.internal_static_batprotobuf_resCreateChannel_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return batprotobuf.StreamingBase.internal_static_batprotobuf_resCreateChannel_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              batprotobuf.StreamingBase.resCreateChannel.class, batprotobuf.StreamingBase.resCreateChannel.Builder.class);
+    }
+
+    public static final int CH_FIELD_NUMBER = 1;
+    private batprotobuf.StreamingBase.channel ch_;
+    /**
+     * <code>optional .batprotobuf.channel ch = 1;</code>
+     */
+    public boolean hasCh() {
+      return ch_ != null;
+    }
+    /**
+     * <code>optional .batprotobuf.channel ch = 1;</code>
+     */
+    public batprotobuf.StreamingBase.channel getCh() {
+      return ch_ == null ? batprotobuf.StreamingBase.channel.getDefaultInstance() : ch_;
+    }
+    /**
+     * <code>optional .batprotobuf.channel ch = 1;</code>
+     */
+    public batprotobuf.StreamingBase.channelOrBuilder getChOrBuilder() {
+      return getCh();
+    }
+
+    public static final int TOKEN_FIELD_NUMBER = 2;
+    private volatile java.lang.Object token_;
+    /**
+     * <code>optional string token = 2;</code>
+     */
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string token = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (ch_ != null) {
+        output.writeMessage(1, getCh());
+      }
+      if (!getTokenBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (ch_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getCh());
+      }
+      if (!getTokenBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof batprotobuf.StreamingBase.resCreateChannel)) {
+        return super.equals(obj);
+      }
+      batprotobuf.StreamingBase.resCreateChannel other = (batprotobuf.StreamingBase.resCreateChannel) obj;
+
+      boolean result = true;
+      result = result && (hasCh() == other.hasCh());
+      if (hasCh()) {
+        result = result && getCh()
+            .equals(other.getCh());
+      }
+      result = result && getToken()
+          .equals(other.getToken());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasCh()) {
+        hash = (37 * hash) + CH_FIELD_NUMBER;
+        hash = (53 * hash) + getCh().hashCode();
+      }
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static batprotobuf.StreamingBase.resCreateChannel parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(batprotobuf.StreamingBase.resCreateChannel prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code batprotobuf.resCreateChannel}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:batprotobuf.resCreateChannel)
+        batprotobuf.StreamingBase.resCreateChannelOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return batprotobuf.StreamingBase.internal_static_batprotobuf_resCreateChannel_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return batprotobuf.StreamingBase.internal_static_batprotobuf_resCreateChannel_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                batprotobuf.StreamingBase.resCreateChannel.class, batprotobuf.StreamingBase.resCreateChannel.Builder.class);
+      }
+
+      // Construct using batprotobuf.StreamingBase.resCreateChannel.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (chBuilder_ == null) {
+          ch_ = null;
+        } else {
+          ch_ = null;
+          chBuilder_ = null;
+        }
+        token_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return batprotobuf.StreamingBase.internal_static_batprotobuf_resCreateChannel_descriptor;
+      }
+
+      public batprotobuf.StreamingBase.resCreateChannel getDefaultInstanceForType() {
+        return batprotobuf.StreamingBase.resCreateChannel.getDefaultInstance();
+      }
+
+      public batprotobuf.StreamingBase.resCreateChannel build() {
+        batprotobuf.StreamingBase.resCreateChannel result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public batprotobuf.StreamingBase.resCreateChannel buildPartial() {
+        batprotobuf.StreamingBase.resCreateChannel result = new batprotobuf.StreamingBase.resCreateChannel(this);
+        if (chBuilder_ == null) {
+          result.ch_ = ch_;
+        } else {
+          result.ch_ = chBuilder_.build();
+        }
+        result.token_ = token_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof batprotobuf.StreamingBase.resCreateChannel) {
+          return mergeFrom((batprotobuf.StreamingBase.resCreateChannel)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(batprotobuf.StreamingBase.resCreateChannel other) {
+        if (other == batprotobuf.StreamingBase.resCreateChannel.getDefaultInstance()) return this;
+        if (other.hasCh()) {
+          mergeCh(other.getCh());
+        }
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        batprotobuf.StreamingBase.resCreateChannel parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (batprotobuf.StreamingBase.resCreateChannel) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private batprotobuf.StreamingBase.channel ch_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          batprotobuf.StreamingBase.channel, batprotobuf.StreamingBase.channel.Builder, batprotobuf.StreamingBase.channelOrBuilder> chBuilder_;
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public boolean hasCh() {
+        return chBuilder_ != null || ch_ != null;
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public batprotobuf.StreamingBase.channel getCh() {
+        if (chBuilder_ == null) {
+          return ch_ == null ? batprotobuf.StreamingBase.channel.getDefaultInstance() : ch_;
+        } else {
+          return chBuilder_.getMessage();
+        }
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public Builder setCh(batprotobuf.StreamingBase.channel value) {
+        if (chBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ch_ = value;
+          onChanged();
+        } else {
+          chBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public Builder setCh(
+          batprotobuf.StreamingBase.channel.Builder builderForValue) {
+        if (chBuilder_ == null) {
+          ch_ = builderForValue.build();
+          onChanged();
+        } else {
+          chBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public Builder mergeCh(batprotobuf.StreamingBase.channel value) {
+        if (chBuilder_ == null) {
+          if (ch_ != null) {
+            ch_ =
+              batprotobuf.StreamingBase.channel.newBuilder(ch_).mergeFrom(value).buildPartial();
+          } else {
+            ch_ = value;
+          }
+          onChanged();
+        } else {
+          chBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public Builder clearCh() {
+        if (chBuilder_ == null) {
+          ch_ = null;
+          onChanged();
+        } else {
+          ch_ = null;
+          chBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public batprotobuf.StreamingBase.channel.Builder getChBuilder() {
+        
+        onChanged();
+        return getChFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      public batprotobuf.StreamingBase.channelOrBuilder getChOrBuilder() {
+        if (chBuilder_ != null) {
+          return chBuilder_.getMessageOrBuilder();
+        } else {
+          return ch_ == null ?
+              batprotobuf.StreamingBase.channel.getDefaultInstance() : ch_;
+        }
+      }
+      /**
+       * <code>optional .batprotobuf.channel ch = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          batprotobuf.StreamingBase.channel, batprotobuf.StreamingBase.channel.Builder, batprotobuf.StreamingBase.channelOrBuilder> 
+          getChFieldBuilder() {
+        if (chBuilder_ == null) {
+          chBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              batprotobuf.StreamingBase.channel, batprotobuf.StreamingBase.channel.Builder, batprotobuf.StreamingBase.channelOrBuilder>(
+                  getCh(),
+                  getParentForChildren(),
+                  isClean());
+          ch_ = null;
+        }
+        return chBuilder_;
+      }
+
       private java.lang.Object token_ = "";
       /**
        * <code>optional string token = 2;</code>
@@ -793,136 +1419,6 @@ public final class StreamingBase {
         onChanged();
         return this;
       }
-
-      private int type_ ;
-      /**
-       * <code>optional uint32 type = 3;</code>
-       */
-      public int getType() {
-        return type_;
-      }
-      /**
-       * <code>optional uint32 type = 3;</code>
-       */
-      public Builder setType(int value) {
-        
-        type_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 type = 3;</code>
-       */
-      public Builder clearType() {
-        
-        type_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private long expiration_ ;
-      /**
-       * <code>optional int64 expiration = 4;</code>
-       */
-      public long getExpiration() {
-        return expiration_;
-      }
-      /**
-       * <code>optional int64 expiration = 4;</code>
-       */
-      public Builder setExpiration(long value) {
-        
-        expiration_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 expiration = 4;</code>
-       */
-      public Builder clearExpiration() {
-        
-        expiration_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private int state_ ;
-      /**
-       * <code>optional uint32 state = 5;</code>
-       */
-      public int getState() {
-        return state_;
-      }
-      /**
-       * <code>optional uint32 state = 5;</code>
-       */
-      public Builder setState(int value) {
-        
-        state_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional uint32 state = 5;</code>
-       */
-      public Builder clearState() {
-        
-        state_ = 0;
-        onChanged();
-        return this;
-      }
-
-      private long startTs_ ;
-      /**
-       * <code>optional int64 startTs = 6;</code>
-       */
-      public long getStartTs() {
-        return startTs_;
-      }
-      /**
-       * <code>optional int64 startTs = 6;</code>
-       */
-      public Builder setStartTs(long value) {
-        
-        startTs_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 startTs = 6;</code>
-       */
-      public Builder clearStartTs() {
-        
-        startTs_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private long endTs_ ;
-      /**
-       * <code>optional int64 endTs = 7;</code>
-       */
-      public long getEndTs() {
-        return endTs_;
-      }
-      /**
-       * <code>optional int64 endTs = 7;</code>
-       */
-      public Builder setEndTs(long value) {
-        
-        endTs_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <code>optional int64 endTs = 7;</code>
-       */
-      public Builder clearEndTs() {
-        
-        endTs_ = 0L;
-        onChanged();
-        return this;
-      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return this;
@@ -934,39 +1430,39 @@ public final class StreamingBase {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:batprotobuf.channel)
+      // @@protoc_insertion_point(builder_scope:batprotobuf.resCreateChannel)
     }
 
-    // @@protoc_insertion_point(class_scope:batprotobuf.channel)
-    private static final batprotobuf.StreamingBase.channel DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:batprotobuf.resCreateChannel)
+    private static final batprotobuf.StreamingBase.resCreateChannel DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new batprotobuf.StreamingBase.channel();
+      DEFAULT_INSTANCE = new batprotobuf.StreamingBase.resCreateChannel();
     }
 
-    public static batprotobuf.StreamingBase.channel getDefaultInstance() {
+    public static batprotobuf.StreamingBase.resCreateChannel getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
-    private static final com.google.protobuf.Parser<channel>
-        PARSER = new com.google.protobuf.AbstractParser<channel>() {
-      public channel parsePartialFrom(
+    private static final com.google.protobuf.Parser<resCreateChannel>
+        PARSER = new com.google.protobuf.AbstractParser<resCreateChannel>() {
+      public resCreateChannel parsePartialFrom(
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws com.google.protobuf.InvalidProtocolBufferException {
-          return new channel(input, extensionRegistry);
+          return new resCreateChannel(input, extensionRegistry);
       }
     };
 
-    public static com.google.protobuf.Parser<channel> parser() {
+    public static com.google.protobuf.Parser<resCreateChannel> parser() {
       return PARSER;
     }
 
     @java.lang.Override
-    public com.google.protobuf.Parser<channel> getParserForType() {
+    public com.google.protobuf.Parser<resCreateChannel> getParserForType() {
       return PARSER;
     }
 
-    public batprotobuf.StreamingBase.channel getDefaultInstanceForType() {
+    public batprotobuf.StreamingBase.resCreateChannel getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
@@ -1681,6 +2177,11 @@ public final class StreamingBase {
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_batprotobuf_channel_fieldAccessorTable;
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_batprotobuf_resCreateChannel_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_batprotobuf_resCreateChannel_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_batprotobuf_channelUser_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -1694,12 +2195,13 @@ public final class StreamingBase {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\023streamingBase.proto\022\013batprotobuf\"u\n\007ch" +
-      "annel\022\n\n\002id\030\001 \001(\t\022\r\n\005token\030\002 \001(\t\022\014\n\004type" +
-      "\030\003 \001(\r\022\022\n\nexpiration\030\004 \001(\003\022\r\n\005state\030\005 \001(" +
-      "\r\022\017\n\007startTs\030\006 \001(\003\022\r\n\005endTs\030\007 \001(\003\"<\n\013cha" +
-      "nnelUser\022\021\n\tchannelId\030\001 \001(\t\022\013\n\003uid\030\002 \001(\t" +
-      "\022\r\n\005state\030\003 \001(\rB\rZ\013.;uyujoyapib\006proto3"
+      "\n\023streamingBase.proto\022\013batprotobuf\"V\n\007ch" +
+      "annel\022\n\n\002id\030\001 \001(\t\022\020\n\010category\030\002 \001(\r\022\r\n\005s" +
+      "tate\030\003 \001(\r\022\017\n\007startTs\030\004 \001(\003\022\r\n\005endTs\030\005 \001" +
+      "(\003\"C\n\020resCreateChannel\022 \n\002ch\030\001 \001(\0132\024.bat" +
+      "protobuf.channel\022\r\n\005token\030\002 \001(\t\"<\n\013chann" +
+      "elUser\022\021\n\tchannelId\030\001 \001(\t\022\013\n\003uid\030\002 \001(\t\022\r" +
+      "\n\005state\030\003 \001(\rB\rZ\013.;uyujoyapib\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1718,9 +2220,15 @@ public final class StreamingBase {
     internal_static_batprotobuf_channel_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_batprotobuf_channel_descriptor,
-        new java.lang.String[] { "Id", "Token", "Type", "Expiration", "State", "StartTs", "EndTs", });
-    internal_static_batprotobuf_channelUser_descriptor =
+        new java.lang.String[] { "Id", "Category", "State", "StartTs", "EndTs", });
+    internal_static_batprotobuf_resCreateChannel_descriptor =
       getDescriptor().getMessageTypes().get(1);
+    internal_static_batprotobuf_resCreateChannel_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_batprotobuf_resCreateChannel_descriptor,
+        new java.lang.String[] { "Ch", "Token", });
+    internal_static_batprotobuf_channelUser_descriptor =
+      getDescriptor().getMessageTypes().get(2);
     internal_static_batprotobuf_channelUser_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_batprotobuf_channelUser_descriptor,

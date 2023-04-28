@@ -39,6 +39,7 @@ void protobuf_ShutdownFile_streamingBase_2eproto();
 
 class channel;
 class channelUser;
+class resCreateChannel;
 
 // ===================================================================
 
@@ -116,44 +117,27 @@ class channel : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::std::string* release_id();
   void set_allocated_id(::std::string* id);
 
-  // optional string token = 2;
-  void clear_token();
-  static const int kTokenFieldNumber = 2;
-  const ::std::string& token() const;
-  void set_token(const ::std::string& value);
-  void set_token(const char* value);
-  void set_token(const char* value, size_t size);
-  ::std::string* mutable_token();
-  ::std::string* release_token();
-  void set_allocated_token(::std::string* token);
+  // optional uint32 category = 2;
+  void clear_category();
+  static const int kCategoryFieldNumber = 2;
+  ::google::protobuf::uint32 category() const;
+  void set_category(::google::protobuf::uint32 value);
 
-  // optional uint32 type = 3;
-  void clear_type();
-  static const int kTypeFieldNumber = 3;
-  ::google::protobuf::uint32 type() const;
-  void set_type(::google::protobuf::uint32 value);
-
-  // optional int64 expiration = 4;
-  void clear_expiration();
-  static const int kExpirationFieldNumber = 4;
-  ::google::protobuf::int64 expiration() const;
-  void set_expiration(::google::protobuf::int64 value);
-
-  // optional uint32 state = 5;
+  // optional uint32 state = 3;
   void clear_state();
-  static const int kStateFieldNumber = 5;
+  static const int kStateFieldNumber = 3;
   ::google::protobuf::uint32 state() const;
   void set_state(::google::protobuf::uint32 value);
 
-  // optional int64 startTs = 6;
+  // optional int64 startTs = 4;
   void clear_startts();
-  static const int kStartTsFieldNumber = 6;
+  static const int kStartTsFieldNumber = 4;
   ::google::protobuf::int64 startts() const;
   void set_startts(::google::protobuf::int64 value);
 
-  // optional int64 endTs = 7;
+  // optional int64 endTs = 5;
   void clear_endts();
-  static const int kEndTsFieldNumber = 7;
+  static const int kEndTsFieldNumber = 5;
   ::google::protobuf::int64 endts() const;
   void set_endts(::google::protobuf::int64 value);
 
@@ -162,9 +146,7 @@ class channel : public ::google::protobuf::Message /* @@protoc_insertion_point(c
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr id_;
-  ::google::protobuf::internal::ArenaStringPtr token_;
-  ::google::protobuf::int64 expiration_;
-  ::google::protobuf::uint32 type_;
+  ::google::protobuf::uint32 category_;
   ::google::protobuf::uint32 state_;
   ::google::protobuf::int64 startts_;
   ::google::protobuf::int64 endts_;
@@ -177,6 +159,107 @@ class channel : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<channel> channel_default_instance_;
+
+// -------------------------------------------------------------------
+
+class resCreateChannel : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:batprotobuf.resCreateChannel) */ {
+ public:
+  resCreateChannel();
+  virtual ~resCreateChannel();
+
+  resCreateChannel(const resCreateChannel& from);
+
+  inline resCreateChannel& operator=(const resCreateChannel& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const resCreateChannel& default_instance();
+
+  static const resCreateChannel* internal_default_instance();
+
+  void Swap(resCreateChannel* other);
+
+  // implements Message ----------------------------------------------
+
+  inline resCreateChannel* New() const { return New(NULL); }
+
+  resCreateChannel* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const resCreateChannel& from);
+  void MergeFrom(const resCreateChannel& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(resCreateChannel* other);
+  void UnsafeMergeFrom(const resCreateChannel& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .batprotobuf.channel ch = 1;
+  bool has_ch() const;
+  void clear_ch();
+  static const int kChFieldNumber = 1;
+  const ::batprotobuf::channel& ch() const;
+  ::batprotobuf::channel* mutable_ch();
+  ::batprotobuf::channel* release_ch();
+  void set_allocated_ch(::batprotobuf::channel* ch);
+
+  // optional string token = 2;
+  void clear_token();
+  static const int kTokenFieldNumber = 2;
+  const ::std::string& token() const;
+  void set_token(const ::std::string& value);
+  void set_token(const char* value);
+  void set_token(const char* value, size_t size);
+  ::std::string* mutable_token();
+  ::std::string* release_token();
+  void set_allocated_token(::std::string* token);
+
+  // @@protoc_insertion_point(class_scope:batprotobuf.resCreateChannel)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr token_;
+  ::batprotobuf::channel* ch_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_streamingBase_2eproto_impl();
+  friend void  protobuf_AddDesc_streamingBase_2eproto_impl();
+  friend void protobuf_AssignDesc_streamingBase_2eproto();
+  friend void protobuf_ShutdownFile_streamingBase_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<resCreateChannel> resCreateChannel_default_instance_;
 
 // -------------------------------------------------------------------
 
@@ -340,79 +423,21 @@ inline void channel::set_allocated_id(::std::string* id) {
   // @@protoc_insertion_point(field_set_allocated:batprotobuf.channel.id)
 }
 
-// optional string token = 2;
-inline void channel::clear_token() {
-  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+// optional uint32 category = 2;
+inline void channel::clear_category() {
+  category_ = 0u;
 }
-inline const ::std::string& channel::token() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.channel.token)
-  return token_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+inline ::google::protobuf::uint32 channel::category() const {
+  // @@protoc_insertion_point(field_get:batprotobuf.channel.category)
+  return category_;
 }
-inline void channel::set_token(const ::std::string& value) {
+inline void channel::set_category(::google::protobuf::uint32 value) {
   
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:batprotobuf.channel.token)
-}
-inline void channel::set_token(const char* value) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:batprotobuf.channel.token)
-}
-inline void channel::set_token(const char* value, size_t size) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:batprotobuf.channel.token)
-}
-inline ::std::string* channel::mutable_token() {
-  
-  // @@protoc_insertion_point(field_mutable:batprotobuf.channel.token)
-  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* channel::release_token() {
-  // @@protoc_insertion_point(field_release:batprotobuf.channel.token)
-  
-  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void channel::set_allocated_token(::std::string* token) {
-  if (token != NULL) {
-    
-  } else {
-    
-  }
-  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
-  // @@protoc_insertion_point(field_set_allocated:batprotobuf.channel.token)
+  category_ = value;
+  // @@protoc_insertion_point(field_set:batprotobuf.channel.category)
 }
 
-// optional uint32 type = 3;
-inline void channel::clear_type() {
-  type_ = 0u;
-}
-inline ::google::protobuf::uint32 channel::type() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.channel.type)
-  return type_;
-}
-inline void channel::set_type(::google::protobuf::uint32 value) {
-  
-  type_ = value;
-  // @@protoc_insertion_point(field_set:batprotobuf.channel.type)
-}
-
-// optional int64 expiration = 4;
-inline void channel::clear_expiration() {
-  expiration_ = GOOGLE_LONGLONG(0);
-}
-inline ::google::protobuf::int64 channel::expiration() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.channel.expiration)
-  return expiration_;
-}
-inline void channel::set_expiration(::google::protobuf::int64 value) {
-  
-  expiration_ = value;
-  // @@protoc_insertion_point(field_set:batprotobuf.channel.expiration)
-}
-
-// optional uint32 state = 5;
+// optional uint32 state = 3;
 inline void channel::clear_state() {
   state_ = 0u;
 }
@@ -426,7 +451,7 @@ inline void channel::set_state(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:batprotobuf.channel.state)
 }
 
-// optional int64 startTs = 6;
+// optional int64 startTs = 4;
 inline void channel::clear_startts() {
   startts_ = GOOGLE_LONGLONG(0);
 }
@@ -440,7 +465,7 @@ inline void channel::set_startts(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:batprotobuf.channel.startTs)
 }
 
-// optional int64 endTs = 7;
+// optional int64 endTs = 5;
 inline void channel::clear_endts() {
   endts_ = GOOGLE_LONGLONG(0);
 }
@@ -456,6 +481,96 @@ inline void channel::set_endts(::google::protobuf::int64 value) {
 
 inline const channel* channel::internal_default_instance() {
   return &channel_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// resCreateChannel
+
+// optional .batprotobuf.channel ch = 1;
+inline bool resCreateChannel::has_ch() const {
+  return this != internal_default_instance() && ch_ != NULL;
+}
+inline void resCreateChannel::clear_ch() {
+  if (GetArenaNoVirtual() == NULL && ch_ != NULL) delete ch_;
+  ch_ = NULL;
+}
+inline const ::batprotobuf::channel& resCreateChannel::ch() const {
+  // @@protoc_insertion_point(field_get:batprotobuf.resCreateChannel.ch)
+  return ch_ != NULL ? *ch_
+                         : *::batprotobuf::channel::internal_default_instance();
+}
+inline ::batprotobuf::channel* resCreateChannel::mutable_ch() {
+  
+  if (ch_ == NULL) {
+    ch_ = new ::batprotobuf::channel;
+  }
+  // @@protoc_insertion_point(field_mutable:batprotobuf.resCreateChannel.ch)
+  return ch_;
+}
+inline ::batprotobuf::channel* resCreateChannel::release_ch() {
+  // @@protoc_insertion_point(field_release:batprotobuf.resCreateChannel.ch)
+  
+  ::batprotobuf::channel* temp = ch_;
+  ch_ = NULL;
+  return temp;
+}
+inline void resCreateChannel::set_allocated_ch(::batprotobuf::channel* ch) {
+  delete ch_;
+  ch_ = ch;
+  if (ch) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:batprotobuf.resCreateChannel.ch)
+}
+
+// optional string token = 2;
+inline void resCreateChannel::clear_token() {
+  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& resCreateChannel::token() const {
+  // @@protoc_insertion_point(field_get:batprotobuf.resCreateChannel.token)
+  return token_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void resCreateChannel::set_token(const ::std::string& value) {
+  
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:batprotobuf.resCreateChannel.token)
+}
+inline void resCreateChannel::set_token(const char* value) {
+  
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:batprotobuf.resCreateChannel.token)
+}
+inline void resCreateChannel::set_token(const char* value, size_t size) {
+  
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:batprotobuf.resCreateChannel.token)
+}
+inline ::std::string* resCreateChannel::mutable_token() {
+  
+  // @@protoc_insertion_point(field_mutable:batprotobuf.resCreateChannel.token)
+  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* resCreateChannel::release_token() {
+  // @@protoc_insertion_point(field_release:batprotobuf.resCreateChannel.token)
+  
+  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void resCreateChannel::set_allocated_token(::std::string* token) {
+  if (token != NULL) {
+    
+  } else {
+    
+  }
+  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
+  // @@protoc_insertion_point(field_set_allocated:batprotobuf.resCreateChannel.token)
+}
+
+inline const resCreateChannel* resCreateChannel::internal_default_instance() {
+  return &resCreateChannel_default_instance_.get();
 }
 // -------------------------------------------------------------------
 
@@ -567,6 +682,8 @@ inline const channelUser* channelUser::internal_default_instance() {
   return &channelUser_default_instance_.get();
 }
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

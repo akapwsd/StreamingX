@@ -28,9 +28,11 @@ import retrofit2.converter.protobuf.ProtoConverterFactory;
 public class RetrofitHelper {
     private static final String TAG = "RetrofitHelper";
     public static String baseUrl = HttpApi.BASE_URL;
+    public final static int GSON_TYPE = 0;
+    public final static int PROTOBUF_TYPE = 1;
     private volatile static Retrofit retrofitInstance = null;
-
     private static Context mContext;
+    private static int dataType = GSON_TYPE;
 
     public static <T> T createApi(Class<T> clazz, Context context) {
         mContext = context;
@@ -41,12 +43,16 @@ public class RetrofitHelper {
         if (null == retrofitInstance) {
             synchronized (Retrofit.class) {
                 if (null == retrofitInstance) { // 双重检验锁,仅第一次调用时实例化
-                    retrofitInstance = new Retrofit.Builder()
+                    Retrofit.Builder builder = new Retrofit.Builder()
                             .client(buildOKHttpsClient())
-                            .addConverterFactory(ProtoConverterFactory.create())
                             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-                            .baseUrl(baseUrl)
-                            .build();
+                            .baseUrl(baseUrl);
+                    if (dataType == PROTOBUF_TYPE) {
+                        builder.addConverterFactory(ProtoConverterFactory.create());
+                    } else {
+                        builder.addConverterFactory(GsonConverterFactory.create());
+                    }
+                    retrofitInstance = builder.build();
                 }
             }
         }

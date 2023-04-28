@@ -5,12 +5,15 @@ option go_package = ".;uyujoyapi";
 
 message channel{
   string id = 1;
+  uint32 category = 2;
+  uint32 state = 3;
+  int64 startTs = 4;
+  int64 endTs = 5;
+}
+
+message resCreateChannel{
+  channel ch = 1;
   string token = 2;
-  uint32 type = 3;
-  int64 expiration = 4;
-  uint32 state = 5;
-  int64 startTs = 6;
-  int64 endTs = 7;
 }
 
 message channelUser{

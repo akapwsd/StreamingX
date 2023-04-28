@@ -1,6 +1,7 @@
 package com.code.youyu.api;
 
 
+import com.code.bean.BaseBean;
 import com.code.bean.ModelBean;
 
 import java.util.ArrayList;
@@ -24,7 +25,7 @@ public interface HttpApi {
     Observable<String> getChannelToken(@Header("Authorization") String authorization, @Header("Session-Token") String sessionToken, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("channelId") String channelId);
 
     @POST(CREATE_CHANNEL)
-    Observable<String> createChannel(@Header("Authorization") String authorization, @Header("Session-Token") String sessionToken, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp,@Query("uid") String uid);
+    Observable<BaseBean<String>> createChannel(@Header("Authorization") String authorization, @Header("Session-Token") String sessionToken, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Query("uid") String uid);
 
     @PUT(JOIN_CHANNEL)
     Observable<String> joinChannel(@Header("Authorization") String authorization, @Header("Session-Token") String sessionToken, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("channelId") String channelId);
