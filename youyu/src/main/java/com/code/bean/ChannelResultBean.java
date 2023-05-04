@@ -1,6 +1,6 @@
 package com.code.bean;
 
-public class CreateChannelResultBean {
+public class ChannelResultBean {
     ChannelInfoBean ch;
     String token;
 

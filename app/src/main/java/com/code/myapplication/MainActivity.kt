@@ -23,16 +23,30 @@ class MainActivity : Activity() {
     private val permissionList = arrayOf(
             Manifest.permission.CAMERA
     )
-
+    private val channelId = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        send_btn.setOnClickListener {
-            val uid = "110"
+        create_btn.setOnClickListener {
             val callType = 1
-            RtcManager.getInstance().createChannel(uid, callType, object : HttpRequestListener {
+            RtcManager.getInstance().createChannel("110", callType, object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
-                    startActivity(Intent(this@MainActivity, AgoVideoActivity::class.java))
+                    val intent = Intent(this@MainActivity, AgoVideoActivity::class.java)
+                    intent.putExtra("uid", 110)
+                    startActivity(intent)
+                }
+
+                override fun requestError(code: Int, error: String?) {
+
+                }
+            })
+        }
+        join_btn.setOnClickListener {
+            RtcManager.getInstance().joinChannel(channelId, "111", "110", object : HttpRequestListener {
+                override fun requestSuccess(o: Any?) {
+                    val intent = Intent(this@MainActivity, AgoVideoActivity::class.java)
+                    intent.putExtra("uid", 111)
+                    startActivity(intent);
                 }
 
                 override fun requestError(code: Int, error: String?) {

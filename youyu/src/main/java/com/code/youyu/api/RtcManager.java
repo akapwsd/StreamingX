@@ -173,13 +173,13 @@ public class RtcManager {
         HttpRequestUtils.getInstance().createChannel(mContext, uid, category, listener);
     }
 
-    public void joinChannel(String channel, String uid, int callType, HttpRequestListener listener) {
+    public void joinChannel(String channel, String uid, String peerUid, HttpRequestListener listener) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         LastmileProbeConfig lastmileProbeConfig = new LastmileProbeConfig();
         lastmileProbeConfig.probeUplink = true;
         lastmileProbeConfig.probeDownlink = true;
         rtcEngine.startLastmileProbeTest(lastmileProbeConfig);
-        HttpRequestUtils.getInstance().joinChannel(mContext, channel, listener);
+        HttpRequestUtils.getInstance().joinChannel(mContext, channel, uid, peerUid, listener);
     }
 
     public void leaveChannel() {

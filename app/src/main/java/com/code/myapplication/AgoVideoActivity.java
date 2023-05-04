@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -16,8 +17,7 @@ import com.code.youyu.api.RtcManager;
 public class AgoVideoActivity extends Activity {
     public FrameLayout smallView;
     public FrameLayout bigView;
-    public int localUid = 110;
-    public int peerUid = 1;
+    public int localUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,17 +26,33 @@ public class AgoVideoActivity extends Activity {
         Button hangUpBtn = findViewById(R.id.hang_up_btn);
         smallView = findViewById(R.id.small_view);
         bigView = findViewById(R.id.big_view);
+        localUid = getIntent().getIntExtra("uid",0);
         RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
             @Override
             public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
                 LogUtil.d("ZHIZHI", "onJoinChannelSuccess channel:" + channel + " uid:" + uid);
             }
+
+            @Override
+            public void onUserJoined(int uid, int elapsed) {
+                LogUtil.d("ZHIZHI", "onUserJoined uid:" + uid);
+            }
+
+            @Override
+            public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
+                LogUtil.d("ZHIZHI", "onFirstRemoteVideoDecoded uid:" + uid);
+                RtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView);
+            }
         });
         initVideoView();
+        hangUpBtn.setOnClickListener(view -> {
+            RtcManager.getInstance().closeVideoChat();
+            finish();
+        });
     }
 
     public void initVideoView() {
         RtcManager.getInstance().showLocalView(this, localUid, smallView);
-//        RtcManager.getInstance().showRemoteView(this, peerUid, bigView);
+
     }
 }

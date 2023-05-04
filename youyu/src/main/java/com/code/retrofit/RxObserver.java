@@ -1,9 +1,5 @@
 package com.code.retrofit;
 
-import com.code.bean.BaseBean;
-import com.code.bean.CreateChannelResultBean;
-import com.code.utils.LogUtil;
-
 import java.io.InterruptedIOException;
 
 import io.reactivex.rxjava3.annotations.NonNull;
