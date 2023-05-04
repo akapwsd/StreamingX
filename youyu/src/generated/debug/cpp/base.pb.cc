@@ -17,7 +17,11 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 
-namespace batprotobuf {
+namespace uyujoy {
+namespace com {
+namespace api {
+namespace gateway {
+namespace frontend {
 
 namespace {
 
@@ -92,9 +96,10 @@ void protobuf_AddDesc_base_2eproto_impl() {
 
   protobuf_InitDefaults_base_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\nbase.proto\022\013batprotobuf\"+\n\014messageFram"
-    "e\022\r\n\005crc32\030\001 \001(\r\022\014\n\004data\030\002 \001(\014B\rZ\013.;uyuj"
-    "oyapib\006proto3", 93);
+    "\n\nbase.proto\022\037uyujoy.com.api.gateway.fro"
+    "ntend\"+\n\014messageFrame\022\r\n\005crc32\030\001 \001(\r\022\014\n\004"
+    "data\030\002 \001(\014B*Z(uyujoy.com/pass/protogen/g"
+    "ateway;gatewayb\006proto3", 142);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "base.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_base_2eproto);
@@ -133,7 +138,7 @@ messageFrame::messageFrame()
   : ::google::protobuf::Message(), _internal_metadata_(NULL) {
   if (this != internal_default_instance()) protobuf_InitDefaults_base_2eproto();
   SharedCtor();
-  // @@protoc_insertion_point(constructor:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(constructor:uyujoy.com.api.gateway.frontend.messageFrame)
 }
 
 void messageFrame::InitAsDefaultInstance() {
@@ -144,7 +149,7 @@ messageFrame::messageFrame(const messageFrame& from)
     _internal_metadata_(NULL) {
   SharedCtor();
   UnsafeMergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(copy_constructor:uyujoy.com.api.gateway.frontend.messageFrame)
 }
 
 void messageFrame::SharedCtor() {
@@ -154,7 +159,7 @@ void messageFrame::SharedCtor() {
 }
 
 messageFrame::~messageFrame() {
-  // @@protoc_insertion_point(destructor:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(destructor:uyujoy.com.api.gateway.frontend.messageFrame)
   SharedDtor();
 }
 
@@ -188,7 +193,7 @@ messageFrame* messageFrame::New(::google::protobuf::Arena* arena) const {
 }
 
 void messageFrame::Clear() {
-// @@protoc_insertion_point(message_clear_start:batprotobuf.messageFrame)
+// @@protoc_insertion_point(message_clear_start:uyujoy.com.api.gateway.frontend.messageFrame)
   crc32_ = 0u;
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -197,7 +202,7 @@ bool messageFrame::MergePartialFromCodedStream(
     ::google::protobuf::io::CodedInputStream* input) {
 #define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
   ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(parse_start:uyujoy.com.api.gateway.frontend.messageFrame)
   for (;;) {
     ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
     tag = p.first;
@@ -243,17 +248,17 @@ bool messageFrame::MergePartialFromCodedStream(
     }
   }
 success:
-  // @@protoc_insertion_point(parse_success:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(parse_success:uyujoy.com.api.gateway.frontend.messageFrame)
   return true;
 failure:
-  // @@protoc_insertion_point(parse_failure:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(parse_failure:uyujoy.com.api.gateway.frontend.messageFrame)
   return false;
 #undef DO_
 }
 
 void messageFrame::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(serialize_start:uyujoy.com.api.gateway.frontend.messageFrame)
   // optional uint32 crc32 = 1;
   if (this->crc32() != 0) {
     ::google::protobuf::internal::WireFormatLite::WriteUInt32(1, this->crc32(), output);
@@ -265,13 +270,13 @@ void messageFrame::SerializeWithCachedSizes(
       2, this->data(), output);
   }
 
-  // @@protoc_insertion_point(serialize_end:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(serialize_end:uyujoy.com.api.gateway.frontend.messageFrame)
 }
 
 ::google::protobuf::uint8* messageFrame::InternalSerializeWithCachedSizesToArray(
     bool deterministic, ::google::protobuf::uint8* target) const {
   (void)deterministic; // Unused
-  // @@protoc_insertion_point(serialize_to_array_start:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(serialize_to_array_start:uyujoy.com.api.gateway.frontend.messageFrame)
   // optional uint32 crc32 = 1;
   if (this->crc32() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteUInt32ToArray(1, this->crc32(), target);
@@ -284,12 +289,12 @@ void messageFrame::SerializeWithCachedSizes(
         2, this->data(), target);
   }
 
-  // @@protoc_insertion_point(serialize_to_array_end:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(serialize_to_array_end:uyujoy.com.api.gateway.frontend.messageFrame)
   return target;
 }
 
 size_t messageFrame::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:batprotobuf.messageFrame)
+// @@protoc_insertion_point(message_byte_size_start:uyujoy.com.api.gateway.frontend.messageFrame)
   size_t total_size = 0;
 
   // optional uint32 crc32 = 1;
@@ -314,22 +319,22 @@ size_t messageFrame::ByteSizeLong() const {
 }
 
 void messageFrame::MergeFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:batprotobuf.messageFrame)
+// @@protoc_insertion_point(generalized_merge_from_start:uyujoy.com.api.gateway.frontend.messageFrame)
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
   const messageFrame* source =
       ::google::protobuf::internal::DynamicCastToGenerated<const messageFrame>(
           &from);
   if (source == NULL) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:uyujoy.com.api.gateway.frontend.messageFrame)
     ::google::protobuf::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:uyujoy.com.api.gateway.frontend.messageFrame)
     UnsafeMergeFrom(*source);
   }
 }
 
 void messageFrame::MergeFrom(const messageFrame& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:batprotobuf.messageFrame)
+// @@protoc_insertion_point(class_specific_merge_from_start:uyujoy.com.api.gateway.frontend.messageFrame)
   if (GOOGLE_PREDICT_TRUE(&from != this)) {
     UnsafeMergeFrom(from);
   } else {
@@ -349,14 +354,14 @@ void messageFrame::UnsafeMergeFrom(const messageFrame& from) {
 }
 
 void messageFrame::CopyFrom(const ::google::protobuf::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:batprotobuf.messageFrame)
+// @@protoc_insertion_point(generalized_copy_from_start:uyujoy.com.api.gateway.frontend.messageFrame)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void messageFrame::CopyFrom(const messageFrame& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:batprotobuf.messageFrame)
+// @@protoc_insertion_point(class_specific_copy_from_start:uyujoy.com.api.gateway.frontend.messageFrame)
   if (&from == this) return;
   Clear();
   UnsafeMergeFrom(from);
@@ -394,13 +399,13 @@ void messageFrame::clear_crc32() {
   crc32_ = 0u;
 }
 ::google::protobuf::uint32 messageFrame::crc32() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.messageFrame.crc32)
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.gateway.frontend.messageFrame.crc32)
   return crc32_;
 }
 void messageFrame::set_crc32(::google::protobuf::uint32 value) {
   
   crc32_ = value;
-  // @@protoc_insertion_point(field_set:batprotobuf.messageFrame.crc32)
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.gateway.frontend.messageFrame.crc32)
 }
 
 // optional bytes data = 2;
@@ -408,32 +413,32 @@ void messageFrame::clear_data() {
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 const ::std::string& messageFrame::data() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.gateway.frontend.messageFrame.data)
   return data_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 void messageFrame::set_data(const ::std::string& value) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 void messageFrame::set_data(const char* value) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 void messageFrame::set_data(const void* value, size_t size) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 ::std::string* messageFrame::mutable_data() {
   
-  // @@protoc_insertion_point(field_mutable:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.gateway.frontend.messageFrame.data)
   return data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 ::std::string* messageFrame::release_data() {
-  // @@protoc_insertion_point(field_release:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.gateway.frontend.messageFrame.data)
   
   return data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -444,7 +449,7 @@ void messageFrame::set_allocated_data(::std::string* data) {
     
   }
   data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
-  // @@protoc_insertion_point(field_set_allocated:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 
 inline const messageFrame* messageFrame::internal_default_instance() {
@@ -454,6 +459,10 @@ inline const messageFrame* messageFrame::internal_default_instance() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace batprotobuf
+}  // namespace frontend
+}  // namespace gateway
+}  // namespace api
+}  // namespace com
+}  // namespace uyujoy
 
 // @@protoc_insertion_point(global_scope)

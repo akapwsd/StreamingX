@@ -29,7 +29,11 @@
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 
-namespace batprotobuf {
+namespace uyujoy {
+namespace com {
+namespace api {
+namespace gateway {
+namespace frontend {
 
 // Internal implementation detail -- do not call these.
 void protobuf_AddDesc_base_2eproto();
@@ -41,7 +45,7 @@ class messageFrame;
 
 // ===================================================================
 
-class messageFrame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:batprotobuf.messageFrame) */ {
+class messageFrame : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:uyujoy.com.api.gateway.frontend.messageFrame) */ {
  public:
   messageFrame();
   virtual ~messageFrame();
@@ -121,7 +125,7 @@ class messageFrame : public ::google::protobuf::Message /* @@protoc_insertion_po
   ::std::string* release_data();
   void set_allocated_data(::std::string* data);
 
-  // @@protoc_insertion_point(class_scope:batprotobuf.messageFrame)
+  // @@protoc_insertion_point(class_scope:uyujoy.com.api.gateway.frontend.messageFrame)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
@@ -150,13 +154,13 @@ inline void messageFrame::clear_crc32() {
   crc32_ = 0u;
 }
 inline ::google::protobuf::uint32 messageFrame::crc32() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.messageFrame.crc32)
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.gateway.frontend.messageFrame.crc32)
   return crc32_;
 }
 inline void messageFrame::set_crc32(::google::protobuf::uint32 value) {
   
   crc32_ = value;
-  // @@protoc_insertion_point(field_set:batprotobuf.messageFrame.crc32)
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.gateway.frontend.messageFrame.crc32)
 }
 
 // optional bytes data = 2;
@@ -164,32 +168,32 @@ inline void messageFrame::clear_data() {
   data_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& messageFrame::data() const {
-  // @@protoc_insertion_point(field_get:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.gateway.frontend.messageFrame.data)
   return data_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline void messageFrame::set_data(const ::std::string& value) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 inline void messageFrame::set_data(const char* value) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 inline void messageFrame::set_data(const void* value, size_t size) {
   
   data_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 inline ::std::string* messageFrame::mutable_data() {
   
-  // @@protoc_insertion_point(field_mutable:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.gateway.frontend.messageFrame.data)
   return data_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* messageFrame::release_data() {
-  // @@protoc_insertion_point(field_release:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.gateway.frontend.messageFrame.data)
   
   return data_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -200,7 +204,7 @@ inline void messageFrame::set_allocated_data(::std::string* data) {
     
   }
   data_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), data);
-  // @@protoc_insertion_point(field_set_allocated:batprotobuf.messageFrame.data)
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.gateway.frontend.messageFrame.data)
 }
 
 inline const messageFrame* messageFrame::internal_default_instance() {
@@ -210,7 +214,11 @@ inline const messageFrame* messageFrame::internal_default_instance() {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace batprotobuf
+}  // namespace frontend
+}  // namespace gateway
+}  // namespace api
+}  // namespace com
+}  // namespace uyujoy
 
 // @@protoc_insertion_point(global_scope)
 

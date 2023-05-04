@@ -1,23 +1,16 @@
 syntax = "proto3";
-package batprotobuf;
-
-option go_package = ".;uyujoyapi";
+package uyujoy.com.api.channel.frontend;
+option go_package = "uyujoy.com/pass/protogen/channel;channel";
 
 message channel{
   string id = 1;
   uint32 category = 2;
   uint32 state = 3;
-  int64 startTs = 4;
-  int64 endTs = 5;
-}
-
-message resCreateChannel{
-  channel ch = 1;
-  string token = 2;
 }
 
 message channelUser{
   string channelId = 1;
   string uid = 2;
   uint32 state = 3;
+  uint32 role = 4;
 }

@@ -1,16 +1,30 @@
 syntax = "proto3";
-package batprotobuf;
+package uyujoy.com.api.channel.frontend;
+option go_package = "uyujoy.com/pass/protogen/channel;channel";
 
-option go_package = ".;uyujoyapi";
 
 enum channelState {
   ChannelStateClosed = 0;
   ChannelStateFree = 1;
   ChannelStateBusy = 2;
-  ChannelStateRefreshing = 3;
+  ChannelStateInsufficientBalance = 999;
 }
 
-enum channelUserState{
-  ChannelUserStateJoin = 0;
-  ChannelUserStateQuit = 1;
+enum channelStopReason{
+  ChannelStopReasonUnknown = 0;
+  ChannelStopReasonNormal = 1; //房间正常停止
+  ChannelStopReasonClosedBySystem = 2;
+  ChannelStopReasonError = 3;
+}
+
+enum  channelUserKickReason{
+  ChannelUserKickReasonNormal = 0; //没有被踢
+  ChannelUserKickReasonKickBySystem = 1;
+  ChannelUserKickReasonError = 2;
+}
+
+enum channelCategory{
+  ChannelCategoryUnknown = 0;
+  ChannelCategorySingle = 1;
+  ChannelCategoryMultiple = 2;
 }

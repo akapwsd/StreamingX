@@ -28,7 +28,11 @@
 #include <google/protobuf/generated_enum_reflection.h>
 // @@protoc_insertion_point(includes)
 
-namespace batprotobuf {
+namespace uyujoy {
+namespace com {
+namespace api {
+namespace channel {
+namespace frontend {
 
 // Internal implementation detail -- do not call these.
 void protobuf_AddDesc_consts_2eproto();
@@ -41,13 +45,13 @@ enum channelState {
   ChannelStateClosed = 0,
   ChannelStateFree = 1,
   ChannelStateBusy = 2,
-  ChannelStateRefreshing = 3,
+  ChannelStateInsufficientBalance = 999,
   channelState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
   channelState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
 bool channelState_IsValid(int value);
 const channelState channelState_MIN = ChannelStateClosed;
-const channelState channelState_MAX = ChannelStateRefreshing;
+const channelState channelState_MAX = ChannelStateInsufficientBalance;
 const int channelState_ARRAYSIZE = channelState_MAX + 1;
 
 const ::google::protobuf::EnumDescriptor* channelState_descriptor();
@@ -60,26 +64,72 @@ inline bool channelState_Parse(
   return ::google::protobuf::internal::ParseNamedEnum<channelState>(
     channelState_descriptor(), name, value);
 }
-enum channelUserState {
-  ChannelUserStateJoin = 0,
-  ChannelUserStateQuit = 1,
-  channelUserState_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  channelUserState_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum channelStopReason {
+  ChannelStopReasonUnknown = 0,
+  ChannelStopReasonNormal = 1,
+  ChannelStopReasonClosedBySystem = 2,
+  ChannelStopReasonError = 3,
+  channelStopReason_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  channelStopReason_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool channelUserState_IsValid(int value);
-const channelUserState channelUserState_MIN = ChannelUserStateJoin;
-const channelUserState channelUserState_MAX = ChannelUserStateQuit;
-const int channelUserState_ARRAYSIZE = channelUserState_MAX + 1;
+bool channelStopReason_IsValid(int value);
+const channelStopReason channelStopReason_MIN = ChannelStopReasonUnknown;
+const channelStopReason channelStopReason_MAX = ChannelStopReasonError;
+const int channelStopReason_ARRAYSIZE = channelStopReason_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* channelUserState_descriptor();
-inline const ::std::string& channelUserState_Name(channelUserState value) {
+const ::google::protobuf::EnumDescriptor* channelStopReason_descriptor();
+inline const ::std::string& channelStopReason_Name(channelStopReason value) {
   return ::google::protobuf::internal::NameOfEnum(
-    channelUserState_descriptor(), value);
+    channelStopReason_descriptor(), value);
 }
-inline bool channelUserState_Parse(
-    const ::std::string& name, channelUserState* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<channelUserState>(
-    channelUserState_descriptor(), name, value);
+inline bool channelStopReason_Parse(
+    const ::std::string& name, channelStopReason* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<channelStopReason>(
+    channelStopReason_descriptor(), name, value);
+}
+enum channelUserKickReason {
+  ChannelUserKickReasonNormal = 0,
+  ChannelUserKickReasonKickBySystem = 1,
+  ChannelUserKickReasonError = 2,
+  channelUserKickReason_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  channelUserKickReason_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool channelUserKickReason_IsValid(int value);
+const channelUserKickReason channelUserKickReason_MIN = ChannelUserKickReasonNormal;
+const channelUserKickReason channelUserKickReason_MAX = ChannelUserKickReasonError;
+const int channelUserKickReason_ARRAYSIZE = channelUserKickReason_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* channelUserKickReason_descriptor();
+inline const ::std::string& channelUserKickReason_Name(channelUserKickReason value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    channelUserKickReason_descriptor(), value);
+}
+inline bool channelUserKickReason_Parse(
+    const ::std::string& name, channelUserKickReason* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<channelUserKickReason>(
+    channelUserKickReason_descriptor(), name, value);
+}
+enum channelCategory {
+  ChannelCategoryUnknown = 0,
+  ChannelCategorySingle = 1,
+  ChannelCategoryMultiple = 2,
+  channelCategory_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  channelCategory_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool channelCategory_IsValid(int value);
+const channelCategory channelCategory_MIN = ChannelCategoryUnknown;
+const channelCategory channelCategory_MAX = ChannelCategoryMultiple;
+const int channelCategory_ARRAYSIZE = channelCategory_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* channelCategory_descriptor();
+inline const ::std::string& channelCategory_Name(channelCategory value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    channelCategory_descriptor(), value);
+}
+inline bool channelCategory_Parse(
+    const ::std::string& name, channelCategory* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<channelCategory>(
+    channelCategory_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -94,21 +144,35 @@ inline bool channelUserState_Parse(
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace batprotobuf
+}  // namespace frontend
+}  // namespace channel
+}  // namespace api
+}  // namespace com
+}  // namespace uyujoy
 
 #ifndef SWIG
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::batprotobuf::channelState> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::uyujoy::com::api::channel::frontend::channelState> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::batprotobuf::channelState>() {
-  return ::batprotobuf::channelState_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::uyujoy::com::api::channel::frontend::channelState>() {
+  return ::uyujoy::com::api::channel::frontend::channelState_descriptor();
 }
-template <> struct is_proto_enum< ::batprotobuf::channelUserState> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::uyujoy::com::api::channel::frontend::channelStopReason> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::batprotobuf::channelUserState>() {
-  return ::batprotobuf::channelUserState_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::uyujoy::com::api::channel::frontend::channelStopReason>() {
+  return ::uyujoy::com::api::channel::frontend::channelStopReason_descriptor();
+}
+template <> struct is_proto_enum< ::uyujoy::com::api::channel::frontend::channelUserKickReason> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::uyujoy::com::api::channel::frontend::channelUserKickReason>() {
+  return ::uyujoy::com::api::channel::frontend::channelUserKickReason_descriptor();
+}
+template <> struct is_proto_enum< ::uyujoy::com::api::channel::frontend::channelCategory> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::uyujoy::com::api::channel::frontend::channelCategory>() {
+  return ::uyujoy::com::api::channel::frontend::channelCategory_descriptor();
 }
 
 }  // namespace protobuf

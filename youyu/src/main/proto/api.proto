@@ -1,0 +1,13 @@
+syntax = "proto3";
+package uyujoy.com.api.gateway.frontend;
+option go_package = "uyujoy.com/pass/protogen/gateway;gateway";
+
+
+message ping{
+	string channelId = 1;
+}
+
+message pong{
+
+}
+

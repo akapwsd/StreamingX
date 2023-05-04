@@ -1,7 +1,6 @@
 syntax = "proto3";
-package batprotobuf;
-
-option go_package = ".;uyujoyapi";
+package uyujoy.com.api.gateway.frontend;
+option go_package = "uyujoy.com/pass/protogen/gateway;gateway";
 
 message messageFrame {
   uint32 crc32 = 1;

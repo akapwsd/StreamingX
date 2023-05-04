@@ -1,14 +1,12 @@
 package com.code.utils;
 
 import com.google.protobuf.ByteString;
-import com.google.protobuf.InvalidProtocolBufferException;
-
 import java.nio.ByteBuffer;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import batprotobuf.Base;
+import uyujoy.com.api.gateway.frontend.Base;
 
 public class DataUtils {
     public static final String TAG = "DataUtils";

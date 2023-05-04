@@ -12,20 +12,14 @@ import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.RtcManager;
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.Message;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.concurrent.TimeUnit;
 
-import batprotobuf.Base;
-import batprotobuf.Streaming;
 import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -33,6 +27,8 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+import uyujoy.com.api.gateway.frontend.Api;
+import uyujoy.com.api.gateway.frontend.Base;
 
 public class WSManager {
     private final String TAG = "WSManager";
@@ -292,7 +288,7 @@ public class WSManager {
 
     protected void ping() {
         LogUtil.d(TAG, "rtc ping is start");
-        Streaming.ping ping = Streaming.ping.newBuilder().build();
+        Api.ping ping = Api.ping.newBuilder().build();
         byte[] bytes = DataUtils.assembleData(0xde174df3, ping.toByteArray());
         LogUtil.d(TAG, "rtc ping send data:" + Arrays.toString(bytes));
         WSManager.getInstance().send(ByteString.of(bytes));

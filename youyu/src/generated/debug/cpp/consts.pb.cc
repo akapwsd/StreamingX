@@ -17,12 +17,18 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 
-namespace batprotobuf {
+namespace uyujoy {
+namespace com {
+namespace api {
+namespace channel {
+namespace frontend {
 
 namespace {
 
 const ::google::protobuf::EnumDescriptor* channelState_descriptor_ = NULL;
-const ::google::protobuf::EnumDescriptor* channelUserState_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* channelStopReason_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* channelUserKickReason_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* channelCategory_descriptor_ = NULL;
 
 }  // namespace
 
@@ -35,7 +41,9 @@ void protobuf_AssignDesc_consts_2eproto() {
       "consts.proto");
   GOOGLE_CHECK(file != NULL);
   channelState_descriptor_ = file->enum_type(0);
-  channelUserState_descriptor_ = file->enum_type(1);
+  channelStopReason_descriptor_ = file->enum_type(1);
+  channelUserKickReason_descriptor_ = file->enum_type(2);
+  channelCategory_descriptor_ = file->enum_type(3);
 }
 
 namespace {
@@ -71,12 +79,21 @@ void protobuf_AddDesc_consts_2eproto_impl() {
 
   protobuf_InitDefaults_consts_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-    "\n\014consts.proto\022\013batprotobuf*n\n\014channelSt"
-    "ate\022\026\n\022ChannelStateClosed\020\000\022\024\n\020ChannelSt"
-    "ateFree\020\001\022\024\n\020ChannelStateBusy\020\002\022\032\n\026Chann"
-    "elStateRefreshing\020\003*F\n\020channelUserState\022"
-    "\030\n\024ChannelUserStateJoin\020\000\022\030\n\024ChannelUser"
-    "StateQuit\020\001B\rZ\013.;uyujoyapib\006proto3", 234);
+    "\n\014consts.proto\022\037uyujoy.com.api.channel.f"
+    "rontend*x\n\014channelState\022\026\n\022ChannelStateC"
+    "losed\020\000\022\024\n\020ChannelStateFree\020\001\022\024\n\020Channel"
+    "StateBusy\020\002\022$\n\037ChannelStateInsufficientB"
+    "alance\020\347\007*\217\001\n\021channelStopReason\022\034\n\030Chann"
+    "elStopReasonUnknown\020\000\022\033\n\027ChannelStopReas"
+    "onNormal\020\001\022#\n\037ChannelStopReasonClosedByS"
+    "ystem\020\002\022\032\n\026ChannelStopReasonError\020\003*\177\n\025c"
+    "hannelUserKickReason\022\037\n\033ChannelUserKickR"
+    "easonNormal\020\000\022%\n!ChannelUserKickReasonKi"
+    "ckBySystem\020\001\022\036\n\032ChannelUserKickReasonErr"
+    "or\020\002*e\n\017channelCategory\022\032\n\026ChannelCatego"
+    "ryUnknown\020\000\022\031\n\025ChannelCategorySingle\020\001\022\033"
+    "\n\027ChannelCategoryMultiple\020\002B*Z(uyujoy.co"
+    "m/pass/protogen/channel;channelb\006proto3", 599);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "consts.proto", &protobuf_RegisterTypes);
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_consts_2eproto);
@@ -102,6 +119,22 @@ bool channelState_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+    case 999:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* channelStopReason_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return channelStopReason_descriptor_;
+}
+bool channelStopReason_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
     case 3:
       return true;
     default:
@@ -109,14 +142,30 @@ bool channelState_IsValid(int value) {
   }
 }
 
-const ::google::protobuf::EnumDescriptor* channelUserState_descriptor() {
+const ::google::protobuf::EnumDescriptor* channelUserKickReason_descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return channelUserState_descriptor_;
+  return channelUserKickReason_descriptor_;
 }
-bool channelUserState_IsValid(int value) {
+bool channelUserKickReason_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:
+    case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::google::protobuf::EnumDescriptor* channelCategory_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return channelCategory_descriptor_;
+}
+bool channelCategory_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
       return true;
     default:
       return false;
@@ -126,6 +175,10 @@ bool channelUserState_IsValid(int value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace batprotobuf
+}  // namespace frontend
+}  // namespace channel
+}  // namespace api
+}  // namespace com
+}  // namespace uyujoy
 
 // @@protoc_insertion_point(global_scope)

@@ -1,0 +1,15 @@
+syntax = "proto3";
+package uyujoy.com.api.channel.frontend;
+option go_package = "uyujoy.com/pass/protogen/channel;channel";
+
+import "channelBase.proto";
+
+message channelStateChange{
+  channel ch = 1;
+  uint32 reason = 2;
+}
+
+message channelUserStateChange{
+  channelUser chu = 1;
+  uint32 reason = 2;
+}
