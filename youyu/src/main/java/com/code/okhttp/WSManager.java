@@ -6,6 +6,7 @@ import android.text.TextUtils;
 
 import com.code.bean.ModelBean;
 import com.code.listener.IRtcEngineEventCallBackHandler;
+import com.code.rtc.BaseRtcEngineManager;
 import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
@@ -53,7 +54,6 @@ public class WSManager {
     private String session_token;
     private int reconnectNum = 0;
     private Handler heartHandler = new Handler();
-    private Handler roomAliveHeartHandler = new Handler();
     private long global_ping_send_time = 0L;
     private long room_ping_send_time = 0L;
 
@@ -107,10 +107,6 @@ public class WSManager {
         if (heartHandler != null) {
             heartHandler.removeCallbacksAndMessages(null);
             heartHandler = null;
-        }
-        if (roomAliveHeartHandler != null) {
-            roomAliveHeartHandler.removeCallbacksAndMessages(null);
-            roomAliveHeartHandler = null;
         }
         LogUtil.e(TAG, "closeConnect is end");
     }
@@ -247,32 +243,12 @@ public class WSManager {
         }
     };
 
-    Runnable roomHeartBeatRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (isCallIng) {
-                long currentTimeMillis = System.currentTimeMillis();
-                if (currentTimeMillis - room_ping_send_time >= ROOM_HEART_BEAT_RATE && isReceiveRoomAlivePong) {
-                    isReceiveRoomAlivePong = false;
-                    room_ping_send_time = currentTimeMillis;
-                    ping();
-                    roomAliveHeartHandler.postDelayed(this, ROOM_HEART_BEAT_RATE);
-                } else {
-                    isCallIng = false;
-                    RtcManager.getInstance().closeVideoChat();
-                }
-            }
-        }
-    };
-
-    public void joinChannel(String channelId, String token) {
+    public void joinChannel(String channelId, String token, int uid) {
         mChannelId = channelId;
         mToken = token;
         isCallIng = true;
         room_ping_send_time = 0L;
-        if (roomAliveHeartHandler != null) {
-            roomAliveHeartHandler.post(roomHeartBeatRunnable);
-        }
+        BaseRtcEngineManager.getInstance().getRtcEngine().joinChannel(token, channelId, "Extra Optional Data", uid);
     }
 
     public void leaveChannel() {
@@ -280,9 +256,6 @@ public class WSManager {
         mToken = "";
         isCallIng = false;
         room_ping_send_time = 0L;
-        if (roomAliveHeartHandler != null) {
-            roomAliveHeartHandler.removeCallbacksAndMessages(null);
-        }
         RtcManager.getInstance().closeVideoChat();
     }
 

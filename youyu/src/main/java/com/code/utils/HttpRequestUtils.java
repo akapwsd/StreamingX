@@ -2,7 +2,9 @@ package com.code.utils;
 
 import android.content.Context;
 
+import com.code.bean.ChannelInfoBean;
 import com.code.bean.CreateChannelBean;
+import com.code.bean.CreateChannelResultBean;
 import com.code.bean.ModelBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelListListener;
@@ -45,11 +47,11 @@ public class HttpRequestUtils {
         RetrofitHelper.createApi(HttpApi.class, context)
                 .getModelList(authorization, session_token, X_Uyj_Timestamp)
                 .compose(RetrofitHelper.schedulersTransformer())
-                .subscribe(new RxObserver<ArrayList<ModelBean>>() {
+                .subscribe(new RxObserver() {
 
                     @Override
-                    public void Success(ArrayList<ModelBean> modelBeans, String msg) {
-                        requestModelListListener.onResult(modelBeans);
+                    public void Success(Object modelBeans) {
+//                        requestModelListListener.onResult(modelBeans);
                     }
 
                     @Override
@@ -72,10 +74,10 @@ public class HttpRequestUtils {
         RetrofitHelper.createApi(HttpApi.class, context)
                 .getChannelToken(authorization, session_token, X_Uyj_Timestamp, channelId)
                 .compose(RetrofitHelper.schedulersTransformer())
-                .subscribe(new RxObserver<String>() {
+                .subscribe(new RxObserver() {
                     @Override
-                    public void Success(String o, String msg) {
-                        httpRequestListener.requestSuccess(o, msg);
+                    public void Success(Object o) {
+//                        httpRequestListener.requestSuccess(o, msg);
                     }
 
                     @Override
@@ -98,12 +100,12 @@ public class HttpRequestUtils {
         RetrofitHelper.createApi(HttpApi.class, context)
                 .joinChannel(authorization, session_token, X_Uyj_Timestamp, channelId)
                 .compose(RetrofitHelper.schedulersTransformer())
-                .subscribe(new RxObserver<String>() {
+                .subscribe(new RxObserver() {
                     @Override
-                    public void Success(String o, String msg) {
-                        httpRequestListener.requestSuccess(o, msg);
-                        String token = "";
-                        WSManager.getInstance().joinChannel(channelId, token);
+                    public void Success(Object o) {
+//                        httpRequestListener.requestSuccess(o, msg);
+//                        String token = "";
+//                        WSManager.getInstance().joinChannel(channelId, token);
                     }
 
                     @Override
@@ -130,13 +132,15 @@ public class HttpRequestUtils {
         RetrofitHelper.createApi(HttpApi.class, context)
                 .createChannel(authorization, X_Uyj_Timestamp, Content_Type, createChannelBean)
                 .compose(RetrofitHelper.schedulersTransformer())
-                .subscribe(new RxObserver<String>() {
+                .subscribe(new RxObserver() {
                     @Override
-                    public void Success(String o, String msg) {
-                        httpRequestListener.requestSuccess(o, msg);
-                        String channelId = "";
-                        String token = "";
-                        WSManager.getInstance().joinChannel(channelId, token);
+                    public void Success(Object o) {
+                        httpRequestListener.requestSuccess(o);
+                        CreateChannelResultBean createChannelResultBean = (CreateChannelResultBean) o;
+                        ChannelInfoBean ch = createChannelResultBean.getCh();
+                        String channelId = ch.getId();
+                        String token = createChannelResultBean.getToken();
+                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid));
                     }
 
                     @Override

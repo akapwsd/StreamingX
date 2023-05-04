@@ -233,7 +233,7 @@ public class RtcManager {
         String channel = WSManager.getInstance().mChannelId;
         HttpRequestUtils.getInstance().getChannelToken(mContext, channel, new HttpRequestListener() {
             @Override
-            public void requestSuccess(String o, String msg) {
+            public void requestSuccess(Object o) {
                 String newToken = "";
                 LogUtil.e(TAG, "requestSuccess newToken:" + newToken);
                 RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
