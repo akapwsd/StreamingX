@@ -20,7 +20,7 @@ import retrofit2.http.Query;
 
 public interface HttpApi {
     String BASE_URL = "https://api.hitradegate.com/v1/";
-    String GET_CHANNEL_TOKEN = "channel/{channelId}/token";
+    String GET_CHANNEL_TOKEN = "channel/channel/{channelId}/token";
     String CREATE_CHANNEL = "channel/channel";
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "";
