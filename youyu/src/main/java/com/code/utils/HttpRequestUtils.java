@@ -55,23 +55,23 @@ public class HttpRequestUtils {
                 });
     }
 
-    public void getChannelToken(Context context, String channelId, HttpRequestListener httpRequestListener) {
+    public void getChannelToken(Context context, String channelId, String uid, HttpRequestListener httpRequestListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
         String Content_Type = "application/json";
-        String data = X_Uyj_Timestamp;// + Content_Type;
+        String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
         RetrofitHelper.createApi(HttpApi.class, context)
-                .getChannelToken(authorization, session_token, X_Uyj_Timestamp, channelId)
+                .getChannelToken(authorization, X_Uyj_Timestamp, Content_Type, channelId, uid)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver() {
                     @Override
                     public void Success(Object o) {
-//                        httpRequestListener.requestSuccess(o, msg);
+                        httpRequestListener.requestSuccess(o);
                     }
 
                     @Override

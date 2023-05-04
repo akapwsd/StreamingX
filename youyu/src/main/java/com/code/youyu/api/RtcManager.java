@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
+import com.code.bean.ChannelTokenBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.listener.RequestModelListListener;
@@ -186,10 +187,6 @@ public class RtcManager {
         WSManager.getInstance().leaveChannel();
     }
 
-    public void requestChannelToken(String channel, String uid, int callType, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, listener);
-    }
-
     public void getModelList(RequestModelListListener listener) {
         HttpRequestUtils.getInstance().getModelList(mContext, listener);
     }
@@ -229,15 +226,20 @@ public class RtcManager {
         rtcEngine.muteRemoteVideoStream(uid, isEnable);
     }
 
-    public void requestNewToken(String oldToken) {
+    public void requestNewToken() {
         String channel = WSManager.getInstance().mChannelId;
-        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, new HttpRequestListener() {
+        String uid = WSManager.getInstance().mUid;
+        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, uid, new HttpRequestListener() {
             @Override
             public void requestSuccess(Object o) {
-                String newToken = "";
-                LogUtil.e(TAG, "requestSuccess newToken:" + newToken);
-                RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-                rtcEngine.renewToken(newToken);
+                ChannelTokenBean channelTokenBean = (ChannelTokenBean) o;
+                String newToken = channelTokenBean.getToken();
+                String serverChannelId = channelTokenBean.getChannelId();
+                LogUtil.e(TAG, "requestSuccess newToken:" + newToken + " serverChannelId:" + serverChannelId);
+                if (channel.equals(serverChannelId)) {
+                    RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+                    rtcEngine.renewToken(newToken);
+                }
             }
 
             @Override

@@ -48,6 +48,8 @@ public class WSManager {
     private boolean isConnect = false;
     private boolean isCallIng = false;
     public String mChannelId = "";
+
+    public String mUid = "";
     public String mToken = "";
     private String access_key_id;
     private String access_key_secret;
@@ -245,6 +247,7 @@ public class WSManager {
 
     public void joinChannel(String channelId, String token, int uid) {
         mChannelId = channelId;
+        mUid = String.valueOf(uid);
         mToken = token;
         isCallIng = true;
         room_ping_send_time = 0L;

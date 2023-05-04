@@ -1,6 +1,7 @@
 package com.code.youyu.api;
 
 
+import com.code.bean.ChannelTokenBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
@@ -15,6 +16,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface HttpApi {
     String BASE_URL = "https://api.hitradegate.com/v1/";
@@ -24,7 +26,7 @@ public interface HttpApi {
     String GET_MODEL_LIST = "";
 
     @GET(GET_CHANNEL_TOKEN)
-    Observable<String> getChannelToken(@Header("Authorization") String authorization, @Header("Session-Token") String sessionToken, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("channelId") String channelId);
+    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Path("channelId") String channelId, @Query("uid") String uid);
 
     // @Header("Session-Token") String sessionToken,
     @POST(CREATE_CHANNEL)

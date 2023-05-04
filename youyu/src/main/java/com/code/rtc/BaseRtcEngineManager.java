@@ -92,7 +92,7 @@ public class BaseRtcEngineManager {
         @Override
         public void onTokenPrivilegeWillExpire(String token) {
             LogUtil.d(TAG, "onTokenPrivilegeWillExpire is start token:" + token);
-            RtcManager.getInstance().requestNewToken(token);
+            RtcManager.getInstance().requestNewToken();
         }
 
         @Override

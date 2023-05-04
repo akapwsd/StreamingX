@@ -23,7 +23,7 @@ class MainActivity : Activity() {
     private val permissionList = arrayOf(
             Manifest.permission.CAMERA
     )
-    private val channelId = ""
+    private val channelId = "2823915523635422933"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
