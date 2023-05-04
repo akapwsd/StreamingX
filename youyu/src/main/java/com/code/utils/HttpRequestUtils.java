@@ -2,6 +2,7 @@ package com.code.utils;
 
 import android.content.Context;
 
+import com.code.bean.CreateChannelBean;
 import com.code.bean.ModelBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelListListener;
@@ -9,6 +10,10 @@ import com.code.okhttp.WSManager;
 import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
+import com.google.gson.Gson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -108,7 +113,7 @@ public class HttpRequestUtils {
                 });
     }
 
-    public void createChannel(Context context, String uid, HttpRequestListener httpRequestListener) {
+    public void createChannel(Context context, String uid, int category, HttpRequestListener httpRequestListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
@@ -119,8 +124,11 @@ public class HttpRequestUtils {
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
         LogUtil.d(TAG, "aaaaa authorization:" + authorization + "\n X_Uyj_Timestamp:" + X_Uyj_Timestamp + "\n Content_Type:" + Content_Type);
+        CreateChannelBean createChannelBean = new CreateChannelBean();
+        createChannelBean.setUid(uid);
+        createChannelBean.setCategory(category);
         RetrofitHelper.createApi(HttpApi.class, context)
-                .createChannel(authorization, X_Uyj_Timestamp, Content_Type, uid)
+                .createChannel(authorization, X_Uyj_Timestamp, Content_Type, createChannelBean)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver<String>() {
                     @Override

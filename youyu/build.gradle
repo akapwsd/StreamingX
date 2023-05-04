@@ -89,6 +89,8 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     api 'com.squareup.retrofit2:converter-protobuf:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
+
+    api 'com.google.code.gson:gson:2.8.8'
 }
 
 task makeJar(type: Jar, dependsOn: ['build']) {
