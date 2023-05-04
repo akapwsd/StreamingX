@@ -99,15 +99,16 @@ public class RtcManager {
     }
 
     public void showLocalView(Context context, int uid, FrameLayout view) {
+        LogUtil.d(TAG, "showLocalView is start showLocalView uid:" + uid);
+        userJoinChannel(uid);
         localFrameLayout = view;
         localUid = uid;
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         localView = RtcEngine.CreateRendererView(context);
-        localView.setZOrderOnTop(true);
-        localFrameLayout.addView(localView);
+        view.addView(localView);
+        rtcEngine.startPreview();
+        rtcEngine.enableLocalVideo(true);
         rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
-        localView.setZOrderMediaOverlay(true);
-        new Handler().postDelayed(() -> userJoinChannel(uid), 500);
     }
 
     public void joinAudio(int uid) {
@@ -120,10 +121,14 @@ public class RtcManager {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         String accessToken = WSManager.getInstance().mToken;
         String channel = WSManager.getInstance().mChannelId;
-        if (rtcEngine != null && !TextUtils.isEmpty(accessToken) && TextUtils.isEmpty(channel)) {
+        int mClientRole = WSManager.getInstance().mClientRole;
+        LogUtil.d("ZHIZHI", "userJoinChannel is start step 1");
+        if (rtcEngine != null && !TextUtils.isEmpty(accessToken) && !TextUtils.isEmpty(channel)) {
+            LogUtil.d("ZHIZHI", "userJoinChannel is start uid:" + uid + " accessToken:" + accessToken + " channel:" + channel + " mClientRole:" + mClientRole);
             ChannelMediaOptions option = new ChannelMediaOptions();
             option.autoSubscribeAudio = true;
             option.autoSubscribeVideo = true;
+            rtcEngine.setClientRole(mClientRole);
             rtcEngine.joinChannel(accessToken, channel, "Extra Optional Data", uid, option);
         }
     }
@@ -175,11 +180,11 @@ public class RtcManager {
     }
 
     public void joinChannel(String channel, String uid, String peerUid, HttpRequestListener listener) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        LastmileProbeConfig lastmileProbeConfig = new LastmileProbeConfig();
-        lastmileProbeConfig.probeUplink = true;
-        lastmileProbeConfig.probeDownlink = true;
-        rtcEngine.startLastmileProbeTest(lastmileProbeConfig);
+//        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+//        LastmileProbeConfig lastmileProbeConfig = new LastmileProbeConfig();
+//        lastmileProbeConfig.probeUplink = true;
+//        lastmileProbeConfig.probeDownlink = true;
+//        rtcEngine.startLastmileProbeTest(lastmileProbeConfig);
         HttpRequestUtils.getInstance().joinChannel(mContext, channel, uid, peerUid, listener);
     }
 

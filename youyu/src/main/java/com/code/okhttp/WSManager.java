@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+import io.agora.rtc.models.ChannelMediaOptions;
 import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,7 +49,7 @@ public class WSManager {
     private boolean isConnect = false;
     private boolean isCallIng = false;
     public String mChannelId = "";
-
+    public int mClientRole;
     public String mUid = "";
     public String mToken = "";
     private String access_key_id;
@@ -245,13 +246,12 @@ public class WSManager {
         }
     };
 
-    public void joinChannel(String channelId, String token, int uid) {
+    public void joinChannel(String channelId, String token, int uid, int clientRole) {
         mChannelId = channelId;
         mUid = String.valueOf(uid);
         mToken = token;
         isCallIng = true;
         room_ping_send_time = 0L;
-        BaseRtcEngineManager.getInstance().getRtcEngine().joinChannel(token, channelId, "Extra Optional Data", uid);
     }
 
     public void leaveChannel() {

@@ -13,6 +13,8 @@ import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
 
+import io.agora.rtc.Constants;
+
 public class HttpRequestUtils {
     private static HttpRequestUtils httpRequestUtils;
     public static final String TAG = "HttpRequestUtils";
@@ -107,7 +109,7 @@ public class HttpRequestUtils {
                         String token = channelResultBean.getToken();
                         LogUtil.d("ZHIZHI", "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token);
                         if (channelId.equals(serverChannelId)) {
-                            WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid));
+                            WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER);
                         }
                     }
 
@@ -144,7 +146,7 @@ public class HttpRequestUtils {
                         String channelId = ch.getId();
                         String token = channelResultBean.getToken();
                         LogUtil.d("ZHIZHI", "createChannel success channelId:" + channelId + " token:" + token);
-                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid));
+                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_AUDIENCE);
                     }
 
                     @Override

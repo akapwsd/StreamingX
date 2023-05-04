@@ -9,6 +9,8 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.code.bean.ChannelResultBean
+import com.code.bean.CreateChannelBean
 import com.code.listener.HttpRequestListener
 import com.code.rtc.BaseRtcEngineManager
 import com.code.youyu.api.RtcManager
@@ -23,7 +25,7 @@ class MainActivity : Activity() {
     private val permissionList = arrayOf(
             Manifest.permission.CAMERA
     )
-    private val channelId = "2823915523635422933"
+    private val channelId = "2823923886825937687"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

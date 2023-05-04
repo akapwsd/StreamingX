@@ -22,7 +22,7 @@ public interface HttpApi {
     String BASE_URL = "https://api.hitradegate.com/v1/";
     String GET_CHANNEL_TOKEN = "channel/{channelId}/token";
     String CREATE_CHANNEL = "channel/channel";
-    String JOIN_CHANNEL = "channel/{channelId}/users";
+    String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "";
 
     @GET(GET_CHANNEL_TOKEN)

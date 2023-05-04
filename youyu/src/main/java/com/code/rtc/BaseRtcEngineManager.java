@@ -42,7 +42,7 @@ public class BaseRtcEngineManager {
         try {
             mRtcEngine = RtcEngine.create(context, "d204e16e727048b08a1d8e1ae10bb238", mRtcEventHandler);
             mRtcEngine.enableVideo();
-            mRtcEngine.setChannelProfile(io.agora.rtc.Constants.CHANNEL_PROFILE_COMMUNICATION);
+            mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             mRtcEngine.setBeautyEffectOptions(true, AgoraConstants.BEAUTY_OPTIONS);
             mRtcEngine.enableFaceDetection(true);
             mRtcEngine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
