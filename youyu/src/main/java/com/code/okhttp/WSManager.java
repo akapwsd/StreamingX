@@ -202,16 +202,7 @@ public class WSManager {
                 case Constants.PONG:
                     isReceivePong = true;
                     break;
-//                case Constants.ROOM_PONG:
-//                    isReceiveRoomAlivePong = true;
-//                    break;
-//                case Constants.BAN_ROOM:
-//                    iRtcEngineEventCallBackHandler.banRoom();
-//                    break;
             }
-//            } else {
-//                eventFailWsDataListener(type, code, msg);
-//            }
         }
 
         @Override

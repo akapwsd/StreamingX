@@ -145,7 +145,7 @@ public class HttpRequestUtils {
                         ChannelInfoBean ch = channelResultBean.getCh();
                         String channelId = ch.getId();
                         String token = channelResultBean.getToken();
-                        LogUtil.d("ZHIZHI", "createChannel success channelId:" + channelId + " token:" + token);
+                        LogUtil.d(TAG, "createChannel success channelId:" + channelId + " token:" + token);
                         WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER);
                     }
 

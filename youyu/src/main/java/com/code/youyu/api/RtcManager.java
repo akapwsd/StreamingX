@@ -261,4 +261,9 @@ public class RtcManager {
         rtcEngine.leaveChannel();
         RtcSpUtils.getInstance().setChannelId("");
     }
+
+    public void enableFaceDetection(boolean isEnable) {
+        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+        rtcEngine.enableFaceDetection(isEnable);
+    }
 }

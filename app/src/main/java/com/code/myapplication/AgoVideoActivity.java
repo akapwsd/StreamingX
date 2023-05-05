@@ -30,23 +30,23 @@ public class AgoVideoActivity extends Activity {
         RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
             @Override
             public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-                LogUtil.d("ZHIZHI", "onJoinChannelSuccess channel:" + channel + " uid:" + uid);
+                LogUtil.d("TEST", "onJoinChannelSuccess channel:" + channel + " uid:" + uid);
             }
 
             @Override
             public void onUserJoined(int uid, int elapsed) {
-                LogUtil.d("ZHIZHI", "onUserJoined uid:" + uid);
+                LogUtil.d("TEST", "onUserJoined uid:" + uid);
                 runOnUiThread(() -> RtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView));
             }
 
             @Override
             public void onUserOffline(int uid, int reason) {
-                LogUtil.d("ZHIZHI", "onUserOffline uid:" + uid);
+                LogUtil.d("TEST", "onUserOffline uid:" + uid);
             }
 
             @Override
             public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
-                LogUtil.d("ZHIZHI", "onFirstRemoteVideoDecoded uid:" + uid);
+                LogUtil.d("TEST", "onFirstRemoteVideoDecoded uid:" + uid);
             }
         });
         initVideoView();
