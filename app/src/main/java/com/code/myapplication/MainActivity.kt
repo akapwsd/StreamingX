@@ -9,8 +9,6 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.code.bean.ChannelResultBean
-import com.code.bean.CreateChannelBean
 import com.code.listener.HttpRequestListener
 import com.code.rtc.BaseRtcEngineManager
 import com.code.youyu.api.RtcManager
@@ -23,9 +21,13 @@ class MainActivity : Activity() {
     }
 
     private val permissionList = arrayOf(
-            Manifest.permission.CAMERA
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.READ_PHONE_STATE
     )
-    private val channelId = "2823923886825937687"
+    private val channelId = "2824036259846956925"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,7 +36,7 @@ class MainActivity : Activity() {
             RtcManager.getInstance().createChannel("110", callType, object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     val intent = Intent(this@MainActivity, AgoVideoActivity::class.java)
-                    intent.putExtra("uid", 110)
+                    intent.putExtra("localUid", 110)
                     startActivity(intent)
                 }
 
@@ -47,7 +49,8 @@ class MainActivity : Activity() {
             RtcManager.getInstance().joinChannel(channelId, "111", "110", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     val intent = Intent(this@MainActivity, AgoVideoActivity::class.java)
-                    intent.putExtra("uid", 111)
+                    intent.putExtra("localUid", 111)
+                    intent.putExtra("peerUid", 110)
                     startActivity(intent);
                 }
 

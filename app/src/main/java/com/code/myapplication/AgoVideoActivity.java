@@ -26,7 +26,7 @@ public class AgoVideoActivity extends Activity {
         Button hangUpBtn = findViewById(R.id.hang_up_btn);
         smallView = findViewById(R.id.small_view);
         bigView = findViewById(R.id.big_view);
-        localUid = getIntent().getIntExtra("uid", 0);
+        localUid = getIntent().getIntExtra("localUid", 0);
         RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
             @Override
             public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
@@ -36,12 +36,17 @@ public class AgoVideoActivity extends Activity {
             @Override
             public void onUserJoined(int uid, int elapsed) {
                 LogUtil.d("ZHIZHI", "onUserJoined uid:" + uid);
+                runOnUiThread(() -> RtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView));
+            }
+
+            @Override
+            public void onUserOffline(int uid, int reason) {
+                LogUtil.d("ZHIZHI", "onUserOffline uid:" + uid);
             }
 
             @Override
             public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
                 LogUtil.d("ZHIZHI", "onFirstRemoteVideoDecoded uid:" + uid);
-                RtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView);
             }
         });
         initVideoView();

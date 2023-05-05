@@ -107,7 +107,7 @@ public class HttpRequestUtils {
                         ChannelInfoBean ch = channelResultBean.getCh();
                         String serverChannelId = ch.getId();
                         String token = channelResultBean.getToken();
-                        LogUtil.d("ZHIZHI", "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token);
+                        LogUtil.d(TAG, "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token);
                         if (channelId.equals(serverChannelId)) {
                             WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER);
                         }
@@ -146,7 +146,7 @@ public class HttpRequestUtils {
                         String channelId = ch.getId();
                         String token = channelResultBean.getToken();
                         LogUtil.d("ZHIZHI", "createChannel success channelId:" + channelId + " token:" + token);
-                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_AUDIENCE);
+                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER);
                     }
 
                     @Override

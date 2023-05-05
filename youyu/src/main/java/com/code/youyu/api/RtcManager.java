@@ -95,7 +95,7 @@ public class RtcManager {
         remoteView = RtcEngine.CreateRendererView(context);
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
-        remoteFrameLayout.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        view.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
     }
 
     public void showLocalView(Context context, int uid, FrameLayout view) {
@@ -104,11 +104,12 @@ public class RtcManager {
         localFrameLayout = view;
         localUid = uid;
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        localView = RtcEngine.CreateRendererView(context);
-        view.addView(localView);
-        rtcEngine.startPreview();
         rtcEngine.enableLocalVideo(true);
+        localView = RtcEngine.CreateRendererView(context);
+        localView.setZOrderOnTop(true);
+        view.addView(localView);
         rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
+        localView.setZOrderMediaOverlay(true);
     }
 
     public void joinAudio(int uid) {
@@ -122,9 +123,9 @@ public class RtcManager {
         String accessToken = WSManager.getInstance().mToken;
         String channel = WSManager.getInstance().mChannelId;
         int mClientRole = WSManager.getInstance().mClientRole;
-        LogUtil.d("ZHIZHI", "userJoinChannel is start step 1");
+        LogUtil.d(TAG, "userJoinChannel is start step 1");
         if (rtcEngine != null && !TextUtils.isEmpty(accessToken) && !TextUtils.isEmpty(channel)) {
-            LogUtil.d("ZHIZHI", "userJoinChannel is start uid:" + uid + " accessToken:" + accessToken + " channel:" + channel + " mClientRole:" + mClientRole);
+            LogUtil.d(TAG, "userJoinChannel is start uid:" + uid + " accessToken:" + accessToken + " channel:" + channel + " mClientRole:" + mClientRole);
             ChannelMediaOptions option = new ChannelMediaOptions();
             option.autoSubscribeAudio = true;
             option.autoSubscribeVideo = true;
@@ -257,6 +258,5 @@ public class RtcManager {
     public void closeVideoChat() {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.leaveChannel();
-        rtcEngine.stopPreview();
     }
 }

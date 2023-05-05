@@ -6,28 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".AgoVideoActivity">
 
-    <FrameLayout
-        android:id="@+id/big_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ee000000" />
+        android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/small_view"
-        android:layout_width="100dp"
-        android:layout_height="175dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <FrameLayout
+            android:id="@+id/big_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#ee000000" />
 
-    <Button
-        android:id="@+id/hang_up_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:text="hang_up"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <FrameLayout
+            android:id="@+id/small_view"
+            android:layout_width="100dp"
+            android:layout_height="175dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="40dp" />
+
+        <Button
+            android:id="@+id/hang_up_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40dp"
+            android:text="hang_up" />
+    </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

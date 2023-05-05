@@ -44,7 +44,7 @@ public class BaseRtcEngineManager {
             mRtcEngine.enableVideo();
             mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             mRtcEngine.setBeautyEffectOptions(true, AgoraConstants.BEAUTY_OPTIONS);
-            mRtcEngine.enableFaceDetection(true);
+//            mRtcEngine.enableFaceDetection(true);
             mRtcEngine.setVideoEncoderConfiguration(new VideoEncoderConfiguration(VideoEncoderConfiguration.VD_640x360, VideoEncoderConfiguration.FRAME_RATE.FRAME_RATE_FPS_15, VideoEncoderConfiguration.STANDARD_BITRATE, VideoEncoderConfiguration.ORIENTATION_MODE.ORIENTATION_MODE_FIXED_PORTRAIT));
         } catch (Exception e) {
             e.printStackTrace();
@@ -55,8 +55,8 @@ public class BaseRtcEngineManager {
     private final IRtcEngineEventHandler mRtcEventHandler = new IRtcEngineEventHandler() {
         @Override
         public void onFacePositionChanged(int imageWidth, int imageHeight, AgoraFacePositionInfo[] agoraFacePositionInfos) {
-            LogUtil.d(TAG, "onFacePositionChanged is start imageWidth:" + imageWidth + " imageHeight:" + imageHeight + " agoraFacePositionInfos:" + agoraFacePositionInfos);
-            iRtcEngineEventCallBackHandler.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
+//            LogUtil.d(TAG, "onFacePositionChanged is start imageWidth:" + imageWidth + " imageHeight:" + imageHeight + " agoraFacePositionInfos:" + agoraFacePositionInfos);
+//            iRtcEngineEventCallBackHandler.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
         }
 
         @Override

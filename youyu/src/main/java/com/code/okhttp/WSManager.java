@@ -252,6 +252,7 @@ public class WSManager {
         mToken = token;
         isCallIng = true;
         room_ping_send_time = 0L;
+        mClientRole = clientRole;
     }
 
     public void leaveChannel() {
