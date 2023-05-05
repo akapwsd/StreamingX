@@ -48,6 +48,11 @@ public class AgoVideoActivity extends Activity {
             public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
                 LogUtil.d("TEST", "onFirstRemoteVideoDecoded uid:" + uid);
             }
+
+            @Override
+            public void banRoom() {
+                LogUtil.d("TEST", "banRoom");
+            }
         });
         initVideoView();
         hangUpBtn.setOnClickListener(view -> {

@@ -4,9 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
-import com.code.bean.ModelBean;
 import com.code.listener.IRtcEngineEventCallBackHandler;
-import com.code.rtc.BaseRtcEngineManager;
 import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
@@ -21,7 +19,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
-import io.agora.rtc.models.ChannelMediaOptions;
 import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -45,7 +42,6 @@ public class WSManager {
     private OkHttpClient mClient;
     private String mWbSocketUrl;
     private boolean isReceivePong = true;
-    private boolean isReceiveRoomAlivePong = true;
     private boolean isConnect = false;
     private boolean isCallIng = false;
     public String mChannelId = "";
@@ -201,6 +197,9 @@ public class WSManager {
             switch (OxCrcId) {
                 case Constants.PONG:
                     isReceivePong = true;
+                    break;
+                case Constants.BAN_ROOM:
+                    iRtcEngineEventCallBackHandler.banRoom();
                     break;
             }
         }
