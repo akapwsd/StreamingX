@@ -7,10 +7,12 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.code.listener.HttpRequestListener
 import com.code.rtc.BaseRtcEngineManager
+import com.code.youyu.api.Constants
 import com.code.youyu.api.RtcManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
@@ -27,12 +29,12 @@ class MainActivity : Activity() {
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.READ_PHONE_STATE
     )
-    private val channelId = "2824036259846956925"
+    private val channelId = "2824056600795289241"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         create_btn.setOnClickListener {
-            val callType = 1
+            val callType = Constants.VIDEO
             RtcManager.getInstance().createChannel("110", callType, object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     val intent = Intent(this@MainActivity, AgoVideoActivity::class.java)
@@ -45,8 +47,8 @@ class MainActivity : Activity() {
                 }
             })
         }
-        join_btn.setOnClickListener {
-            RtcManager.getInstance().joinChannel(channelId, "111", "110", object : HttpRequestListener {
+        call_video.setOnClickListener {
+            RtcManager.getInstance().callVideo(channelId, "111", "110", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     val intent = Intent(this@MainActivity, AgoVideoActivity::class.java)
                     intent.putExtra("localUid", 111)
@@ -55,7 +57,21 @@ class MainActivity : Activity() {
                 }
 
                 override fun requestError(code: Int, error: String?) {
+                    Toast.makeText(this@MainActivity,error,Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+        call_audio.setOnClickListener {
+            RtcManager.getInstance().callAudio(channelId, "111", "110", object : HttpRequestListener {
+                override fun requestSuccess(o: Any?) {
+                    val intent = Intent(this@MainActivity, AgoAudioActivity::class.java)
+                    intent.putExtra("localUid", 111)
+                    intent.putExtra("peerUid", 110)
+                    startActivity(intent);
+                }
 
+                override fun requestError(code: Int, error: String?) {
+                    Toast.makeText(this@MainActivity,error,Toast.LENGTH_LONG).show()
                 }
             })
         }

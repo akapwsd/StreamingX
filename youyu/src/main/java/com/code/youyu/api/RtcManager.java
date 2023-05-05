@@ -113,10 +113,12 @@ public class RtcManager {
         localView.setZOrderMediaOverlay(true);
     }
 
-    public void joinAudio(int uid) {
+    public void joinAudio(int uid){
+        LogUtil.d(TAG, "setLocalAudio is start uid:" + uid);
+        userJoinChannel(uid);
+        localUid = uid;
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.enableLocalVideo(false);
-        new Handler().postDelayed(() -> userJoinChannel(uid), 500);
     }
 
     private void userJoinChannel(int uid) {
@@ -181,17 +183,22 @@ public class RtcManager {
         HttpRequestUtils.getInstance().createChannel(mContext, uid, category, listener);
     }
 
-    public void joinChannel(String channel, String uid, String peerUid, HttpRequestListener listener) {
+    public void callVideo(String channel, String uid, String peerUid, HttpRequestListener listener) {
+        joinChannel(channel, uid, peerUid, Constants.VIDEO, listener);
+    }
+
+    public void callAudio(String channel, String uid, String peerUid, HttpRequestListener listener) {
+        joinChannel(channel, uid, peerUid, Constants.AUDIO, listener);
+    }
+
+    private void joinChannel(String channel, String uid, String peerUid, int category, HttpRequestListener listener) {
+//        check network
 //        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
 //        LastmileProbeConfig lastmileProbeConfig = new LastmileProbeConfig();
 //        lastmileProbeConfig.probeUplink = true;
 //        lastmileProbeConfig.probeDownlink = true;
 //        rtcEngine.startLastmileProbeTest(lastmileProbeConfig);
-        HttpRequestUtils.getInstance().joinChannel(mContext, channel, uid, peerUid, listener);
-    }
-
-    public void leaveChannel() {
-        WSManager.getInstance().leaveChannel();
+        HttpRequestUtils.getInstance().joinChannel(mContext, channel, uid, peerUid, category, listener);
     }
 
     public void getModelList(RequestModelListListener listener) {
@@ -257,6 +264,7 @@ public class RtcManager {
     }
 
     public void closeVideoChat() {
+        WSManager.getInstance().leaveChannel();
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.leaveChannel();
         RtcSpUtils.getInstance().setChannelId("");
@@ -265,5 +273,9 @@ public class RtcManager {
     public void enableFaceDetection(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.enableFaceDetection(isEnable);
+    }
+
+    public RtcEngine getRtcEngine() {
+        return BaseRtcEngineManager.getInstance().getRtcEngine();
     }
 }

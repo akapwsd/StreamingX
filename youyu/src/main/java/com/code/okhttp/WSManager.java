@@ -47,6 +47,7 @@ public class WSManager {
     public String mChannelId = "";
     public int mClientRole;
     public String mUid = "";
+    public int mCallType = 1;
     public String mToken = "";
     private String access_key_id;
     private String access_key_secret;
@@ -54,7 +55,6 @@ public class WSManager {
     private int reconnectNum = 0;
     private Handler heartHandler = new Handler();
     private long global_ping_send_time = 0L;
-    private long room_ping_send_time = 0L;
 
     private static final class SInstanceHolder {
         static final WSManager sInstance = new WSManager();
@@ -236,21 +236,19 @@ public class WSManager {
         }
     };
 
-    public void joinChannel(String channelId, String token, int uid, int clientRole) {
+    public void joinChannel(String channelId, String token, int uid, int clientRole, int callType) {
         mChannelId = channelId;
         mUid = String.valueOf(uid);
         mToken = token;
         isCallIng = true;
-        room_ping_send_time = 0L;
         mClientRole = clientRole;
+        mCallType = callType;
     }
 
     public void leaveChannel() {
         mChannelId = "";
         mToken = "";
         isCallIng = false;
-        room_ping_send_time = 0L;
-        RtcManager.getInstance().closeVideoChat();
     }
 
     protected void ping() {

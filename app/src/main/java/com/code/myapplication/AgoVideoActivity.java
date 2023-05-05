@@ -1,16 +1,11 @@
 package com.code.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.code.listener.IRtcEngineEventCallBackHandler;
-import com.code.okhttp.WSManager;
 import com.code.utils.LogUtil;
 import com.code.youyu.api.RtcManager;
 

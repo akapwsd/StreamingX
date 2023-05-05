@@ -83,7 +83,7 @@ public class HttpRequestUtils {
                 });
     }
 
-    public void joinChannel(Context context, String channelId, String uid, String peerUid, HttpRequestListener httpRequestListener) {
+    public void joinChannel(Context context, String channelId, String uid, String peerUid, int category, HttpRequestListener httpRequestListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
@@ -109,7 +109,7 @@ public class HttpRequestUtils {
                         String token = channelResultBean.getToken();
                         LogUtil.d(TAG, "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token);
                         if (channelId.equals(serverChannelId)) {
-                            WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER);
+                            WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER, category);
                         }
                     }
 
@@ -146,7 +146,7 @@ public class HttpRequestUtils {
                         String channelId = ch.getId();
                         String token = channelResultBean.getToken();
                         LogUtil.d(TAG, "createChannel success channelId:" + channelId + " token:" + token);
-                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER);
+                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uid), Constants.CLIENT_ROLE_BROADCASTER, category);
                     }
 
                     @Override
