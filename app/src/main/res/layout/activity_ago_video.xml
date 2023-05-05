@@ -32,5 +32,13 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
             android:text="hang_up" />
+
+        <Button
+            android:id="@+id/renew_token"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:text="renew token" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

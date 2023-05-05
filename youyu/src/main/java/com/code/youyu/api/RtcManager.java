@@ -249,7 +249,7 @@ public class RtcManager {
                 ChannelTokenBean channelTokenBean = (ChannelTokenBean) o;
                 String newToken = channelTokenBean.getToken();
                 String serverChannelId = channelTokenBean.getChannelId();
-                LogUtil.e(TAG, "requestSuccess newToken:" + newToken + " serverChannelId:" + serverChannelId);
+                LogUtil.d(TAG, "requestSuccess newToken:" + newToken + " serverChannelId:" + serverChannelId);
                 if (channel.equals(serverChannelId)) {
                     RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
                     rtcEngine.renewToken(newToken);

@@ -58,6 +58,7 @@ public class HttpRequestUtils {
     }
 
     public void getChannelToken(Context context, String channelId, String uid, HttpRequestListener httpRequestListener) {
+        LogUtil.d(TAG, "getChannelToken is start channelId:" + channelId + " uid:" + uid);
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
