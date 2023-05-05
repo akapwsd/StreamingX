@@ -235,7 +235,7 @@ public class WSManager {
         public void run() {
             long currentTimeMillis = System.currentTimeMillis();
             LogUtil.d(TAG, "heartBeat receive currentTimeMillis:" + currentTimeMillis + " global_ping_send_time:" + global_ping_send_time + " isReceivePong:" + isReceivePong);
-            if (currentTimeMillis - global_ping_send_time >= GLOBAL_HEART_BEAT_RATE && isReceivePong) {
+            if (heartHandler != null && currentTimeMillis - global_ping_send_time >= GLOBAL_HEART_BEAT_RATE && isReceivePong) {
                 isReceivePong = false;
                 global_ping_send_time = currentTimeMillis;
                 ping();
