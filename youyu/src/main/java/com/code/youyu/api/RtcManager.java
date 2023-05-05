@@ -16,6 +16,7 @@ import com.code.rtc.BaseRtcEngineManager;
 import com.code.utils.HttpRequestUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpBase;
+import com.code.utils.RtcSpUtils;
 
 import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
@@ -258,5 +259,6 @@ public class RtcManager {
     public void closeVideoChat() {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.leaveChannel();
+        RtcSpUtils.getInstance().setChannelId("");
     }
 }

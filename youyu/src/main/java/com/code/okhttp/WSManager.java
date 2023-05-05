@@ -265,7 +265,13 @@ public class WSManager {
 
     protected void ping() {
         LogUtil.d(TAG, "rtc ping is start");
-        Api.ping ping = Api.ping.newBuilder().build();
+        String channelId = RtcSpUtils.getInstance().getChannelId();
+        Api.ping ping;
+        Api.ping.Builder builder = Api.ping.newBuilder();
+        if (!TextUtils.isEmpty(channelId)) {
+            builder.setChannelId(channelId);
+        }
+        ping = builder.build();
         byte[] bytes = DataUtils.assembleData(0xde174df3, ping.toByteArray());
         LogUtil.d(TAG, "rtc ping send data:" + Arrays.toString(bytes));
         WSManager.getInstance().send(ByteString.of(bytes));
