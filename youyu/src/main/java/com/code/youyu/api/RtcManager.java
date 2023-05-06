@@ -1,8 +1,6 @@
 package com.code.youyu.api;
 
-
 import android.content.Context;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
@@ -18,26 +16,73 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpBase;
 import com.code.utils.RtcSpUtils;
 
-import io.agora.rtc.IRtcEngineEventHandler;
 import io.agora.rtc.RtcEngine;
-import io.agora.rtc.internal.LastmileProbeConfig;
 import io.agora.rtc.models.ChannelMediaOptions;
 import io.agora.rtc.video.VideoCanvas;
-import okio.ByteString;
 
+/**
+ * RtcManager is a method class for fast communication
+ * It includes functional interfaces such as obtaining anchor information, dialing audio and video, and video and audio control
+ * <p>
+ * You can use this class to quickly realize the audio and video functions of the anchor
+ * The specific function interface is as follows:
+ * <ul>
+ * <li>call video
+ * <li>dial audio
+ * </ul>
+ *
+ * @author chan
+ * @version 1.0.5
+ * @since 1.0.5
+ * @since 6 May 2023
+ * @since JDK11
+ */
 public class RtcManager {
-    public static final String TAG = "RtcManager";
-
-    private static final class RtcManagerHolder {
-        static final RtcManager rtcManager = new RtcManager();
-    }
-
-    public static RtcManager getInstance() {
-        return RtcManagerHolder.rtcManager;
-    }
-
+    private static final String TAG = "RtcManager";
+    private static final int BIG_VIEW_STATE_REMOTE = 0;
+    private static final int BIG_VIEW_STATE_LOCAL = 1;
     private Context mContext;
+    private SurfaceView remoteView;
+    private SurfaceView localView;
+    private int mBigViewState = BIG_VIEW_STATE_REMOTE;
+    /**
+     * The other party's uid
+     */
+    public int mRemoteUid;
+    /**
+     * own uid
+     */
+    public int localUid;
+    private FrameLayout remoteFrameLayout;
+    private FrameLayout localFrameLayout;
+    private static RtcManager rtcManager;
 
+    /**
+     * Get the singleton method of RtcManager object
+     *
+     * @return RtcManager
+     */
+    public static RtcManager getInstance() {
+        if (rtcManager == null) {
+            synchronized (RtcManager.class) {
+                if (rtcManager == null) {
+                    rtcManager = new RtcManager();
+                }
+            }
+        }
+        return rtcManager;
+    }
+
+    /**
+     * This is the RTC initialization method, you need to call it before using all audio and video functions
+     * For example call it in your Application
+     *
+     * @param context           the context
+     * @param access_key_id     the access_key_id
+     * @param access_key_secret the access_key_secret
+     * @param session_token     the session_token
+     * @since 1.0.5
+     */
     public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "initRtc is start");
         mContext = context;
@@ -46,50 +91,36 @@ public class RtcManager {
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
     }
 
+    /**
+     * Enable RTC log printing
+     *
+     * @since 1.0.5
+     */
     public void enableLog() {
         LogUtil.setLogLevel(LogUtil.Level.Level_HIGH.ordinal());
     }
 
+    /**
+     * Register listener communication callback method
+     * <p>
+     * {@link IRtcEngineEventCallBackHandler} IRtcEngineEventCallBackHandler listener object
+     *
+     * @see IRtcEngineEventCallBackHandler
+     * @since 1.0.5
+     */
     public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
         BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
         WSManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
     }
 
-    public static final int BIG_VIEW_STATE_REMOTE = 0;
-    public static final int BIG_VIEW_STATE_LOCAL = 1;
-    private SurfaceView remoteView;
-    private SurfaceView localView;
-    private int mBigViewState = BIG_VIEW_STATE_REMOTE;
-    public int mRemoteUid;
-    public int localUid;
-    private FrameLayout remoteFrameLayout;
-    private FrameLayout localFrameLayout;
-
-    public void quickShowView(Context context, int myUid, int peerUid, FrameLayout bigView, FrameLayout smallView) {
-        setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
-            @Override
-            public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
-                super.onFirstRemoteVideoDecoded(uid, width, height, elapsed);
-            }
-
-            @Override
-            public void onUserOffline(int uid, int reason) {
-                super.onUserOffline(uid, reason);
-            }
-
-            @Override
-            public void onUserJoined(int uid, int elapsed) {
-                super.onUserJoined(uid, elapsed);
-            }
-
-            @Override
-            public void onFacePositionChanged(int imageWidth, int imageHeight, IRtcEngineEventHandler.AgoraFacePositionInfo[] agoraFacePositionInfos) {
-                super.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
-            }
-        });
-        showLocalView(context, myUid, smallView);
-    }
-
+    /**
+     * Show remote screen
+     *
+     * @param context the context
+     * @param uid     The other party's uid
+     * @param view    view that need to display the other party's screen
+     * @since 1.0.5
+     */
     public void showRemoteView(Context context, int uid, FrameLayout view) {
         remoteFrameLayout = view;
         mRemoteUid = uid;
@@ -99,6 +130,14 @@ public class RtcManager {
         view.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
     }
 
+    /**
+     * Display the local screen
+     *
+     * @param context the context
+     * @param uid     own uid
+     * @param view    A view that displays its own screen
+     * @since 1.0.5
+     */
     public void showLocalView(Context context, int uid, FrameLayout view) {
         LogUtil.d(TAG, "showLocalView is start showLocalView uid:" + uid);
         userJoinChannel(uid);
@@ -111,14 +150,6 @@ public class RtcManager {
         view.addView(localView);
         rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
         localView.setZOrderMediaOverlay(true);
-    }
-
-    public void joinAudio(int uid){
-        LogUtil.d(TAG, "setLocalAudio is start uid:" + uid);
-        userJoinChannel(uid);
-        localUid = uid;
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.enableLocalVideo(false);
     }
 
     private void userJoinChannel(int uid) {
@@ -137,6 +168,11 @@ public class RtcManager {
         }
     }
 
+    /**
+     * Switch between remote and local video
+     *
+     * @param context the context
+     */
     public void switchView(Context context) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.setupRemoteVideo(null);
@@ -178,26 +214,43 @@ public class RtcManager {
         }
     }
 
-    //*=====================================================================================================================//
     public void createChannel(String uid, int category, HttpRequestListener listener) {
         HttpRequestUtils.getInstance().createChannel(mContext, uid, category, listener);
     }
 
+    /**
+     * call video
+     * <p>
+     * {@link HttpRequestListener} HttpRequestListener listener object
+     *
+     * @param channel  The RTC number of the video
+     * @param uid      own uid
+     * @param peerUid  The other party's uid
+     * @param listener callback interface
+     * @see HttpRequestListener
+     * @since 1.0.5
+     */
     public void callVideo(String channel, String uid, String peerUid, HttpRequestListener listener) {
         joinChannel(channel, uid, peerUid, Constants.VIDEO, listener);
     }
 
+    /**
+     * call audio
+     * <p>
+     * {@link HttpRequestListener} HttpRequestListener listener object
+     *
+     * @param channel  The RTC number of the audio
+     * @param uid      own uid
+     * @param peerUid  The other party's uid
+     * @param listener callback interface
+     * @see HttpRequestListener
+     * @since 1.0.5
+     */
     public void callAudio(String channel, String uid, String peerUid, HttpRequestListener listener) {
         joinChannel(channel, uid, peerUid, Constants.AUDIO, listener);
     }
 
     private void joinChannel(String channel, String uid, String peerUid, int category, HttpRequestListener listener) {
-//        check network
-//        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-//        LastmileProbeConfig lastmileProbeConfig = new LastmileProbeConfig();
-//        lastmileProbeConfig.probeUplink = true;
-//        lastmileProbeConfig.probeDownlink = true;
-//        rtcEngine.startLastmileProbeTest(lastmileProbeConfig);
         HttpRequestUtils.getInstance().joinChannel(mContext, channel, uid, peerUid, category, listener);
     }
 

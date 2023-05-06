@@ -29,7 +29,7 @@ class MainActivity : Activity() {
             Manifest.permission.ACCESS_NETWORK_STATE,
             Manifest.permission.READ_PHONE_STATE
     )
-    private val channelId = "2824175496881773558"
+    private val channelId = "2824207831375289334"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

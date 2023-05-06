@@ -7,7 +7,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.akapwsd'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     sourceSets {
         main {
@@ -47,7 +47,7 @@ android {
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 33
+        targetSdkVersion 31
         versionCode 1
         versionName "1.0"
 
@@ -95,13 +95,11 @@ dependencies {
 
 task makeJar(type: Jar, dependsOn: ['build']) {
     //删除存在的
-    delete 'build/libs/youyu.jar'
-    archiveName 'youyu.jar'//目标jar包名称
+    delete 'build/libs/youyu_rtc.jar'
+    archiveName 'youyu_rtc.jar'//目标jar包名称
     //设置拷贝的文件
     from(project.zipTree('build/intermediates/aar_main_jar/release/classes.jar'))
     //此行很重要，否则该项目编写的代码无法打进jar包，具体路径与gradle版本有关，//之前网上说的都是老版本的路径，害我浪费半天时间
-    from(project.zipTree("libs/retrofit-2.9.0.jar"))
-    from(project.zipTree("libs/rxjava-3.1.6.jar"))
     include('com/**')
     include('**/')
     exclude('com.example/BuildConfig.class')//需排除一些无用文件
