@@ -1,12 +1,26 @@
 package com.code.bean;
 
+/**
+ * Room Details Object
+ *
+ * @author chan
+ * @version 1.0.5
+ * @since 1.0.5
+ * @since 6 May 2023
+ * @since JDK11
+ */
 public class ChannelInfoBean {
-    String id;
-    int category;
-    int state;
-    String startTs;
-    String endTs;
+    private String id;
+    private int category;
+    private int state;
+    private String startTs;
+    private String endTs;
 
+    /**
+     * Get the channel number of the call room
+     *
+     * @return Call room channel number
+     */
     public String getId() {
         return id;
     }
@@ -15,6 +29,15 @@ public class ChannelInfoBean {
         this.id = id;
     }
 
+    /**
+     * call room type
+     *
+     * @return room type
+     * <ul>
+     *     <li> 1 is video
+     *     <li> 0 is audio
+     * </ul>
+     */
     public int getCategory() {
         return category;
     }
@@ -49,12 +72,6 @@ public class ChannelInfoBean {
 
     @Override
     public String toString() {
-        return "ChannelInfoBean{" +
-                "id='" + id + '\'' +
-                ", category=" + category +
-                ", state=" + state +
-                ", startTs='" + startTs + '\'' +
-                ", endTs='" + endTs + '\'' +
-                '}';
+        return "ChannelInfoBean{" + "id='" + id + '\'' + ", category=" + category + ", state=" + state + ", startTs='" + startTs + '\'' + ", endTs='" + endTs + '\'' + '}';
     }
 }

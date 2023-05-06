@@ -81,7 +81,6 @@ public class RtcManager {
      * @param access_key_id     the access_key_id
      * @param access_key_secret the access_key_secret
      * @param session_token     the session_token
-     * @since 1.0.5
      */
     public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "initRtc is start");
@@ -93,8 +92,6 @@ public class RtcManager {
 
     /**
      * Enable RTC log printing
-     *
-     * @since 1.0.5
      */
     public void enableLog() {
         LogUtil.setLogLevel(LogUtil.Level.Level_HIGH.ordinal());
@@ -102,9 +99,9 @@ public class RtcManager {
 
     /**
      * Register listener communication callback method
-     * <p>
-     * {@link IRtcEngineEventCallBackHandler} IRtcEngineEventCallBackHandler listener object
      *
+     * @param callBackHandler Room event callback object
+     *                        {@link IRtcEngineEventCallBackHandler} IRtcEngineEventCallBackHandler listener object
      * @see IRtcEngineEventCallBackHandler
      * @since 1.0.5
      */
@@ -220,13 +217,12 @@ public class RtcManager {
 
     /**
      * call video
-     * <p>
-     * {@link HttpRequestListener} HttpRequestListener listener object
      *
      * @param channel  The RTC number of the video
      * @param uid      own uid
      * @param peerUid  The other party's uid
      * @param listener callback interface
+     *                 {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
      * @since 1.0.5
      */
@@ -236,13 +232,12 @@ public class RtcManager {
 
     /**
      * call audio
-     * <p>
-     * {@link HttpRequestListener} HttpRequestListener listener object
      *
      * @param channel  The RTC number of the audio
      * @param uid      own uid
      * @param peerUid  The other party's uid
      * @param listener callback interface
+     *                 {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
      * @since 1.0.5
      */
@@ -316,6 +311,9 @@ public class RtcManager {
         });
     }
 
+    /**
+     * Hang up and disconnect the call
+     */
     public void closeVideoChat() {
         WSManager.getInstance().leaveChannel();
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
@@ -328,6 +326,10 @@ public class RtcManager {
         rtcEngine.enableFaceDetection(isEnable);
     }
 
+    /**
+     * If you want to get more function extensions,
+     * you can directly get the RtcEngine object for operation
+     */
     public RtcEngine getRtcEngine() {
         return BaseRtcEngineManager.getInstance().getRtcEngine();
     }

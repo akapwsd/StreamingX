@@ -1,9 +1,23 @@
 package com.code.bean;
 
+/**
+ * Interface request receipt data object
+ *
+ * @author chan
+ * @version 1.0.5
+ * @since 1.0.5
+ * @since 6 May 2023
+ * @since JDK11
+ */
 public class ChannelResultBean {
-    ChannelInfoBean ch;
-    String token;
+    private ChannelInfoBean ch;
+    private String token;
 
+    /**
+     * Get the room details object
+     *
+     * @return Room Details Data Object{@link ChannelInfoBean}
+     */
     public ChannelInfoBean getCh() {
         return ch;
     }
@@ -12,6 +26,11 @@ public class ChannelResultBean {
         this.ch = ch;
     }
 
+    /**
+     * Get room token
+     *
+     * @return room token
+     */
     public String getToken() {
         return token;
     }
@@ -22,9 +41,6 @@ public class ChannelResultBean {
 
     @Override
     public String toString() {
-        return "CreateChannelResultBean{" +
-                "ch=" + ch +
-                ", token='" + token + '\'' +
-                '}';
+        return "CreateChannelResultBean{" + "ch=" + ch + ", token='" + token + '\'' + '}';
     }
 }
