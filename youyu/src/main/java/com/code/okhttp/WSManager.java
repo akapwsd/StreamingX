@@ -26,6 +26,7 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
 import uyujoy.com.api.gateway.frontend.Base;
 
@@ -192,15 +193,29 @@ public class WSManager {
             int crc32 = messageFrame.getCrc32();
             LogUtil.i(TAG, "onMessage receive crc32:" + crc32);
             String OxCrcId = Integer.toHexString(crc32);
-            com.google.protobuf.ByteString resultData = messageFrame.getData();
+            byte[] resultData = messageFrame.getData().toByteArray();
             LogUtil.i(TAG, "onMessage receive OxCrcId:" + OxCrcId);
-            switch (OxCrcId) {
-                case Constants.PONG:
-                    isReceivePong = true;
-                    break;
-                case Constants.BAN_ROOM:
-                    iRtcEngineEventCallBackHandler.banRoom();
-                    break;
+            try {
+                switch (OxCrcId) {
+                    case Constants.PONG:
+                        isReceivePong = true;
+                        break;
+                    case Constants.BAN_USER_ROOM:
+                        ChannelImform.channelUserStateChange channelUserStateChange = ChannelImform.channelUserStateChange.parseFrom(resultData);
+                        String uid = channelUserStateChange.getChu().getUid();
+                        if (uid.equals(mUid)) {
+                            RtcManager.getInstance().closeVideoChat();
+                        }
+                        iRtcEngineEventCallBackHandler.banRoom(uid, channelUserStateChange.getReason());
+                        break;
+                    case Constants.CLOSE_ROOM:
+                        ChannelImform.channelStateChange channelStateChange = ChannelImform.channelStateChange.parseFrom(resultData);
+                        RtcManager.getInstance().closeVideoChat();
+                        iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
+                        break;
+                }
+            } catch (InvalidProtocolBufferException e) {
+                throw new RuntimeException(e);
             }
         }
 

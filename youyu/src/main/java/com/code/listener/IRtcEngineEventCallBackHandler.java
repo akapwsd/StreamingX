@@ -22,7 +22,11 @@ public abstract class IRtcEngineEventCallBackHandler {
 
     }
 
-    public void banRoom(){
+    public void banRoom(String uid,int reason) {
+
+    }
+
+    public void closeRoom(int reason) {
 
     }
 }

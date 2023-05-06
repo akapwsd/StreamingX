@@ -22,8 +22,6 @@ public class AgoVideoActivity extends Activity {
         Button hangUpBtn = findViewById(R.id.hang_up_btn);
         smallView = findViewById(R.id.small_view);
         bigView = findViewById(R.id.big_view);
-        Button renewToken = findViewById(R.id.renew_token);
-        renewToken.setOnClickListener(view -> RtcManager.getInstance().requestNewToken());
         localUid = getIntent().getIntExtra("localUid", 0);
         RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
             @Override
@@ -45,11 +43,6 @@ public class AgoVideoActivity extends Activity {
             @Override
             public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
                 LogUtil.d("TEST", "onFirstRemoteVideoDecoded uid:" + uid);
-            }
-
-            @Override
-            public void banRoom() {
-                LogUtil.d("TEST", "banRoom");
             }
         });
         initVideoView();
