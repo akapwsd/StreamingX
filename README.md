@@ -18,4 +18,4 @@ Add the dependency:
 	        implementation 'com.github.akapwsd:rtctest:Tag'
 	}
   
- The new release tag is 1.0.7
+[![](https://jitpack.io/v/akapwsd/rtctest.svg)](https://jitpack.io/#akapwsd/rtctest)
