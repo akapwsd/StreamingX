@@ -9,7 +9,7 @@ import io.agora.rtc.IRtcEngineEventHandler;
  * @version 1.0.5
  * @since 1.0.5
  * @since 6 May 2023
- * @since JDK11
+ * @since JDK8
  */
 public abstract class IRtcEngineEventCallBackHandler {
     /**

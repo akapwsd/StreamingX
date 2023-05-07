@@ -35,7 +35,7 @@ import io.agora.rtc.video.VideoCanvas;
  * @version 1.0.5
  * @since 1.0.5
  * @since 6 May 2023
- * @since JDK11
+ * @since JDK8
  */
 public class RtcManager {
     private static final String TAG = "RtcManager";
@@ -103,7 +103,6 @@ public class RtcManager {
      * @param callBackHandler Room event callback object
      *                        {@link IRtcEngineEventCallBackHandler} IRtcEngineEventCallBackHandler listener object
      * @see IRtcEngineEventCallBackHandler
-     * @since 1.0.5
      */
     public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
         BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
@@ -116,7 +115,6 @@ public class RtcManager {
      * @param context the context
      * @param uid     The other party's uid
      * @param view    view that need to display the other party's screen
-     * @since 1.0.5
      */
     public void showRemoteView(Context context, int uid, FrameLayout view) {
         remoteFrameLayout = view;
@@ -133,7 +131,6 @@ public class RtcManager {
      * @param context the context
      * @param uid     own uid
      * @param view    A view that displays its own screen
-     * @since 1.0.5
      */
     public void showLocalView(Context context, int uid, FrameLayout view) {
         LogUtil.d(TAG, "showLocalView is start showLocalView uid:" + uid);
@@ -224,7 +221,6 @@ public class RtcManager {
      * @param listener callback interface
      *                 {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
-     * @since 1.0.5
      */
     public void callVideo(String channel, String uid, String peerUid, HttpRequestListener listener) {
         joinChannel(channel, uid, peerUid, Constants.VIDEO, listener);
@@ -239,7 +235,6 @@ public class RtcManager {
      * @param listener callback interface
      *                 {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
-     * @since 1.0.5
      */
     public void callAudio(String channel, String uid, String peerUid, HttpRequestListener listener) {
         joinChannel(channel, uid, peerUid, Constants.AUDIO, listener);
