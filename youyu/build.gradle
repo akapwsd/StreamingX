@@ -7,7 +7,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.akapwsd'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 30
 
     sourceSets {
         main {
@@ -47,7 +47,7 @@ android {
 
     defaultConfig {
         minSdkVersion 26
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
