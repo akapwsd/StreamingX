@@ -26,6 +26,7 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+import uyujoy.com.api.channel.frontend.ChannelBase;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
 import uyujoy.com.api.gateway.frontend.Base;
@@ -210,8 +211,13 @@ public class WSManager {
                         break;
                     case Constants.CLOSE_ROOM:
                         ChannelImform.channelStateChange channelStateChange = ChannelImform.channelStateChange.parseFrom(resultData);
+                        ChannelBase.channel ch = channelStateChange.getCh();
+                        String serverChannel = ch.getId();
+                        String channelId = RtcSpUtils.getInstance().getChannelId();
                         RtcManager.getInstance().closeVideoChat();
-                        iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
+                        if (!TextUtils.isEmpty(channelId) && channelId.equals(serverChannel)) {
+                            iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
+                        }
                         break;
                 }
             } catch (InvalidProtocolBufferException e) {
@@ -275,7 +281,7 @@ public class WSManager {
             builder.setChannelId(channelId);
         }
         ping = builder.build();
-        byte[] bytes = DataUtils.assembleData(0xde174df3, ping.toByteArray());
+        byte[] bytes = DataUtils.assembleData(0x85e792c3, ping.toByteArray());
         LogUtil.d(TAG, "rtc ping send data:" + Arrays.toString(bytes));
         WSManager.getInstance().send(ByteString.of(bytes));
     }
