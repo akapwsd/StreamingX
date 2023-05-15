@@ -6,6 +6,7 @@ import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelBean;
+import com.code.bean.ModelRequestBean;
 
 import java.util.ArrayList;
 
@@ -23,7 +24,7 @@ public interface HttpApi {
     String GET_CHANNEL_TOKEN = "channel/channel/{channelId}/token";
     String CREATE_CHANNEL = "channel/channel";
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
-    String GET_MODEL_LIST = "";
+    String GET_MODEL_LIST = "broadcaster/list";
 
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Path("channelId") String channelId, @Query("uid") String uid);
@@ -36,5 +37,5 @@ public interface HttpApi {
     Observable<ChannelResultBean> joinChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Path("channelId") String channelId, @Body JoinChannelBean joinChannelInfo);
 
     @GET(GET_MODEL_LIST)
-    Observable<ArrayList<ModelBean>> getModelList(@Header("Authorization") String authorization, @Header("Session-Token") String sessionToken, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp);
+    Observable<ArrayList<ModelBean>> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Body ModelRequestBean modelRequestBean);
 }

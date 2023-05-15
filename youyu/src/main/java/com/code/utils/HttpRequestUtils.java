@@ -6,6 +6,7 @@ import com.code.bean.ChannelInfoBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
+import com.code.bean.ModelRequestBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelListListener;
 import com.code.okhttp.WSManager;
@@ -30,18 +31,20 @@ public class HttpRequestUtils {
         return httpRequestUtils;
     }
 
-    public void getModelList(Context context, RequestModelListListener requestModelListListener) {
+    public void getModelList(Context context,int limit, RequestModelListListener requestModelListListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
         String Content_Type = "application/json";
-        String data = X_Uyj_Timestamp;// + Content_Type;
+        String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+        ModelRequestBean modelRequestBean = new ModelRequestBean();
+        modelRequestBean.setLimit(limit);
         RetrofitHelper.createApi(HttpApi.class, context)
-                .getModelList(authorization, session_token, X_Uyj_Timestamp)
+                .getModelList(authorization, X_Uyj_Timestamp, Content_Type,modelRequestBean)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver() {
 

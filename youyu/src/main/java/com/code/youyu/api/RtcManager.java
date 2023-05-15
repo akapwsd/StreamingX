@@ -246,7 +246,11 @@ public class RtcManager {
     }
 
     public void getModelList(RequestModelListListener listener) {
-        HttpRequestUtils.getInstance().getModelList(mContext, listener);
+        HttpRequestUtils.getInstance().getModelList(mContext, 20, listener);
+    }
+
+    public void getModelList(int limit, RequestModelListListener listener) {
+        HttpRequestUtils.getInstance().getModelList(mContext, limit, listener);
     }
 
     public void switchCamera() {
