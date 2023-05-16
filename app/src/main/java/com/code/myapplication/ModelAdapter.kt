@@ -10,14 +10,17 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.code.bean.ModelBean
 
-class ModelAdapter : RecyclerView.Adapter<ModelAdapter.ModelViewHolder> {
-    private var context: Context? = null
+class ModelAdapter(mContext: Context, list: ArrayList<ModelBean>?) : RecyclerView.Adapter<ModelAdapter.ModelViewHolder>() {
+    private var context: Context? = mContext
     private var mList = arrayListOf<ModelBean>()
     private var itemClickListener: ModelItemClickListener? = null
 
-    constructor (mContext: Context, list: ArrayList<ModelBean>?) {
-        this.context = mContext
+    init {
         this.mList = list!!
+    }
+
+    fun addList(list: ArrayList<ModelBean>?) {
+        this.mList.addAll(list!!)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ModelViewHolder {
