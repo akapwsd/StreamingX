@@ -24,7 +24,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
         <activity
-            android:name=".LoginActivity"
+            android:name=".ModelListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ChannelActivity"
             android:exported="false" />
         <activity
             android:name=".AgoAudioActivity"

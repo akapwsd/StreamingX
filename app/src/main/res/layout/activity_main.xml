@@ -7,32 +7,22 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/create_btn"
+        android:id="@+id/init_btn_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Create Video Room!"
+        android:text="init account1"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/call_video"
+        android:id="@+id/init_btn_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Call Video"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/create_btn" />
+        android:text="init account2"
+        app:layout_constraintBottom_toTopOf="@+id/init_btn_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/call_audio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Call audio"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/call_video" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,15 +27,15 @@ public interface HttpApi {
     String GET_MODEL_LIST = "broadcaster/list";
 
     @GET(GET_CHANNEL_TOKEN)
-    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Path("channelId") String channelId, @Query("uid") String uid);
+    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId, @Query("uid") String uid);
 
     // @Header("Session-Token") String sessionToken,
     @POST(CREATE_CHANNEL)
-    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Body CreateChannelBean createInfo);
+    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Body CreateChannelBean createInfo);
 
     @PUT(JOIN_CHANNEL)
-    Observable<ChannelResultBean> joinChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Path("channelId") String channelId, @Body JoinChannelBean joinChannelInfo);
+    Observable<ChannelResultBean> joinChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId, @Body JoinChannelBean joinChannelInfo);
 
     @GET(GET_MODEL_LIST)
-    Observable<ArrayList<ModelBean>> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Body ModelRequestBean modelRequestBean);
+    Observable<ArrayList<ModelBean>> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Body ModelRequestBean modelRequestBean);
 }

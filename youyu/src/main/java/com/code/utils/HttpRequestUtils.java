@@ -31,7 +31,7 @@ public class HttpRequestUtils {
         return httpRequestUtils;
     }
 
-    public void getModelList(Context context,int limit, RequestModelListListener requestModelListListener) {
+    public void getModelList(Context context, int limit, RequestModelListListener requestModelListListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
@@ -44,7 +44,7 @@ public class HttpRequestUtils {
         ModelRequestBean modelRequestBean = new ModelRequestBean();
         modelRequestBean.setLimit(limit);
         RetrofitHelper.createApi(HttpApi.class, context)
-                .getModelList(authorization, X_Uyj_Timestamp, Content_Type,modelRequestBean)
+                .getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelRequestBean)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver() {
 
@@ -72,7 +72,7 @@ public class HttpRequestUtils {
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
         RetrofitHelper.createApi(HttpApi.class, context)
-                .getChannelToken(authorization, X_Uyj_Timestamp, Content_Type, channelId, uid)
+                .getChannelToken(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId, uid)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver() {
                     @Override
@@ -101,7 +101,7 @@ public class HttpRequestUtils {
         joinChannelBean.setUid(uid);
         joinChannelBean.setBroadcaster(peerUid);
         RetrofitHelper.createApi(HttpApi.class, context)
-                .joinChannel(authorization, X_Uyj_Timestamp, Content_Type, channelId, joinChannelBean)
+                .joinChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId, joinChannelBean)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver() {
                     @Override
@@ -139,7 +139,7 @@ public class HttpRequestUtils {
         createChannelBean.setUid(uid);
         createChannelBean.setCategory(category);
         RetrofitHelper.createApi(HttpApi.class, context)
-                .createChannel(authorization, X_Uyj_Timestamp, Content_Type, createChannelBean)
+                .createChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, createChannelBean)
                 .compose(RetrofitHelper.schedulersTransformer())
                 .subscribe(new RxObserver() {
                     @Override
