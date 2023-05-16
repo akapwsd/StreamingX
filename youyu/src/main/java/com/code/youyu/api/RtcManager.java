@@ -130,14 +130,12 @@ public class RtcManager {
      * Display the local screen
      *
      * @param context the context
-     * @param uid     own uid
      * @param view    A view that displays its own screen
      */
-    public void showLocalView(Context context, int uid, FrameLayout view) {
-        LogUtil.d(TAG, "showLocalView is start showLocalView uid:" + uid);
-        userJoinChannel(uid);
+    public void showLocalView(Context context, FrameLayout view) {
+        LogUtil.d(TAG, "showLocalView is start showLocalView uid:" + localUid);
+        userJoinChannel(localUid);
         localFrameLayout = view;
-        localUid = uid;
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.enableLocalVideo(true);
         localView = RtcEngine.CreateRendererView(context);
@@ -209,40 +207,38 @@ public class RtcManager {
         }
     }
 
-    public void createChannel(String uid, int category, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().createChannel(mContext, uid, category, listener);
+    public void createChannel(int category, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().createChannel(mContext, category, listener);
     }
 
     /**
      * call video
      *
      * @param channel  The RTC number of the video
-     * @param uid      own uid
      * @param peerUid  The other party's uid
      * @param listener callback interface
      *                 {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
      */
-    public void callVideo(String channel, String uid, String peerUid, HttpRequestListener listener) {
-        joinChannel(channel, uid, peerUid, Constants.VIDEO, listener);
+    public void callVideo(String channel, String peerUid, HttpRequestListener listener) {
+        joinChannel(channel, peerUid, Constants.VIDEO, listener);
     }
 
     /**
      * call audio
      *
      * @param channel  The RTC number of the audio
-     * @param uid      own uid
      * @param peerUid  The other party's uid
      * @param listener callback interface
      *                 {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
      */
-    public void callAudio(String channel, String uid, String peerUid, HttpRequestListener listener) {
-        joinChannel(channel, uid, peerUid, Constants.AUDIO, listener);
+    public void callAudio(String channel, String peerUid, HttpRequestListener listener) {
+        joinChannel(channel, peerUid, Constants.AUDIO, listener);
     }
 
-    private void joinChannel(String channel, String uid, String peerUid, int category, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().joinChannel(mContext, channel, uid, peerUid, category, listener);
+    private void joinChannel(String channel, String peerUid, int category, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().joinChannel(mContext, channel, peerUid, category, listener);
     }
 
     public void getModelList(RequestModelListListener listener) {
@@ -290,8 +286,7 @@ public class RtcManager {
 
     public void requestNewToken() {
         String channel = WSManager.getInstance().mChannelId;
-        String uid = WSManager.getInstance().mUid;
-        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, uid, new HttpRequestListener() {
+        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, new HttpRequestListener() {
             @Override
             public void requestSuccess(Object o) {
                 ChannelTokenBean channelTokenBean = (ChannelTokenBean) o;

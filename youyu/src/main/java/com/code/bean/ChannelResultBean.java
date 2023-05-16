@@ -12,6 +12,7 @@ package com.code.bean;
 public class ChannelResultBean {
     private ChannelInfoBean ch;
     private String token;
+    private String uniqId;
 
     /**
      * Get the room details object
@@ -20,10 +21,6 @@ public class ChannelResultBean {
      */
     public ChannelInfoBean getCh() {
         return ch;
-    }
-
-    public void setCh(ChannelInfoBean ch) {
-        this.ch = ch;
     }
 
     /**
@@ -35,8 +32,8 @@ public class ChannelResultBean {
         return token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public String getUniqId() {
+        return uniqId;
     }
 
     @Override

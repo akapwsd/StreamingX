@@ -13,7 +13,6 @@ import com.code.youyu.api.RtcManager;
 public class AgoVideoActivity extends Activity {
     public FrameLayout smallView;
     public FrameLayout bigView;
-    public int localUid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +21,6 @@ public class AgoVideoActivity extends Activity {
         Button hangUpBtn = findViewById(R.id.hang_up_btn);
         smallView = findViewById(R.id.small_view);
         bigView = findViewById(R.id.big_view);
-        localUid = getIntent().getIntExtra("localUid", 0);
         RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
             @Override
             public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
@@ -53,6 +51,6 @@ public class AgoVideoActivity extends Activity {
     }
 
     public void initVideoView() {
-        RtcManager.getInstance().showLocalView(this, localUid, smallView);
+        RtcManager.getInstance().showLocalView(this, smallView);
     }
 }

@@ -7,12 +7,9 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.code.listener.HttpRequestListener
 import com.code.rtc.BaseRtcEngineManager
-import com.code.youyu.api.Constants
 import com.code.youyu.api.RtcManager
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
@@ -28,12 +25,15 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init_btn_1.setOnClickListener {
-            RtcManager.getInstance().initRtc(this, "a3f452f5f3b411eda17ce69f99b16e0f", "wPcbq/H4vAP79TMWDN_AKpcdUDxWbh-Rh+K+TsUt", "68a983741a5134109a3b9739faecb72b84cdb66fefa9d0a7eda03dceefe6c397f4")
+            RtcManager.getInstance().initRtc(this, "848792c0f3bf11eda17ce69f99b16e0f", "gA-FFC9W0@0KYz7kD5@NasodqTlL0e=JlqvGWWSW", "791d631f89cf81049b97f229a654887e1e90f88ead871d60e7e8d4014e8543deca")
             startActivity(Intent(this@MainActivity, ChannelActivity::class.java))
         }
         init_btn_2.setOnClickListener {
             RtcManager.getInstance().initRtc(this, "b7eede93f3b411eda17ce69f99b16e0f", "kNhV--+5-OD7+YTzQDpE1bU0PjS5KcX=Q9xrnZG1", "a14b97f80bba6a11571b104d4d31781efd717cbfba45fb4d147efba3ae80c4b35b")
             startActivity(Intent(this@MainActivity, ChannelActivity::class.java))
+        }
+        resume_btn_1.setOnClickListener {
+
         }
     }
 

@@ -27,7 +27,7 @@ public interface HttpApi {
     String GET_MODEL_LIST = "broadcaster/list";
 
     @GET(GET_CHANNEL_TOKEN)
-    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId, @Query("uid") String uid);
+    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId);
 
     // @Header("Session-Token") String sessionToken,
     @POST(CREATE_CHANNEL)

@@ -16,11 +16,9 @@ class ChannelActivity : Activity() {
         setContentView(R.layout.activity_login)
         create_btn.setOnClickListener {
             val callType = Constants.VIDEO
-            RtcManager.getInstance().createChannel("110", callType, object : HttpRequestListener {
+            RtcManager.getInstance().createChannel(callType, object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
-                    val intent = Intent(this@ChannelActivity, AgoVideoActivity::class.java)
-                    intent.putExtra("localUid", 110)
-                    startActivity(intent)
+                    startActivity(Intent(this@ChannelActivity, AgoVideoActivity::class.java))
                 }
 
                 override fun requestError(code: Int, error: String?) {
@@ -29,12 +27,9 @@ class ChannelActivity : Activity() {
             })
         }
         call_video.setOnClickListener {
-            RtcManager.getInstance().callVideo(channelId, "111", "110", object : HttpRequestListener {
+            RtcManager.getInstance().callVideo(channelId, "111", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
-                    val intent = Intent(this@ChannelActivity, AgoVideoActivity::class.java)
-                    intent.putExtra("localUid", 111)
-                    intent.putExtra("peerUid", 110)
-                    startActivity(intent);
+                    startActivity(Intent(this@ChannelActivity, AgoVideoActivity::class.java))
                 }
 
                 override fun requestError(code: Int, error: String?) {
@@ -43,12 +38,9 @@ class ChannelActivity : Activity() {
             })
         }
         call_audio.setOnClickListener {
-            RtcManager.getInstance().callAudio(channelId, "111", "110", object : HttpRequestListener {
+            RtcManager.getInstance().callAudio(channelId, "111", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
-                    val intent = Intent(this@ChannelActivity, AgoAudioActivity::class.java)
-                    intent.putExtra("localUid", 111)
-                    intent.putExtra("peerUid", 110)
-                    startActivity(intent);
+                    startActivity(Intent(this@ChannelActivity, AgoAudioActivity::class.java))
                 }
 
                 override fun requestError(code: Int, error: String?) {
