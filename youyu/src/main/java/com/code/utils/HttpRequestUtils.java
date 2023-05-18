@@ -41,7 +41,7 @@ public class HttpRequestUtils {
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = "application/json";
+        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
@@ -66,7 +66,7 @@ public class HttpRequestUtils {
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = "application/json";
+        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
@@ -94,7 +94,7 @@ public class HttpRequestUtils {
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = "application/json";
+        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
@@ -117,7 +117,7 @@ public class HttpRequestUtils {
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = "application/json";
+        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
@@ -152,7 +152,7 @@ public class HttpRequestUtils {
         String session_token = RtcSpUtils.getInstance().getSessionToken();
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = "application/json";
+        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;

@@ -7,4 +7,7 @@ public class Constants {
 
     public static final int VIDEO = 1;
     public static final int AUDIO = 0;
+
+    public static final String CONTENT_TYPE_JSON = "application/json";
+    public static final String CONTENT_TYPE_PROTO = "application/protobuf";
 }
