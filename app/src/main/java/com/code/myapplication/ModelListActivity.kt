@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.code.bean.ModelBean
+import com.code.bean.ModelListBean
 import com.code.listener.RequestModelListListener
 import com.code.utils.HttpRequestUtils
 import kotlinx.android.synthetic.main.activity_model_list.*
@@ -30,8 +31,8 @@ class ModelListActivity : Activity() {
         })
 
         HttpRequestUtils.getInstance().getModelList(this, 50, object : RequestModelListListener {
-            override fun onResult(dataList: java.util.ArrayList<ModelBean>?) {
-                list = dataList
+            override fun onResult(data: ModelListBean) {
+                list = data.list
                 adapter?.addList(list)
             }
 

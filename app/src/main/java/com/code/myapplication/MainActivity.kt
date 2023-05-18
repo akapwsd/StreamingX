@@ -25,11 +25,11 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init_btn_1.setOnClickListener {
-            RtcManager.getInstance().initRtc(this, "848792c0f3bf11eda17ce69f99b16e0f", "gA-FFC9W0@0KYz7kD5@NasodqTlL0e=JlqvGWWSW", "791d631f89cf81049b97f229a654887e1e90f88ead871d60e7e8d4014e8543deca")
+            RtcManager.getInstance().initRtc(this, "bfc26f2df48c11eda17ce69f99b16e0f", "nR753rmJ0PVgIw5UbceQdZHU!0lUtydywZOyVY5M", "8e625fec072ba9e09bf709f60fe7bfa126b7d2091bf839bf8b57d1c7d5fe81ec86")
             startActivity(Intent(this@MainActivity, ChannelActivity::class.java))
         }
         init_btn_2.setOnClickListener {
-            RtcManager.getInstance().initRtc(this, "b7eede93f3b411eda17ce69f99b16e0f", "kNhV--+5-OD7+YTzQDpE1bU0PjS5KcX=Q9xrnZG1", "a14b97f80bba6a11571b104d4d31781efd717cbfba45fb4d147efba3ae80c4b35b")
+            RtcManager.getInstance().initRtc(this, "d55a2d32f48c11eda17ce69f99b16e0f", "#=g6wEkExBHAT0NRyecZaaJ=bTdJu!uhPiS9eqWn", "de8efe89aaf808a56ed86bad2a479bdd9bafda1c4c0cb700e7d2d67a50e91ae765")
             startActivity(Intent(this@MainActivity, ChannelActivity::class.java))
         }
         resume_btn_1.setOnClickListener {

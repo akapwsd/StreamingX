@@ -1,11 +1,9 @@
 package com.code.listener;
 
-import com.code.bean.ModelBean;
-
-import java.util.ArrayList;
+import com.code.bean.ModelListBean;
 
 public interface RequestModelListListener {
-    void onResult(ArrayList<ModelBean> dataList);
+    void onResult(ModelListBean data);
 
     void onFailure(int code, String reason);
 }

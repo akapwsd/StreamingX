@@ -6,8 +6,11 @@ import com.code.bean.ChannelInfoBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
+import com.code.bean.ModelCoverListBean;
+import com.code.bean.ModelListBean;
 import com.code.bean.ModelRequestBean;
 import com.code.listener.HttpRequestListener;
+import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
 import com.code.okhttp.WSManager;
 import com.code.retrofit.RetrofitHelper;
@@ -32,6 +35,31 @@ public class HttpRequestUtils {
         return httpRequestUtils;
     }
 
+    public void getModelAvatar(Context context, int modelId, RequestModelAvatarListListener requestModelAvatarListListener) {
+        String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+        String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+        String session_token = RtcSpUtils.getInstance().getSessionToken();
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        String Content_Type = "application/json";
+        String data = X_Uyj_Timestamp + Content_Type;
+        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+        String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+        RetrofitHelper.createApi(HttpApi.class, context).getModelCoverList(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+            @Override
+            public void Success(Object modelBeans) {
+                ModelCoverListBean data = (ModelCoverListBean) modelBeans;
+                requestModelAvatarListListener.onResult(data);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                requestModelAvatarListListener.onFailure(code, error);
+            }
+        });
+    }
+
     public void getModelList(Context context, int limit, RequestModelListListener requestModelListListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
@@ -48,7 +76,8 @@ public class HttpRequestUtils {
 
             @Override
             public void Success(Object modelBeans) {
-//                        requestModelListListener.onResult(modelBeans);
+                ModelListBean data = (ModelListBean) modelBeans;
+                requestModelListListener.onResult(data);
             }
 
             @Override

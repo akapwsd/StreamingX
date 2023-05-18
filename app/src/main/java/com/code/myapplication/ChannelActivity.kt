@@ -10,7 +10,7 @@ import com.code.youyu.api.RtcManager
 import kotlinx.android.synthetic.main.activity_login.*
 
 class ChannelActivity : Activity() {
-    private val channelId = "2824207831375289334"
+    private val channelId = "2825806909305530098"
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -27,7 +27,7 @@ class ChannelActivity : Activity() {
             })
         }
         call_video.setOnClickListener {
-            RtcManager.getInstance().callVideo(channelId, "111", object : HttpRequestListener {
+            RtcManager.getInstance().callVideo(channelId, "110", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     startActivity(Intent(this@ChannelActivity, AgoVideoActivity::class.java))
                 }
