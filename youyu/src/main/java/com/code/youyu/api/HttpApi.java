@@ -5,12 +5,8 @@ import com.code.bean.ChannelTokenBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
-import com.code.bean.ModelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
-import com.code.bean.ModelRequestBean;
-
-import java.util.ArrayList;
 
 import io.reactivex.rxjava3.core.Observable;
 import retrofit2.http.Body;
@@ -40,7 +36,7 @@ public interface HttpApi {
     Observable<ChannelResultBean> joinChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId, @Body JoinChannelBean joinChannelInfo);
 
     @GET(GET_MODEL_LIST)
-    Observable<ModelListBean> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Body ModelRequestBean modelRequestBean);
+    Observable<ModelListBean> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("sort") int sort, @Query("page") int page, @Query("limit") int limit);
 
     @GET(GET_MODEL_COVER)
     Observable<ModelCoverListBean> getModelCoverList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("id") int modelId);

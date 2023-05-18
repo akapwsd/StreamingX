@@ -8,7 +8,6 @@ import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
-import com.code.bean.ModelRequestBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
@@ -60,7 +59,7 @@ public class HttpRequestUtils {
         });
     }
 
-    public void getModelList(Context context, int limit, RequestModelListListener requestModelListListener) {
+    public void getModelList(Context context, int sort, int page, int limit, RequestModelListListener requestModelListListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
@@ -70,9 +69,7 @@ public class HttpRequestUtils {
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-        ModelRequestBean modelRequestBean = new ModelRequestBean();
-        modelRequestBean.setLimit(limit);
-        RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelRequestBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
             @Override
             public void Success(Object modelBeans) {

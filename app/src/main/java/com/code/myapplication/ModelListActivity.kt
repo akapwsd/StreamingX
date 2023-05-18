@@ -30,7 +30,7 @@ class ModelListActivity : Activity() {
             }
         })
 
-        HttpRequestUtils.getInstance().getModelList(this, 50, object : RequestModelListListener {
+        HttpRequestUtils.getInstance().getModelList(this, 0, 0, 50, object : RequestModelListListener {
             override fun onResult(data: ModelListBean) {
                 list = data.list
                 adapter?.addList(list)

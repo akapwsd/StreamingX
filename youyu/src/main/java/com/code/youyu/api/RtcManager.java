@@ -241,12 +241,12 @@ public class RtcManager {
         HttpRequestUtils.getInstance().joinChannel(mContext, channel, peerUid, category, listener);
     }
 
-    public void getModelList(RequestModelListListener listener) {
-        HttpRequestUtils.getInstance().getModelList(mContext, 20, listener);
+    public void getModelList(int page, RequestModelListListener listener) {
+        HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 10, listener);
     }
 
-    public void getModelList(int limit, RequestModelListListener listener) {
-        HttpRequestUtils.getInstance().getModelList(mContext, limit, listener);
+    public void getModelList(int sort, int page, int limit, RequestModelListListener listener) {
+        HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, listener);
     }
 
     public void switchCamera() {
