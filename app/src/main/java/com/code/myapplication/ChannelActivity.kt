@@ -48,5 +48,8 @@ class ChannelActivity : Activity() {
                 }
             })
         }
+        model_list.setOnClickListener {
+            startActivity(Intent(this, ModelListActivity::class.java))
+        }
     }
 }

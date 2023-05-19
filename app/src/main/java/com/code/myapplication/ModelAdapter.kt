@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.code.bean.ModelBean
 
@@ -30,15 +31,15 @@ class ModelAdapter(mContext: Context, list: ArrayList<ModelBean>?) : RecyclerVie
     override fun getItemCount(): Int = mList.size
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
-//        holder?.avatar?.text = mList[position]
+        holder.modelId.text = mList[position].id.toString()
         holder.itemView.setOnClickListener {
-            itemClickListener!!.onItemClickListener(position)
+            itemClickListener!!.onItemClickListener(mList[position])
         }
     }
 
 
     class ModelViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var avatar: ImageView = itemView.findViewById(R.id.avatar_iv)
+        var modelId: TextView = itemView.findViewById(R.id.model_id)
     }
 
     fun setModelItemClickListener(itemClickListener: ModelItemClickListener) {
@@ -46,6 +47,6 @@ class ModelAdapter(mContext: Context, list: ArrayList<ModelBean>?) : RecyclerVie
     }
 
     interface ModelItemClickListener {
-        fun onItemClickListener(position: Int)
+        fun onItemClickListener(model: ModelBean)
     }
 }

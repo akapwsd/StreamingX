@@ -25,8 +25,8 @@ class ModelListActivity : Activity() {
         adapter = ModelAdapter(this, list)
         model_rv.adapter = adapter
         adapter?.setModelItemClickListener(object : ModelAdapter.ModelItemClickListener {
-            override fun onItemClickListener(position: Int) {
-
+            override fun onItemClickListener(model: ModelBean) {
+                val id = model.id
             }
         })
 
