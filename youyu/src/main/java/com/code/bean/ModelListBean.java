@@ -6,7 +6,7 @@ import java.util.Map;
 public class ModelListBean {
     private ArrayList<ModelBean> list;
     private Map<String, Integer> stateMap;
-    private ArrayList<Map<String, Integer>> defaultAvatarMap;
+    private Map<String, ModelInfoBean> defaultAvatarMap;
 
     public ArrayList<ModelBean> getList() {
         return list;
@@ -16,7 +16,7 @@ public class ModelListBean {
         return stateMap;
     }
 
-    public ArrayList<Map<String, Integer>> getDefaultAvatarMap() {
+    public Map<String, ModelInfoBean> getDefaultAvatarMap() {
         return defaultAvatarMap;
     }
 
