@@ -235,7 +235,9 @@ public class WSManager {
             } else {
                 LogUtil.d(TAG, "websocket is connect success");
                 isReceivePong = true;
-                heartHandler.post(heartBeatRunnable);
+                if (heartHandler != null && heartBeatRunnable != null) {
+                    heartHandler.post(heartBeatRunnable);
+                }
             }
         }
     }
