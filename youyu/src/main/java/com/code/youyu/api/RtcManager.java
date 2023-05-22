@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import com.code.bean.ChannelTokenBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
+import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
 import com.code.okhttp.WSManager;
 import com.code.rtc.BaseRtcEngineManager;
@@ -241,44 +242,139 @@ public class RtcManager {
         HttpRequestUtils.getInstance().joinChannel(mContext, channel, peerUid, category, listener);
     }
 
+    /**
+     * Get the host resource list 20 pieces of data per page by default
+     *
+     * @param page     List pagination, starting from 0
+     * @param listener callback interface
+     *                 {@link RequestModelListListener} HttpRequestListener listener object
+     * @see RequestModelListListener
+     */
     public void getModelList(int page, RequestModelListListener listener) {
-        HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 10, listener);
+        HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 20, listener);
     }
 
+    /**
+     * Get the host resource list
+     *
+     * @param sort     to sort
+     * @param page     List pagination, starting from 0
+     * @param limit    Pagination limit field, default 10, maximum 50
+     * @param listener callback interface
+     *                 {@link RequestModelListListener} HttpRequestListener listener object
+     * @see RequestModelListListener
+     */
     public void getModelList(int sort, int page, int limit, RequestModelListListener listener) {
         HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, listener);
     }
 
+    /**
+     * Get the host's avatar information
+     *
+     * @param modelId  anchor's id
+     * @param listener callback interface
+     *                 {@link RequestModelAvatarListListener} HttpRequestListener listener object
+     * @see RequestModelAvatarListListener
+     */
+    public void getModelAvatar(int modelId, RequestModelAvatarListListener listener) {
+        HttpRequestUtils.getInstance().getModelAvatar(mContext, modelId, listener);
+    }
+
+    /**
+     * Switch front and rear cameras
+     */
     public void switchCamera() {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.switchCamera();
     }
 
+    /**
+     * Unsubscribe or resume audio streaming for all remote users.
+     * <p>
+     * After calling this method successfully, the local user will unsubscribe or restore the subscription to all remote users' audio streams,
+     * including the audio streams of users who join the channel after calling this method.
+     * <p>
+     * This method needs to be called after joining the channel.
+     *
+     * @param isEnable Whether to unsubscribe the audio stream of all remote users:
+     *                 <ui>
+     *                 <li>true: unsubscribe from all remote users' audio streams
+     *                 <li>false: (default) subscribe to all remote users' audio streams.
+     *                 </ui>
+     */
     public void actionAllAudio(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteAllRemoteAudioStreams(isEnable);
     }
 
+    /**
+     * Cancel or resume subscription to the audio stream of the specified remote user.
+     *
+     * @param uid      Specifies the user ID of the user.
+     * @param isEnable Whether to unsubscribe from the audio stream of the specified remote user.
+     *                 <ui>
+     *                 <li>true: Unsubscribe from the specified user's audio stream.
+     *                 <li>false: (default) Subscribe to the specified user's audio stream.
+     *                 </ui>
+     */
     public void actionAudio(int uid, boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteRemoteAudioStream(uid, isEnable);
     }
 
+    /**
+     * Cancel or resume publishing a local audio stream.
+     *
+     * @param isEnable Whether to unpublish the local audio stream.
+     *                 <ui>
+     *                 <li>true: Unpublish.
+     *                 <li>false: (default) publish.
+     *                 </ui>
+     */
     public void actionLocalAudio(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteLocalAudioStream(isEnable);
     }
 
+    /**
+     * Unsubscribe or resume subscription to video streams of all remote users.
+     * <p>
+     * After successfully calling this method, the local user will unsubscribe or restore the subscription to all remote users' video streams,
+     * including the video streams of users who join the channel after calling this method.
+     * <p>
+     * This method needs to be called after joining the channel.
+     *
+     * @param isEnable
+     */
     public void actionAllVideo(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteAllRemoteVideoStreams(isEnable);
     }
 
+    /**
+     * Cancel or resume publishing a local video stream.
+     *
+     * @param isEnable Whether to cancel sending the local video stream.
+     *                 <ui>
+     *                 <li>true: cancel sending local video stream.
+     *                 <li>false: (default) send local video stream.
+     *                 </ui>
+     */
     public void actionLocalVideo(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteLocalVideoStream(isEnable);
     }
 
+    /**
+     * Cancel or restore subscription to the video stream of the specified remote user.
+     *
+     * @param uid      Specifies the user ID of the user.
+     * @param isEnable Whether to unsubscribe from the video stream of the specified remote user.
+     *                 <ui>
+     *                 <li>true: Unsubscribe from the specified user's video stream.
+     *                 <li>false: (default) Subscribe to the specified user's video stream.
+     *                 </ui>
+     */
     public void actionVideo(int uid, boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.muteRemoteVideoStream(uid, isEnable);
@@ -316,6 +412,17 @@ public class RtcManager {
         RtcSpUtils.getInstance().setChannelId("");
     }
 
+    /**
+     * Face recognition function
+     * <p>
+     * This method needs to be called on initialization
+     *
+     * @param isEnable Whether to enable face recognition
+     *                 <ui>
+     *                 <li>true:Turn on face recognition
+     *                 <li>false:Turn off face recognition
+     *                 </ui>
+     */
     public void enableFaceDetection(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.enableFaceDetection(isEnable);

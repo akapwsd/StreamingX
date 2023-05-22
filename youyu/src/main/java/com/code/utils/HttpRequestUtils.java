@@ -60,6 +60,11 @@ public class HttpRequestUtils {
     }
 
     public void getModelList(Context context, int sort, int page, int limit, RequestModelListListener requestModelListListener) {
+        if (limit < 10) {
+            limit = 10;
+        } else if (limit > 50) {
+            limit = 50;
+        }
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
