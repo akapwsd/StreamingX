@@ -10,6 +10,10 @@ import java.util.Map;
 
 public class RtcSpBase {
     private static final String TAG = "RtcSpBase";
+
+    /**
+     *
+     */
     @SuppressLint("StaticFieldLeak")
     private static Context mContext;
     private static final String USER_FILE_NAME = "rtc_sp";

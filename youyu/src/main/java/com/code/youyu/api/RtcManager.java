@@ -297,10 +297,10 @@ public class RtcManager {
      * This method needs to be called after joining the channel.
      *
      * @param isEnable Whether to unsubscribe the audio stream of all remote users:
-     *                 <ui>
+     *                 <ul>
      *                 <li>true: unsubscribe from all remote users' audio streams
      *                 <li>false: (default) subscribe to all remote users' audio streams.
-     *                 </ui>
+     *                 </ul>
      */
     public void actionAllAudio(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
@@ -312,10 +312,10 @@ public class RtcManager {
      *
      * @param uid      Specifies the user ID of the user.
      * @param isEnable Whether to unsubscribe from the audio stream of the specified remote user.
-     *                 <ui>
+     *                 <ul>
      *                 <li>true: Unsubscribe from the specified user's audio stream.
      *                 <li>false: (default) Subscribe to the specified user's audio stream.
-     *                 </ui>
+     *                 </ul>
      */
     public void actionAudio(int uid, boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
@@ -326,10 +326,10 @@ public class RtcManager {
      * Cancel or resume publishing a local audio stream.
      *
      * @param isEnable Whether to unpublish the local audio stream.
-     *                 <ui>
+     *                 <ul>
      *                 <li>true: Unpublish.
      *                 <li>false: (default) publish.
-     *                 </ui>
+     *                 </ul>
      */
     public void actionLocalAudio(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
@@ -355,10 +355,10 @@ public class RtcManager {
      * Cancel or resume publishing a local video stream.
      *
      * @param isEnable Whether to cancel sending the local video stream.
-     *                 <ui>
+     *                 <ul>
      *                 <li>true: cancel sending local video stream.
      *                 <li>false: (default) send local video stream.
-     *                 </ui>
+     *                 </ul>
      */
     public void actionLocalVideo(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
@@ -370,10 +370,10 @@ public class RtcManager {
      *
      * @param uid      Specifies the user ID of the user.
      * @param isEnable Whether to unsubscribe from the video stream of the specified remote user.
-     *                 <ui>
+     *                 <ul>
      *                 <li>true: Unsubscribe from the specified user's video stream.
      *                 <li>false: (default) Subscribe to the specified user's video stream.
-     *                 </ui>
+     *                 </ul>
      */
     public void actionVideo(int uid, boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
@@ -418,10 +418,10 @@ public class RtcManager {
      * This method needs to be called on initialization
      *
      * @param isEnable Whether to enable face recognition
-     *                 <ui>
+     *                 <ul>
      *                 <li>true:Turn on face recognition
      *                 <li>false:Turn off face recognition
-     *                 </ui>
+     *                 </ul>
      */
     public void enableFaceDetection(boolean isEnable) {
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();

@@ -2,7 +2,6 @@ package com.code.retrofit;
 
 import android.content.Context;
 import android.os.Build;
-import android.util.Log;
 
 import com.code.utils.LogUtil;
 import com.code.youyu.api.HttpApi;
