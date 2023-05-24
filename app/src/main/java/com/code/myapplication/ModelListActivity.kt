@@ -30,7 +30,7 @@ class ModelListActivity : Activity() {
         model_rv.adapter = adapter
         adapter?.setModelItemClickListener(object : ModelAdapter.ModelItemClickListener {
             override fun onItemClickListener(model: ModelBean) {
-                val id = model.id
+                val uid = model.uid
                 RtcManager.getInstance().callVideo(channelId, "110", object : HttpRequestListener {
                     override fun requestSuccess(o: Any?) {
                         startActivity(Intent(this@ModelListActivity, AgoVideoActivity::class.java))

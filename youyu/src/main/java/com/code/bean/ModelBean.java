@@ -1,28 +1,42 @@
 package com.code.bean;
 
+/**
+ * anchor info Object
+ *
+ * @author chan
+ * @version 1.0.5
+ * @since 1.0.5
+ * @since 6 May 2023
+ * @since JDK8
+ */
 public class ModelBean {
-    private int id;
+    /**
+     * anchor id
+     */
+    private int uid;
+    /**
+     * anchor name
+     */
     private String name;
-    private int price;
+    /**
+     * anchor birthday
+     */
+    private String birthday;
 
-    public int getId() {
-        return id;
+    public int getUid() {
+        return uid;
     }
 
     public String getName() {
         return name;
     }
 
-    public int getPrice() {
-        return price;
+    public String getBirthday() {
+        return birthday;
     }
 
     @Override
     public String toString() {
-        return "ModelBean{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                '}';
+        return "ModelBean{" + "uid=" + uid + ", name='" + name + '\'' + ", birthday='" + birthday + '\'' + '}';
     }
 }

@@ -31,7 +31,7 @@ class ModelAdapter(mContext: Context, list: ArrayList<ModelBean>?) : RecyclerVie
     override fun getItemCount(): Int = mList.size
 
     override fun onBindViewHolder(holder: ModelViewHolder, position: Int) {
-        holder.modelId.text = mList[position].id.toString()
+        holder.modelId.text = mList[position].uid.toString()
         holder.itemView.setOnClickListener {
             itemClickListener!!.onItemClickListener(mList[position])
         }
