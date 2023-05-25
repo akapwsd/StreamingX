@@ -55,6 +55,7 @@ public interface HttpApi {
     String GET_CHECK_APPLY_STATUS = "broadcaster/application/list";
     String POST_APPLY = "broadcaster/apply";
     String POST_UPLOAD_AVATAR = "broadcaster/avatar";
+    String GET_TOKEN = "broadcaster/token/{uid}/uid";
 
     @POST(POST_REGISTER_WITH_PHONE)
     Observable<SmsBean> registerWithPhone(@Header("Authorization") String authorization
@@ -110,4 +111,11 @@ public interface HttpApi {
             , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
             , @Header("Content-Type") String Content_Type
             , @Header("Session-Token") String Session_Token);
+
+    @GET(GET_TOKEN)
+    Observable<String> getToken(@Header("Authorization") String authorization
+            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
+            , @Header("Content-Type") String Content_Type
+            , @Header("Session-Token") String Session_Token
+            , @Path("uid") int uid);
 }
