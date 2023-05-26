@@ -16,7 +16,6 @@ class RegisterActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
-        LogUtil.d("ZHIZHI", "start")
         var receipt = ""
         get_token.setOnClickListener {
             HttpRequestUtils.getInstance().requestPhoneCode(this, "8617365657171", object : HttpRequestListener {
@@ -32,18 +31,7 @@ class RegisterActivity : Activity() {
             })
         }
         apply_btn.setOnClickListener {
-            val uploadUserInfoBean = UploadUserInfoBean()
-            uploadUserInfoBean.setNick("lala")
-            uploadUserInfoBean.setBirthday("123456")
-            HttpRequestUtils.getInstance().applyModel(this, uploadUserInfoBean, object : HttpRequestListener {
-                override fun requestSuccess(o: Any?) {
 
-                }
-
-                override fun requestError(code: Int, error: String?) {
-
-                }
-            })
         }
         validate_code.setOnClickListener {
             if (!TextUtils.isEmpty(receipt)) {
@@ -51,15 +39,6 @@ class RegisterActivity : Activity() {
                     override fun requestSuccess(o: Any?) {
                         val tokenBean = o as TokenBean
                         receipt_tv.text = "The token is ${tokenBean.token} and Uid is ${tokenBean.id}"
-//                        HttpRequestUtils.getInstance().uploadNickname(this@RegisterActivity,"zhizhi",object :HttpRequestListener{
-//                            override fun requestSuccess(o: Any?) {
-//
-//                            }
-//
-//                            override fun requestError(code: Int, error: String?) {
-//
-//                            }
-//                        })
                     }
 
                     override fun requestError(code: Int, error: String?) {
