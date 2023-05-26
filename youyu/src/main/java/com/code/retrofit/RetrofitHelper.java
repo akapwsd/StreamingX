@@ -26,6 +26,8 @@ import retrofit2.converter.protobuf.ProtoConverterFactory;
 
 public class RetrofitHelper {
     private static final String TAG = "RetrofitHelper";
+    public static final int MODEL = 2;
+    public static final int USER = 1;
     public static String baseUrl = HttpApi.BASE_URL;
     public final static int GSON_TYPE = 0;
     public final static int PROTOBUF_TYPE = 1;
@@ -35,12 +37,22 @@ public class RetrofitHelper {
 
     public static <T> T createApi(Class<T> clazz, Context context) {
         mContext = context;
-        return getInstance().create(clazz);
+        return getInstance(USER).create(clazz);
     }
 
-    private static Retrofit getInstance() {
+    public static <T> T createApi(Class<T> clazz, Context context, int type) {
+        mContext = context;
+        return getInstance(type).create(clazz);
+    }
+
+    private static Retrofit getInstance(int type) {
         if (null == retrofitInstance) {
             synchronized (Retrofit.class) {
+                if (type == MODEL) {
+                    baseUrl = HttpApi.BASE_BROADCASTER_URL;
+                } else {
+                    baseUrl = HttpApi.BASE_URL;
+                }
                 if (null == retrofitInstance) { // 双重检验锁,仅第一次调用时实例化
                     Retrofit.Builder builder = new Retrofit.Builder()
                             .client(buildOKHttpsClient())

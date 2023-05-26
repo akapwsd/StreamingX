@@ -35,6 +35,9 @@ class MainActivity : Activity() {
         resume_btn_1.setOnClickListener {
 
         }
+        register_btn.setOnClickListener {
+            startActivity(Intent(this@MainActivity, RegisterActivity::class.java))
+        }
     }
 
     override fun onResume() {

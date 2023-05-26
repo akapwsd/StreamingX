@@ -8,6 +8,7 @@ import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
+import com.code.bean.SmsCodeBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
@@ -173,6 +174,40 @@ public class HttpRequestUtils {
                 RtcManager.getInstance().localUid = Integer.parseInt(uniqId);
                 LogUtil.d(TAG, "createChannel success channelId:" + channelId + " token:" + token + " uniqId:" + uniqId);
                 WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uniqId), Constants.CLIENT_ROLE_BROADCASTER, category);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void requestPhoneCode(Context context, String phone, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).registerWithPhone(X_Uyj_Timestamp, phone).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void validateSmsCode(Context context, String receipt, String code, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        SmsCodeBean smsCodeBean = new SmsCodeBean();
+        smsCodeBean.setSmsCode(code);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).validateSmsCode(X_Uyj_Timestamp, receipt, smsCodeBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
             }
 
             @Override

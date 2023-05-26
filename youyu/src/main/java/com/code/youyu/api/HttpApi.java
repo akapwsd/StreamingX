@@ -10,6 +10,7 @@ import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
 import com.code.bean.SmsBean;
+import com.code.bean.SmsCodeBean;
 import com.code.bean.TokenBean;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -47,8 +48,9 @@ public interface HttpApi {
     Observable<ModelCoverListBean> getModelCoverList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("id") int modelId);
 
     /*==============================model=======================================*/
-    String POST_REGISTER_WITH_PHONE = "broadcaster/{phone}/phone/login";
-    String POST_VALIDATE_SMS_CODE = "broadcaster/{receipt}/receipt/login";
+    String BASE_BROADCASTER_URL = "https://broadcaster.hitradegate.com/v1/";
+    String POST_REGISTER_WITH_PHONE = "login/{phone}/phone";
+    String POST_VALIDATE_SMS_CODE = "login/{receipt}/receipt";
     String GET_ACCOUNT_INFO = "broadcaster/{uid}/uid";
     String DELETE_AVATAR = "broadcaster/{uid}/uid/{md5}/md5/avatar";
     String PUT_SET_DEFAULT_AVATAR = "broadcaster/{uid}/uid/{md5}/md5/avatar";
@@ -58,64 +60,44 @@ public interface HttpApi {
     String GET_TOKEN = "broadcaster/token/{uid}/uid";
 
     @POST(POST_REGISTER_WITH_PHONE)
-    Observable<SmsBean> registerWithPhone(@Header("Authorization") String authorization
-            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token
+    Observable<SmsBean> registerWithPhone(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
             , @Path("phone") String phone);
 
     @POST(POST_VALIDATE_SMS_CODE)
-    Observable<TokenBean> validateSmsCode(@Header("Authorization") String authorization
-            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token
-            , @Path("receipt") String receipt);
+    Observable<TokenBean> validateSmsCode(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
+            , @Path("receipt") String receipt, @Body SmsCodeBean smsCodeBean);
 
     @GET(GET_ACCOUNT_INFO)
     Observable<AccountBean> getAccountInfo(@Header("Authorization") String authorization
             , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token
             , @Path("uid") int uid);
 
     @DELETE(DELETE_AVATAR)
     Observable<Object> deleteAvatar(@Header("Authorization") String authorization
             , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token
             , @Path("uid") int uid
             , @Path("md5") String md5);
 
     @PUT(PUT_SET_DEFAULT_AVATAR)
     Observable<Object> setDefaultAvatar(@Header("Authorization") String authorization
             , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token
             , @Path("uid") int uid
             , @Path("md5") String md5);
 
     @GET(GET_CHECK_APPLY_STATUS)
     Observable<ApplyResultBean> checkApplyStatus(@Header("Authorization") String authorization
-            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token);
+            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp);
 
     @POST(POST_APPLY)
     Observable<Object> applyModel(@Header("Authorization") String authorization
-            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token);
+            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp);
 
     @POST(POST_UPLOAD_AVATAR)
     Observable<Object> uploadAvatar(@Header("Authorization") String authorization
-            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token);
+            , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp);
 
     @GET(GET_TOKEN)
     Observable<String> getToken(@Header("Authorization") String authorization
             , @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Header("Content-Type") String Content_Type
-            , @Header("Session-Token") String Session_Token
             , @Path("uid") int uid);
 }
