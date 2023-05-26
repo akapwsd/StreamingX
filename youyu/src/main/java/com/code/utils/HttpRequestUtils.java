@@ -10,6 +10,8 @@ import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
 import com.code.bean.NullBean;
 import com.code.bean.SmsCodeBean;
+import com.code.bean.TokenBean;
+import com.code.bean.UploadUserInfoBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
@@ -24,6 +26,8 @@ import io.agora.rtc.Constants;
 public class HttpRequestUtils {
     private static HttpRequestUtils httpRequestUtils;
     public static final String TAG = "HttpRequestUtils";
+    private String token = "";
+    private int uid = 0;
 
     public static HttpRequestUtils getInstance() {
         if (httpRequestUtils == null) {
@@ -207,6 +211,71 @@ public class HttpRequestUtils {
         SmsCodeBean smsCodeBean = new SmsCodeBean();
         smsCodeBean.setSmsCode(code);
         RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).validateSmsCode(X_Uyj_Timestamp, receipt, smsCodeBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                TokenBean tokenBean = (TokenBean) o;
+                token = tokenBean.getToken();
+                uid = tokenBean.getId();
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void uploadNickname(Context context, String nickName, HttpRequestListener httpRequestListener) {
+        UploadUserInfoBean uploadUserInfoBean = new UploadUserInfoBean();
+        uploadUserInfoBean.setNick(nickName);
+        uploadUserInfo(context, uploadUserInfoBean, httpRequestListener);
+    }
+
+    public void uploadBirthday(Context context, String birthday, HttpRequestListener httpRequestListener) {
+        UploadUserInfoBean uploadUserInfoBean = new UploadUserInfoBean();
+        uploadUserInfoBean.setBirthday(birthday);
+        uploadUserInfo(context, uploadUserInfoBean, httpRequestListener);
+    }
+
+    public void uploadUserInfo(Context context, UploadUserInfoBean userInfoBean, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        userInfoBean.setUid(uid);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).uploadUserInfo(token, X_Uyj_Timestamp, userInfoBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void applyModel(Context context, UploadUserInfoBean userInfoBean, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        userInfoBean.setUid(uid);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).applyModel(token, X_Uyj_Timestamp, userInfoBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void checkApplyStatus(Context context, int uid, int aType, int page, int limit, int aState, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).checkApplyStatus(token, X_Uyj_Timestamp, uid, aType, page, limit, aState).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);
