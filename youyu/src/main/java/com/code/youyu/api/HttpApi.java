@@ -9,6 +9,7 @@ import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
+import com.code.bean.NullBean;
 import com.code.bean.SmsBean;
 import com.code.bean.SmsCodeBean;
 import com.code.bean.TokenBean;
@@ -61,7 +62,7 @@ public interface HttpApi {
 
     @POST(POST_REGISTER_WITH_PHONE)
     Observable<SmsBean> registerWithPhone(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
-            , @Path("phone") String phone);
+            , @Path("phone") String phone, @Body NullBean nullBean);
 
     @POST(POST_VALIDATE_SMS_CODE)
     Observable<TokenBean> validateSmsCode(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp

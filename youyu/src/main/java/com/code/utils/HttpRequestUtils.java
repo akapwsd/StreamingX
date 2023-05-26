@@ -8,6 +8,7 @@ import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
+import com.code.bean.NullBean;
 import com.code.bean.SmsCodeBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
@@ -186,7 +187,8 @@ public class HttpRequestUtils {
     public void requestPhoneCode(Context context, String phone, HttpRequestListener httpRequestListener) {
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).registerWithPhone(X_Uyj_Timestamp, phone).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        NullBean nullBean = new NullBean();
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).registerWithPhone(X_Uyj_Timestamp, phone, nullBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);

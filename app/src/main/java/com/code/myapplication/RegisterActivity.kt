@@ -18,7 +18,7 @@ class RegisterActivity : Activity() {
         LogUtil.d("ZHIZHI", "start")
         var receipt = ""
         get_token.setOnClickListener {
-            HttpRequestUtils.getInstance().requestPhoneCode(this, "8617340072657", object : HttpRequestListener {
+            HttpRequestUtils.getInstance().requestPhoneCode(this, "8617311112222", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     val smsBean = o as SmsBean
                     receipt = smsBean.receipt
@@ -35,7 +35,7 @@ class RegisterActivity : Activity() {
                 HttpRequestUtils.getInstance().validateSmsCode(this, receipt, "123456", object : HttpRequestListener {
                     override fun requestSuccess(o: Any?) {
                         val tokenBean = o as TokenBean
-                        validate_code.text = "The token is ${tokenBean.token} and Uid is ${tokenBean.id}"
+                        receipt_tv.text = "The token is ${tokenBean.token} and Uid is ${tokenBean.id}"
                     }
 
                     override fun requestError(code: Int, error: String?) {
