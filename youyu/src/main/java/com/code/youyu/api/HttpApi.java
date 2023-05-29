@@ -11,6 +11,7 @@ import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
 import com.code.bean.NullBean;
+import com.code.bean.ResultTokenBean;
 import com.code.bean.SmsBean;
 import com.code.bean.SmsCodeBean;
 import com.code.bean.TokenBean;
@@ -59,7 +60,7 @@ public interface HttpApi {
     String GET_CHECK_APPLY_STATUS = "broadcaster/application/list";
     String POST_APPLY = "broadcaster/apply";
     String POST_UPLOAD_AVATAR = "broadcaster/{uid}/uid/avatar";
-    String GET_TOKEN = "broadcaster/token/{uid}/uid";
+    String GET_TOKEN = "broadcaster/token/{uid}/uid/token";
     String PUT_UPLOAD_USER_INFO = "broadcaster/attributes";
 
     @POST(POST_REGISTER_WITH_PHONE)
@@ -87,7 +88,7 @@ public interface HttpApi {
     Observable<Object> uploadAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid, @Body AvatarListBean avatarListBean);
 
     @GET(GET_TOKEN)
-    Observable<String> getToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid);
+    Observable<ResultTokenBean> getToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid);
 
     @PUT(PUT_UPLOAD_USER_INFO)
     Observable<Object> uploadUserInfo(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body UploadUserInfoBean uploadUserInfoBean);

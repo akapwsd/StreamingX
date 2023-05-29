@@ -309,4 +309,68 @@ public class HttpRequestUtils {
             }
         });
     }
+
+    public void setDefaultAvatar(Context context, int uid, String token, String md5, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).setDefaultAvatar(token, X_Uyj_Timestamp, uid, md5).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void deleteAvatar(Context context, int uid, String token, String md5, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).deleteAvatar(token, X_Uyj_Timestamp, uid, md5).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void getAccountInfo(Context context, int uid, String token, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getAccountInfo(token, X_Uyj_Timestamp, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void getToken(Context context, int uid, String token, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getToken(token, X_Uyj_Timestamp, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
 }
