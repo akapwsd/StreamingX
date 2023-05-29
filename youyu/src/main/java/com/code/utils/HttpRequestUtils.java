@@ -2,9 +2,12 @@ package com.code.utils;
 
 import android.content.Context;
 
+import com.code.bean.AvatarBean;
+import com.code.bean.AvatarListBean;
 import com.code.bean.ChannelInfoBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
+import com.code.bean.DefaultAvatarBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
@@ -20,6 +23,8 @@ import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
 import com.code.youyu.api.RtcManager;
+
+import java.util.ArrayList;
 
 import io.agora.rtc.Constants;
 
@@ -271,6 +276,28 @@ public class HttpRequestUtils {
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
         RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).checkApplyStatus(token, X_Uyj_Timestamp, uid, aType, page, limit, aState).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
+    public void uploadAvatar(Context context, int uid, String token, String key, HttpRequestListener httpRequestListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        AvatarListBean avatarListBean = new AvatarListBean();
+        ArrayList<AvatarBean> list = new ArrayList<>();
+        AvatarBean avatarBean = new AvatarBean();
+        avatarBean.setMd5(key);
+        list.add(avatarBean);
+        avatarListBean.setList(list);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).uploadAvatar(token, X_Uyj_Timestamp, uid, avatarListBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);

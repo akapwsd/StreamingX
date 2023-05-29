@@ -3,6 +3,7 @@ package com.code.youyu.api;
 
 import com.code.bean.AccountBean;
 import com.code.bean.ApplyResultBean;
+import com.code.bean.AvatarListBean;
 import com.code.bean.ChannelTokenBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
@@ -57,7 +58,7 @@ public interface HttpApi {
     String PUT_SET_DEFAULT_AVATAR = "broadcaster/{uid}/uid/{md5}/md5/avatar";
     String GET_CHECK_APPLY_STATUS = "broadcaster/application/list";
     String POST_APPLY = "broadcaster/apply";
-    String POST_UPLOAD_AVATAR = "broadcaster/avatar";
+    String POST_UPLOAD_AVATAR = "broadcaster/{uid}/uid/avatar";
     String GET_TOKEN = "broadcaster/token/{uid}/uid";
     String PUT_UPLOAD_USER_INFO = "broadcaster/attributes";
 
@@ -83,7 +84,7 @@ public interface HttpApi {
     Observable<Object> applyModel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body UploadUserInfoBean userInfoBean);
 
     @POST(POST_UPLOAD_AVATAR)
-    Observable<Object> uploadAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp);
+    Observable<Object> uploadAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid, @Body AvatarListBean avatarListBean);
 
     @GET(GET_TOKEN)
     Observable<String> getToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid);

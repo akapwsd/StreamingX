@@ -13,12 +13,14 @@ import com.code.utils.LogUtil
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : Activity() {
+    private var token = ""
+    private var uid = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         var receipt = ""
         get_token.setOnClickListener {
-            HttpRequestUtils.getInstance().requestPhoneCode(this, "8617365657171", object : HttpRequestListener {
+            HttpRequestUtils.getInstance().requestPhoneCode(this, "8617399998888", object : HttpRequestListener {
                 override fun requestSuccess(o: Any?) {
                     val smsBean = o as SmsBean
                     receipt = smsBean.receipt
@@ -31,7 +33,15 @@ class RegisterActivity : Activity() {
             })
         }
         apply_btn.setOnClickListener {
+            HttpRequestUtils.getInstance().uploadAvatar(this,uid,token,"123456",object :HttpRequestListener{
+                override fun requestSuccess(o: Any?) {
 
+                }
+
+                override fun requestError(code: Int, error: String?) {
+
+                }
+            })
         }
         validate_code.setOnClickListener {
             if (!TextUtils.isEmpty(receipt)) {
@@ -39,6 +49,8 @@ class RegisterActivity : Activity() {
                     override fun requestSuccess(o: Any?) {
                         val tokenBean = o as TokenBean
                         receipt_tv.text = "The token is ${tokenBean.token} and Uid is ${tokenBean.id}"
+                        token = tokenBean.token
+                        uid = tokenBean.id
                     }
 
                     override fun requestError(code: Int, error: String?) {
