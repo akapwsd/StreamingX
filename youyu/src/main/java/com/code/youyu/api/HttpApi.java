@@ -47,7 +47,8 @@ public interface HttpApi {
     @GET(GET_MODEL_COVER)
     Observable<ModelCoverListBean> getModelCoverList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("id") int modelId);
 
-    /*==============================model=======================================*/ String BASE_BROADCASTER_URL = "https://broadcaster.hitradegate.com/v1/";
+    /*==============================model=======================================*/
+    String BASE_BROADCASTER_URL = "https://broadcaster.hitradegate.com/v1/";
     String POST_REGISTER_WITH_PHONE = "login/{phone}/phone";
     String POST_VALIDATE_SMS_CODE = "login/{receipt}/receipt";
     String GET_ACCOUNT_INFO = "broadcaster/{uid}/uid";

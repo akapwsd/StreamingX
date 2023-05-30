@@ -37,6 +37,7 @@ public class WSManager {
     private final static int RECONNECT_MILLS = 5000;
     private final static int GLOBAL_HEART_BEAT_RATE = 5000;
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
+    private final static String MODEL_BASE_URL = "wss://broadcaster.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private WebSocket mWebSocket;
@@ -53,6 +54,7 @@ public class WSManager {
     private String access_key_id;
     private String access_key_secret;
     private String session_token;
+    private String token;
     private int reconnectNum = 0;
     private Handler heartHandler = new Handler();
     private long global_ping_send_time = 0L;
@@ -84,6 +86,20 @@ public class WSManager {
             RtcSpUtils.getInstance().setAccessKeyId(access_key_id);
             RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
             RtcSpUtils.getInstance().setSessionToken(session_token);
+            LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
+            mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
+            connect();
+        }
+        LogUtil.d(TAG, "init is end");
+    }
+
+    public void init(Context context, String token) {
+        LogUtil.d(TAG, "init is start");
+        if (context != null) {
+            sWeakRefListeners = new HashMap<>();
+            this.token = token;
+            mWbSocketUrl = MODEL_BASE_URL;
+            RtcSpUtils.getInstance().setToken(token);
             LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
             connect();
@@ -131,15 +147,22 @@ public class WSManager {
     }
 
     private void connect() {
-        LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
-        long currentTimeMillis = System.currentTimeMillis();
-        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = "application/json";
-        String data = X_Uyj_Timestamp + Content_Type;
-        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-        LogUtil.d(TAG, "sign:" + sign);
-        Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
-        mWebSocket = mClient.newWebSocket(request, new WsListener());
+        if (!TextUtils.isEmpty(token)){
+            LogUtil.d(TAG, "connect is start token:" + token);
+            Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
+            mWebSocket = mClient.newWebSocket(request, new WsListener());
+        }else {
+            LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
+            long currentTimeMillis = System.currentTimeMillis();
+            String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+            String Content_Type = "application/json";
+            String data = X_Uyj_Timestamp + Content_Type;
+            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+            LogUtil.d(TAG, "sign:" + sign);
+            Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
+            mWebSocket = mClient.newWebSocket(request, new WsListener());
+        }
+
         LogUtil.d(TAG, "connect is end");
     }
 

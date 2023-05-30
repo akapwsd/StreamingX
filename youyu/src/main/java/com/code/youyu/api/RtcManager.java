@@ -92,6 +92,15 @@ public class RtcManager {
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
     }
 
+    public void initModelRtc(Context context,String token){
+        LogUtil.d(TAG, "initModelRtc is start");
+        mContext = context;
+        RtcSpBase.initContent(context);
+        RtcSpUtils.getInstance().setChannelId("");
+        BaseRtcEngineManager.getInstance().initBaseRtc(context);
+        WSManager.getInstance().init(context, token);
+    }
+
     /**
      * Enable RTC log printing
      */
