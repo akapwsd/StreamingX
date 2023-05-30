@@ -31,15 +31,7 @@ class ModelListActivity : Activity() {
         adapter?.setModelItemClickListener(object : ModelAdapter.ModelItemClickListener {
             override fun onItemClickListener(model: ModelBean) {
                 val uid = model.uid
-                RtcManager.getInstance().callVideo(channelId, "110", object : HttpRequestListener {
-                    override fun requestSuccess(o: Any?) {
-                        startActivity(Intent(this@ModelListActivity, AgoVideoActivity::class.java))
-                    }
 
-                    override fun requestError(code: Int, error: String?) {
-                        Toast.makeText(this@ModelListActivity, error, Toast.LENGTH_LONG).show()
-                    }
-                })
             }
         })
 

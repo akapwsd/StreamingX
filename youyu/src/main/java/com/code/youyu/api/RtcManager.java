@@ -92,7 +92,7 @@ public class RtcManager {
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
     }
 
-    public void initModelRtc(Context context,String token){
+    public void initModelRtc(Context context, String token) {
         LogUtil.d(TAG, "initModelRtc is start");
         mContext = context;
         RtcSpBase.initContent(context);
@@ -224,31 +224,24 @@ public class RtcManager {
     /**
      * call video
      *
-     * @param channel  The RTC number of the video
-     * @param peerUid  The other party's uid
-     * @param listener callback interface
-     *                 {@link HttpRequestListener} HttpRequestListener listener object
-     * @see HttpRequestListener
+     * @param channel The RTC number of the video
      */
-    public void callVideo(String channel, String peerUid, HttpRequestListener listener) {
-        joinChannel(channel, peerUid, Constants.VIDEO, listener);
+    public void callVideo(String channel, String token, String localUid) {
+        joinChannel(channel, token, localUid, Constants.VIDEO);
     }
 
     /**
      * call audio
      *
-     * @param channel  The RTC number of the audio
-     * @param peerUid  The other party's uid
-     * @param listener callback interface
-     *                 {@link HttpRequestListener} HttpRequestListener listener object
-     * @see HttpRequestListener
+     * @param channel The RTC number of the audio
      */
-    public void callAudio(String channel, String peerUid, HttpRequestListener listener) {
-        joinChannel(channel, peerUid, Constants.AUDIO, listener);
+    public void callAudio(String channel, String token, String localUid) {
+        joinChannel(channel, token, localUid, Constants.AUDIO);
     }
 
-    private void joinChannel(String channel, String peerUid, int category, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().joinChannel(mContext, channel, peerUid, category, listener);
+    private void joinChannel(String channelId, String token, String localUid, int category) {
+        RtcManager.getInstance().localUid = Integer.parseInt(localUid);
+        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(localUid), io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER, category);
     }
 
     /**

@@ -18,26 +18,10 @@ class ChannelActivity : Activity() {
             val callType = Constants.VIDEO
         }
         call_video.setOnClickListener {
-            RtcManager.getInstance().callVideo(channelId, "110", object : HttpRequestListener {
-                override fun requestSuccess(o: Any?) {
-                    startActivity(Intent(this@ChannelActivity, AgoVideoActivity::class.java))
-                }
 
-                override fun requestError(code: Int, error: String?) {
-                    Toast.makeText(this@ChannelActivity, error, Toast.LENGTH_LONG).show()
-                }
-            })
         }
         call_audio.setOnClickListener {
-            RtcManager.getInstance().callAudio(channelId, "111", object : HttpRequestListener {
-                override fun requestSuccess(o: Any?) {
-                    startActivity(Intent(this@ChannelActivity, AgoAudioActivity::class.java))
-                }
 
-                override fun requestError(code: Int, error: String?) {
-                    Toast.makeText(this@ChannelActivity, error, Toast.LENGTH_LONG).show()
-                }
-            })
         }
         model_list.setOnClickListener {
             startActivity(Intent(this, ModelListActivity::class.java))

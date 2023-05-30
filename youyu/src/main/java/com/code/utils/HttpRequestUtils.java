@@ -137,7 +137,7 @@ public class HttpRequestUtils {
         });
     }
 
-    public void joinChannel(Context context, String channelId, String peerUid, int category, HttpRequestListener httpRequestListener) {
+    public void joinChannel(Context context, String token, String channelId, String peerUid, int category, HttpRequestListener httpRequestListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
         String session_token = RtcSpUtils.getInstance().getSessionToken();
@@ -149,6 +149,7 @@ public class HttpRequestUtils {
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
         JoinChannelBean joinChannelBean = new JoinChannelBean();
         joinChannelBean.setBroadcaster(peerUid);
+        joinChannelBean.setToken(token);
         RetrofitHelper.createApi(HttpApi.class, context).joinChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId, joinChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
@@ -222,11 +223,6 @@ public class HttpRequestUtils {
         RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).validateSmsCode(X_Uyj_Timestamp, receipt, smsCodeBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
-                TokenBean tokenBean = (TokenBean) o;
-                String token = tokenBean.getToken();
-                if (!TextUtils.isEmpty(token)) {
-                    RtcSpUtils.getInstance().setToken(token);
-                }
                 httpRequestListener.requestSuccess(o);
             }
 
