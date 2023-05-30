@@ -62,10 +62,10 @@ public interface HttpApi {
     String CREATE_CHANNEL = "channel/channel";
 
     @GET(GET_CHANNEL_TOKEN)
-    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Path("channelId") String channelId);
+    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp,@Path("channelId") String channelId);
 
     @POST(CREATE_CHANNEL)
-    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization, @Body CreateChannelBean createInfo);
+    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization,@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body CreateChannelBean createInfo);
 
     @POST(POST_REGISTER_WITH_PHONE)
     Observable<SmsBean> registerWithPhone(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("phone") String phone, @Body NullBean nullBean);

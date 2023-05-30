@@ -100,7 +100,9 @@ public class HttpRequestUtils {
     }
 
     public void getModelChannelToken(Context context, String token, String channelId, HttpRequestListener httpRequestListener) {
-        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getChannelToken(token, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getChannelToken(token, X_Uyj_Timestamp, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);
@@ -175,9 +177,11 @@ public class HttpRequestUtils {
 
     public void createChannel(Context context, String token, int category, HttpRequestListener httpRequestListener) {
         LogUtil.d(TAG, "createChannel is start category:" + category);
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
         CreateChannelBean createChannelBean = new CreateChannelBean();
         createChannelBean.setCategory(category);
-        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).createChannel(token, createChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).createChannel(token, X_Uyj_Timestamp, createChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);
