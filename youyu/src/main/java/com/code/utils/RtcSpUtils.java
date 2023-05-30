@@ -23,12 +23,12 @@ public class RtcSpUtils {
         RtcSpBase.clear();
     }
 
-    public void setAgoraTime(long time) {
-        RtcSpBase.put("agora_time", time);
+    public void setToken(String token) {
+        RtcSpBase.put("model_token", token);
     }
 
-    public long getAgoraTime() {
-        return (long) RtcSpBase.get("agora_time", 0L);
+    public String getToken() {
+        return (String) RtcSpBase.get("model_token", "");
     }
 
     public void setAccessKeyId(String access_key_id) {
@@ -54,6 +54,7 @@ public class RtcSpUtils {
     public String getSessionToken() {
         return (String) RtcSpBase.get("session_token", "");
     }
+
     public void setChannelId(String calling_channel) {
         RtcSpBase.put("calling_channel", calling_channel);
     }

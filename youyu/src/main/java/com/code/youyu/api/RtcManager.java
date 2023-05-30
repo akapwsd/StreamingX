@@ -382,24 +382,49 @@ public class RtcManager {
 
     public void requestNewToken() {
         String channel = WSManager.getInstance().mChannelId;
-        HttpRequestUtils.getInstance().getChannelToken(mContext, channel, new HttpRequestListener() {
-            @Override
-            public void requestSuccess(Object o) {
-                ChannelTokenBean channelTokenBean = (ChannelTokenBean) o;
-                String newToken = channelTokenBean.getToken();
-                String serverChannelId = channelTokenBean.getChannelId();
-                LogUtil.d(TAG, "requestSuccess newToken:" + newToken + " serverChannelId:" + serverChannelId);
-                if (channel.equals(serverChannelId)) {
-                    RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-                    rtcEngine.renewToken(newToken);
-                }
-            }
+        String token = RtcSpUtils.getInstance().getToken();
 
-            @Override
-            public void requestError(int code, String error) {
-                LogUtil.e(TAG, "requestError code:" + code + " error:" + error);
-            }
-        });
+        if (!TextUtils.isEmpty(token)) {
+            LogUtil.d(TAG, "requestNewToken is start have token");
+            HttpRequestUtils.getInstance().getModelChannelToken(mContext, token, channel, new HttpRequestListener() {
+                @Override
+                public void requestSuccess(Object o) {
+                    ChannelTokenBean channelTokenBean = (ChannelTokenBean) o;
+                    String newToken = channelTokenBean.getToken();
+                    String serverChannelId = channelTokenBean.getChannelId();
+                    LogUtil.d(TAG, "requestSuccess newToken:" + newToken + " serverChannelId:" + serverChannelId);
+                    if (channel.equals(serverChannelId)) {
+                        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+                        rtcEngine.renewToken(newToken);
+                    }
+                }
+
+                @Override
+                public void requestError(int code, String error) {
+                    LogUtil.e(TAG, "requestError code:" + code + " error:" + error);
+                }
+            });
+        } else {
+            LogUtil.d(TAG, "requestNewToken is start token empty");
+            HttpRequestUtils.getInstance().getChannelToken(mContext, channel, new HttpRequestListener() {
+                @Override
+                public void requestSuccess(Object o) {
+                    ChannelTokenBean channelTokenBean = (ChannelTokenBean) o;
+                    String newToken = channelTokenBean.getToken();
+                    String serverChannelId = channelTokenBean.getChannelId();
+                    LogUtil.d(TAG, "requestSuccess newToken:" + newToken + " serverChannelId:" + serverChannelId);
+                    if (channel.equals(serverChannelId)) {
+                        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+                        rtcEngine.renewToken(newToken);
+                    }
+                }
+
+                @Override
+                public void requestError(int code, String error) {
+                    LogUtil.e(TAG, "requestError code:" + code + " error:" + error);
+                }
+            });
+        }
     }
 
     /**

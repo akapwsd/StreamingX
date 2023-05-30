@@ -1,6 +1,7 @@
 package com.code.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.code.bean.AvatarBean;
 import com.code.bean.AvatarListBean;
@@ -221,6 +222,11 @@ public class HttpRequestUtils {
         RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).validateSmsCode(X_Uyj_Timestamp, receipt, smsCodeBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
+                TokenBean tokenBean = (TokenBean) o;
+                String token = tokenBean.getToken();
+                if (!TextUtils.isEmpty(token)) {
+                    RtcSpUtils.getInstance().setToken(token);
+                }
                 httpRequestListener.requestSuccess(o);
             }
 
