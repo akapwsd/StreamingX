@@ -98,6 +98,20 @@ public class HttpRequestUtils {
         });
     }
 
+    public void getModelChannelToken(Context context, String token, String channelId, HttpRequestListener httpRequestListener) {
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getChannelToken(token, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            @Override
+            public void Success(Object o) {
+                httpRequestListener.requestSuccess(o);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
     public void getChannelToken(Context context, String channelId, HttpRequestListener httpRequestListener) {
         LogUtil.d(TAG, "getChannelToken is start channelId:" + channelId);
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
@@ -157,20 +171,11 @@ public class HttpRequestUtils {
         });
     }
 
-    public void createChannel(Context context, int category, HttpRequestListener httpRequestListener) {
-        String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-        String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-        String session_token = RtcSpUtils.getInstance().getSessionToken();
-        long currentTimeMillis = System.currentTimeMillis();
-        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-        String data = X_Uyj_Timestamp + Content_Type;
-        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-        String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-        LogUtil.d(TAG, "authorization:" + authorization + "\n X_Uyj_Timestamp:" + X_Uyj_Timestamp + "\n Content_Type:" + Content_Type);
+    public void createChannel(Context context, String token, int category, HttpRequestListener httpRequestListener) {
+        LogUtil.d(TAG, "createChannel is start category:" + category);
         CreateChannelBean createChannelBean = new CreateChannelBean();
         createChannelBean.setCategory(category);
-        RetrofitHelper.createApi(HttpApi.class, context).createChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, createChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).createChannel(token, createChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);

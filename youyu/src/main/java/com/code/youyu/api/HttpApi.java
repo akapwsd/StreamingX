@@ -30,7 +30,6 @@ import retrofit2.http.Query;
 public interface HttpApi {
     String BASE_URL = "https://api.hitradegate.com/v1/";
     String GET_CHANNEL_TOKEN = "channel/channel/{channelId}/token";
-    String CREATE_CHANNEL = "channel/channel";
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "broadcaster/list";
     String GET_MODEL_COVER = "avatar/list";
@@ -39,9 +38,6 @@ public interface HttpApi {
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId);
 
     // @Header("Session-Token") String sessionToken,
-    @POST(CREATE_CHANNEL)
-    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Body CreateChannelBean createInfo);
-
     @PUT(JOIN_CHANNEL)
     Observable<ChannelResultBean> joinChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId, @Body JoinChannelBean joinChannelInfo);
 
@@ -62,6 +58,13 @@ public interface HttpApi {
     String POST_UPLOAD_AVATAR = "broadcaster/{uid}/uid/avatar";
     String GET_TOKEN = "broadcaster/token/{uid}/uid/token";
     String PUT_UPLOAD_USER_INFO = "broadcaster/attributes";
+    String CREATE_CHANNEL = "channel/channel";
+
+    @GET(GET_CHANNEL_TOKEN)
+    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Path("channelId") String channelId);
+
+    @POST(CREATE_CHANNEL)
+    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization, @Body CreateChannelBean createInfo);
 
     @POST(POST_REGISTER_WITH_PHONE)
     Observable<SmsBean> registerWithPhone(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("phone") String phone, @Body NullBean nullBean);

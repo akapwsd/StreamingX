@@ -16,15 +16,6 @@ class ChannelActivity : Activity() {
         setContentView(R.layout.activity_login)
         create_btn.setOnClickListener {
             val callType = Constants.VIDEO
-            RtcManager.getInstance().createChannel(callType, object : HttpRequestListener {
-                override fun requestSuccess(o: Any?) {
-                    startActivity(Intent(this@ChannelActivity, AgoVideoActivity::class.java))
-                }
-
-                override fun requestError(code: Int, error: String?) {
-
-                }
-            })
         }
         call_video.setOnClickListener {
             RtcManager.getInstance().callVideo(channelId, "110", object : HttpRequestListener {

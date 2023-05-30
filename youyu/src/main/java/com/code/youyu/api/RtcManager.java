@@ -208,8 +208,8 @@ public class RtcManager {
         }
     }
 
-    public void createChannel(int category, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().createChannel(mContext, category, listener);
+    public void createChannel(String token, int category, HttpRequestListener listener) {
+        HttpRequestUtils.getInstance().createChannel(mContext, token, category, listener);
     }
 
     /**
