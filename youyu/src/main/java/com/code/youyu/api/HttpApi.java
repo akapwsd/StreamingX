@@ -45,7 +45,7 @@ public interface HttpApi {
     Observable<ModelListBean> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("sort") int sort, @Query("page") int page, @Query("limit") int limit);
 
     @GET(GET_MODEL_COVER)
-    Observable<ModelCoverListBean> getModelCoverList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("id") int modelId);
+    Observable<ModelCoverListBean> getModelAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("uid") int modelId);
 
     /*==============================model=======================================*/
     String BASE_BROADCASTER_URL = "https://broadcaster.hitradegate.com/v1/";
@@ -62,10 +62,10 @@ public interface HttpApi {
     String CREATE_CHANNEL = "channel/channel";
 
     @GET(GET_CHANNEL_TOKEN)
-    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp,@Path("channelId") String channelId);
+    Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("channelId") String channelId);
 
     @POST(CREATE_CHANNEL)
-    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization,@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body CreateChannelBean createInfo);
+    Observable<ChannelResultBean> createChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body CreateChannelBean createInfo);
 
     @POST(POST_REGISTER_WITH_PHONE)
     Observable<SmsBean> registerWithPhone(@Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("phone") String phone, @Body NullBean nullBean);
@@ -96,4 +96,8 @@ public interface HttpApi {
 
     @PUT(PUT_UPLOAD_USER_INFO)
     Observable<Object> uploadUserInfo(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body UploadUserInfoBean uploadUserInfoBean);
+
+    @GET(GET_MODEL_COVER)
+    Observable<ModelCoverListBean> getAccountAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Query("uid") int uid);
+
 }

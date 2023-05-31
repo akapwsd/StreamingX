@@ -54,7 +54,25 @@ public class HttpRequestUtils {
         String data = X_Uyj_Timestamp + Content_Type;
         String sign = DataUtils.sha256_HMAC(access_key_secret, data);
         String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-        RetrofitHelper.createApi(HttpApi.class, context).getModelCoverList(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        RetrofitHelper.createApi(HttpApi.class, context).getModelAvatar(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+            @Override
+            public void Success(Object modelBeans) {
+                ModelCoverListBean data = (ModelCoverListBean) modelBeans;
+                requestModelAvatarListListener.onResult(data);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                requestModelAvatarListListener.onFailure(code, error);
+            }
+        });
+    }
+
+    public void getAccountAvatar(Context context, String token, int uid, RequestModelAvatarListListener requestModelAvatarListListener) {
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getAccountAvatar(token, X_Uyj_Timestamp, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
             @Override
             public void Success(Object modelBeans) {
