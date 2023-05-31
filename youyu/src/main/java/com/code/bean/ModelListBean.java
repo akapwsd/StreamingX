@@ -32,6 +32,8 @@ public class ModelListBean {
      */
     private Map<String, DefaultAvatarBean> defaultAvatarMap;
 
+    private Map<String, String> currentChannel;
+
     public ArrayList<ModelBean> getList() {
         return list;
     }
@@ -44,8 +46,17 @@ public class ModelListBean {
         return defaultAvatarMap;
     }
 
+    public Map<String, String> getCurrentChannel() {
+        return currentChannel;
+    }
+
     @Override
     public String toString() {
-        return "ModelListBean{" + "list=" + list + ", stateMap=" + stateMap + ", defaultAvatarMap=" + defaultAvatarMap + '}';
+        return "ModelListBean{" +
+                "list=" + list +
+                ", stateMap=" + stateMap +
+                ", defaultAvatarMap=" + defaultAvatarMap +
+                ", currentChannel=" + currentChannel +
+                '}';
     }
 }
