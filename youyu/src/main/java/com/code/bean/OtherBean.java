@@ -15,10 +15,6 @@ public class OtherBean {
      */
     private String md5;
     /**
-     * image owner id
-     */
-    private int uid;
-    /**
      * Anchor blurred avatar (small avatar)
      */
     private String avatarThumb;
@@ -35,10 +31,6 @@ public class OtherBean {
         return md5;
     }
 
-    public int getUid() {
-        return uid;
-    }
-
     public String getAvatarThumb() {
         return avatarThumb;
     }
@@ -53,6 +45,11 @@ public class OtherBean {
 
     @Override
     public String toString() {
-        return "OtherBean{" + "md5='" + md5 + '\'' + ", uid=" + uid + ", avatarThumb='" + avatarThumb + '\'' + ", avatarStandard='" + avatarStandard + '\'' + ", avatarClear='" + avatarClear + '\'' + '}';
+        return "OtherBean{" +
+                "md5='" + md5 + '\'' +
+                ", avatarThumb='" + avatarThumb + '\'' +
+                ", avatarStandard='" + avatarStandard + '\'' +
+                ", avatarClear='" + avatarClear + '\'' +
+                '}';
     }
 }
