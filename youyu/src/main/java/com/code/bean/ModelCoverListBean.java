@@ -1,5 +1,7 @@
 package com.code.bean;
 
+import java.util.ArrayList;
+
 /**
  * anchor cover Object
  *
@@ -12,18 +14,21 @@ package com.code.bean;
 public class ModelCoverListBean {
 
     private DefaultAvatarBean defaultAvatar;
-    private OtherBean others;
+    private ArrayList<OtherBean> others;
+
+    public ArrayList<OtherBean> getOthers() {
+        return others;
+    }
 
     public DefaultAvatarBean getDefaultAvatar() {
         return defaultAvatar;
     }
 
-    public OtherBean getOthers() {
-        return others;
-    }
-
     @Override
     public String toString() {
-        return "ModelCoverListBean{" + "defaultAvatar=" + defaultAvatar + ", others=" + others + '}';
+        return "ModelCoverListBean{" +
+                "defaultAvatar=" + defaultAvatar +
+                ", others=" + others +
+                '}';
     }
 }
