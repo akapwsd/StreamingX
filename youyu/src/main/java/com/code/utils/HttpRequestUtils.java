@@ -305,7 +305,7 @@ public class HttpRequestUtils {
         AvatarListBean avatarListBean = new AvatarListBean();
         ArrayList<AvatarBean> list = new ArrayList<>();
         AvatarBean avatarBean = new AvatarBean();
-        avatarBean.setMd5(key);
+        avatarBean.setAvatarStandard(key);
         list.add(avatarBean);
         avatarListBean.setList(list);
         RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).uploadAvatar(token, X_Uyj_Timestamp, uid, avatarListBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
