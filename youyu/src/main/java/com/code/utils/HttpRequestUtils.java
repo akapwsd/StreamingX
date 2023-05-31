@@ -305,6 +305,7 @@ public class HttpRequestUtils {
         AvatarListBean avatarListBean = new AvatarListBean();
         ArrayList<AvatarBean> list = new ArrayList<>();
         AvatarBean avatarBean = new AvatarBean();
+        avatarBean.setMd5(Md5Utils.md5(key));
         avatarBean.setAvatarStandard(key);
         list.add(avatarBean);
         avatarListBean.setList(list);
