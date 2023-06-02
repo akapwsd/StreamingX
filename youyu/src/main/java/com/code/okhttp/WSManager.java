@@ -348,6 +348,7 @@ public class WSManager {
         long currentTimeMillis = System.currentTimeMillis();
         channelMsgRecord.setSendTime(currentTimeMillis);
         byte[] bytes = DataUtils.assembleData(0xc60f6256, channelMsgRecord.build().toByteArray());
+        LogUtil.d(TAG, "rtc sendMsg data:" + Arrays.toString(bytes));
         send(ByteString.of(bytes));
         return msgFp;
     }
