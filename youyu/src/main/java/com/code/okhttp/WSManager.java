@@ -4,7 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.code.bean.MsgBean;
+import com.code.listener.ChannelMsgListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
+import com.code.msg.NettyMsg;
 import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
@@ -15,8 +18,10 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.annotations.Nullable;
@@ -26,6 +31,7 @@ import okhttp3.Response;
 import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
+import uyujoy.api.channelim.frontend.ChannelIm;
 import uyujoy.com.api.channel.frontend.ChannelBase;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
@@ -58,6 +64,7 @@ public class WSManager {
     private int reconnectNum = 0;
     private Handler heartHandler = new Handler();
     private long global_ping_send_time = 0L;
+    private ChannelMsgListener channelMsgListener;
 
     private static final class SInstanceHolder {
         static final WSManager sInstance = new WSManager();
@@ -147,11 +154,11 @@ public class WSManager {
     }
 
     private void connect() {
-        if (!TextUtils.isEmpty(token)){
+        if (!TextUtils.isEmpty(token)) {
             LogUtil.d(TAG, "connect is start token:" + token);
             Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
             mWebSocket = mClient.newWebSocket(request, new WsListener());
-        }else {
+        } else {
             LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
             long currentTimeMillis = System.currentTimeMillis();
             String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
@@ -241,6 +248,24 @@ public class WSManager {
                             iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
                         }
                         break;
+                    case Constants.MSG_RECORD_ACK:
+                        ChannelIm.channelMsgRecordAck channelMsgRecordAck = ChannelIm.channelMsgRecordAck.parseFrom(resultData);
+                        if (channelMsgListener != null) {
+                            channelMsgListener.sendSuccess(channelMsgRecordAck.getFp());
+                        }
+                        break;
+                    case Constants.CHANNEL_MSG_RECORD:
+                        ChannelIm.rcvChannelMsgRecord rcvChannelMsgRecord = ChannelIm.rcvChannelMsgRecord.parseFrom(resultData);
+                        MsgBean currentReceiveMsg = new MsgBean();
+                        currentReceiveMsg.setMsg(rcvChannelMsgRecord.getMsg().getMsg());
+                        currentReceiveMsg.setSendTime(rcvChannelMsgRecord.getMsg().getSendTime());
+                        currentReceiveMsg.setFp(rcvChannelMsgRecord.getMsg().getMsgFp());
+                        currentReceiveMsg.setChannelId(rcvChannelMsgRecord.getMsg().getChannelId());
+                        currentReceiveMsg.setFrom(Integer.parseInt(rcvChannelMsgRecord.getMsg().getFrom()));
+                        iRtcEngineEventCallBackHandler.receiveMsg(currentReceiveMsg);
+                        break;
+//                    case Constants.GET_DIFF_MSG_RECORD_ACK:
+//                        break;
                 }
             } catch (InvalidProtocolBufferException e) {
                 throw new RuntimeException(e);
@@ -307,19 +332,40 @@ public class WSManager {
         ping = builder.build();
         byte[] bytes = DataUtils.assembleData(0x85e792c3, ping.toByteArray());
         LogUtil.d(TAG, "rtc ping send data:" + Arrays.toString(bytes));
-        WSManager.getInstance().send(ByteString.of(bytes));
+        send(ByteString.of(bytes));
     }
 
-    protected void roomPing() {
-        byte[] a = new byte[0];
-        //channelId
-        WSManager.getInstance().send(ByteString.of(a));
+    public String sendMsg(int localUid, String msg, ChannelMsgListener channelMsgListener) {
+        LogUtil.d(TAG, "send messenger");
+        this.channelMsgListener = channelMsgListener;
+        String channelId = RtcSpUtils.getInstance().getChannelId();
+        String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
+        ChannelIm.channelMsgRecord.Builder channelMsgRecord = ChannelIm.channelMsgRecord.newBuilder();
+        channelMsgRecord.setMsgFp(msgFp);
+        channelMsgRecord.setFrom(String.valueOf(localUid));
+        channelMsgRecord.setChannelId(channelId);
+        channelMsgRecord.setMsg(msg);
+        long currentTimeMillis = System.currentTimeMillis();
+        channelMsgRecord.setSendTime(currentTimeMillis);
+        byte[] bytes = DataUtils.assembleData(0xc60f6256, channelMsgRecord.build().toByteArray());
+        send(ByteString.of(bytes));
+        return msgFp;
+    }
+
+    private void getDiffMsg(int msgId) {
+        LogUtil.d(TAG, "get different messenger msgId:" + msgId);
+        String channelId = RtcSpUtils.getInstance().getChannelId();
+        ChannelIm.getDiffChannelMsgRecord.Builder getDiffChannelMsgRecord = ChannelIm.getDiffChannelMsgRecord.newBuilder();
+        getDiffChannelMsgRecord.setChannelId(channelId);
+        getDiffChannelMsgRecord.setMsgId(msgId);
+        byte[] bytes = DataUtils.assembleData(0xebb76c1e, getDiffChannelMsgRecord.build().toByteArray());
+        send(ByteString.of(bytes));
     }
 
     /**
      * send msg
      */
-    public void send(final ByteString message) {
+    protected void send(final ByteString message) {
         if (isConnect()) {
             mWebSocket.send(message);
         } else {

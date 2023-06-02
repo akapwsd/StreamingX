@@ -1,0 +1,32 @@
+syntax = "proto3";
+package uyujoy.api.channelim.frontend;
+option go_package = "uyujoy.com/pass/protogen/api/channelim/frontend;channelim";
+
+message channelMsgRecord{
+  uint32 msgId = 1;
+  string msgFp = 2;
+  string from = 3;
+  string channelId = 4;
+  string msg = 5;
+  int64 sendTime = 6;
+  string lang = 7;
+}
+
+message channelMsgRecordAck{
+  uint32 msgId = 1;
+  string fp =2;
+}
+
+
+message rcvChannelMsgRecord {
+  channelMsgRecord msg = 1;
+}
+
+message getDiffChannelMsgRecord{
+  uint32 msgId = 1;
+  string channelId = 2;
+}
+
+message getDiffChannelMsgRecordAck{
+  repeated channelMsgRecord list = 1;
+}

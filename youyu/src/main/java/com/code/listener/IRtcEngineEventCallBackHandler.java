@@ -1,5 +1,9 @@
 package com.code.listener;
 
+import com.code.bean.MsgBean;
+
+import java.util.ArrayList;
+
 import io.agora.rtc.IRtcEngineEventHandler;
 
 /**
@@ -103,6 +107,10 @@ public abstract class IRtcEngineEventCallBackHandler {
      * @param reason The reason why the chat room is closed
      */
     public void closeRoom(int reason) {
+
+    }
+
+    public void receiveMsg(MsgBean msg) {
 
     }
 }

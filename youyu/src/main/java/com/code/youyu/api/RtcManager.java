@@ -6,6 +6,7 @@ import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
 import com.code.bean.ChannelTokenBean;
+import com.code.listener.ChannelMsgListener;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.listener.RequestModelAvatarListListener;
@@ -83,13 +84,18 @@ public class RtcManager {
      * @param access_key_secret the access_key_secret
      * @param session_token     the session_token
      */
-    public void initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
+    public boolean initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "initRtc is start");
-        mContext = context;
-        RtcSpBase.initContent(context);
-        RtcSpUtils.getInstance().setChannelId("");
-        BaseRtcEngineManager.getInstance().initBaseRtc(context);
-        WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
+        if (!TextUtils.isEmpty(access_key_id) && !TextUtils.isEmpty(access_key_secret) && !TextUtils.isEmpty(session_token)) {
+            mContext = context;
+            RtcSpBase.initContent(context);
+            RtcSpUtils.getInstance().setChannelId("");
+            BaseRtcEngineManager.getInstance().initBaseRtc(context);
+            WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean initModelRtc(Context context, String token) {
@@ -466,5 +472,9 @@ public class RtcManager {
      */
     public RtcEngine getRtcEngine() {
         return BaseRtcEngineManager.getInstance().getRtcEngine();
+    }
+
+    public String sendMsg(String msg, ChannelMsgListener channelMsgListener) {
+        return WSManager.getInstance().sendMsg(localUid, msg, channelMsgListener);
     }
 }

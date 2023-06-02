@@ -32,5 +32,15 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="40dp"
             android:text="hang_up" />
+
+        <Button
+            android:id="@+id/send_msg_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="40dp"
+            android:text="send msg" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
