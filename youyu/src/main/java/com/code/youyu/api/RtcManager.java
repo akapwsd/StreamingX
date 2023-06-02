@@ -92,13 +92,18 @@ public class RtcManager {
         WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
     }
 
-    public void initModelRtc(Context context, String token) {
+    public boolean initModelRtc(Context context, String token) {
         LogUtil.d(TAG, "initModelRtc is start");
-        mContext = context;
-        RtcSpBase.initContent(context);
-        RtcSpUtils.getInstance().setChannelId("");
-        BaseRtcEngineManager.getInstance().initBaseRtc(context);
-        WSManager.getInstance().init(context, token);
+        if (!TextUtils.isEmpty(token)) {
+            mContext = context;
+            RtcSpBase.initContent(context);
+            RtcSpUtils.getInstance().setChannelId("");
+            BaseRtcEngineManager.getInstance().initBaseRtc(context);
+            WSManager.getInstance().init(context, token);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
