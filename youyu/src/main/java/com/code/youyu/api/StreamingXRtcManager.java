@@ -58,6 +58,7 @@ public class StreamingXRtcManager {
     private FrameLayout remoteFrameLayout;
     private FrameLayout localFrameLayout;
     private static StreamingXRtcManager streamingXRtcManager;
+    private boolean isInit = false;
 
     /**
      * Get the singleton method of RtcManager object
@@ -92,6 +93,7 @@ public class StreamingXRtcManager {
             RtcSpUtils.getInstance().setChannelId("");
             BaseRtcEngineManager.getInstance().initBaseRtc(context);
             WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
+            isInit = true;
             return true;
         } else {
             return false;
@@ -106,6 +108,7 @@ public class StreamingXRtcManager {
             RtcSpUtils.getInstance().setChannelId("");
             BaseRtcEngineManager.getInstance().initBaseRtc(context);
             WSManager.getInstance().init(context, token);
+            isInit = true;
             return true;
         } else {
             return false;
@@ -139,12 +142,16 @@ public class StreamingXRtcManager {
      * @param view    view that need to display the other party's screen
      */
     public void showRemoteView(Context context, int uid, FrameLayout view) {
-        remoteFrameLayout = view;
-        mRemoteUid = uid;
-        remoteView = RtcEngine.CreateRendererView(context);
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
-        view.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        if (isInit) {
+            remoteFrameLayout = view;
+            mRemoteUid = uid;
+            remoteView = RtcEngine.CreateRendererView(context);
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
+            view.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -155,15 +162,19 @@ public class StreamingXRtcManager {
      */
     public void showLocalView(Context context, FrameLayout view) {
         LogUtil.d(TAG, "showLocalView is start showLocalView uid:" + localUid);
-        userJoinChannel(localUid);
-        localFrameLayout = view;
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.enableLocalVideo(true);
-        localView = RtcEngine.CreateRendererView(context);
-        localView.setZOrderOnTop(true);
-        view.addView(localView);
-        rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
-        localView.setZOrderMediaOverlay(true);
+        if (isInit) {
+            userJoinChannel(localUid);
+            localFrameLayout = view;
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.enableLocalVideo(true);
+            localView = RtcEngine.CreateRendererView(context);
+            localView.setZOrderOnTop(true);
+            view.addView(localView);
+            rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
+            localView.setZOrderMediaOverlay(true);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     private void userJoinChannel(int uid) {
@@ -188,48 +199,56 @@ public class StreamingXRtcManager {
      * @param context the context
      */
     public void switchView(Context context) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.setupRemoteVideo(null);
-        if (mBigViewState == BIG_VIEW_STATE_REMOTE) {
-            mBigViewState = BIG_VIEW_STATE_LOCAL;
-            if (localView.getParent() != null) {
-                ((FrameLayout) localView.getParent()).removeView(localView);
-                localView = null;
-            }
-            if (remoteView.getParent() != null) {
-                ((FrameLayout) remoteView.getParent()).removeView(remoteView);
-                remoteView = null;
-            }
-            remoteView = RtcEngine.CreateRendererView(context);
-            rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
-            localFrameLayout.addView(remoteView);
-            localView = RtcEngine.CreateRendererView(context);
-            rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
-            remoteFrameLayout.addView(localView);
-            remoteView.setZOrderMediaOverlay(true);
-        } else {
-            mBigViewState = BIG_VIEW_STATE_REMOTE;
-            if (localView.getParent() != null) {
-                ((FrameLayout) localView.getParent()).removeView(localView);
-                localView = null;
-            }
-            if (remoteView.getParent() != null) {
-                ((FrameLayout) remoteView.getParent()).removeView(remoteView);
-                remoteView = null;
-            }
-            localView = RtcEngine.CreateRendererView(context);
-            localFrameLayout.addView(localView);
-            rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.setupRemoteVideo(null);
+            if (mBigViewState == BIG_VIEW_STATE_REMOTE) {
+                mBigViewState = BIG_VIEW_STATE_LOCAL;
+                if (localView.getParent() != null) {
+                    ((FrameLayout) localView.getParent()).removeView(localView);
+                    localView = null;
+                }
+                if (remoteView.getParent() != null) {
+                    ((FrameLayout) remoteView.getParent()).removeView(remoteView);
+                    remoteView = null;
+                }
+                remoteView = RtcEngine.CreateRendererView(context);
+                rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
+                localFrameLayout.addView(remoteView);
+                localView = RtcEngine.CreateRendererView(context);
+                rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
+                remoteFrameLayout.addView(localView);
+                remoteView.setZOrderMediaOverlay(true);
+            } else {
+                mBigViewState = BIG_VIEW_STATE_REMOTE;
+                if (localView.getParent() != null) {
+                    ((FrameLayout) localView.getParent()).removeView(localView);
+                    localView = null;
+                }
+                if (remoteView.getParent() != null) {
+                    ((FrameLayout) remoteView.getParent()).removeView(remoteView);
+                    remoteView = null;
+                }
+                localView = RtcEngine.CreateRendererView(context);
+                localFrameLayout.addView(localView);
+                rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
 
-            remoteView = RtcEngine.CreateRendererView(context);
-            rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
-            remoteFrameLayout.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
-            localView.setZOrderMediaOverlay(true);
+                remoteView = RtcEngine.CreateRendererView(context);
+                rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
+                remoteFrameLayout.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
+                localView.setZOrderMediaOverlay(true);
+            }
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
     }
 
     public void createChannel(String token, int category, HttpRequestListener listener) {
-        HttpRequestUtils.getInstance().createChannel(mContext, token, category, listener);
+        if (isInit) {
+            HttpRequestUtils.getInstance().createChannel(mContext, token, category, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -238,7 +257,11 @@ public class StreamingXRtcManager {
      * @param channel The RTC number of the video
      */
     public void callVideo(String channel, String token, String localUid) {
-        joinChannel(channel, token, localUid, Constants.VIDEO);
+        if (isInit) {
+            joinChannel(channel, token, localUid, Constants.VIDEO);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -247,7 +270,12 @@ public class StreamingXRtcManager {
      * @param channel The RTC number of the audio
      */
     public void callAudio(String channel, String token, String localUid) {
-        joinChannel(channel, token, localUid, Constants.AUDIO);
+        if (isInit) {
+            joinChannel(channel, token, localUid, Constants.AUDIO);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
+
     }
 
     private void joinChannel(String channelId, String token, String localUid, int category) {
@@ -264,7 +292,11 @@ public class StreamingXRtcManager {
      * @see RequestModelListListener
      */
     public void getModelList(int page, RequestModelListListener listener) {
-        HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 20, listener);
+        if (isInit) {
+            HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 20, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -278,7 +310,11 @@ public class StreamingXRtcManager {
      * @see RequestModelListListener
      */
     public void getModelList(int sort, int page, int limit, RequestModelListListener listener) {
-        HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, listener);
+        if (isInit) {
+            HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -290,15 +326,23 @@ public class StreamingXRtcManager {
      * @see RequestModelAvatarListListener
      */
     public void getModelAvatar(int modelId, RequestModelAvatarListListener listener) {
-        HttpRequestUtils.getInstance().getModelAvatar(mContext, modelId, listener);
+        if (isInit) {
+            HttpRequestUtils.getInstance().getModelAvatar(mContext, modelId, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
      * Switch front and rear cameras
      */
     public void switchCamera() {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.switchCamera();
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.switchCamera();
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -316,8 +360,12 @@ public class StreamingXRtcManager {
      *                 </ul>
      */
     public void actionAllAudio(boolean isEnable) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.muteAllRemoteAudioStreams(isEnable);
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.muteAllRemoteAudioStreams(isEnable);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -331,8 +379,12 @@ public class StreamingXRtcManager {
      *                 </ul>
      */
     public void actionAudio(int uid, boolean isEnable) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.muteRemoteAudioStream(uid, isEnable);
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.muteRemoteAudioStream(uid, isEnable);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -345,8 +397,12 @@ public class StreamingXRtcManager {
      *                 </ul>
      */
     public void actionLocalAudio(boolean isEnable) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.muteLocalAudioStream(isEnable);
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.muteLocalAudioStream(isEnable);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -360,8 +416,12 @@ public class StreamingXRtcManager {
      * @param isEnable
      */
     public void actionAllVideo(boolean isEnable) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.muteAllRemoteVideoStreams(isEnable);
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.muteAllRemoteVideoStreams(isEnable);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -374,8 +434,12 @@ public class StreamingXRtcManager {
      *                 </ul>
      */
     public void actionLocalVideo(boolean isEnable) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.muteLocalVideoStream(isEnable);
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.muteLocalVideoStream(isEnable);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     /**
@@ -389,8 +453,12 @@ public class StreamingXRtcManager {
      *                 </ul>
      */
     public void actionVideo(int uid, boolean isEnable) {
-        RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
-        rtcEngine.muteRemoteVideoStream(uid, isEnable);
+        if (isInit) {
+            RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
+            rtcEngine.muteRemoteVideoStream(uid, isEnable);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     public void requestNewToken() {
