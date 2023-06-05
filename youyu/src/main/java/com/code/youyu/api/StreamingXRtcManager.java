@@ -39,7 +39,7 @@ import io.agora.rtc.video.VideoCanvas;
  * @since 6 May 2023
  * @since JDK8
  */
-public class RtcManager {
+public class StreamingXRtcManager {
     private static final String TAG = "RtcManager";
     private static final int BIG_VIEW_STATE_REMOTE = 0;
     private static final int BIG_VIEW_STATE_LOCAL = 1;
@@ -57,22 +57,22 @@ public class RtcManager {
     public int localUid;
     private FrameLayout remoteFrameLayout;
     private FrameLayout localFrameLayout;
-    private static RtcManager rtcManager;
+    private static StreamingXRtcManager streamingXRtcManager;
 
     /**
      * Get the singleton method of RtcManager object
      *
      * @return RtcManager
      */
-    public static RtcManager getInstance() {
-        if (rtcManager == null) {
-            synchronized (RtcManager.class) {
-                if (rtcManager == null) {
-                    rtcManager = new RtcManager();
+    public static StreamingXRtcManager getInstance() {
+        if (streamingXRtcManager == null) {
+            synchronized (StreamingXRtcManager.class) {
+                if (streamingXRtcManager == null) {
+                    streamingXRtcManager = new StreamingXRtcManager();
                 }
             }
         }
-        return rtcManager;
+        return streamingXRtcManager;
     }
 
     /**
@@ -251,7 +251,7 @@ public class RtcManager {
     }
 
     private void joinChannel(String channelId, String token, String localUid, int category) {
-        RtcManager.getInstance().localUid = Integer.parseInt(localUid);
+        StreamingXRtcManager.getInstance().localUid = Integer.parseInt(localUid);
         WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(localUid), io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER, category);
     }
 

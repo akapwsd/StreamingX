@@ -1,20 +1,17 @@
 package com.code.utils;
 
 import android.content.Context;
-import android.text.TextUtils;
 
 import com.code.bean.AvatarBean;
 import com.code.bean.AvatarListBean;
 import com.code.bean.ChannelInfoBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
-import com.code.bean.DefaultAvatarBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
 import com.code.bean.NullBean;
 import com.code.bean.SmsCodeBean;
-import com.code.bean.TokenBean;
 import com.code.bean.UploadUserInfoBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
@@ -23,7 +20,7 @@ import com.code.okhttp.WSManager;
 import com.code.retrofit.RetrofitHelper;
 import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
-import com.code.youyu.api.RtcManager;
+import com.code.youyu.api.StreamingXRtcManager;
 
 import java.util.ArrayList;
 
@@ -179,7 +176,7 @@ public class HttpRequestUtils {
                 String serverChannelId = ch.getId();
                 String token = channelResultBean.getToken();
                 String uniqId = channelResultBean.getUniqId();
-                RtcManager.getInstance().localUid = Integer.parseInt(uniqId);
+                StreamingXRtcManager.getInstance().localUid = Integer.parseInt(uniqId);
                 LogUtil.d(TAG, "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token + " uniqId:" + uniqId);
                 if (channelId.equals(serverChannelId)) {
                     WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uniqId), Constants.CLIENT_ROLE_BROADCASTER, category);
@@ -208,7 +205,7 @@ public class HttpRequestUtils {
                 String channelId = ch.getId();
                 String token = channelResultBean.getToken();
                 String uniqId = channelResultBean.getUniqId();
-                RtcManager.getInstance().localUid = Integer.parseInt(uniqId);
+                StreamingXRtcManager.getInstance().localUid = Integer.parseInt(uniqId);
                 LogUtil.d(TAG, "createChannel success channelId:" + channelId + " token:" + token + " uniqId:" + uniqId);
                 WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uniqId), Constants.CLIENT_ROLE_BROADCASTER, category);
             }

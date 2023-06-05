@@ -2,7 +2,6 @@ package com.code.myapplication;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -11,7 +10,7 @@ import com.code.bean.MsgBean;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.LogUtil;
-import com.code.youyu.api.RtcManager;
+import com.code.youyu.api.StreamingXRtcManager;
 
 public class AgoVideoActivity extends Activity {
     public FrameLayout smallView;
@@ -26,7 +25,7 @@ public class AgoVideoActivity extends Activity {
         Button sendMsgBtn = findViewById(R.id.send_msg_btn);
         smallView = findViewById(R.id.small_view);
         bigView = findViewById(R.id.big_view);
-        RtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
+        StreamingXRtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
             @Override
             public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
                 LogUtil.d("TEST", "onJoinChannelSuccess channel:" + channel + " uid:" + uid);
@@ -35,7 +34,7 @@ public class AgoVideoActivity extends Activity {
             @Override
             public void onUserJoined(int uid, int elapsed) {
                 LogUtil.d("TEST", "onUserJoined uid:" + uid);
-                runOnUiThread(() -> RtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView));
+                runOnUiThread(() -> StreamingXRtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView));
             }
 
             @Override
@@ -55,10 +54,10 @@ public class AgoVideoActivity extends Activity {
         });
         initVideoView();
         hangUpBtn.setOnClickListener(view -> {
-            RtcManager.getInstance().closeVideoChat();
+            StreamingXRtcManager.getInstance().closeVideoChat();
             finish();
         });
-        sendMsgBtn.setOnClickListener(view -> sendFp = RtcManager.getInstance().sendMsg("123456", new ChannelMsgListener() {
+        sendMsgBtn.setOnClickListener(view -> sendFp = StreamingXRtcManager.getInstance().sendMsg("123456", new ChannelMsgListener() {
             @Override
             public void sendSuccess(String fp) {
                 if (sendFp.equals(fp)) {
@@ -76,6 +75,6 @@ public class AgoVideoActivity extends Activity {
     }
 
     public void initVideoView() {
-        RtcManager.getInstance().showLocalView(this, smallView);
+        StreamingXRtcManager.getInstance().showLocalView(this, smallView);
     }
 }

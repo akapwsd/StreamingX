@@ -6,7 +6,7 @@ import com.code.constants.AgoraConstants;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
-import com.code.youyu.api.RtcManager;
+import com.code.youyu.api.StreamingXRtcManager;
 
 import io.agora.rtc.Constants;
 import io.agora.rtc.IRtcEngineEventHandler;
@@ -88,13 +88,13 @@ public class BaseRtcEngineManager {
         @Override
         public void onRequestToken() {
             LogUtil.d(TAG, "onRequestToken is start");
-            RtcManager.getInstance().closeVideoChat();
+            StreamingXRtcManager.getInstance().closeVideoChat();
         }
 
         @Override
         public void onTokenPrivilegeWillExpire(String token) {
             LogUtil.d(TAG, "onTokenPrivilegeWillExpire is start token:" + token);
-            RtcManager.getInstance().requestNewToken();
+            StreamingXRtcManager.getInstance().requestNewToken();
         }
 
         @Override

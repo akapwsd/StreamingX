@@ -12,16 +12,14 @@ import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
-import com.code.youyu.api.RtcManager;
+import com.code.youyu.api.StreamingXRtcManager;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.annotations.Nullable;
@@ -234,7 +232,7 @@ public class WSManager {
                         ChannelImform.channelUserStateChange channelUserStateChange = ChannelImform.channelUserStateChange.parseFrom(resultData);
                         String uid = channelUserStateChange.getChu().getUid();
                         if (uid.equals(mUid)) {
-                            RtcManager.getInstance().closeVideoChat();
+                            StreamingXRtcManager.getInstance().closeVideoChat();
                         }
                         iRtcEngineEventCallBackHandler.banRoom(uid, channelUserStateChange.getReason());
                         break;
@@ -243,7 +241,7 @@ public class WSManager {
                         ChannelBase.channel ch = channelStateChange.getCh();
                         String serverChannel = ch.getId();
                         String channelId = RtcSpUtils.getInstance().getChannelId();
-                        RtcManager.getInstance().closeVideoChat();
+                        StreamingXRtcManager.getInstance().closeVideoChat();
                         if (!TextUtils.isEmpty(channelId) && channelId.equals(serverChannel)) {
                             iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
                         }
