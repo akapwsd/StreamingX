@@ -15,7 +15,7 @@ Step 2:
 Add the dependency:
 
 	dependencies {
-	        implementation 'com.github.akapwsd:rtctest:Tag'
+	        implementation 'com.github.akapwsd:streamingx:Tag'
 	}
   
-[![](https://jitpack.io/v/akapwsd/rtctest.svg)](https://jitpack.io/#akapwsd/rtctest)
+[![](https://jitpack.io/v/akapwsd/streamingx.svg)](https://jitpack.io/#akapwsd/streamingx)
