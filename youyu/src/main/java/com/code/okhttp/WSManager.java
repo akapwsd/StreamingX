@@ -254,6 +254,7 @@ public class WSManager {
                         break;
                     case Constants.CHANNEL_MSG_RECORD:
                         ChannelIm.rcvChannelMsgRecord rcvChannelMsgRecord = ChannelIm.rcvChannelMsgRecord.parseFrom(resultData);
+                        LogUtil.d(TAG, "CHANNEL_MSG_RECORD rcvChannelMsgRecord:" + rcvChannelMsgRecord);
                         MsgBean currentReceiveMsg = new MsgBean();
                         currentReceiveMsg.setMsg(rcvChannelMsgRecord.getMsg().getMsg());
                         currentReceiveMsg.setSendTime(rcvChannelMsgRecord.getMsg().getSendTime());
