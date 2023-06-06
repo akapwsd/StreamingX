@@ -260,7 +260,7 @@ public class WSManager {
                         currentReceiveMsg.setSendTime(rcvChannelMsgRecord.getMsg().getSendTime());
                         currentReceiveMsg.setFp(rcvChannelMsgRecord.getMsg().getMsgFp());
                         currentReceiveMsg.setChannelId(rcvChannelMsgRecord.getMsg().getChannelId());
-                        currentReceiveMsg.setFrom(Integer.parseInt(rcvChannelMsgRecord.getMsg().getFrom()));
+                        currentReceiveMsg.setFrom(rcvChannelMsgRecord.getMsg().getFrom());
                         iRtcEngineEventCallBackHandler.receiveMsg(currentReceiveMsg);
                         break;
 //                    case Constants.GET_DIFF_MSG_RECORD_ACK:

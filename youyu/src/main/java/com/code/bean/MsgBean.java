@@ -2,17 +2,17 @@ package com.code.bean;
 
 public class MsgBean {
     private String fp;
-    private int from;
+    private String from;
     private String channelId;
 
     private String msg;
     private long sendTime;
 
-    public int getFrom() {
+    public String getFrom() {
         return from;
     }
 
-    public void setFrom(int from) {
+    public void setFrom(String from) {
         this.from = from;
     }
 
