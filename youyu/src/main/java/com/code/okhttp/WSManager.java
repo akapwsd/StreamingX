@@ -321,8 +321,8 @@ public class WSManager {
     }
 
     protected void ping() {
-        LogUtil.d(TAG, "rtc ping is start");
         String channelId = RtcSpUtils.getInstance().getChannelId();
+        LogUtil.d(TAG, "rtc ping is start channelId:" + channelId);
         Api.ping ping;
         Api.ping.Builder builder = Api.ping.newBuilder();
         if (!TextUtils.isEmpty(channelId)) {
