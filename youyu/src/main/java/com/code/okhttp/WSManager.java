@@ -38,7 +38,7 @@ import uyujoy.com.api.gateway.frontend.Base;
 public class WSManager {
     private final String TAG = "WSManager";
     private final static int MAX_RECONNECT_NUM = 5;
-    private final static int RECONNECT_MILLS = 5000;
+    private final static int RECONNECT_MILLS = 1000;
     private final static int GLOBAL_HEART_BEAT_RATE = 5000;
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private final static String MODEL_BASE_URL = "wss://broadcaster.hitradegate.com/v1/ws";
