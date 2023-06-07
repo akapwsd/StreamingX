@@ -114,5 +114,14 @@ public class BaseRtcEngineManager {
             }
             mRtcEngine.setVideoEncoderConfiguration(videoEncoderConfiguration);
         }
+
+        @Override
+        public void onConnectionStateChanged(int state, int reason) {
+            LogUtil.d(TAG, "onConnectionStateChanged is start state:" + state + " reason:" + reason);
+            if (state == 1 || state == 5) {
+                StreamingXRtcManager.getInstance().closeVideoChat();
+            }
+            iRtcEngineEventCallBackHandler.onConnectionStateChanged(state, state);
+        }
     };
 }

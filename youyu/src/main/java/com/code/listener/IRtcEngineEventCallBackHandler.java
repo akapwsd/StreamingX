@@ -110,6 +110,10 @@ public abstract class IRtcEngineEventCallBackHandler {
 
     }
 
+    public void onConnectionStateChanged(int state, int reason){
+
+    }
+
     public void receiveMsg(MsgBean msg) {
 
     }
