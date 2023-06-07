@@ -63,6 +63,7 @@ public class WSManager {
     private Handler heartHandler = new Handler();
     private long global_ping_send_time = 0L;
     private ChannelMsgListener channelMsgListener;
+    private Request request;
 
     private static final class SInstanceHolder {
         static final WSManager sInstance = new WSManager();
@@ -122,12 +123,17 @@ public class WSManager {
     }
 
     private void closeConnect() {
-        LogUtil.e(TAG, "closeConnect is start");
+        LogUtil.e(TAG, "closeConnect is start isCallIng:" + isCallIng);
         isConnect = false;
         global_ping_send_time = 0L;
+        reconnectNum = 0;
         if (heartHandler != null) {
             heartHandler.removeCallbacksAndMessages(null);
             heartHandler = null;
+        }
+        if (isCallIng) {
+            isCallIng = false;
+            StreamingXRtcManager.getInstance().closeVideoChat();
         }
         LogUtil.e(TAG, "closeConnect is end");
     }
@@ -144,6 +150,7 @@ public class WSManager {
             }
         } else {
             LogUtil.e(TAG, "reconnect over,please check url or network");
+            closeConnect();
         }
     }
 
@@ -154,8 +161,9 @@ public class WSManager {
     private void connect() {
         if (!TextUtils.isEmpty(token)) {
             LogUtil.d(TAG, "connect is start token:" + token);
-            Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
-            mWebSocket = mClient.newWebSocket(request, new WsListener());
+            if (request == null) {
+                request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
+            }
         } else {
             LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
             long currentTimeMillis = System.currentTimeMillis();
@@ -164,10 +172,11 @@ public class WSManager {
             String data = X_Uyj_Timestamp + Content_Type;
             String sign = DataUtils.sha256_HMAC(access_key_secret, data);
             LogUtil.d(TAG, "sign:" + sign);
-            Request request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
-            mWebSocket = mClient.newWebSocket(request, new WsListener());
+            if (request == null) {
+                request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
+            }
         }
-
+        mWebSocket = mClient.newWebSocket(request, new WsListener());
         LogUtil.d(TAG, "connect is end");
     }
 
