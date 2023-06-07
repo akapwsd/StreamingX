@@ -118,7 +118,7 @@ public class BaseRtcEngineManager {
         @Override
         public void onConnectionStateChanged(int state, int reason) {
             LogUtil.d(TAG, "onConnectionStateChanged is start state:" + state + " reason:" + reason);
-            if (state == 1 || state == 5) {
+            if ((state == 1 && reason == 10) || (state == 5 && reason == 10)) {
                 StreamingXRtcManager.getInstance().closeVideoChat();
             }
             iRtcEngineEventCallBackHandler.onConnectionStateChanged(state, state);
