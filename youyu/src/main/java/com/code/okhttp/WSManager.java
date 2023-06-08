@@ -347,18 +347,22 @@ public class WSManager {
         LogUtil.d(TAG, "send messenger");
         this.channelMsgListener = channelMsgListener;
         String channelId = RtcSpUtils.getInstance().getChannelId();
-        String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
-        ChannelIm.channelMsgRecord.Builder channelMsgRecord = ChannelIm.channelMsgRecord.newBuilder();
-        channelMsgRecord.setMsgFp(msgFp);
-        channelMsgRecord.setFrom(String.valueOf(localUid));
-        channelMsgRecord.setChannelId(channelId);
-        channelMsgRecord.setMsg(msg);
-        long currentTimeMillis = System.currentTimeMillis();
-        channelMsgRecord.setSendTime(currentTimeMillis);
-        byte[] bytes = DataUtils.assembleData(0xc60f6256, channelMsgRecord.build().toByteArray());
-        LogUtil.d(TAG, "rtc sendMsg data:" + Arrays.toString(bytes));
-        send(ByteString.of(bytes));
-        return msgFp;
+        if (!TextUtils.isEmpty(channelId)) {
+            String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
+            ChannelIm.channelMsgRecord.Builder channelMsgRecord = ChannelIm.channelMsgRecord.newBuilder();
+            channelMsgRecord.setMsgFp(msgFp);
+            channelMsgRecord.setFrom(String.valueOf(localUid));
+            channelMsgRecord.setChannelId(channelId);
+            channelMsgRecord.setMsg(msg);
+            long currentTimeMillis = System.currentTimeMillis();
+            channelMsgRecord.setSendTime(currentTimeMillis);
+            byte[] bytes = DataUtils.assembleData(0xc60f6256, channelMsgRecord.build().toByteArray());
+            LogUtil.d(TAG, "rtc sendMsg data:" + Arrays.toString(bytes));
+            send(ByteString.of(bytes));
+            return msgFp;
+        } else {
+            return "channel does not exist.";
+        }
     }
 
     private void getDiffMsg(int msgId) {

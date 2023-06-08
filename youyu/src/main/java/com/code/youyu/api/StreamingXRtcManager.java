@@ -542,6 +542,15 @@ public class StreamingXRtcManager {
         return BaseRtcEngineManager.getInstance().getRtcEngine();
     }
 
+    /**
+     * Called during a video call, it can be used to text chat with the other party
+     *
+     * @param msg                sent text content
+     * @param channelMsgListener callback interface
+     *                           {@link ChannelMsgListener} ChannelMsgListener listener object
+     * @return Returns the unique identifier for the current message
+     * @see ChannelMsgListener
+     */
     public String sendMsg(String msg, ChannelMsgListener channelMsgListener) {
         return WSManager.getInstance().sendMsg(localUid, msg, channelMsgListener);
     }
