@@ -33,15 +33,7 @@ class RegisterActivity : Activity() {
             })
         }
         apply_btn.setOnClickListener {
-            HttpRequestUtils.getInstance().uploadAvatar(this,uid,token,"123456",object :HttpRequestListener{
-                override fun requestSuccess(o: Any?) {
-
-                }
-
-                override fun requestError(code: Int, error: String?) {
-
-                }
-            })
+           
         }
         validate_code.setOnClickListener {
             if (!TextUtils.isEmpty(receipt)) {

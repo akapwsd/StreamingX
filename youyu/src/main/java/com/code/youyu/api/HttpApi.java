@@ -15,6 +15,7 @@ import com.code.bean.ResultTokenBean;
 import com.code.bean.SmsBean;
 import com.code.bean.SmsCodeBean;
 import com.code.bean.TokenBean;
+import com.code.bean.UploadAvatarBean;
 import com.code.bean.UploadUserInfoBean;
 
 import io.reactivex.rxjava3.core.Observable;
@@ -89,7 +90,7 @@ public interface HttpApi {
     Observable<Object> applyModel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body UploadUserInfoBean userInfoBean);
 
     @POST(POST_UPLOAD_AVATAR)
-    Observable<Object> uploadAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid, @Body AvatarListBean avatarListBean);
+    Observable<Object> uploadAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body UploadAvatarBean avatarListBean);
 
     @GET(GET_TOKEN)
     Observable<ResultTokenBean> getToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid);

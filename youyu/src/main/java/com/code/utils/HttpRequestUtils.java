@@ -12,6 +12,7 @@ import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
 import com.code.bean.NullBean;
 import com.code.bean.SmsCodeBean;
+import com.code.bean.UploadAvatarBean;
 import com.code.bean.UploadUserInfoBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
@@ -314,17 +315,13 @@ public class HttpRequestUtils {
         });
     }
 
-    public void uploadAvatar(Context context, int uid, String token, String key, HttpRequestListener httpRequestListener) {
+    public void uploadAvatar(Context context, String token, String key, HttpRequestListener httpRequestListener) {
         long currentTimeMillis = System.currentTimeMillis();
         String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        AvatarListBean avatarListBean = new AvatarListBean();
-        ArrayList<AvatarBean> list = new ArrayList<>();
-        AvatarBean avatarBean = new AvatarBean();
-        avatarBean.setMd5(Md5Utils.md5(key));
-        avatarBean.setAvatarStandard(key);
-        list.add(avatarBean);
-        avatarListBean.setList(list);
-        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).uploadAvatar(token, X_Uyj_Timestamp, uid, avatarListBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+        UploadAvatarBean uploadAvatarBean = new UploadAvatarBean();
+        uploadAvatarBean.setMd5(Md5Utils.md5(key));
+        uploadAvatarBean.setAvatarOriginalUrl(key);
+        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).uploadAvatar(token, X_Uyj_Timestamp, uploadAvatarBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
             @Override
             public void Success(Object o) {
                 httpRequestListener.requestSuccess(o);
