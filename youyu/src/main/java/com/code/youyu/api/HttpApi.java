@@ -57,7 +57,7 @@ public interface HttpApi {
     String PUT_SET_DEFAULT_AVATAR = "broadcaster/{uid}/uid/{md5}/md5/avatar";
     String GET_CHECK_APPLY_STATUS = "broadcaster/application/list";
     String POST_APPLY = "broadcaster/apply";
-    String POST_UPLOAD_AVATAR = "broadcaster/{uid}/uid/avatar";
+    String POST_UPLOAD_AVATAR = "broadcaster/avatar/upload";
     String GET_TOKEN = "broadcaster/token/{uid}/uid/token";
     String PUT_UPLOAD_USER_INFO = "broadcaster/attributes";
     String CREATE_CHANNEL = "channel/channel";
