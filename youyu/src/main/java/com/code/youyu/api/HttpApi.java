@@ -32,8 +32,8 @@ public interface HttpApi {
     String BASE_URL = "https://api.hitradegate.com/v1/";
     String GET_CHANNEL_TOKEN = "channel/channel/{channelId}/token";
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
-    String GET_MODEL_LIST = "broadcaster/list";
-    String GET_MODEL_COVER = "avatar/list";
+    String GET_MODEL_LIST = "broadcaster/broadcaster";
+    String GET_MODEL_COVER = "broadcaster/broadcaster/{uid}/avatar";
 
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId);
@@ -46,7 +46,7 @@ public interface HttpApi {
     Observable<ModelListBean> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("sort") int sort, @Query("page") int page, @Query("limit") int limit);
 
     @GET(GET_MODEL_COVER)
-    Observable<ModelCoverListBean> getModelAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("uid") int modelId);
+    Observable<ModelCoverListBean> getModelAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("uid") int modelId);
 
     /*==============================model=======================================*/
     String BASE_BROADCASTER_URL = "https://broadcaster.hitradegate.com/v1/";
@@ -99,6 +99,6 @@ public interface HttpApi {
     Observable<Object> uploadUserInfo(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Body UploadUserInfoBean uploadUserInfoBean);
 
     @GET(GET_MODEL_COVER)
-    Observable<ModelCoverListBean> getAccountAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Query("uid") int uid);
+    Observable<ModelCoverListBean> getAccountAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("uid") int uid);
 
 }
