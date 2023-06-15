@@ -243,14 +243,6 @@ public class StreamingXRtcManager {
         }
     }
 
-    public void createChannel(String token, int category, HttpRequestListener listener) {
-        if (isInit) {
-            HttpRequestUtils.getInstance().createChannel(mContext, token, category, listener);
-        } else {
-            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
-        }
-    }
-
     /**
      * call video
      *
