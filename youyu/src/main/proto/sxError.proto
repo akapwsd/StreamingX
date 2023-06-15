@@ -2,8 +2,8 @@ syntax = "proto3";
 
 package uyujoy.api.http;
 
-import "any.proto";
-import "code.proto";
+import "sxAny.proto";
+import "sxCode.proto";
 
 option go_package = "uyujoy.com/paas/pkg/http/proto;http";
 
