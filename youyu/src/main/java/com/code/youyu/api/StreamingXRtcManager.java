@@ -325,6 +325,14 @@ public class StreamingXRtcManager {
         }
     }
 
+    public void getUserInfo(int uid, HttpRequestListener listener) {
+        if (isInit) {
+            HttpRequestUtils.getInstance().getUserInfo(mContext, uid, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
+    }
+
     /**
      * Switch front and rear cameras
      */

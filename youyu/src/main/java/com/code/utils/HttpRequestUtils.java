@@ -42,6 +42,30 @@ public class HttpRequestUtils {
         return httpRequestUtils;
     }
 
+    public void getUserInfo(Context context, int uid, HttpRequestListener httpRequestListener) {
+        String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+        String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+        String session_token = RtcSpUtils.getInstance().getSessionToken();
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+        String data = X_Uyj_Timestamp + Content_Type;
+        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+        String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+        RetrofitHelper.createApi(HttpApi.class, context).getAccountInfo(authorization, X_Uyj_Timestamp, Content_Type, session_token, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+            @Override
+            public void Success(Object modelBeans) {
+                httpRequestListener.requestSuccess(modelBeans);
+            }
+
+            @Override
+            public void error(int code, String error) {
+                httpRequestListener.requestError(code, error);
+            }
+        });
+    }
+
     public void getModelAvatar(Context context, int modelId, RequestModelAvatarListListener requestModelAvatarListListener) {
         String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
         String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();

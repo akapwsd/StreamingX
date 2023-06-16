@@ -34,6 +34,7 @@ public interface HttpApi {
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "broadcaster/broadcaster";
     String GET_MODEL_COVER = "broadcaster/broadcaster/{uid}/avatar";
+    String GET_ACCOUNT_INFO = "broadcaster/{uid}/uid";
 
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId);
@@ -47,6 +48,9 @@ public interface HttpApi {
 
     @GET(GET_MODEL_COVER)
     Observable<ModelCoverListBean> getModelAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("uid") int modelId);
+
+    @GET(GET_ACCOUNT_INFO)
+    Observable<AccountBean> getAccountInfo(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("uid") int uid);
 
     /*==============================model=======================================*/
     String BASE_BROADCASTER_URL = "https://broadcaster.hitradegate.com/v1/";
