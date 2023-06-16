@@ -325,6 +325,14 @@ public class StreamingXRtcManager {
         }
     }
 
+    public void getUserState(int uid, HttpRequestListener listener) {
+        if (isInit) {
+            HttpRequestUtils.getInstance().getUserState(mContext, uid, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
+    }
+
     public void getUserInfo(int uid, HttpRequestListener listener) {
         if (isInit) {
             HttpRequestUtils.getInstance().getUserInfo(mContext, uid, listener);
