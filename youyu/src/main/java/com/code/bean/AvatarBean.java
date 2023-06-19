@@ -43,6 +43,22 @@ public class AvatarBean {
         this.avatarClear = avatarClear;
     }
 
+    public String getMd5() {
+        return md5;
+    }
+
+    public String getAvatarThumb() {
+        return avatarThumb;
+    }
+
+    public String getAvatarStandard() {
+        return avatarStandard;
+    }
+
+    public String getAvatarClear() {
+        return avatarClear;
+    }
+
     @Override
     public String toString() {
         return "AvatarBean{" +

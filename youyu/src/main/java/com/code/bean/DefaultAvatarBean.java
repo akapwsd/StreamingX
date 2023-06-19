@@ -13,7 +13,7 @@ public class DefaultAvatarBean {
     /**
      * Unique random value for this image
      */
-    private String md5;
+    private int uid;
     /**
      * Anchor blurred avatar (small avatar)
      */
@@ -27,26 +27,42 @@ public class DefaultAvatarBean {
      */
     private String avatarClear;
 
-    public String getMd5() {
-        return md5;
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public String getAvatarThumb() {
         return avatarThumb;
     }
 
+    public void setAvatarThumb(String avatarThumb) {
+        this.avatarThumb = avatarThumb;
+    }
+
     public String getAvatarStandard() {
         return avatarStandard;
+    }
+
+    public void setAvatarStandard(String avatarStandard) {
+        this.avatarStandard = avatarStandard;
     }
 
     public String getAvatarClear() {
         return avatarClear;
     }
 
+    public void setAvatarClear(String avatarClear) {
+        this.avatarClear = avatarClear;
+    }
+
     @Override
     public String toString() {
         return "DefaultAvatarBean{" +
-                "md5='" + md5 + '\'' +
+                "uid=" + uid +
                 ", avatarThumb='" + avatarThumb + '\'' +
                 ", avatarStandard='" + avatarStandard + '\'' +
                 ", avatarClear='" + avatarClear + '\'' +

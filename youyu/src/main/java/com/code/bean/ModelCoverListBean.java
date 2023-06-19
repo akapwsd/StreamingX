@@ -14,9 +14,9 @@ import java.util.ArrayList;
 public class ModelCoverListBean {
 
     private DefaultAvatarBean defaultAvatar;
-    private ArrayList<OtherBean> others;
+    private ArrayList<AvatarBean> others;
 
-    public ArrayList<OtherBean> getOthers() {
+    public ArrayList<AvatarBean> getOthers() {
         return others;
     }
 
