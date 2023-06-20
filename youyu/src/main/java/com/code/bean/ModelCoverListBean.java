@@ -24,6 +24,14 @@ public class ModelCoverListBean {
         return defaultAvatar;
     }
 
+    public void setDefaultAvatar(DefaultAvatarBean defaultAvatar) {
+        this.defaultAvatar = defaultAvatar;
+    }
+
+    public void setOthers(ArrayList<AvatarBean> others) {
+        this.others = others;
+    }
+
     @Override
     public String toString() {
         return "ModelCoverListBean{" +

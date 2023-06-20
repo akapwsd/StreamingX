@@ -30,7 +30,7 @@ public class ModelListBean {
     /**
      * Anchor default avatar map
      */
-    private Map<String, AvatarBean> avatarMap;
+    private Map<String, DefaultAvatarBean> profilePhoto;
     private Map<String, String> currentChannel;
     private Map<String, AvatarBean> defaultCoverMap;
 
@@ -42,28 +42,28 @@ public class ModelListBean {
         this.list = list;
     }
 
+    public Map<String, Integer> getStateMap() {
+        return stateMap;
+    }
+
     public void setStateMap(Map<String, Integer> stateMap) {
         this.stateMap = stateMap;
     }
 
-    public void setCurrentChannel(Map<String, String> currentChannel) {
-        this.currentChannel = currentChannel;
+    public Map<String, DefaultAvatarBean> getProfilePhoto() {
+        return profilePhoto;
     }
 
-    public Map<String, Integer> getStateMap() {
-        return stateMap;
+    public void setProfilePhoto(Map<String, DefaultAvatarBean> profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 
     public Map<String, String> getCurrentChannel() {
         return currentChannel;
     }
 
-    public Map<String, AvatarBean> getAvatarMap() {
-        return avatarMap;
-    }
-
-    public void setAvatarMap(Map<String, AvatarBean> avatarMap) {
-        this.avatarMap = avatarMap;
+    public void setCurrentChannel(Map<String, String> currentChannel) {
+        this.currentChannel = currentChannel;
     }
 
     public Map<String, AvatarBean> getDefaultCoverMap() {
@@ -79,7 +79,7 @@ public class ModelListBean {
         return "ModelListBean{" +
                 "list=" + list +
                 ", stateMap=" + stateMap +
-                ", avatarMap=" + avatarMap +
+                ", profilePhoto=" + profilePhoto +
                 ", currentChannel=" + currentChannel +
                 ", defaultCoverMap=" + defaultCoverMap +
                 '}';

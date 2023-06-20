@@ -17,15 +17,16 @@ public class DefaultAvatarBean {
     /**
      * Anchor blurred avatar (small avatar)
      */
-    private String avatarThumb;
+    private String thumb;
     /**
      * Anchor standard avatar
      */
-    private String avatarStandard;
+    private String standard;
     /**
      * Anchor clear avatar
      */
-    private String avatarClear;
+    private String clear;
+    private String createdAt;
 
     public int getUid() {
         return uid;
@@ -35,37 +36,35 @@ public class DefaultAvatarBean {
         this.uid = uid;
     }
 
-    public String getAvatarThumb() {
-        return avatarThumb;
+    public String getThumb() {
+        return thumb;
     }
 
-    public void setAvatarThumb(String avatarThumb) {
-        this.avatarThumb = avatarThumb;
+    public void setThumb(String thumb) {
+        this.thumb = thumb;
     }
 
-    public String getAvatarStandard() {
-        return avatarStandard;
+    public String getStandard() {
+        return standard;
     }
 
-    public void setAvatarStandard(String avatarStandard) {
-        this.avatarStandard = avatarStandard;
+    public void setStandard(String standard) {
+        this.standard = standard;
     }
 
-    public String getAvatarClear() {
-        return avatarClear;
+    public String getClear() {
+        return clear;
     }
 
-    public void setAvatarClear(String avatarClear) {
-        this.avatarClear = avatarClear;
+    public void setClear(String clear) {
+        this.clear = clear;
     }
 
-    @Override
-    public String toString() {
-        return "DefaultAvatarBean{" +
-                "uid=" + uid +
-                ", avatarThumb='" + avatarThumb + '\'' +
-                ", avatarStandard='" + avatarStandard + '\'' +
-                ", avatarClear='" + avatarClear + '\'' +
-                '}';
+    public String getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
 }
