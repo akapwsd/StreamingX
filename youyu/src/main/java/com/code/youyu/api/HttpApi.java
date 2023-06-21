@@ -23,7 +23,7 @@ public interface HttpApi {
     String GET_MODEL_LIST = "broadcaster/broadcaster";
     String GET_MODEL_COVER = "broadcaster/broadcaster/{uid}/avatar";
     String GET_ACCOUNT_INFO = "broadcaster/{uid}/uid";
-    String GET_MODEL_STATE = "broadcaster/{uid}/state";
+    String GET_MODEL_STATE = "broadcaster/broadcaster/{uid}/state";
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId);
 
