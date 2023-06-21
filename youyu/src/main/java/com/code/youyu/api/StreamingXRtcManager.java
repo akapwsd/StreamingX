@@ -189,7 +189,8 @@ public class StreamingXRtcManager {
             option.autoSubscribeAudio = true;
             option.autoSubscribeVideo = true;
             rtcEngine.setClientRole(mClientRole);
-            rtcEngine.joinChannel(accessToken, channel, "Extra Optional Data", uid, option);
+            int extra_optional_data = rtcEngine.joinChannel(accessToken, channel, "Extra Optional Data", uid, option);
+            LogUtil.d(TAG, "userJoinChannel extra_optional_data:" + extra_optional_data);
         }
     }
 
