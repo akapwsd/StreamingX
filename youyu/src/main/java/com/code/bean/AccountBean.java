@@ -6,6 +6,8 @@ public class AccountBean {
     private int agency;
     private String birthDay;
     private int state;
+    private String country;
+    private int gender;
     private String createTime;
     private String updateTime;
 
@@ -37,6 +39,14 @@ public class AccountBean {
         return updateTime;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
     @Override
     public String toString() {
         return "AccountBean{" +
@@ -45,6 +55,8 @@ public class AccountBean {
                 ", agency=" + agency +
                 ", birthDay='" + birthDay + '\'' +
                 ", state=" + state +
+                ", country='" + country + '\'' +
+                ", gender=" + gender +
                 ", createTime='" + createTime + '\'' +
                 ", updateTime='" + updateTime + '\'' +
                 '}';
