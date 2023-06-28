@@ -22,6 +22,8 @@ public class ModelBean {
      * anchor birthday
      */
     private String birthday;
+    private String country;
+    private int gender;
 
     public int getUid() {
         return uid;
@@ -35,8 +37,22 @@ public class ModelBean {
         return birthday;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
     @Override
     public String toString() {
-        return "ModelBean{" + "uid=" + uid + ", name='" + name + '\'' + ", birthday='" + birthday + '\'' + '}';
+        return "ModelBean{" +
+                "uid=" + uid +
+                ", name='" + name + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", country='" + country + '\'' +
+                ", gender=" + gender +
+                '}';
     }
 }
