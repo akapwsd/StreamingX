@@ -44,27 +44,31 @@ public class HttpRequestUtils {
 
     public void getUserState(Context context, int uid, HttpRequestListener httpRequestListener) {
         try {
-            String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-            String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-            String session_token = RtcSpUtils.getInstance().getSessionToken();
-            long currentTimeMillis = System.currentTimeMillis();
-            String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-            String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-            String data = X_Uyj_Timestamp + Content_Type;
-            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-            String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-            RetrofitHelper.createApi(HttpApi.class, context).getAccountState(authorization, X_Uyj_Timestamp, Content_Type, session_token, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).getAccountState(authorization, X_Uyj_Timestamp, Content_Type, session_token, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
-                @Override
-                public void Success(Object modelBeans) {
-                    httpRequestListener.requestSuccess(modelBeans);
-                }
+                    @Override
+                    public void Success(Object modelBeans) {
+                        httpRequestListener.requestSuccess(modelBeans);
+                    }
 
-                @Override
-                public void error(int code, String error) {
-                    httpRequestListener.requestError(code, error);
-                }
-            });
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
+            } else {
+                httpRequestListener.requestError(-1, "init fail");
+            }
         } catch (Exception e) {
             LogUtil.e(TAG, "e:" + e);
         }
@@ -72,27 +76,31 @@ public class HttpRequestUtils {
 
     public void getUserInfo(Context context, int uid, HttpRequestListener httpRequestListener) {
         try {
-            String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-            String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-            String session_token = RtcSpUtils.getInstance().getSessionToken();
-            long currentTimeMillis = System.currentTimeMillis();
-            String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-            String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-            String data = X_Uyj_Timestamp + Content_Type;
-            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-            String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-            RetrofitHelper.createApi(HttpApi.class, context).getAccountInfo(authorization, X_Uyj_Timestamp, Content_Type, session_token, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).getAccountInfo(authorization, X_Uyj_Timestamp, Content_Type, session_token, uid).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
-                @Override
-                public void Success(Object modelBeans) {
-                    httpRequestListener.requestSuccess(modelBeans);
-                }
+                    @Override
+                    public void Success(Object modelBeans) {
+                        httpRequestListener.requestSuccess(modelBeans);
+                    }
 
-                @Override
-                public void error(int code, String error) {
-                    httpRequestListener.requestError(code, error);
-                }
-            });
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
+            } else {
+                httpRequestListener.requestError(-1, "init fail");
+            }
         } catch (Exception e) {
             LogUtil.e(TAG, "e:" + e);
         }
@@ -100,28 +108,32 @@ public class HttpRequestUtils {
 
     public void getModelAvatar(Context context, int modelId, RequestModelAvatarListListener requestModelAvatarListListener) {
         try {
-            String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-            String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-            String session_token = RtcSpUtils.getInstance().getSessionToken();
-            long currentTimeMillis = System.currentTimeMillis();
-            String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-            String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-            String data = X_Uyj_Timestamp + Content_Type;
-            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-            String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-            RetrofitHelper.createApi(HttpApi.class, context).getModelAvatar(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).getModelAvatar(authorization, X_Uyj_Timestamp, Content_Type, session_token, modelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
-                @Override
-                public void Success(Object modelBeans) {
-                    ModelCoverListBean data = (ModelCoverListBean) modelBeans;
-                    requestModelAvatarListListener.onResult(data);
-                }
+                    @Override
+                    public void Success(Object modelBeans) {
+                        ModelCoverListBean data = (ModelCoverListBean) modelBeans;
+                        requestModelAvatarListListener.onResult(data);
+                    }
 
-                @Override
-                public void error(int code, String error) {
-                    requestModelAvatarListListener.onFailure(code, error);
-                }
-            });
+                    @Override
+                    public void error(int code, String error) {
+                        requestModelAvatarListListener.onFailure(code, error);
+                    }
+                });
+            } else {
+                requestModelAvatarListListener.onFailure(-1, "init fail");
+            }
         } catch (Exception e) {
             LogUtil.e(TAG, "e:" + e);
         }
@@ -129,67 +141,47 @@ public class HttpRequestUtils {
 
     public void getModelList(Context context, int sort, int page, int limit, RequestModelListListener requestModelListListener) {
         try {
-            if (limit < 10) {
-                limit = 10;
-            } else if (limit > 50) {
-                limit = 50;
+            if (StreamingXRtcManager.getInstance().isInit) {
+                if (limit < 10) {
+                    limit = 10;
+                } else if (limit > 50) {
+                    limit = 50;
+                }
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+                    @Override
+                    public void Success(Object modelBeans) {
+                        ModelListBean data = (ModelListBean) modelBeans;
+                        requestModelListListener.onResult(data);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        requestModelListListener.onFailure(code, error);
+                    }
+                });
+            } else {
+                requestModelListListener.onFailure(-1, "init fail");
             }
-            String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-            String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-            String session_token = RtcSpUtils.getInstance().getSessionToken();
-            long currentTimeMillis = System.currentTimeMillis();
-            String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-            String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-            String data = X_Uyj_Timestamp + Content_Type;
-            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-            String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-            RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
-
-                @Override
-                public void Success(Object modelBeans) {
-                    ModelListBean data = (ModelListBean) modelBeans;
-                    requestModelListListener.onResult(data);
-                }
-
-                @Override
-                public void error(int code, String error) {
-                    requestModelListListener.onFailure(code, error);
-                }
-            });
         } catch (Exception e) {
             LogUtil.e(TAG, "e:" + e);
         }
     }
 
     public void getModelChannelToken(Context context, String token, String channelId, HttpRequestListener httpRequestListener) {
-        long currentTimeMillis = System.currentTimeMillis();
-        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-        RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getChannelToken(token, X_Uyj_Timestamp, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
-            @Override
-            public void Success(Object o) {
-                httpRequestListener.requestSuccess(o);
-            }
-
-            @Override
-            public void error(int code, String error) {
-                httpRequestListener.requestError(code, error);
-            }
-        });
-    }
-
-    public void getChannelToken(Context context, String channelId, HttpRequestListener httpRequestListener) {
-        LogUtil.d(TAG, "getChannelToken is start channelId:" + channelId);
-        try {
-            String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-            String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-            String session_token = RtcSpUtils.getInstance().getSessionToken();
+        if (StreamingXRtcManager.getInstance().isInit) {
             long currentTimeMillis = System.currentTimeMillis();
             String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-            String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-            String data = X_Uyj_Timestamp + Content_Type;
-            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-            String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-            RetrofitHelper.createApi(HttpApi.class, context).getChannelToken(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+            RetrofitHelper.createApi(HttpApi.class, context, RetrofitHelper.MODEL).getChannelToken(token, X_Uyj_Timestamp, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
                 @Override
                 public void Success(Object o) {
                     httpRequestListener.requestSuccess(o);
@@ -200,6 +192,38 @@ public class HttpRequestUtils {
                     httpRequestListener.requestError(code, error);
                 }
             });
+        } else {
+            httpRequestListener.requestError(-1, "init fail");
+        }
+    }
+
+    public void getChannelToken(Context context, String channelId, HttpRequestListener httpRequestListener) {
+        LogUtil.d(TAG, "getChannelToken is start channelId:" + channelId);
+        try {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).getChannelToken(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+                    @Override
+                    public void Success(Object o) {
+                        httpRequestListener.requestSuccess(o);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
+            } else {
+                httpRequestListener.requestError(-1, "init fail");
+            }
         } catch (Exception e) {
             LogUtil.e(TAG, "e:" + e);
         }
@@ -208,39 +232,43 @@ public class HttpRequestUtils {
 
     public void joinChannel(Context context, String token, String channelId, String peerUid, int category, HttpRequestListener httpRequestListener) {
         try {
-            String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
-            String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
-            String session_token = RtcSpUtils.getInstance().getSessionToken();
-            long currentTimeMillis = System.currentTimeMillis();
-            String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
-            String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
-            String data = X_Uyj_Timestamp + Content_Type;
-            String sign = DataUtils.sha256_HMAC(access_key_secret, data);
-            String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-            JoinChannelBean joinChannelBean = new JoinChannelBean();
-            joinChannelBean.setBroadcaster(peerUid);
-            joinChannelBean.setToken(token);
-            RetrofitHelper.createApi(HttpApi.class, context).joinChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId, joinChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
-                @Override
-                public void Success(Object o) {
-                    httpRequestListener.requestSuccess(o);
-                    ChannelResultBean channelResultBean = (ChannelResultBean) o;
-                    ChannelInfoBean ch = channelResultBean.getCh();
-                    String serverChannelId = ch.getId();
-                    String token = channelResultBean.getToken();
-                    String uniqId = channelResultBean.getUniqId();
-                    StreamingXRtcManager.getInstance().localUid = Integer.parseInt(uniqId);
-                    LogUtil.d(TAG, "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token + " uniqId:" + uniqId);
-                    if (channelId.equals(serverChannelId)) {
-                        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uniqId), Constants.CLIENT_ROLE_BROADCASTER, category);
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                JoinChannelBean joinChannelBean = new JoinChannelBean();
+                joinChannelBean.setBroadcaster(peerUid);
+                joinChannelBean.setToken(token);
+                RetrofitHelper.createApi(HttpApi.class, context).joinChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId, joinChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+                    @Override
+                    public void Success(Object o) {
+                        httpRequestListener.requestSuccess(o);
+                        ChannelResultBean channelResultBean = (ChannelResultBean) o;
+                        ChannelInfoBean ch = channelResultBean.getCh();
+                        String serverChannelId = ch.getId();
+                        String token = channelResultBean.getToken();
+                        String uniqId = channelResultBean.getUniqId();
+                        StreamingXRtcManager.getInstance().localUid = Integer.parseInt(uniqId);
+                        LogUtil.d(TAG, "joinChannel success channelId:" + channelId + " serverChannelId:" + serverChannelId + " token:" + token + " uniqId:" + uniqId);
+                        if (channelId.equals(serverChannelId)) {
+                            WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(uniqId), Constants.CLIENT_ROLE_BROADCASTER, category);
+                        }
                     }
-                }
 
-                @Override
-                public void error(int code, String error) {
-                    httpRequestListener.requestError(code, error);
-                }
-            });
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
+            } else {
+                httpRequestListener.requestError(-1, "init fail");
+            }
         } catch (Exception e) {
             LogUtil.e(TAG, "e:" + e);
         }

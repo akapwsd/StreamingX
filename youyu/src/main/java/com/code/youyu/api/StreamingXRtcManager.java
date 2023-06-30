@@ -58,7 +58,7 @@ public class StreamingXRtcManager {
     private FrameLayout remoteFrameLayout;
     private FrameLayout localFrameLayout;
     private static StreamingXRtcManager streamingXRtcManager;
-    private boolean isInit = false;
+    public boolean isInit = false;
 
     /**
      * Get the singleton method of RtcManager object
