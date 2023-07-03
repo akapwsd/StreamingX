@@ -40,6 +40,8 @@ public class WSManager {
     private final static int MAX_RECONNECT_NUM = 5;
     private final static int RECONNECT_MILLS = 1000;
     private final static int GLOBAL_HEART_BEAT_RATE = 5000;
+    private final static int MAX_DIS_RECEIVE_NUM = 2;
+    private int disReceivePongIndex = 0;
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private final static String MODEL_BASE_URL = "wss://broadcaster.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
@@ -61,7 +63,6 @@ public class WSManager {
     private String token;
     private int reconnectNum = 0;
     private Handler heartHandler = new Handler();
-    private long global_ping_send_time = 0L;
     private ChannelMsgListener channelMsgListener;
     private Request request;
 
@@ -125,7 +126,6 @@ public class WSManager {
     private void closeConnect() {
         LogUtil.e(TAG, "closeConnect is start isCallIng:" + isCallIng);
         isConnect = false;
-        global_ping_send_time = 0L;
         reconnectNum = 0;
         if (heartHandler != null) {
             heartHandler.removeCallbacksAndMessages(null);
@@ -301,15 +301,24 @@ public class WSManager {
     Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            long currentTimeMillis = System.currentTimeMillis();
-            LogUtil.d(TAG, "heartBeat receive currentTimeMillis:" + currentTimeMillis + " global_ping_send_time:" + global_ping_send_time + " isReceivePong:" + isReceivePong);
-            if (heartHandler != null && currentTimeMillis - global_ping_send_time >= GLOBAL_HEART_BEAT_RATE && isReceivePong) {
-                isReceivePong = false;
-                global_ping_send_time = currentTimeMillis;
-                ping();
-                heartHandler.postDelayed(this, GLOBAL_HEART_BEAT_RATE);
+            LogUtil.d(TAG, "heartBeat receive isReceivePong:" + isReceivePong);
+            if (heartHandler != null) {
+                if (isReceivePong) {
+                    isReceivePong = false;
+                    disReceivePongIndex = 0;
+                    ping();
+                    heartHandler.postDelayed(this, GLOBAL_HEART_BEAT_RATE);
+                } else {
+                    if (disReceivePongIndex <= MAX_DIS_RECEIVE_NUM) {
+                        disReceivePongIndex++;
+                        ping();
+                        heartHandler.postDelayed(this, GLOBAL_HEART_BEAT_RATE);
+                    } else {
+                        disconnect(1001, "heart beat is disconnect reason:timeout");
+                    }
+                }
             } else {
-                disconnect(1001, "heart beat is disconnect");
+                disconnect(1001, "heart beat is disconnect reason:heartHandler is null ERROR!");
             }
         }
     };
