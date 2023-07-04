@@ -40,7 +40,7 @@ public class WSManager {
     private final static int MAX_RECONNECT_NUM = 5;
     private final static int RECONNECT_MILLS = 1000;
     private final static int GLOBAL_HEART_BEAT_RATE = 5000;
-    private final static int MAX_DIS_RECEIVE_NUM = 2;
+    private final static int MAX_DIS_RECEIVE_NUM = 1;
     private int disReceivePongIndex = 0;
     private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
     private final static String MODEL_BASE_URL = "wss://broadcaster.hitradegate.com/v1/ws";
@@ -314,7 +314,9 @@ public class WSManager {
                         ping();
                         heartHandler.postDelayed(this, GLOBAL_HEART_BEAT_RATE);
                     } else {
-                        disconnect(1001, "heart beat is disconnect reason:timeout");
+                        isReceivePong = true;
+                        disReceivePongIndex = 0;
+                        reconnect();
                     }
                 }
             } else {
