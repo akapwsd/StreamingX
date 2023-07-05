@@ -18,9 +18,9 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpBase;
 import com.code.utils.RtcSpUtils;
 
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.models.ChannelMediaOptions;
-import io.agora.rtc.video.VideoCanvas;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.ChannelMediaOptions;
+import io.agora.rtc2.video.VideoCanvas;
 
 /**
  * RtcManager is a method class for fast communication
@@ -189,7 +189,7 @@ public class StreamingXRtcManager {
             option.autoSubscribeAudio = true;
             option.autoSubscribeVideo = true;
             rtcEngine.setClientRole(mClientRole);
-            int extra_optional_data = rtcEngine.joinChannel(accessToken, channel, "Extra Optional Data", uid, option);
+            int extra_optional_data = rtcEngine.joinChannel(accessToken, channel, uid, option);
             LogUtil.d(TAG, "userJoinChannel extra_optional_data:" + extra_optional_data);
         }
     }
@@ -273,7 +273,7 @@ public class StreamingXRtcManager {
 
     private void joinChannel(String channelId, String token, String localUid, int category) {
         StreamingXRtcManager.getInstance().localUid = Integer.parseInt(localUid);
-        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(localUid), io.agora.rtc.Constants.CLIENT_ROLE_BROADCASTER, category);
+        WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(localUid), io.agora.rtc2.Constants.CLIENT_ROLE_BROADCASTER, category);
     }
 
     /**

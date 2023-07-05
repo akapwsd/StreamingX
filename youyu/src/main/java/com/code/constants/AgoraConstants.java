@@ -1,6 +1,6 @@
 package com.code.constants;
 
-import io.agora.rtc.video.BeautyOptions;
+import io.agora.rtc2.video.BeautyOptions;
 
 public class AgoraConstants
 {

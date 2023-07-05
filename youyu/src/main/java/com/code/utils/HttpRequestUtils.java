@@ -25,7 +25,7 @@ import com.code.youyu.api.StreamingXRtcManager;
 
 import java.util.ArrayList;
 
-import io.agora.rtc.Constants;
+import io.agora.rtc2.Constants;
 
 public class HttpRequestUtils {
     private static HttpRequestUtils httpRequestUtils;

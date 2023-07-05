@@ -8,10 +8,11 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.StreamingXRtcManager;
 
-import io.agora.rtc.Constants;
-import io.agora.rtc.IRtcEngineEventHandler;
-import io.agora.rtc.RtcEngine;
-import io.agora.rtc.video.VideoEncoderConfiguration;
+import io.agora.rtc2.Constants;
+import io.agora.rtc2.IRtcEngineEventHandler;
+import io.agora.rtc2.RtcEngine;
+import io.agora.rtc2.video.VideoEncoderConfiguration;
+
 
 public class BaseRtcEngineManager {
     public static final String TAG = "BaseRtcEngineManager";
