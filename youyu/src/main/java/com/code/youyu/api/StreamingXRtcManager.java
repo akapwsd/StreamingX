@@ -286,7 +286,7 @@ public class StreamingXRtcManager {
      */
     public void getModelList(int page, RequestModelListListener listener) {
         if (isInit) {
-            HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 20, listener);
+            HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 20, "", listener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
@@ -302,9 +302,9 @@ public class StreamingXRtcManager {
      *                 {@link RequestModelListListener} HttpRequestListener listener object
      * @see RequestModelListListener
      */
-    public void getModelList(int sort, int page, int limit, RequestModelListListener listener) {
+    public void getModelList(int sort, int page, int limit, String languageIso, RequestModelListListener listener) {
         if (isInit) {
-            HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, listener);
+            HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, languageIso, listener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }

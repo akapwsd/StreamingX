@@ -139,7 +139,7 @@ public class HttpRequestUtils {
         }
     }
 
-    public void getModelList(Context context, int sort, int page, int limit, RequestModelListListener requestModelListListener) {
+    public void getModelList(Context context, int sort, int page, int limit, String languageIso, RequestModelListListener requestModelListListener) {
         try {
             if (StreamingXRtcManager.getInstance().isInit) {
                 if (limit < 10) {
@@ -156,7 +156,7 @@ public class HttpRequestUtils {
                 String data = X_Uyj_Timestamp + Content_Type;
                 String sign = DataUtils.sha256_HMAC(access_key_secret, data);
                 String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-                RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+                RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit, languageIso).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
                     @Override
                     public void Success(Object modelBeans) {
