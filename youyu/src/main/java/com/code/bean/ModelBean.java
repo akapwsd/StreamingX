@@ -23,6 +23,7 @@ public class ModelBean {
      */
     private String birthday;
     private String country;
+    private String language;
     private int gender;
 
     public int getUid() {
@@ -45,6 +46,10 @@ public class ModelBean {
         return gender;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     @Override
     public String toString() {
         return "ModelBean{" +
@@ -52,6 +57,7 @@ public class ModelBean {
                 ", name='" + name + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", country='" + country + '\'' +
+                ", language='" + language + '\'' +
                 ", gender=" + gender +
                 '}';
     }
