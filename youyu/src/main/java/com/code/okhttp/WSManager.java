@@ -93,6 +93,7 @@ public class WSManager {
             RtcSpUtils.getInstance().setAccessKeyId(access_key_id);
             RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
             RtcSpUtils.getInstance().setSessionToken(session_token);
+            RtcSpUtils.getInstance().setToken("");
             LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
             connect();
@@ -107,6 +108,9 @@ public class WSManager {
             this.token = token;
             mWbSocketUrl = MODEL_BASE_URL;
             RtcSpUtils.getInstance().setToken(token);
+            RtcSpUtils.getInstance().setAccessKeyId("");
+            RtcSpUtils.getInstance().setAccessKeySecret("");
+            RtcSpUtils.getInstance().setSessionToken("");
             LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
             connect();
