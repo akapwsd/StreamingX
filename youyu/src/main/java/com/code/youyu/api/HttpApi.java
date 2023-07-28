@@ -22,7 +22,7 @@ public interface HttpApi {
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "broadcaster/broadcaster";
     String GET_MODEL_COVER = "broadcaster/broadcaster/{uid}/avatar";
-    String GET_ACCOUNT_INFO = "broadcaster/{uid}/uid";
+    String GET_ACCOUNT_INFO = "broadcaster/broadcaster/{uid}/uid";
     String GET_MODEL_STATE = "broadcaster/broadcaster/{uid}/state";
 
     @GET(GET_CHANNEL_TOKEN)
