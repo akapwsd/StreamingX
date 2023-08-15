@@ -2,6 +2,7 @@ package com.code.listener;
 
 import com.code.bean.MsgBean;
 import io.agora.rtc2.IRtcEngineEventHandler;
+import uyujoy.com.api.channel.frontend.ChannelImform;
 
 /**
  * RTC call event monitoring callback
@@ -112,6 +113,14 @@ public abstract class IRtcEngineEventCallBackHandler {
     }
 
     public void receiveMsg(MsgBean msg) {
+
+    }
+
+    public void receiveMatch(ChannelImform.channelMatched channelMatched){
+
+    }
+
+    public void receiveSkip(String channelId){
 
     }
 }

@@ -278,6 +278,14 @@ public class WSManager {
                         break;
 //                    case Constants.GET_DIFF_MSG_RECORD_ACK:
 //                        break;
+                    case Constants.CHANNEL_MATCH:
+                        ChannelImform.channelMatched channelMatched = ChannelImform.channelMatched.parseFrom(resultData);
+                        iRtcEngineEventCallBackHandler.receiveMatch(channelMatched);
+                        break;
+                    case Constants.CHANNEL_SKIP:
+                        ChannelImform.channelSkipped channelSkipped = ChannelImform.channelSkipped.parseFrom(resultData);
+                        iRtcEngineEventCallBackHandler.receiveSkip(channelSkipped.getChannelId());
+                        break;
                 }
             } catch (InvalidProtocolBufferException e) {
                 throw new RuntimeException(e);
