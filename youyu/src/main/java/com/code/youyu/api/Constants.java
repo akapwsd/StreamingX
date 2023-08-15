@@ -12,4 +12,7 @@ public class Constants {
 
     public static final String CONTENT_TYPE_JSON = "application/json";
     public static final String CONTENT_TYPE_PROTO = "application/protobuf";
+
+    public static final int ACTIVE_TRIGGER = 1;
+    public static final int PASSIVE_TRIGGER = 2;
 }

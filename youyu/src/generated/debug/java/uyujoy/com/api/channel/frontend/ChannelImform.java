@@ -1260,6 +1260,2761 @@ public final class ChannelImform {
 
   }
 
+  public interface channelMatchedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:uyujoy.com.api.channel.frontend.channelMatched)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * 频道信息
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+     */
+    boolean hasCh();
+    /**
+     * <pre>
+     * 频道信息
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+     */
+    uyujoy.com.api.channel.frontend.ChannelBase.channel getCh();
+    /**
+     * <pre>
+     * 频道信息
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+     */
+    uyujoy.com.api.channel.frontend.ChannelBase.channelOrBuilder getChOrBuilder();
+
+    /**
+     * <pre>
+     * 频道token
+     * </pre>
+     *
+     * <code>optional string token = 2;</code>
+     */
+    java.lang.String getToken();
+    /**
+     * <pre>
+     * 频道token
+     * </pre>
+     *
+     * <code>optional string token = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getTokenBytes();
+
+    /**
+     * <pre>
+     *进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string selfUniqId = 3;</code>
+     */
+    java.lang.String getSelfUniqId();
+    /**
+     * <pre>
+     *进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string selfUniqId = 3;</code>
+     */
+    com.google.protobuf.ByteString
+        getSelfUniqIdBytes();
+
+    /**
+     * <pre>
+     *对方进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string peerUniqId = 4;</code>
+     */
+    java.lang.String getPeerUniqId();
+    /**
+     * <pre>
+     *对方进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string peerUniqId = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getPeerUniqIdBytes();
+
+    /**
+     * <pre>
+     *对方的匹配熟悉
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+     */
+    boolean hasMatchedUserAttr();
+    /**
+     * <pre>
+     *对方的匹配熟悉
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+     */
+    uyujoy.com.api.channel.frontend.ChannelImform.matchAttr getMatchedUserAttr();
+    /**
+     * <pre>
+     *对方的匹配熟悉
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+     */
+    uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder getMatchedUserAttrOrBuilder();
+
+    /**
+     * <pre>
+     *本次匹配对应的ts
+     * </pre>
+     *
+     * <code>optional int64 ts = 6;</code>
+     */
+    long getTs();
+  }
+  /**
+   * <pre>
+   *匹配通知
+   * </pre>
+   *
+   * Protobuf type {@code uyujoy.com.api.channel.frontend.channelMatched}
+   */
+  public  static final class channelMatched extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:uyujoy.com.api.channel.frontend.channelMatched)
+      channelMatchedOrBuilder {
+    // Use channelMatched.newBuilder() to construct.
+    private channelMatched(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private channelMatched() {
+      token_ = "";
+      selfUniqId_ = "";
+      peerUniqId_ = "";
+      ts_ = 0L;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private channelMatched(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              uyujoy.com.api.channel.frontend.ChannelBase.channel.Builder subBuilder = null;
+              if (ch_ != null) {
+                subBuilder = ch_.toBuilder();
+              }
+              ch_ = input.readMessage(uyujoy.com.api.channel.frontend.ChannelBase.channel.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(ch_);
+                ch_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              token_ = s;
+              break;
+            }
+            case 26: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              selfUniqId_ = s;
+              break;
+            }
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              peerUniqId_ = s;
+              break;
+            }
+            case 42: {
+              uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder subBuilder = null;
+              if (matchedUserAttr_ != null) {
+                subBuilder = matchedUserAttr_.toBuilder();
+              }
+              matchedUserAttr_ = input.readMessage(uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(matchedUserAttr_);
+                matchedUserAttr_ = subBuilder.buildPartial();
+              }
+
+              break;
+            }
+            case 48: {
+
+              ts_ = input.readInt64();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelMatched_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelMatched_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.class, uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.Builder.class);
+    }
+
+    public static final int CH_FIELD_NUMBER = 1;
+    private uyujoy.com.api.channel.frontend.ChannelBase.channel ch_;
+    /**
+     * <pre>
+     * 频道信息
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+     */
+    public boolean hasCh() {
+      return ch_ != null;
+    }
+    /**
+     * <pre>
+     * 频道信息
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+     */
+    public uyujoy.com.api.channel.frontend.ChannelBase.channel getCh() {
+      return ch_ == null ? uyujoy.com.api.channel.frontend.ChannelBase.channel.getDefaultInstance() : ch_;
+    }
+    /**
+     * <pre>
+     * 频道信息
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+     */
+    public uyujoy.com.api.channel.frontend.ChannelBase.channelOrBuilder getChOrBuilder() {
+      return getCh();
+    }
+
+    public static final int TOKEN_FIELD_NUMBER = 2;
+    private volatile java.lang.Object token_;
+    /**
+     * <pre>
+     * 频道token
+     * </pre>
+     *
+     * <code>optional string token = 2;</code>
+     */
+    public java.lang.String getToken() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        token_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 频道token
+     * </pre>
+     *
+     * <code>optional string token = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getTokenBytes() {
+      java.lang.Object ref = token_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        token_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int SELFUNIQID_FIELD_NUMBER = 3;
+    private volatile java.lang.Object selfUniqId_;
+    /**
+     * <pre>
+     *进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string selfUniqId = 3;</code>
+     */
+    public java.lang.String getSelfUniqId() {
+      java.lang.Object ref = selfUniqId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        selfUniqId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string selfUniqId = 3;</code>
+     */
+    public com.google.protobuf.ByteString
+        getSelfUniqIdBytes() {
+      java.lang.Object ref = selfUniqId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        selfUniqId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PEERUNIQID_FIELD_NUMBER = 4;
+    private volatile java.lang.Object peerUniqId_;
+    /**
+     * <pre>
+     *对方进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string peerUniqId = 4;</code>
+     */
+    public java.lang.String getPeerUniqId() {
+      java.lang.Object ref = peerUniqId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        peerUniqId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *对方进入频道时使用的唯一Id
+     * </pre>
+     *
+     * <code>optional string peerUniqId = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPeerUniqIdBytes() {
+      java.lang.Object ref = peerUniqId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        peerUniqId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int MATCHEDUSERATTR_FIELD_NUMBER = 5;
+    private uyujoy.com.api.channel.frontend.ChannelImform.matchAttr matchedUserAttr_;
+    /**
+     * <pre>
+     *对方的匹配熟悉
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+     */
+    public boolean hasMatchedUserAttr() {
+      return matchedUserAttr_ != null;
+    }
+    /**
+     * <pre>
+     *对方的匹配熟悉
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+     */
+    public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr getMatchedUserAttr() {
+      return matchedUserAttr_ == null ? uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.getDefaultInstance() : matchedUserAttr_;
+    }
+    /**
+     * <pre>
+     *对方的匹配熟悉
+     * </pre>
+     *
+     * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+     */
+    public uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder getMatchedUserAttrOrBuilder() {
+      return getMatchedUserAttr();
+    }
+
+    public static final int TS_FIELD_NUMBER = 6;
+    private long ts_;
+    /**
+     * <pre>
+     *本次匹配对应的ts
+     * </pre>
+     *
+     * <code>optional int64 ts = 6;</code>
+     */
+    public long getTs() {
+      return ts_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (ch_ != null) {
+        output.writeMessage(1, getCh());
+      }
+      if (!getTokenBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
+      }
+      if (!getSelfUniqIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, selfUniqId_);
+      }
+      if (!getPeerUniqIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, peerUniqId_);
+      }
+      if (matchedUserAttr_ != null) {
+        output.writeMessage(5, getMatchedUserAttr());
+      }
+      if (ts_ != 0L) {
+        output.writeInt64(6, ts_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (ch_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, getCh());
+      }
+      if (!getTokenBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
+      }
+      if (!getSelfUniqIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, selfUniqId_);
+      }
+      if (!getPeerUniqIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, peerUniqId_);
+      }
+      if (matchedUserAttr_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getMatchedUserAttr());
+      }
+      if (ts_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(6, ts_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof uyujoy.com.api.channel.frontend.ChannelImform.channelMatched)) {
+        return super.equals(obj);
+      }
+      uyujoy.com.api.channel.frontend.ChannelImform.channelMatched other = (uyujoy.com.api.channel.frontend.ChannelImform.channelMatched) obj;
+
+      boolean result = true;
+      result = result && (hasCh() == other.hasCh());
+      if (hasCh()) {
+        result = result && getCh()
+            .equals(other.getCh());
+      }
+      result = result && getToken()
+          .equals(other.getToken());
+      result = result && getSelfUniqId()
+          .equals(other.getSelfUniqId());
+      result = result && getPeerUniqId()
+          .equals(other.getPeerUniqId());
+      result = result && (hasMatchedUserAttr() == other.hasMatchedUserAttr());
+      if (hasMatchedUserAttr()) {
+        result = result && getMatchedUserAttr()
+            .equals(other.getMatchedUserAttr());
+      }
+      result = result && (getTs()
+          == other.getTs());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      if (hasCh()) {
+        hash = (37 * hash) + CH_FIELD_NUMBER;
+        hash = (53 * hash) + getCh().hashCode();
+      }
+      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
+      hash = (53 * hash) + getToken().hashCode();
+      hash = (37 * hash) + SELFUNIQID_FIELD_NUMBER;
+      hash = (53 * hash) + getSelfUniqId().hashCode();
+      hash = (37 * hash) + PEERUNIQID_FIELD_NUMBER;
+      hash = (53 * hash) + getPeerUniqId().hashCode();
+      if (hasMatchedUserAttr()) {
+        hash = (37 * hash) + MATCHEDUSERATTR_FIELD_NUMBER;
+        hash = (53 * hash) + getMatchedUserAttr().hashCode();
+      }
+      hash = (37 * hash) + TS_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getTs());
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(uyujoy.com.api.channel.frontend.ChannelImform.channelMatched prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     *匹配通知
+     * </pre>
+     *
+     * Protobuf type {@code uyujoy.com.api.channel.frontend.channelMatched}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:uyujoy.com.api.channel.frontend.channelMatched)
+        uyujoy.com.api.channel.frontend.ChannelImform.channelMatchedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelMatched_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelMatched_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.class, uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.Builder.class);
+      }
+
+      // Construct using uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        if (chBuilder_ == null) {
+          ch_ = null;
+        } else {
+          ch_ = null;
+          chBuilder_ = null;
+        }
+        token_ = "";
+
+        selfUniqId_ = "";
+
+        peerUniqId_ = "";
+
+        if (matchedUserAttrBuilder_ == null) {
+          matchedUserAttr_ = null;
+        } else {
+          matchedUserAttr_ = null;
+          matchedUserAttrBuilder_ = null;
+        }
+        ts_ = 0L;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelMatched_descriptor;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.channelMatched getDefaultInstanceForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.getDefaultInstance();
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.channelMatched build() {
+        uyujoy.com.api.channel.frontend.ChannelImform.channelMatched result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.channelMatched buildPartial() {
+        uyujoy.com.api.channel.frontend.ChannelImform.channelMatched result = new uyujoy.com.api.channel.frontend.ChannelImform.channelMatched(this);
+        if (chBuilder_ == null) {
+          result.ch_ = ch_;
+        } else {
+          result.ch_ = chBuilder_.build();
+        }
+        result.token_ = token_;
+        result.selfUniqId_ = selfUniqId_;
+        result.peerUniqId_ = peerUniqId_;
+        if (matchedUserAttrBuilder_ == null) {
+          result.matchedUserAttr_ = matchedUserAttr_;
+        } else {
+          result.matchedUserAttr_ = matchedUserAttrBuilder_.build();
+        }
+        result.ts_ = ts_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof uyujoy.com.api.channel.frontend.ChannelImform.channelMatched) {
+          return mergeFrom((uyujoy.com.api.channel.frontend.ChannelImform.channelMatched)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(uyujoy.com.api.channel.frontend.ChannelImform.channelMatched other) {
+        if (other == uyujoy.com.api.channel.frontend.ChannelImform.channelMatched.getDefaultInstance()) return this;
+        if (other.hasCh()) {
+          mergeCh(other.getCh());
+        }
+        if (!other.getToken().isEmpty()) {
+          token_ = other.token_;
+          onChanged();
+        }
+        if (!other.getSelfUniqId().isEmpty()) {
+          selfUniqId_ = other.selfUniqId_;
+          onChanged();
+        }
+        if (!other.getPeerUniqId().isEmpty()) {
+          peerUniqId_ = other.peerUniqId_;
+          onChanged();
+        }
+        if (other.hasMatchedUserAttr()) {
+          mergeMatchedUserAttr(other.getMatchedUserAttr());
+        }
+        if (other.getTs() != 0L) {
+          setTs(other.getTs());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        uyujoy.com.api.channel.frontend.ChannelImform.channelMatched parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (uyujoy.com.api.channel.frontend.ChannelImform.channelMatched) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private uyujoy.com.api.channel.frontend.ChannelBase.channel ch_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.com.api.channel.frontend.ChannelBase.channel, uyujoy.com.api.channel.frontend.ChannelBase.channel.Builder, uyujoy.com.api.channel.frontend.ChannelBase.channelOrBuilder> chBuilder_;
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public boolean hasCh() {
+        return chBuilder_ != null || ch_ != null;
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public uyujoy.com.api.channel.frontend.ChannelBase.channel getCh() {
+        if (chBuilder_ == null) {
+          return ch_ == null ? uyujoy.com.api.channel.frontend.ChannelBase.channel.getDefaultInstance() : ch_;
+        } else {
+          return chBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public Builder setCh(uyujoy.com.api.channel.frontend.ChannelBase.channel value) {
+        if (chBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ch_ = value;
+          onChanged();
+        } else {
+          chBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public Builder setCh(
+          uyujoy.com.api.channel.frontend.ChannelBase.channel.Builder builderForValue) {
+        if (chBuilder_ == null) {
+          ch_ = builderForValue.build();
+          onChanged();
+        } else {
+          chBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public Builder mergeCh(uyujoy.com.api.channel.frontend.ChannelBase.channel value) {
+        if (chBuilder_ == null) {
+          if (ch_ != null) {
+            ch_ =
+              uyujoy.com.api.channel.frontend.ChannelBase.channel.newBuilder(ch_).mergeFrom(value).buildPartial();
+          } else {
+            ch_ = value;
+          }
+          onChanged();
+        } else {
+          chBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public Builder clearCh() {
+        if (chBuilder_ == null) {
+          ch_ = null;
+          onChanged();
+        } else {
+          ch_ = null;
+          chBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public uyujoy.com.api.channel.frontend.ChannelBase.channel.Builder getChBuilder() {
+        
+        onChanged();
+        return getChFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      public uyujoy.com.api.channel.frontend.ChannelBase.channelOrBuilder getChOrBuilder() {
+        if (chBuilder_ != null) {
+          return chBuilder_.getMessageOrBuilder();
+        } else {
+          return ch_ == null ?
+              uyujoy.com.api.channel.frontend.ChannelBase.channel.getDefaultInstance() : ch_;
+        }
+      }
+      /**
+       * <pre>
+       * 频道信息
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.channel ch = 1;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.com.api.channel.frontend.ChannelBase.channel, uyujoy.com.api.channel.frontend.ChannelBase.channel.Builder, uyujoy.com.api.channel.frontend.ChannelBase.channelOrBuilder> 
+          getChFieldBuilder() {
+        if (chBuilder_ == null) {
+          chBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              uyujoy.com.api.channel.frontend.ChannelBase.channel, uyujoy.com.api.channel.frontend.ChannelBase.channel.Builder, uyujoy.com.api.channel.frontend.ChannelBase.channelOrBuilder>(
+                  getCh(),
+                  getParentForChildren(),
+                  isClean());
+          ch_ = null;
+        }
+        return chBuilder_;
+      }
+
+      private java.lang.Object token_ = "";
+      /**
+       * <pre>
+       * 频道token
+       * </pre>
+       *
+       * <code>optional string token = 2;</code>
+       */
+      public java.lang.String getToken() {
+        java.lang.Object ref = token_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          token_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 频道token
+       * </pre>
+       *
+       * <code>optional string token = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getTokenBytes() {
+        java.lang.Object ref = token_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          token_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 频道token
+       * </pre>
+       *
+       * <code>optional string token = 2;</code>
+       */
+      public Builder setToken(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        token_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 频道token
+       * </pre>
+       *
+       * <code>optional string token = 2;</code>
+       */
+      public Builder clearToken() {
+        
+        token_ = getDefaultInstance().getToken();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 频道token
+       * </pre>
+       *
+       * <code>optional string token = 2;</code>
+       */
+      public Builder setTokenBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        token_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object selfUniqId_ = "";
+      /**
+       * <pre>
+       *进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string selfUniqId = 3;</code>
+       */
+      public java.lang.String getSelfUniqId() {
+        java.lang.Object ref = selfUniqId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          selfUniqId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       *进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string selfUniqId = 3;</code>
+       */
+      public com.google.protobuf.ByteString
+          getSelfUniqIdBytes() {
+        java.lang.Object ref = selfUniqId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          selfUniqId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string selfUniqId = 3;</code>
+       */
+      public Builder setSelfUniqId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        selfUniqId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string selfUniqId = 3;</code>
+       */
+      public Builder clearSelfUniqId() {
+        
+        selfUniqId_ = getDefaultInstance().getSelfUniqId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string selfUniqId = 3;</code>
+       */
+      public Builder setSelfUniqIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        selfUniqId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object peerUniqId_ = "";
+      /**
+       * <pre>
+       *对方进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string peerUniqId = 4;</code>
+       */
+      public java.lang.String getPeerUniqId() {
+        java.lang.Object ref = peerUniqId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          peerUniqId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       *对方进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string peerUniqId = 4;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPeerUniqIdBytes() {
+        java.lang.Object ref = peerUniqId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          peerUniqId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *对方进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string peerUniqId = 4;</code>
+       */
+      public Builder setPeerUniqId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        peerUniqId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *对方进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string peerUniqId = 4;</code>
+       */
+      public Builder clearPeerUniqId() {
+        
+        peerUniqId_ = getDefaultInstance().getPeerUniqId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *对方进入频道时使用的唯一Id
+       * </pre>
+       *
+       * <code>optional string peerUniqId = 4;</code>
+       */
+      public Builder setPeerUniqIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        peerUniqId_ = value;
+        onChanged();
+        return this;
+      }
+
+      private uyujoy.com.api.channel.frontend.ChannelImform.matchAttr matchedUserAttr_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.com.api.channel.frontend.ChannelImform.matchAttr, uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder, uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder> matchedUserAttrBuilder_;
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public boolean hasMatchedUserAttr() {
+        return matchedUserAttrBuilder_ != null || matchedUserAttr_ != null;
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr getMatchedUserAttr() {
+        if (matchedUserAttrBuilder_ == null) {
+          return matchedUserAttr_ == null ? uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.getDefaultInstance() : matchedUserAttr_;
+        } else {
+          return matchedUserAttrBuilder_.getMessage();
+        }
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public Builder setMatchedUserAttr(uyujoy.com.api.channel.frontend.ChannelImform.matchAttr value) {
+        if (matchedUserAttrBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          matchedUserAttr_ = value;
+          onChanged();
+        } else {
+          matchedUserAttrBuilder_.setMessage(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public Builder setMatchedUserAttr(
+          uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder builderForValue) {
+        if (matchedUserAttrBuilder_ == null) {
+          matchedUserAttr_ = builderForValue.build();
+          onChanged();
+        } else {
+          matchedUserAttrBuilder_.setMessage(builderForValue.build());
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public Builder mergeMatchedUserAttr(uyujoy.com.api.channel.frontend.ChannelImform.matchAttr value) {
+        if (matchedUserAttrBuilder_ == null) {
+          if (matchedUserAttr_ != null) {
+            matchedUserAttr_ =
+              uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.newBuilder(matchedUserAttr_).mergeFrom(value).buildPartial();
+          } else {
+            matchedUserAttr_ = value;
+          }
+          onChanged();
+        } else {
+          matchedUserAttrBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public Builder clearMatchedUserAttr() {
+        if (matchedUserAttrBuilder_ == null) {
+          matchedUserAttr_ = null;
+          onChanged();
+        } else {
+          matchedUserAttr_ = null;
+          matchedUserAttrBuilder_ = null;
+        }
+
+        return this;
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder getMatchedUserAttrBuilder() {
+        
+        onChanged();
+        return getMatchedUserAttrFieldBuilder().getBuilder();
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      public uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder getMatchedUserAttrOrBuilder() {
+        if (matchedUserAttrBuilder_ != null) {
+          return matchedUserAttrBuilder_.getMessageOrBuilder();
+        } else {
+          return matchedUserAttr_ == null ?
+              uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.getDefaultInstance() : matchedUserAttr_;
+        }
+      }
+      /**
+       * <pre>
+       *对方的匹配熟悉
+       * </pre>
+       *
+       * <code>optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.com.api.channel.frontend.ChannelImform.matchAttr, uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder, uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder> 
+          getMatchedUserAttrFieldBuilder() {
+        if (matchedUserAttrBuilder_ == null) {
+          matchedUserAttrBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              uyujoy.com.api.channel.frontend.ChannelImform.matchAttr, uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder, uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder>(
+                  getMatchedUserAttr(),
+                  getParentForChildren(),
+                  isClean());
+          matchedUserAttr_ = null;
+        }
+        return matchedUserAttrBuilder_;
+      }
+
+      private long ts_ ;
+      /**
+       * <pre>
+       *本次匹配对应的ts
+       * </pre>
+       *
+       * <code>optional int64 ts = 6;</code>
+       */
+      public long getTs() {
+        return ts_;
+      }
+      /**
+       * <pre>
+       *本次匹配对应的ts
+       * </pre>
+       *
+       * <code>optional int64 ts = 6;</code>
+       */
+      public Builder setTs(long value) {
+        
+        ts_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *本次匹配对应的ts
+       * </pre>
+       *
+       * <code>optional int64 ts = 6;</code>
+       */
+      public Builder clearTs() {
+        
+        ts_ = 0L;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:uyujoy.com.api.channel.frontend.channelMatched)
+    }
+
+    // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.channelMatched)
+    private static final uyujoy.com.api.channel.frontend.ChannelImform.channelMatched DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new uyujoy.com.api.channel.frontend.ChannelImform.channelMatched();
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelMatched getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<channelMatched>
+        PARSER = new com.google.protobuf.AbstractParser<channelMatched>() {
+      public channelMatched parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new channelMatched(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<channelMatched> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<channelMatched> getParserForType() {
+      return PARSER;
+    }
+
+    public uyujoy.com.api.channel.frontend.ChannelImform.channelMatched getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface channelSkippedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:uyujoy.com.api.channel.frontend.channelSkipped)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string channelId = 1;</code>
+     */
+    java.lang.String getChannelId();
+    /**
+     * <code>optional string channelId = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getChannelIdBytes();
+  }
+  /**
+   * <pre>
+   *跳过通知
+   * </pre>
+   *
+   * Protobuf type {@code uyujoy.com.api.channel.frontend.channelSkipped}
+   */
+  public  static final class channelSkipped extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:uyujoy.com.api.channel.frontend.channelSkipped)
+      channelSkippedOrBuilder {
+    // Use channelSkipped.newBuilder() to construct.
+    private channelSkipped(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private channelSkipped() {
+      channelId_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private channelSkipped(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              channelId_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelSkipped_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelSkipped_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.class, uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.Builder.class);
+    }
+
+    public static final int CHANNELID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object channelId_;
+    /**
+     * <code>optional string channelId = 1;</code>
+     */
+    public java.lang.String getChannelId() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        channelId_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string channelId = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getChannelIdBytes() {
+      java.lang.Object ref = channelId_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        channelId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getChannelIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, channelId_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getChannelIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, channelId_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped)) {
+        return super.equals(obj);
+      }
+      uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped other = (uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped) obj;
+
+      boolean result = true;
+      result = result && getChannelId()
+          .equals(other.getChannelId());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + CHANNELID_FIELD_NUMBER;
+      hash = (53 * hash) + getChannelId().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * <pre>
+     *跳过通知
+     * </pre>
+     *
+     * Protobuf type {@code uyujoy.com.api.channel.frontend.channelSkipped}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:uyujoy.com.api.channel.frontend.channelSkipped)
+        uyujoy.com.api.channel.frontend.ChannelImform.channelSkippedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelSkipped_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelSkipped_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.class, uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.Builder.class);
+      }
+
+      // Construct using uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        channelId_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_channelSkipped_descriptor;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped getDefaultInstanceForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.getDefaultInstance();
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped build() {
+        uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped buildPartial() {
+        uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped result = new uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped(this);
+        result.channelId_ = channelId_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped) {
+          return mergeFrom((uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped other) {
+        if (other == uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped.getDefaultInstance()) return this;
+        if (!other.getChannelId().isEmpty()) {
+          channelId_ = other.channelId_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object channelId_ = "";
+      /**
+       * <code>optional string channelId = 1;</code>
+       */
+      public java.lang.String getChannelId() {
+        java.lang.Object ref = channelId_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          channelId_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string channelId = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getChannelIdBytes() {
+        java.lang.Object ref = channelId_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          channelId_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string channelId = 1;</code>
+       */
+      public Builder setChannelId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        channelId_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string channelId = 1;</code>
+       */
+      public Builder clearChannelId() {
+        
+        channelId_ = getDefaultInstance().getChannelId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string channelId = 1;</code>
+       */
+      public Builder setChannelIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        channelId_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:uyujoy.com.api.channel.frontend.channelSkipped)
+    }
+
+    // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.channelSkipped)
+    private static final uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped();
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<channelSkipped>
+        PARSER = new com.google.protobuf.AbstractParser<channelSkipped>() {
+      public channelSkipped parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new channelSkipped(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<channelSkipped> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<channelSkipped> getParserForType() {
+      return PARSER;
+    }
+
+    public uyujoy.com.api.channel.frontend.ChannelImform.channelSkipped getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
+  public interface matchAttrOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:uyujoy.com.api.channel.frontend.matchAttr)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string name = 1;</code>
+     */
+    java.lang.String getName();
+    /**
+     * <code>optional string name = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getNameBytes();
+
+    /**
+     * <pre>
+     *头像URL
+     * </pre>
+     *
+     * <code>optional string photoUrl = 2;</code>
+     */
+    java.lang.String getPhotoUrl();
+    /**
+     * <pre>
+     *头像URL
+     * </pre>
+     *
+     * <code>optional string photoUrl = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getPhotoUrlBytes();
+
+    /**
+     * <pre>
+     *1. 男 2.女
+     * </pre>
+     *
+     * <code>optional uint32 gender = 3;</code>
+     */
+    int getGender();
+  }
+  /**
+   * Protobuf type {@code uyujoy.com.api.channel.frontend.matchAttr}
+   */
+  public  static final class matchAttr extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:uyujoy.com.api.channel.frontend.matchAttr)
+      matchAttrOrBuilder {
+    // Use matchAttr.newBuilder() to construct.
+    private matchAttr(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private matchAttr() {
+      name_ = "";
+      photoUrl_ = "";
+      gender_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private matchAttr(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              name_ = s;
+              break;
+            }
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              photoUrl_ = s;
+              break;
+            }
+            case 24: {
+
+              gender_ = input.readUInt32();
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_matchAttr_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.class, uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder.class);
+    }
+
+    public static final int NAME_FIELD_NUMBER = 1;
+    private volatile java.lang.Object name_;
+    /**
+     * <code>optional string name = 1;</code>
+     */
+    public java.lang.String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        name_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string name = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int PHOTOURL_FIELD_NUMBER = 2;
+    private volatile java.lang.Object photoUrl_;
+    /**
+     * <pre>
+     *头像URL
+     * </pre>
+     *
+     * <code>optional string photoUrl = 2;</code>
+     */
+    public java.lang.String getPhotoUrl() {
+      java.lang.Object ref = photoUrl_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        photoUrl_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     *头像URL
+     * </pre>
+     *
+     * <code>optional string photoUrl = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getPhotoUrlBytes() {
+      java.lang.Object ref = photoUrl_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        photoUrl_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int GENDER_FIELD_NUMBER = 3;
+    private int gender_;
+    /**
+     * <pre>
+     *1. 男 2.女
+     * </pre>
+     *
+     * <code>optional uint32 gender = 3;</code>
+     */
+    public int getGender() {
+      return gender_;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getNameBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, name_);
+      }
+      if (!getPhotoUrlBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, photoUrl_);
+      }
+      if (gender_ != 0) {
+        output.writeUInt32(3, gender_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getNameBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, name_);
+      }
+      if (!getPhotoUrlBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, photoUrl_);
+      }
+      if (gender_ != 0) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeUInt32Size(3, gender_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof uyujoy.com.api.channel.frontend.ChannelImform.matchAttr)) {
+        return super.equals(obj);
+      }
+      uyujoy.com.api.channel.frontend.ChannelImform.matchAttr other = (uyujoy.com.api.channel.frontend.ChannelImform.matchAttr) obj;
+
+      boolean result = true;
+      result = result && getName()
+          .equals(other.getName());
+      result = result && getPhotoUrl()
+          .equals(other.getPhotoUrl());
+      result = result && (getGender()
+          == other.getGender());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + NAME_FIELD_NUMBER;
+      hash = (53 * hash) + getName().hashCode();
+      hash = (37 * hash) + PHOTOURL_FIELD_NUMBER;
+      hash = (53 * hash) + getPhotoUrl().hashCode();
+      hash = (37 * hash) + GENDER_FIELD_NUMBER;
+      hash = (53 * hash) + getGender();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(uyujoy.com.api.channel.frontend.ChannelImform.matchAttr prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code uyujoy.com.api.channel.frontend.matchAttr}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:uyujoy.com.api.channel.frontend.matchAttr)
+        uyujoy.com.api.channel.frontend.ChannelImform.matchAttrOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_matchAttr_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.class, uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.Builder.class);
+      }
+
+      // Construct using uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        name_ = "";
+
+        photoUrl_ = "";
+
+        gender_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr getDefaultInstanceForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.getDefaultInstance();
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr build() {
+        uyujoy.com.api.channel.frontend.ChannelImform.matchAttr result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr buildPartial() {
+        uyujoy.com.api.channel.frontend.ChannelImform.matchAttr result = new uyujoy.com.api.channel.frontend.ChannelImform.matchAttr(this);
+        result.name_ = name_;
+        result.photoUrl_ = photoUrl_;
+        result.gender_ = gender_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof uyujoy.com.api.channel.frontend.ChannelImform.matchAttr) {
+          return mergeFrom((uyujoy.com.api.channel.frontend.ChannelImform.matchAttr)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(uyujoy.com.api.channel.frontend.ChannelImform.matchAttr other) {
+        if (other == uyujoy.com.api.channel.frontend.ChannelImform.matchAttr.getDefaultInstance()) return this;
+        if (!other.getName().isEmpty()) {
+          name_ = other.name_;
+          onChanged();
+        }
+        if (!other.getPhotoUrl().isEmpty()) {
+          photoUrl_ = other.photoUrl_;
+          onChanged();
+        }
+        if (other.getGender() != 0) {
+          setGender(other.getGender());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        uyujoy.com.api.channel.frontend.ChannelImform.matchAttr parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (uyujoy.com.api.channel.frontend.ChannelImform.matchAttr) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object name_ = "";
+      /**
+       * <code>optional string name = 1;</code>
+       */
+      public java.lang.String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string name = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getNameBytes() {
+        java.lang.Object ref = name_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          name_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string name = 1;</code>
+       */
+      public Builder setName(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string name = 1;</code>
+       */
+      public Builder clearName() {
+        
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string name = 1;</code>
+       */
+      public Builder setNameBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        name_ = value;
+        onChanged();
+        return this;
+      }
+
+      private java.lang.Object photoUrl_ = "";
+      /**
+       * <pre>
+       *头像URL
+       * </pre>
+       *
+       * <code>optional string photoUrl = 2;</code>
+       */
+      public java.lang.String getPhotoUrl() {
+        java.lang.Object ref = photoUrl_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          photoUrl_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       *头像URL
+       * </pre>
+       *
+       * <code>optional string photoUrl = 2;</code>
+       */
+      public com.google.protobuf.ByteString
+          getPhotoUrlBytes() {
+        java.lang.Object ref = photoUrl_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          photoUrl_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       *头像URL
+       * </pre>
+       *
+       * <code>optional string photoUrl = 2;</code>
+       */
+      public Builder setPhotoUrl(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        photoUrl_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *头像URL
+       * </pre>
+       *
+       * <code>optional string photoUrl = 2;</code>
+       */
+      public Builder clearPhotoUrl() {
+        
+        photoUrl_ = getDefaultInstance().getPhotoUrl();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *头像URL
+       * </pre>
+       *
+       * <code>optional string photoUrl = 2;</code>
+       */
+      public Builder setPhotoUrlBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        photoUrl_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int gender_ ;
+      /**
+       * <pre>
+       *1. 男 2.女
+       * </pre>
+       *
+       * <code>optional uint32 gender = 3;</code>
+       */
+      public int getGender() {
+        return gender_;
+      }
+      /**
+       * <pre>
+       *1. 男 2.女
+       * </pre>
+       *
+       * <code>optional uint32 gender = 3;</code>
+       */
+      public Builder setGender(int value) {
+        
+        gender_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       *1. 男 2.女
+       * </pre>
+       *
+       * <code>optional uint32 gender = 3;</code>
+       */
+      public Builder clearGender() {
+        
+        gender_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:uyujoy.com.api.channel.frontend.matchAttr)
+    }
+
+    // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.matchAttr)
+    private static final uyujoy.com.api.channel.frontend.ChannelImform.matchAttr DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new uyujoy.com.api.channel.frontend.ChannelImform.matchAttr();
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.matchAttr getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<matchAttr>
+        PARSER = new com.google.protobuf.AbstractParser<matchAttr>() {
+      public matchAttr parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new matchAttr(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<matchAttr> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<matchAttr> getParserForType() {
+      return PARSER;
+    }
+
+    public uyujoy.com.api.channel.frontend.ChannelImform.matchAttr getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_uyujoy_com_api_channel_frontend_channelStateChange_descriptor;
   private static final 
@@ -1270,6 +4025,21 @@ public final class ChannelImform {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_uyujoy_com_api_channel_frontend_channelUserStateChange_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_uyujoy_com_api_channel_frontend_channelMatched_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_uyujoy_com_api_channel_frontend_channelMatched_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_uyujoy_com_api_channel_frontend_channelSkipped_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_uyujoy_com_api_channel_frontend_channelSkipped_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_uyujoy_com_api_channel_frontend_matchAttr_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1285,8 +4055,16 @@ public final class ChannelImform {
       ".api.channel.frontend.channel\022\016\n\006reason\030" +
       "\002 \001(\r\"c\n\026channelUserStateChange\0229\n\003chu\030\001" +
       " \001(\0132,.uyujoy.com.api.channel.frontend.c" +
-      "hannelUser\022\016\n\006reason\030\002 \001(\rB*Z(uyujoy.com" +
-      "/pass/protogen/channel;channelb\006proto3"
+      "hannelUser\022\016\n\006reason\030\002 \001(\r\"\316\001\n\016channelMa" +
+      "tched\0224\n\002ch\030\001 \001(\0132(.uyujoy.com.api.chann" +
+      "el.frontend.channel\022\r\n\005token\030\002 \001(\t\022\022\n\nse" +
+      "lfUniqId\030\003 \001(\t\022\022\n\npeerUniqId\030\004 \001(\t\022C\n\017ma",
+      "tchedUserAttr\030\005 \001(\0132*.uyujoy.com.api.cha" +
+      "nnel.frontend.matchAttr\022\n\n\002ts\030\006 \001(\003\"#\n\016c" +
+      "hannelSkipped\022\021\n\tchannelId\030\001 \001(\t\";\n\tmatc" +
+      "hAttr\022\014\n\004name\030\001 \001(\t\022\020\n\010photoUrl\030\002 \001(\t\022\016\n" +
+      "\006gender\030\003 \001(\rB*Z(uyujoy.com/pass/protoge" +
+      "n/channel;channelb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1313,6 +4091,24 @@ public final class ChannelImform {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_uyujoy_com_api_channel_frontend_channelUserStateChange_descriptor,
         new java.lang.String[] { "Chu", "Reason", });
+    internal_static_uyujoy_com_api_channel_frontend_channelMatched_descriptor =
+      getDescriptor().getMessageTypes().get(2);
+    internal_static_uyujoy_com_api_channel_frontend_channelMatched_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_uyujoy_com_api_channel_frontend_channelMatched_descriptor,
+        new java.lang.String[] { "Ch", "Token", "SelfUniqId", "PeerUniqId", "MatchedUserAttr", "Ts", });
+    internal_static_uyujoy_com_api_channel_frontend_channelSkipped_descriptor =
+      getDescriptor().getMessageTypes().get(3);
+    internal_static_uyujoy_com_api_channel_frontend_channelSkipped_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_uyujoy_com_api_channel_frontend_channelSkipped_descriptor,
+        new java.lang.String[] { "ChannelId", });
+    internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor =
+      getDescriptor().getMessageTypes().get(4);
+    internal_static_uyujoy_com_api_channel_frontend_matchAttr_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor,
+        new java.lang.String[] { "Name", "PhotoUrl", "Gender", });
     uyujoy.com.api.channel.frontend.ChannelBase.getDescriptor();
   }
 

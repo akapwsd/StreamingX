@@ -8,9 +8,13 @@ import com.code.bean.ChannelInfoBean;
 import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
+import com.code.bean.MatchAttrBean;
+import com.code.bean.MatchBean;
+import com.code.bean.MatchExpectBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
 import com.code.bean.NullBean;
+import com.code.bean.SkipBean;
 import com.code.bean.SmsCodeBean;
 import com.code.bean.UploadAvatarBean;
 import com.code.bean.UploadUserInfoBean;
@@ -40,6 +44,100 @@ public class HttpRequestUtils {
             }
         }
         return httpRequestUtils;
+    }
+
+    /**
+     *
+     * @param context
+     * @param country
+     * @param language
+     * @param gender
+     * @param name
+     * @param photoUrl
+     * @param matchType
+     * @param httpRequestListener
+     */
+    public void match(Context context, String country, String language, int peerGender, String name, String photoUrl,int gender, int matchType, HttpRequestListener httpRequestListener) {
+        try {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                MatchBean matchBean = new MatchBean();
+                MatchExpectBean matchExpectBean = new MatchExpectBean();
+                matchExpectBean.setCountry(country);
+                matchExpectBean.setLanguage(language);
+                matchExpectBean.setGender(peerGender);
+                MatchAttrBean matchAttrBean = new MatchAttrBean();
+                matchAttrBean.setGender(gender);
+                matchAttrBean.setName(name);
+                matchAttrBean.setPhotoUrl(photoUrl);
+                matchBean.setExpect(matchExpectBean);
+                matchBean.setAttr(matchAttrBean);
+                matchBean.setTs(X_Uyj_Timestamp);
+                matchBean.setMatchType(matchType);
+                RetrofitHelper.createApi(HttpApi.class, context).startMatch(authorization, X_Uyj_Timestamp, Content_Type, session_token, matchBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+                    @Override
+                    public void Success(Object object) {
+                        httpRequestListener.requestSuccess(object);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        httpRequestListener.requestError(code, error);
+                    }
+                });
+            } else {
+                httpRequestListener.requestError(-1, "init fail");
+            }
+        } catch (Exception e) {
+            LogUtil.e(TAG, "match e:" + e);
+        }
+    }
+
+    public void skip(Context context, int uid, HttpRequestListener httpRequestListener) {
+        try {
+            try {
+                if (StreamingXRtcManager.getInstance().isInit) {
+                    String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                    String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                    String session_token = RtcSpUtils.getInstance().getSessionToken();
+                    long currentTimeMillis = System.currentTimeMillis();
+                    String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                    String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                    String data = X_Uyj_Timestamp + Content_Type;
+                    String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                    String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                    SkipBean skipBean = new SkipBean();
+                    skipBean.setId(String.valueOf(uid));
+                    RetrofitHelper.createApi(HttpApi.class, context).startSkip(authorization, X_Uyj_Timestamp, Content_Type, session_token, skipBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+                        @Override
+                        public void Success(Object object) {
+                            httpRequestListener.requestSuccess(object);
+                        }
+
+                        @Override
+                        public void error(int code, String error) {
+                            httpRequestListener.requestError(code, error);
+                        }
+                    });
+                } else {
+                    httpRequestListener.requestError(-1, "init fail");
+                }
+            } catch (Exception e) {
+                LogUtil.e(TAG, "match e:" + e);
+            }
+        } catch (Exception e) {
+            LogUtil.e(TAG, "match e:" + e);
+        }
     }
 
     public void getUserState(Context context, int uid, HttpRequestListener httpRequestListener) {

@@ -13,3 +13,33 @@ message channelUserStateChange{
   channelUser chu = 1;
   uint32 reason = 2;
 }
+
+//匹配通知
+message channelMatched{
+  // 频道信息
+  channel ch = 1;
+  // 频道token
+  string token = 2;
+  //进入频道时使用的唯一Id
+  string selfUniqId = 3;
+  //对方进入频道时使用的唯一Id
+  string peerUniqId = 4;
+  //对方的匹配熟悉
+  matchAttr matchedUserAttr = 5;
+  //本次匹配对应的ts
+  int64  ts = 6;
+}
+
+//跳过通知
+message channelSkipped{
+  string channelId = 1;
+}
+
+message matchAttr{
+  string name = 1;
+  //头像URL
+  string photoUrl = 2;
+  //1. 男 2.女
+  uint32 gender = 3;
+}
+

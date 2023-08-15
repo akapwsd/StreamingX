@@ -42,8 +42,11 @@ void protobuf_InitDefaults_channelImform_2eproto();
 void protobuf_AssignDesc_channelImform_2eproto();
 void protobuf_ShutdownFile_channelImform_2eproto();
 
+class channelMatched;
+class channelSkipped;
 class channelStateChange;
 class channelUserStateChange;
+class matchAttr;
 
 // ===================================================================
 
@@ -237,6 +240,349 @@ class channelUserStateChange : public ::google::protobuf::Message /* @@protoc_in
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<channelUserStateChange> channelUserStateChange_default_instance_;
 
+// -------------------------------------------------------------------
+
+class channelMatched : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:uyujoy.com.api.channel.frontend.channelMatched) */ {
+ public:
+  channelMatched();
+  virtual ~channelMatched();
+
+  channelMatched(const channelMatched& from);
+
+  inline channelMatched& operator=(const channelMatched& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const channelMatched& default_instance();
+
+  static const channelMatched* internal_default_instance();
+
+  void Swap(channelMatched* other);
+
+  // implements Message ----------------------------------------------
+
+  inline channelMatched* New() const { return New(NULL); }
+
+  channelMatched* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const channelMatched& from);
+  void MergeFrom(const channelMatched& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(channelMatched* other);
+  void UnsafeMergeFrom(const channelMatched& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional .uyujoy.com.api.channel.frontend.channel ch = 1;
+  bool has_ch() const;
+  void clear_ch();
+  static const int kChFieldNumber = 1;
+  const ::uyujoy::com::api::channel::frontend::channel& ch() const;
+  ::uyujoy::com::api::channel::frontend::channel* mutable_ch();
+  ::uyujoy::com::api::channel::frontend::channel* release_ch();
+  void set_allocated_ch(::uyujoy::com::api::channel::frontend::channel* ch);
+
+  // optional string token = 2;
+  void clear_token();
+  static const int kTokenFieldNumber = 2;
+  const ::std::string& token() const;
+  void set_token(const ::std::string& value);
+  void set_token(const char* value);
+  void set_token(const char* value, size_t size);
+  ::std::string* mutable_token();
+  ::std::string* release_token();
+  void set_allocated_token(::std::string* token);
+
+  // optional string selfUniqId = 3;
+  void clear_selfuniqid();
+  static const int kSelfUniqIdFieldNumber = 3;
+  const ::std::string& selfuniqid() const;
+  void set_selfuniqid(const ::std::string& value);
+  void set_selfuniqid(const char* value);
+  void set_selfuniqid(const char* value, size_t size);
+  ::std::string* mutable_selfuniqid();
+  ::std::string* release_selfuniqid();
+  void set_allocated_selfuniqid(::std::string* selfuniqid);
+
+  // optional string peerUniqId = 4;
+  void clear_peeruniqid();
+  static const int kPeerUniqIdFieldNumber = 4;
+  const ::std::string& peeruniqid() const;
+  void set_peeruniqid(const ::std::string& value);
+  void set_peeruniqid(const char* value);
+  void set_peeruniqid(const char* value, size_t size);
+  ::std::string* mutable_peeruniqid();
+  ::std::string* release_peeruniqid();
+  void set_allocated_peeruniqid(::std::string* peeruniqid);
+
+  // optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;
+  bool has_matcheduserattr() const;
+  void clear_matcheduserattr();
+  static const int kMatchedUserAttrFieldNumber = 5;
+  const ::uyujoy::com::api::channel::frontend::matchAttr& matcheduserattr() const;
+  ::uyujoy::com::api::channel::frontend::matchAttr* mutable_matcheduserattr();
+  ::uyujoy::com::api::channel::frontend::matchAttr* release_matcheduserattr();
+  void set_allocated_matcheduserattr(::uyujoy::com::api::channel::frontend::matchAttr* matcheduserattr);
+
+  // optional int64 ts = 6;
+  void clear_ts();
+  static const int kTsFieldNumber = 6;
+  ::google::protobuf::int64 ts() const;
+  void set_ts(::google::protobuf::int64 value);
+
+  // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.channelMatched)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr token_;
+  ::google::protobuf::internal::ArenaStringPtr selfuniqid_;
+  ::google::protobuf::internal::ArenaStringPtr peeruniqid_;
+  ::uyujoy::com::api::channel::frontend::channel* ch_;
+  ::uyujoy::com::api::channel::frontend::matchAttr* matcheduserattr_;
+  ::google::protobuf::int64 ts_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_channelImform_2eproto_impl();
+  friend void  protobuf_AddDesc_channelImform_2eproto_impl();
+  friend void protobuf_AssignDesc_channelImform_2eproto();
+  friend void protobuf_ShutdownFile_channelImform_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<channelMatched> channelMatched_default_instance_;
+
+// -------------------------------------------------------------------
+
+class channelSkipped : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:uyujoy.com.api.channel.frontend.channelSkipped) */ {
+ public:
+  channelSkipped();
+  virtual ~channelSkipped();
+
+  channelSkipped(const channelSkipped& from);
+
+  inline channelSkipped& operator=(const channelSkipped& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const channelSkipped& default_instance();
+
+  static const channelSkipped* internal_default_instance();
+
+  void Swap(channelSkipped* other);
+
+  // implements Message ----------------------------------------------
+
+  inline channelSkipped* New() const { return New(NULL); }
+
+  channelSkipped* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const channelSkipped& from);
+  void MergeFrom(const channelSkipped& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(channelSkipped* other);
+  void UnsafeMergeFrom(const channelSkipped& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string channelId = 1;
+  void clear_channelid();
+  static const int kChannelIdFieldNumber = 1;
+  const ::std::string& channelid() const;
+  void set_channelid(const ::std::string& value);
+  void set_channelid(const char* value);
+  void set_channelid(const char* value, size_t size);
+  ::std::string* mutable_channelid();
+  ::std::string* release_channelid();
+  void set_allocated_channelid(::std::string* channelid);
+
+  // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.channelSkipped)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr channelid_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_channelImform_2eproto_impl();
+  friend void  protobuf_AddDesc_channelImform_2eproto_impl();
+  friend void protobuf_AssignDesc_channelImform_2eproto();
+  friend void protobuf_ShutdownFile_channelImform_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<channelSkipped> channelSkipped_default_instance_;
+
+// -------------------------------------------------------------------
+
+class matchAttr : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:uyujoy.com.api.channel.frontend.matchAttr) */ {
+ public:
+  matchAttr();
+  virtual ~matchAttr();
+
+  matchAttr(const matchAttr& from);
+
+  inline matchAttr& operator=(const matchAttr& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const matchAttr& default_instance();
+
+  static const matchAttr* internal_default_instance();
+
+  void Swap(matchAttr* other);
+
+  // implements Message ----------------------------------------------
+
+  inline matchAttr* New() const { return New(NULL); }
+
+  matchAttr* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const matchAttr& from);
+  void MergeFrom(const matchAttr& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(matchAttr* other);
+  void UnsafeMergeFrom(const matchAttr& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string name = 1;
+  void clear_name();
+  static const int kNameFieldNumber = 1;
+  const ::std::string& name() const;
+  void set_name(const ::std::string& value);
+  void set_name(const char* value);
+  void set_name(const char* value, size_t size);
+  ::std::string* mutable_name();
+  ::std::string* release_name();
+  void set_allocated_name(::std::string* name);
+
+  // optional string photoUrl = 2;
+  void clear_photourl();
+  static const int kPhotoUrlFieldNumber = 2;
+  const ::std::string& photourl() const;
+  void set_photourl(const ::std::string& value);
+  void set_photourl(const char* value);
+  void set_photourl(const char* value, size_t size);
+  ::std::string* mutable_photourl();
+  ::std::string* release_photourl();
+  void set_allocated_photourl(::std::string* photourl);
+
+  // optional uint32 gender = 3;
+  void clear_gender();
+  static const int kGenderFieldNumber = 3;
+  ::google::protobuf::uint32 gender() const;
+  void set_gender(::google::protobuf::uint32 value);
+
+  // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.matchAttr)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr name_;
+  ::google::protobuf::internal::ArenaStringPtr photourl_;
+  ::google::protobuf::uint32 gender_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_channelImform_2eproto_impl();
+  friend void  protobuf_AddDesc_channelImform_2eproto_impl();
+  friend void protobuf_AssignDesc_channelImform_2eproto();
+  friend void protobuf_ShutdownFile_channelImform_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<matchAttr> matchAttr_default_instance_;
+
 // ===================================================================
 
 
@@ -361,7 +707,404 @@ inline void channelUserStateChange::set_reason(::google::protobuf::uint32 value)
 inline const channelUserStateChange* channelUserStateChange::internal_default_instance() {
   return &channelUserStateChange_default_instance_.get();
 }
+// -------------------------------------------------------------------
+
+// channelMatched
+
+// optional .uyujoy.com.api.channel.frontend.channel ch = 1;
+inline bool channelMatched::has_ch() const {
+  return this != internal_default_instance() && ch_ != NULL;
+}
+inline void channelMatched::clear_ch() {
+  if (GetArenaNoVirtual() == NULL && ch_ != NULL) delete ch_;
+  ch_ = NULL;
+}
+inline const ::uyujoy::com::api::channel::frontend::channel& channelMatched::ch() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelMatched.ch)
+  return ch_ != NULL ? *ch_
+                         : *::uyujoy::com::api::channel::frontend::channel::internal_default_instance();
+}
+inline ::uyujoy::com::api::channel::frontend::channel* channelMatched::mutable_ch() {
+  
+  if (ch_ == NULL) {
+    ch_ = new ::uyujoy::com::api::channel::frontend::channel;
+  }
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.channelMatched.ch)
+  return ch_;
+}
+inline ::uyujoy::com::api::channel::frontend::channel* channelMatched::release_ch() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.channelMatched.ch)
+  
+  ::uyujoy::com::api::channel::frontend::channel* temp = ch_;
+  ch_ = NULL;
+  return temp;
+}
+inline void channelMatched::set_allocated_ch(::uyujoy::com::api::channel::frontend::channel* ch) {
+  delete ch_;
+  ch_ = ch;
+  if (ch) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.channelMatched.ch)
+}
+
+// optional string token = 2;
+inline void channelMatched::clear_token() {
+  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& channelMatched::token() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelMatched.token)
+  return token_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelMatched::set_token(const ::std::string& value) {
+  
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.channelMatched.token)
+}
+inline void channelMatched::set_token(const char* value) {
+  
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.channelMatched.token)
+}
+inline void channelMatched::set_token(const char* value, size_t size) {
+  
+  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.channelMatched.token)
+}
+inline ::std::string* channelMatched::mutable_token() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.channelMatched.token)
+  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* channelMatched::release_token() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.channelMatched.token)
+  
+  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelMatched::set_allocated_token(::std::string* token) {
+  if (token != NULL) {
+    
+  } else {
+    
+  }
+  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.channelMatched.token)
+}
+
+// optional string selfUniqId = 3;
+inline void channelMatched::clear_selfuniqid() {
+  selfuniqid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& channelMatched::selfuniqid() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+  return selfuniqid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelMatched::set_selfuniqid(const ::std::string& value) {
+  
+  selfuniqid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+}
+inline void channelMatched::set_selfuniqid(const char* value) {
+  
+  selfuniqid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+}
+inline void channelMatched::set_selfuniqid(const char* value, size_t size) {
+  
+  selfuniqid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+}
+inline ::std::string* channelMatched::mutable_selfuniqid() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+  return selfuniqid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* channelMatched::release_selfuniqid() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+  
+  return selfuniqid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelMatched::set_allocated_selfuniqid(::std::string* selfuniqid) {
+  if (selfuniqid != NULL) {
+    
+  } else {
+    
+  }
+  selfuniqid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), selfuniqid);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.channelMatched.selfUniqId)
+}
+
+// optional string peerUniqId = 4;
+inline void channelMatched::clear_peeruniqid() {
+  peeruniqid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& channelMatched::peeruniqid() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+  return peeruniqid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelMatched::set_peeruniqid(const ::std::string& value) {
+  
+  peeruniqid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+}
+inline void channelMatched::set_peeruniqid(const char* value) {
+  
+  peeruniqid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+}
+inline void channelMatched::set_peeruniqid(const char* value, size_t size) {
+  
+  peeruniqid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+}
+inline ::std::string* channelMatched::mutable_peeruniqid() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+  return peeruniqid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* channelMatched::release_peeruniqid() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+  
+  return peeruniqid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelMatched::set_allocated_peeruniqid(::std::string* peeruniqid) {
+  if (peeruniqid != NULL) {
+    
+  } else {
+    
+  }
+  peeruniqid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), peeruniqid);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.channelMatched.peerUniqId)
+}
+
+// optional .uyujoy.com.api.channel.frontend.matchAttr matchedUserAttr = 5;
+inline bool channelMatched::has_matcheduserattr() const {
+  return this != internal_default_instance() && matcheduserattr_ != NULL;
+}
+inline void channelMatched::clear_matcheduserattr() {
+  if (GetArenaNoVirtual() == NULL && matcheduserattr_ != NULL) delete matcheduserattr_;
+  matcheduserattr_ = NULL;
+}
+inline const ::uyujoy::com::api::channel::frontend::matchAttr& channelMatched::matcheduserattr() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelMatched.matchedUserAttr)
+  return matcheduserattr_ != NULL ? *matcheduserattr_
+                         : *::uyujoy::com::api::channel::frontend::matchAttr::internal_default_instance();
+}
+inline ::uyujoy::com::api::channel::frontend::matchAttr* channelMatched::mutable_matcheduserattr() {
+  
+  if (matcheduserattr_ == NULL) {
+    matcheduserattr_ = new ::uyujoy::com::api::channel::frontend::matchAttr;
+  }
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.channelMatched.matchedUserAttr)
+  return matcheduserattr_;
+}
+inline ::uyujoy::com::api::channel::frontend::matchAttr* channelMatched::release_matcheduserattr() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.channelMatched.matchedUserAttr)
+  
+  ::uyujoy::com::api::channel::frontend::matchAttr* temp = matcheduserattr_;
+  matcheduserattr_ = NULL;
+  return temp;
+}
+inline void channelMatched::set_allocated_matcheduserattr(::uyujoy::com::api::channel::frontend::matchAttr* matcheduserattr) {
+  delete matcheduserattr_;
+  matcheduserattr_ = matcheduserattr;
+  if (matcheduserattr) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.channelMatched.matchedUserAttr)
+}
+
+// optional int64 ts = 6;
+inline void channelMatched::clear_ts() {
+  ts_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 channelMatched::ts() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelMatched.ts)
+  return ts_;
+}
+inline void channelMatched::set_ts(::google::protobuf::int64 value) {
+  
+  ts_ = value;
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.channelMatched.ts)
+}
+
+inline const channelMatched* channelMatched::internal_default_instance() {
+  return &channelMatched_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// channelSkipped
+
+// optional string channelId = 1;
+inline void channelSkipped::clear_channelid() {
+  channelid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& channelSkipped::channelid() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+  return channelid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelSkipped::set_channelid(const ::std::string& value) {
+  
+  channelid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+}
+inline void channelSkipped::set_channelid(const char* value) {
+  
+  channelid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+}
+inline void channelSkipped::set_channelid(const char* value, size_t size) {
+  
+  channelid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+}
+inline ::std::string* channelSkipped::mutable_channelid() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+  return channelid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* channelSkipped::release_channelid() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+  
+  return channelid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void channelSkipped::set_allocated_channelid(::std::string* channelid) {
+  if (channelid != NULL) {
+    
+  } else {
+    
+  }
+  channelid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), channelid);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.channelSkipped.channelId)
+}
+
+inline const channelSkipped* channelSkipped::internal_default_instance() {
+  return &channelSkipped_default_instance_.get();
+}
+// -------------------------------------------------------------------
+
+// matchAttr
+
+// optional string name = 1;
+inline void matchAttr::clear_name() {
+  name_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& matchAttr::name() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.matchAttr.name)
+  return name_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void matchAttr::set_name(const ::std::string& value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.matchAttr.name)
+}
+inline void matchAttr::set_name(const char* value) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.matchAttr.name)
+}
+inline void matchAttr::set_name(const char* value, size_t size) {
+  
+  name_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.matchAttr.name)
+}
+inline ::std::string* matchAttr::mutable_name() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.matchAttr.name)
+  return name_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* matchAttr::release_name() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.matchAttr.name)
+  
+  return name_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void matchAttr::set_allocated_name(::std::string* name) {
+  if (name != NULL) {
+    
+  } else {
+    
+  }
+  name_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), name);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.matchAttr.name)
+}
+
+// optional string photoUrl = 2;
+inline void matchAttr::clear_photourl() {
+  photourl_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& matchAttr::photourl() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+  return photourl_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void matchAttr::set_photourl(const ::std::string& value) {
+  
+  photourl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+}
+inline void matchAttr::set_photourl(const char* value) {
+  
+  photourl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+}
+inline void matchAttr::set_photourl(const char* value, size_t size) {
+  
+  photourl_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+}
+inline ::std::string* matchAttr::mutable_photourl() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+  return photourl_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* matchAttr::release_photourl() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+  
+  return photourl_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void matchAttr::set_allocated_photourl(::std::string* photourl) {
+  if (photourl != NULL) {
+    
+  } else {
+    
+  }
+  photourl_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), photourl);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.matchAttr.photoUrl)
+}
+
+// optional uint32 gender = 3;
+inline void matchAttr::clear_gender() {
+  gender_ = 0u;
+}
+inline ::google::protobuf::uint32 matchAttr::gender() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.matchAttr.gender)
+  return gender_;
+}
+inline void matchAttr::set_gender(::google::protobuf::uint32 value) {
+  
+  gender_ = value;
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.matchAttr.gender)
+}
+
+inline const matchAttr* matchAttr::internal_default_instance() {
+  return &matchAttr_default_instance_.get();
+}
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 
