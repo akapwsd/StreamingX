@@ -102,7 +102,7 @@ public class HttpRequestUtils {
         }
     }
 
-    public void skip(Context context, int uid, HttpRequestListener httpRequestListener) {
+    public void skip(Context context, String channelId, HttpRequestListener httpRequestListener) {
         try {
             try {
                 if (StreamingXRtcManager.getInstance().isInit) {
@@ -116,7 +116,7 @@ public class HttpRequestUtils {
                     String sign = DataUtils.sha256_HMAC(access_key_secret, data);
                     String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
                     SkipBean skipBean = new SkipBean();
-                    skipBean.setId(String.valueOf(uid));
+                    skipBean.setId(channelId);
                     RetrofitHelper.createApi(HttpApi.class, context).startSkip(authorization, X_Uyj_Timestamp, Content_Type, session_token, skipBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
                         @Override
