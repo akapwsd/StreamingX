@@ -42,8 +42,8 @@ public class WSManager {
     private final static int GLOBAL_HEART_BEAT_RATE = 5000;
     private final static int MAX_DIS_RECEIVE_NUM = 1;
     private int disReceivePongIndex = 0;
-    private final static String BASE_URL = "wss://api.hitradegate.com/v1/ws";
-    private final static String MODEL_BASE_URL = "wss://broadcaster.hitradegate.com/v1/ws";
+    private final static String BASE_URL = "wss://api.streamingxapp.com/v1/ws";
+    private final static String MODEL_BASE_URL = "wss://broadcaster.streamingxapp.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private WebSocket mWebSocket;
