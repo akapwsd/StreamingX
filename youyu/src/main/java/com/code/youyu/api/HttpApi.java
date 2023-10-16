@@ -22,6 +22,7 @@ import retrofit2.http.Query;
 
 public interface HttpApi {
     String BASE_URL = "https://api.streamingxapp.com/v1/";
+    String BASE_TEST_URL = "https://api.hitradegate.com/v1/";
     String GET_CHANNEL_TOKEN = "channel/channel/{channelId}/token";
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "broadcaster/broadcaster";
@@ -64,7 +65,7 @@ public interface HttpApi {
 
     /*==============================model=======================================*/
     String BASE_BROADCASTER_URL = "https://broadcaster.streamingxapp.com/v1/";
-
+    String BASE_BROADCASTER_TEST_URL = "https://broadcaster.hitradegate.com/v1/";
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("channelId") String channelId);
 }

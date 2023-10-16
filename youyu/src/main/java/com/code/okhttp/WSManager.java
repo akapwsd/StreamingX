@@ -43,7 +43,9 @@ public class WSManager {
     private final static int MAX_DIS_RECEIVE_NUM = 1;
     private int disReceivePongIndex = 0;
     private final static String BASE_URL = "wss://api.streamingxapp.com/v1/ws";
+    private final static String BASE_TEST_URL = "wss://api.hitradegate.com/v1/ws";
     private final static String MODEL_BASE_URL = "wss://broadcaster.streamingxapp.com/v1/ws";
+    private final static String MODEL_BASE_TEST_URL = "wss://broadcaster.hitradegatep.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private WebSocket mWebSocket;
@@ -89,7 +91,11 @@ public class WSManager {
             this.access_key_id = access_key_id;
             this.access_key_secret = access_key_secret;
             this.session_token = session_token;
-            mWbSocketUrl = BASE_URL;
+            if (StreamingXRtcManager.getInstance().isEnableDebug) {
+                mWbSocketUrl = BASE_TEST_URL;
+            } else {
+                mWbSocketUrl = BASE_URL;
+            }
             RtcSpUtils.getInstance().setAccessKeyId(access_key_id);
             RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
             RtcSpUtils.getInstance().setSessionToken(session_token);
@@ -106,7 +112,11 @@ public class WSManager {
         if (context != null) {
             sWeakRefListeners = new HashMap<>();
             this.token = token;
-            mWbSocketUrl = MODEL_BASE_URL;
+            if (StreamingXRtcManager.getInstance().isEnableDebug) {
+                mWbSocketUrl = MODEL_BASE_TEST_URL;
+            } else {
+                mWbSocketUrl = MODEL_BASE_URL;
+            }
             RtcSpUtils.getInstance().setToken(token);
             RtcSpUtils.getInstance().setAccessKeyId("");
             RtcSpUtils.getInstance().setAccessKeySecret("");

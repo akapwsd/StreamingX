@@ -5,6 +5,7 @@ import android.os.Build;
 
 import com.code.utils.LogUtil;
 import com.code.youyu.api.HttpApi;
+import com.code.youyu.api.StreamingXRtcManager;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 
 import java.security.cert.X509Certificate;
@@ -49,9 +50,17 @@ public class RetrofitHelper {
         if (null == retrofitInstance) {
             synchronized (Retrofit.class) {
                 if (type == MODEL) {
-                    baseUrl = HttpApi.BASE_BROADCASTER_URL;
+                    if (StreamingXRtcManager.getInstance().isEnableDebug) {
+                        baseUrl = HttpApi.BASE_BROADCASTER_TEST_URL;
+                    } else {
+                        baseUrl = HttpApi.BASE_BROADCASTER_URL;
+                    }
                 } else {
-                    baseUrl = HttpApi.BASE_URL;
+                    if (StreamingXRtcManager.getInstance().isEnableDebug) {
+                        baseUrl = HttpApi.BASE_TEST_URL;
+                    } else {
+                        baseUrl = HttpApi.BASE_URL;
+                    }
                 }
                 if (null == retrofitInstance) { // 双重检验锁,仅第一次调用时实例化
                     Retrofit.Builder builder = new Retrofit.Builder()

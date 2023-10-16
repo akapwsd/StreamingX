@@ -59,6 +59,7 @@ public class StreamingXRtcManager {
     private FrameLayout localFrameLayout;
     private static StreamingXRtcManager streamingXRtcManager;
     public boolean isInit = false;
+    public boolean isEnableDebug = false;
 
     /**
      * Get the singleton method of RtcManager object
@@ -120,6 +121,10 @@ public class StreamingXRtcManager {
      */
     public void enableLog() {
         LogUtil.setLogLevel(LogUtil.Level.Level_HIGH.ordinal());
+    }
+
+    public void enableDebugModel() {
+        isEnableDebug = true;
     }
 
     /**
