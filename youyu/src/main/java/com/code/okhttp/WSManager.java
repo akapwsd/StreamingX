@@ -45,7 +45,7 @@ public class WSManager {
     private final static String BASE_URL = "wss://api.streamingxapp.com/v1/ws";
     private final static String BASE_TEST_URL = "wss://api.hitradegate.com/v1/ws";
     private final static String MODEL_BASE_URL = "wss://broadcaster.streamingxapp.com/v1/ws";
-    private final static String MODEL_BASE_TEST_URL = "wss://broadcaster.hitradegatep.com/v1/ws";
+    private final static String MODEL_BASE_TEST_URL = "wss://broadcaster.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
     private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private WebSocket mWebSocket;
