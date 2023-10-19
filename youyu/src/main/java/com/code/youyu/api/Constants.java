@@ -17,4 +17,7 @@ public class Constants {
 
     public static final int ACTIVE_TRIGGER = 1;
     public static final int PASSIVE_TRIGGER = 2;
+
+    public static final int TIME_PATTERN = 0;
+    public static final int FRACTION_MODE = 1;
 }

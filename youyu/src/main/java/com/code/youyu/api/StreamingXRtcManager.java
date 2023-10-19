@@ -281,6 +281,22 @@ public class StreamingXRtcManager {
         WSManager.getInstance().joinChannel(channelId, token, Integer.parseInt(localUid), io.agora.rtc2.Constants.CLIENT_ROLE_BROADCASTER, category);
     }
 
+    public void getActiveModelList(int page, RequestModelListListener listener) {
+        if (isInit) {
+            HttpRequestUtils.getInstance().getActiveModelList(mContext, Constants.FRACTION_MODE, page, 20, "", "", listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
+    }
+
+    public void getActiveModelList(int sort, int page, int limit, String languageIso, String country, RequestModelListListener listener) {
+        if (isInit) {
+            HttpRequestUtils.getInstance().getActiveModelList(mContext, sort, page, limit, languageIso, country, listener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
+    }
+
     /**
      * Get the host resource list 20 pieces of data per page by default
      *
@@ -291,7 +307,7 @@ public class StreamingXRtcManager {
      */
     public void getModelList(int page, RequestModelListListener listener) {
         if (isInit) {
-            HttpRequestUtils.getInstance().getModelList(mContext, 0, page, 20, "", listener);
+            HttpRequestUtils.getInstance().getModelList(mContext, Constants.FRACTION_MODE, page, 20, "", "", listener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
@@ -307,9 +323,9 @@ public class StreamingXRtcManager {
      *                 {@link RequestModelListListener} HttpRequestListener listener object
      * @see RequestModelListListener
      */
-    public void getModelList(int sort, int page, int limit, String languageIso, RequestModelListListener listener) {
+    public void getModelList(int sort, int page, int limit, String languageIso, String country, RequestModelListListener listener) {
         if (isInit) {
-            HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, languageIso, listener);
+            HttpRequestUtils.getInstance().getModelList(mContext, sort, page, limit, languageIso, country, listener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }

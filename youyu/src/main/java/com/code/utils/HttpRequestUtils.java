@@ -47,7 +47,6 @@ public class HttpRequestUtils {
     }
 
     /**
-     *
      * @param context
      * @param country
      * @param language
@@ -57,7 +56,7 @@ public class HttpRequestUtils {
      * @param matchType
      * @param httpRequestListener
      */
-    public void match(Context context, String country, String language, int peerGender, String name, String photoUrl,int gender, int matchType, HttpRequestListener httpRequestListener) {
+    public void match(Context context, String country, String language, int peerGender, String name, String photoUrl, int gender, int matchType, HttpRequestListener httpRequestListener) {
         try {
             if (StreamingXRtcManager.getInstance().isInit) {
                 String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
@@ -237,7 +236,7 @@ public class HttpRequestUtils {
         }
     }
 
-    public void getModelList(Context context, int sort, int page, int limit, String languageIso, RequestModelListListener requestModelListListener) {
+    public void getActiveModelList(Context context, int sort, int page, int limit, String languageIso, String country, RequestModelListListener requestModelListListener) {
         try {
             if (StreamingXRtcManager.getInstance().isInit) {
                 if (limit < 10) {
@@ -254,7 +253,45 @@ public class HttpRequestUtils {
                 String data = X_Uyj_Timestamp + Content_Type;
                 String sign = DataUtils.sha256_HMAC(access_key_secret, data);
                 String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
-                RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit, languageIso).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+                RetrofitHelper.createApi(HttpApi.class, context).getActiveModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit, languageIso, country).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+
+                    @Override
+                    public void Success(Object modelBeans) {
+                        ModelListBean data = (ModelListBean) modelBeans;
+                        requestModelListListener.onResult(data);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        requestModelListListener.onFailure(code, error);
+                    }
+                });
+            } else {
+                requestModelListListener.onFailure(-1, "init fail");
+            }
+        } catch (Exception e) {
+            LogUtil.e(TAG, "e:" + e);
+        }
+    }
+
+    public void getModelList(Context context, int sort, int page, int limit, String languageIso, String country, RequestModelListListener requestModelListListener) {
+        try {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                if (limit < 10) {
+                    limit = 10;
+                } else if (limit > 50) {
+                    limit = 50;
+                }
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).getModelList(authorization, X_Uyj_Timestamp, Content_Type, session_token, sort, page, limit, languageIso, country).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
 
                     @Override
                     public void Success(Object modelBeans) {

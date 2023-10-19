@@ -26,6 +26,7 @@ public interface HttpApi {
     String GET_CHANNEL_TOKEN = "channel/channel/{channelId}/token";
     String JOIN_CHANNEL = "channel/channel/{channelId}/users";
     String GET_MODEL_LIST = "broadcaster/broadcaster";
+    String GET_ACTIVE_MODEL_LIST = "broadcaster/broadcaster/active";
     String GET_MODEL_COVER = "broadcaster/broadcaster/{uid}/avatar";
     String GET_ACCOUNT_INFO = "broadcaster/broadcaster/{uid}/uid";
     String GET_MODEL_STATE = "broadcaster/broadcaster/{uid}/state";
@@ -41,7 +42,10 @@ public interface HttpApi {
     Observable<ChannelResultBean> joinChannel(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId, @Body JoinChannelBean joinChannelInfo);
 
     @GET(GET_MODEL_LIST)
-    Observable<ModelListBean> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("sort") int sort, @Query("page") int page, @Query("limit") int limit, @Query("languageIso") String languageIso);
+    Observable<ModelListBean> getModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("sort") int sort, @Query("page") int page, @Query("limit") int limit, @Query("languageIso") String languageIso, @Query("country") String country);
+
+    @GET(GET_ACTIVE_MODEL_LIST)
+    Observable<ModelListBean> getActiveModelList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Query("sort") int sort, @Query("page") int page, @Query("limit") int limit, @Query("languageIso") String languageIso, @Query("country") String country);
 
     @GET(GET_MODEL_COVER)
     Observable<ModelCoverListBean> getModelAvatar(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("uid") int modelId);
@@ -66,6 +70,7 @@ public interface HttpApi {
     /*==============================model=======================================*/
     String BASE_BROADCASTER_URL = "https://broadcaster.streamingxapp.com/v1/";
     String BASE_BROADCASTER_TEST_URL = "https://broadcaster.hitradegate.com/v1/";
+
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Path("channelId") String channelId);
 }

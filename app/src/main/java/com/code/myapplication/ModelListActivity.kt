@@ -8,6 +8,7 @@ import com.code.bean.ModelBean
 import com.code.bean.ModelListBean
 import com.code.listener.RequestModelListListener
 import com.code.utils.HttpRequestUtils
+import com.code.youyu.api.Constants
 import kotlinx.android.synthetic.main.activity_model_list.*
 
 class ModelListActivity : Activity() {
@@ -30,18 +31,25 @@ class ModelListActivity : Activity() {
             }
         })
 
-        HttpRequestUtils.getInstance().getModelList(this, 0, 0, 50,"", object : RequestModelListListener {
-            override fun onResult(data: ModelListBean) {
-                runOnUiThread {
-                    list = data.list
-                    adapter?.addList(list)
-                    adapter?.notifyDataSetChanged()
+        HttpRequestUtils.getInstance().getModelList(
+            this,
+            Constants.FRACTION_MODE,
+            0,
+            50,
+            "",
+            "",
+            object : RequestModelListListener {
+                override fun onResult(data: ModelListBean) {
+                    runOnUiThread {
+                        list = data.list
+                        adapter?.addList(list)
+                        adapter?.notifyDataSetChanged()
+                    }
                 }
-            }
 
-            override fun onFailure(code: Int, reason: String?) {
+                override fun onFailure(code: Int, reason: String?) {
 
-            }
-        })
+                }
+            })
     }
 }
