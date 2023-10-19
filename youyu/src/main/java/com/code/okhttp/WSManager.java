@@ -296,6 +296,10 @@ public class WSManager {
                         ChannelImform.channelSkipped channelSkipped = ChannelImform.channelSkipped.parseFrom(resultData);
                         iRtcEngineEventCallBackHandler.receiveSkip(channelSkipped.getChannelId());
                         break;
+                    case Constants.DEVICE_UPDATED:
+                        ChannelImform.deviceUpdated deviceUpdated = ChannelImform.deviceUpdated.parseFrom(resultData);
+                        iRtcEngineEventCallBackHandler.deviceUpdated(deviceUpdated.getIp());
+                        break;
                 }
             } catch (InvalidProtocolBufferException e) {
                 throw new RuntimeException(e);

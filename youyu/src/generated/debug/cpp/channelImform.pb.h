@@ -46,6 +46,7 @@ class channelMatched;
 class channelSkipped;
 class channelStateChange;
 class channelUserStateChange;
+class deviceUpdated;
 class matchAttr;
 
 // ===================================================================
@@ -583,6 +584,97 @@ class matchAttr : public ::google::protobuf::Message /* @@protoc_insertion_point
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<matchAttr> matchAttr_default_instance_;
 
+// -------------------------------------------------------------------
+
+class deviceUpdated : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:uyujoy.com.api.channel.frontend.deviceUpdated) */ {
+ public:
+  deviceUpdated();
+  virtual ~deviceUpdated();
+
+  deviceUpdated(const deviceUpdated& from);
+
+  inline deviceUpdated& operator=(const deviceUpdated& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const deviceUpdated& default_instance();
+
+  static const deviceUpdated* internal_default_instance();
+
+  void Swap(deviceUpdated* other);
+
+  // implements Message ----------------------------------------------
+
+  inline deviceUpdated* New() const { return New(NULL); }
+
+  deviceUpdated* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const deviceUpdated& from);
+  void MergeFrom(const deviceUpdated& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(deviceUpdated* other);
+  void UnsafeMergeFrom(const deviceUpdated& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string ip = 1;
+  void clear_ip();
+  static const int kIpFieldNumber = 1;
+  const ::std::string& ip() const;
+  void set_ip(const ::std::string& value);
+  void set_ip(const char* value);
+  void set_ip(const char* value, size_t size);
+  ::std::string* mutable_ip();
+  ::std::string* release_ip();
+  void set_allocated_ip(::std::string* ip);
+
+  // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.deviceUpdated)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr ip_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_channelImform_2eproto_impl();
+  friend void  protobuf_AddDesc_channelImform_2eproto_impl();
+  friend void protobuf_AssignDesc_channelImform_2eproto();
+  friend void protobuf_ShutdownFile_channelImform_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<deviceUpdated> deviceUpdated_default_instance_;
+
 // ===================================================================
 
 
@@ -1098,7 +1190,60 @@ inline void matchAttr::set_gender(::google::protobuf::uint32 value) {
 inline const matchAttr* matchAttr::internal_default_instance() {
   return &matchAttr_default_instance_.get();
 }
+// -------------------------------------------------------------------
+
+// deviceUpdated
+
+// optional string ip = 1;
+inline void deviceUpdated::clear_ip() {
+  ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& deviceUpdated::ip() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+  return ip_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void deviceUpdated::set_ip(const ::std::string& value) {
+  
+  ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+inline void deviceUpdated::set_ip(const char* value) {
+  
+  ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+inline void deviceUpdated::set_ip(const char* value, size_t size) {
+  
+  ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+inline ::std::string* deviceUpdated::mutable_ip() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+  return ip_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* deviceUpdated::release_ip() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+  
+  return ip_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void deviceUpdated::set_allocated_ip(::std::string* ip) {
+  if (ip != NULL) {
+    
+  } else {
+    
+  }
+  ip_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+
+inline const deviceUpdated* deviceUpdated::internal_default_instance() {
+  return &deviceUpdated_default_instance_.get();
+}
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

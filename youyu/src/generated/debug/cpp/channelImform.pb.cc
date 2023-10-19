@@ -40,6 +40,9 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* matchAttr_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   matchAttr_reflection_ = NULL;
+const ::google::protobuf::Descriptor* deviceUpdated_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  deviceUpdated_reflection_ = NULL;
 
 }  // namespace
 
@@ -130,6 +133,20 @@ void protobuf_AssignDesc_channelImform_2eproto() {
       -1,
       sizeof(matchAttr),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(matchAttr, _internal_metadata_));
+  deviceUpdated_descriptor_ = file->message_type(5);
+  static const int deviceUpdated_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(deviceUpdated, ip_),
+  };
+  deviceUpdated_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      deviceUpdated_descriptor_,
+      deviceUpdated::internal_default_instance(),
+      deviceUpdated_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(deviceUpdated),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(deviceUpdated, _internal_metadata_));
 }
 
 namespace {
@@ -153,6 +170,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
       channelSkipped_descriptor_, channelSkipped::internal_default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       matchAttr_descriptor_, matchAttr::internal_default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      deviceUpdated_descriptor_, deviceUpdated::internal_default_instance());
 }
 
 }  // namespace
@@ -168,6 +187,8 @@ void protobuf_ShutdownFile_channelImform_2eproto() {
   delete channelSkipped_reflection_;
   matchAttr_default_instance_.Shutdown();
   delete matchAttr_reflection_;
+  deviceUpdated_default_instance_.Shutdown();
+  delete deviceUpdated_reflection_;
 }
 
 void protobuf_InitDefaults_channelImform_2eproto_impl() {
@@ -182,11 +203,14 @@ void protobuf_InitDefaults_channelImform_2eproto_impl() {
   channelSkipped_default_instance_.DefaultConstruct();
   ::google::protobuf::internal::GetEmptyString();
   matchAttr_default_instance_.DefaultConstruct();
+  ::google::protobuf::internal::GetEmptyString();
+  deviceUpdated_default_instance_.DefaultConstruct();
   channelStateChange_default_instance_.get_mutable()->InitAsDefaultInstance();
   channelUserStateChange_default_instance_.get_mutable()->InitAsDefaultInstance();
   channelMatched_default_instance_.get_mutable()->InitAsDefaultInstance();
   channelSkipped_default_instance_.get_mutable()->InitAsDefaultInstance();
   matchAttr_default_instance_.get_mutable()->InitAsDefaultInstance();
+  deviceUpdated_default_instance_.get_mutable()->InitAsDefaultInstance();
 }
 
 GOOGLE_PROTOBUF_DECLARE_ONCE(protobuf_InitDefaults_channelImform_2eproto_once_);
@@ -213,8 +237,9 @@ void protobuf_AddDesc_channelImform_2eproto_impl() {
     "nnel.frontend.matchAttr\022\n\n\002ts\030\006 \001(\003\"#\n\016c"
     "hannelSkipped\022\021\n\tchannelId\030\001 \001(\t\";\n\tmatc"
     "hAttr\022\014\n\004name\030\001 \001(\t\022\020\n\010photoUrl\030\002 \001(\t\022\016\n"
-    "\006gender\030\003 \001(\rB*Z(uyujoy.com/pass/protoge"
-    "n/channel;channelb\006proto3", 625);
+    "\006gender\030\003 \001(\r\"\033\n\rdeviceUpdated\022\n\n\002ip\030\001 \001"
+    "(\tB*Z(uyujoy.com/pass/protogen/channel;c"
+    "hannelb\006proto3", 654);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "channelImform.proto", &protobuf_RegisterTypes);
   ::uyujoy::com::api::channel::frontend::protobuf_AddDesc_channelBase_2eproto();
@@ -2333,6 +2358,295 @@ void matchAttr::set_gender(::google::protobuf::uint32 value) {
 
 inline const matchAttr* matchAttr::internal_default_instance() {
   return &matchAttr_default_instance_.get();
+}
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#if !defined(_MSC_VER) || _MSC_VER >= 1900
+const int deviceUpdated::kIpFieldNumber;
+#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+
+deviceUpdated::deviceUpdated()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  if (this != internal_default_instance()) protobuf_InitDefaults_channelImform_2eproto();
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:uyujoy.com.api.channel.frontend.deviceUpdated)
+}
+
+void deviceUpdated::InitAsDefaultInstance() {
+}
+
+deviceUpdated::deviceUpdated(const deviceUpdated& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  UnsafeMergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:uyujoy.com.api.channel.frontend.deviceUpdated)
+}
+
+void deviceUpdated::SharedCtor() {
+  ip_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  _cached_size_ = 0;
+}
+
+deviceUpdated::~deviceUpdated() {
+  // @@protoc_insertion_point(destructor:uyujoy.com.api.channel.frontend.deviceUpdated)
+  SharedDtor();
+}
+
+void deviceUpdated::SharedDtor() {
+  ip_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+void deviceUpdated::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* deviceUpdated::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return deviceUpdated_descriptor_;
+}
+
+const deviceUpdated& deviceUpdated::default_instance() {
+  protobuf_InitDefaults_channelImform_2eproto();
+  return *internal_default_instance();
+}
+
+::google::protobuf::internal::ExplicitlyConstructed<deviceUpdated> deviceUpdated_default_instance_;
+
+deviceUpdated* deviceUpdated::New(::google::protobuf::Arena* arena) const {
+  deviceUpdated* n = new deviceUpdated;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void deviceUpdated::Clear() {
+// @@protoc_insertion_point(message_clear_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+bool deviceUpdated::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional string ip = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_ip()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->ip().data(), this->ip().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "uyujoy.com.api.channel.frontend.deviceUpdated.ip"));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:uyujoy.com.api.channel.frontend.deviceUpdated)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:uyujoy.com.api.channel.frontend.deviceUpdated)
+  return false;
+#undef DO_
+}
+
+void deviceUpdated::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  // optional string ip = 1;
+  if (this->ip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ip().data(), this->ip().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "uyujoy.com.api.channel.frontend.deviceUpdated.ip");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      1, this->ip(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:uyujoy.com.api.channel.frontend.deviceUpdated)
+}
+
+::google::protobuf::uint8* deviceUpdated::InternalSerializeWithCachedSizesToArray(
+    bool deterministic, ::google::protobuf::uint8* target) const {
+  (void)deterministic; // Unused
+  // @@protoc_insertion_point(serialize_to_array_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  // optional string ip = 1;
+  if (this->ip().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->ip().data(), this->ip().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "uyujoy.com.api.channel.frontend.deviceUpdated.ip");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        1, this->ip(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:uyujoy.com.api.channel.frontend.deviceUpdated)
+  return target;
+}
+
+size_t deviceUpdated::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  size_t total_size = 0;
+
+  // optional string ip = 1;
+  if (this->ip().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::StringSize(
+        this->ip());
+  }
+
+  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = cached_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void deviceUpdated::MergeFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const deviceUpdated* source =
+      ::google::protobuf::internal::DynamicCastToGenerated<const deviceUpdated>(
+          &from);
+  if (source == NULL) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:uyujoy.com.api.channel.frontend.deviceUpdated)
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:uyujoy.com.api.channel.frontend.deviceUpdated)
+    UnsafeMergeFrom(*source);
+  }
+}
+
+void deviceUpdated::MergeFrom(const deviceUpdated& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  if (GOOGLE_PREDICT_TRUE(&from != this)) {
+    UnsafeMergeFrom(from);
+  } else {
+    MergeFromFail(__LINE__);
+  }
+}
+
+void deviceUpdated::UnsafeMergeFrom(const deviceUpdated& from) {
+  GOOGLE_DCHECK(&from != this);
+  if (from.ip().size() > 0) {
+
+    ip_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.ip_);
+  }
+}
+
+void deviceUpdated::CopyFrom(const ::google::protobuf::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void deviceUpdated::CopyFrom(const deviceUpdated& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:uyujoy.com.api.channel.frontend.deviceUpdated)
+  if (&from == this) return;
+  Clear();
+  UnsafeMergeFrom(from);
+}
+
+bool deviceUpdated::IsInitialized() const {
+
+  return true;
+}
+
+void deviceUpdated::Swap(deviceUpdated* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void deviceUpdated::InternalSwap(deviceUpdated* other) {
+  ip_.Swap(&other->ip_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata deviceUpdated::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = deviceUpdated_descriptor_;
+  metadata.reflection = deviceUpdated_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// deviceUpdated
+
+// optional string ip = 1;
+void deviceUpdated::clear_ip() {
+  ip_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+const ::std::string& deviceUpdated::ip() const {
+  // @@protoc_insertion_point(field_get:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+  return ip_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void deviceUpdated::set_ip(const ::std::string& value) {
+  
+  ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+void deviceUpdated::set_ip(const char* value) {
+  
+  ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+void deviceUpdated::set_ip(const char* value, size_t size) {
+  
+  ip_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+::std::string* deviceUpdated::mutable_ip() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+  return ip_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* deviceUpdated::release_ip() {
+  // @@protoc_insertion_point(field_release:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+  
+  return ip_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void deviceUpdated::set_allocated_ip(::std::string* ip) {
+  if (ip != NULL) {
+    
+  } else {
+    
+  }
+  ip_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ip);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.com.api.channel.frontend.deviceUpdated.ip)
+}
+
+inline const deviceUpdated* deviceUpdated::internal_default_instance() {
+  return &deviceUpdated_default_instance_.get();
 }
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
 

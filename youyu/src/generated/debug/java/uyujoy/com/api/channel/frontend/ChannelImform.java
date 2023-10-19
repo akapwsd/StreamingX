@@ -4015,6 +4015,509 @@ public final class ChannelImform {
 
   }
 
+  public interface deviceUpdatedOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:uyujoy.com.api.channel.frontend.deviceUpdated)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    java.lang.String getIp();
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getIpBytes();
+  }
+  /**
+   * Protobuf type {@code uyujoy.com.api.channel.frontend.deviceUpdated}
+   */
+  public  static final class deviceUpdated extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:uyujoy.com.api.channel.frontend.deviceUpdated)
+      deviceUpdatedOrBuilder {
+    // Use deviceUpdated.newBuilder() to construct.
+    private deviceUpdated(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private deviceUpdated() {
+      ip_ = "";
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private deviceUpdated(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              ip_ = s;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.class, uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.Builder.class);
+    }
+
+    public static final int IP_FIELD_NUMBER = 1;
+    private volatile java.lang.Object ip_;
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    public java.lang.String getIp() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        ip_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string ip = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIpBytes() {
+      java.lang.Object ref = ip_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        ip_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getIpBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, ip_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getIpBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, ip_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated)) {
+        return super.equals(obj);
+      }
+      uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated other = (uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated) obj;
+
+      boolean result = true;
+      result = result && getIp()
+          .equals(other.getIp());
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + IP_FIELD_NUMBER;
+      hash = (53 * hash) + getIp().hashCode();
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code uyujoy.com.api.channel.frontend.deviceUpdated}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:uyujoy.com.api.channel.frontend.deviceUpdated)
+        uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdatedOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.class, uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.Builder.class);
+      }
+
+      // Construct using uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        ip_ = "";
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_descriptor;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated getDefaultInstanceForType() {
+        return uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.getDefaultInstance();
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated build() {
+        uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated buildPartial() {
+        uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated result = new uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated(this);
+        result.ip_ = ip_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated) {
+          return mergeFrom((uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated other) {
+        if (other == uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated.getDefaultInstance()) return this;
+        if (!other.getIp().isEmpty()) {
+          ip_ = other.ip_;
+          onChanged();
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object ip_ = "";
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public java.lang.String getIp() {
+        java.lang.Object ref = ip_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          ip_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIpBytes() {
+        java.lang.Object ref = ip_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          ip_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public Builder setIp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        ip_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public Builder clearIp() {
+        
+        ip_ = getDefaultInstance().getIp();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string ip = 1;</code>
+       */
+      public Builder setIpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        ip_ = value;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:uyujoy.com.api.channel.frontend.deviceUpdated)
+    }
+
+    // @@protoc_insertion_point(class_scope:uyujoy.com.api.channel.frontend.deviceUpdated)
+    private static final uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated();
+    }
+
+    public static uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<deviceUpdated>
+        PARSER = new com.google.protobuf.AbstractParser<deviceUpdated>() {
+      public deviceUpdated parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new deviceUpdated(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<deviceUpdated> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<deviceUpdated> getParserForType() {
+      return PARSER;
+    }
+
+    public uyujoy.com.api.channel.frontend.ChannelImform.deviceUpdated getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_uyujoy_com_api_channel_frontend_channelStateChange_descriptor;
   private static final 
@@ -4040,6 +4543,11 @@ public final class ChannelImform {
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
       internal_static_uyujoy_com_api_channel_frontend_matchAttr_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -4063,8 +4571,9 @@ public final class ChannelImform {
       "nnel.frontend.matchAttr\022\n\n\002ts\030\006 \001(\003\"#\n\016c" +
       "hannelSkipped\022\021\n\tchannelId\030\001 \001(\t\";\n\tmatc" +
       "hAttr\022\014\n\004name\030\001 \001(\t\022\020\n\010photoUrl\030\002 \001(\t\022\016\n" +
-      "\006gender\030\003 \001(\rB*Z(uyujoy.com/pass/protoge" +
-      "n/channel;channelb\006proto3"
+      "\006gender\030\003 \001(\r\"\033\n\rdeviceUpdated\022\n\n\002ip\030\001 \001" +
+      "(\tB*Z(uyujoy.com/pass/protogen/channel;c" +
+      "hannelb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4109,6 +4618,12 @@ public final class ChannelImform {
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_uyujoy_com_api_channel_frontend_matchAttr_descriptor,
         new java.lang.String[] { "Name", "PhotoUrl", "Gender", });
+    internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_descriptor =
+      getDescriptor().getMessageTypes().get(5);
+    internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_uyujoy_com_api_channel_frontend_deviceUpdated_descriptor,
+        new java.lang.String[] { "Ip", });
     uyujoy.com.api.channel.frontend.ChannelBase.getDescriptor();
   }
 

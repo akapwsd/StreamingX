@@ -123,4 +123,7 @@ public abstract class IRtcEngineEventCallBackHandler {
     public void receiveSkip(String channelId){
 
     }
+    public void deviceUpdated(String ip){
+
+    }
 }

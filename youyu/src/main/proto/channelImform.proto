@@ -43,3 +43,7 @@ message matchAttr{
   uint32 gender = 3;
 }
 
+message deviceUpdated{
+  string ip  = 1;
+}
+
