@@ -6,6 +6,7 @@ public class Constants {
     public static final String CLOSE_ROOM = "b108048f";
     public static final String MSG_RECORD_ACK = "b5ecf821";
     public static final String DEVICE_UPDATED = "907b7206";
+    public static final String CONNECT_ERROR = "9c1c9375";
     public static final String CHANNEL_MSG_RECORD = "148f5df6";
     public static final String GET_DIFF_MSG_RECORD_ACK = "905c3244";
     public static final String CHANNEL_MATCH = "807c0cc4";

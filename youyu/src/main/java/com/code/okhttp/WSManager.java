@@ -300,6 +300,9 @@ public class WSManager {
                         ChannelImform.deviceUpdated deviceUpdated = ChannelImform.deviceUpdated.parseFrom(resultData);
                         iRtcEngineEventCallBackHandler.deviceUpdated(deviceUpdated.getIp());
                         break;
+                    case Constants.CONNECT_ERROR:
+                        iRtcEngineEventCallBackHandler.connectError();
+                        break;
                 }
             } catch (InvalidProtocolBufferException e) {
                 throw new RuntimeException(e);

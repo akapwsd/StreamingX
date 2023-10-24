@@ -1,6 +1,7 @@
 package com.code.listener;
 
 import com.code.bean.MsgBean;
+
 import io.agora.rtc2.IRtcEngineEventHandler;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 
@@ -108,7 +109,7 @@ public abstract class IRtcEngineEventCallBackHandler {
 
     }
 
-    public void onConnectionStateChanged(int state, int reason){
+    public void onConnectionStateChanged(int state, int reason) {
 
     }
 
@@ -116,14 +117,19 @@ public abstract class IRtcEngineEventCallBackHandler {
 
     }
 
-    public void receiveMatch(ChannelImform.channelMatched channelMatched){
+    public void receiveMatch(ChannelImform.channelMatched channelMatched) {
 
     }
 
-    public void receiveSkip(String channelId){
+    public void receiveSkip(String channelId) {
 
     }
-    public void deviceUpdated(String ip){
+
+    public void deviceUpdated(String ip) {
+
+    }
+
+    public void connectError() {
 
     }
 }
