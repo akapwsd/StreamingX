@@ -20,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.rxjava3.annotations.Nullable;
@@ -141,6 +142,10 @@ public class WSManager {
         LogUtil.e(TAG, "closeConnect is start isCallIng:" + isCallIng);
         isConnect = false;
         reconnectNum = 0;
+        token = "";
+        session_token = "";
+        access_key_secret = "";
+        access_key_id = "";
         if (heartHandler != null) {
             heartHandler.removeCallbacksAndMessages(null);
             heartHandler = null;
@@ -218,7 +223,7 @@ public class WSManager {
                 LogUtil.e(TAG, "websocket onFailure:" + response.message());
             }
             LogUtil.e(TAG, "websocket fail reason：" + t.getMessage());
-            if (!TextUtils.isEmpty(t.getMessage()) && !t.getMessage().equals("Socket closed")) {
+            if (!TextUtils.isEmpty(t.getMessage()) && !Objects.equals(t.getMessage(), "Socket closed") && !Objects.equals(t.getMessage(), "Canceled")) {
                 reconnect();
             } else {
                 closeConnect();
