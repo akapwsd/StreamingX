@@ -146,6 +146,8 @@ public class WSManager {
         session_token = "";
         access_key_secret = "";
         access_key_id = "";
+        request = null;
+        mWebSocket = null;
         if (heartHandler != null) {
             heartHandler.removeCallbacksAndMessages(null);
             heartHandler = null;
