@@ -89,6 +89,7 @@ public class WSManager {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             sWeakRefListeners = new HashMap<>();
+            heartHandler = new Handler();
             this.access_key_id = access_key_id;
             this.access_key_secret = access_key_secret;
             this.session_token = session_token;
@@ -112,6 +113,7 @@ public class WSManager {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             sWeakRefListeners = new HashMap<>();
+            heartHandler = new Handler();
             this.token = token;
             if (StreamingXRtcManager.getInstance().isEnableDebug) {
                 mWbSocketUrl = MODEL_BASE_TEST_URL;
@@ -328,9 +330,6 @@ public class WSManager {
                 LogUtil.d(TAG, "websocket is connect success");
                 isReceivePong = true;
                 if (heartHandler != null && heartBeatRunnable != null) {
-                    heartHandler.post(heartBeatRunnable);
-                } else {
-                    heartHandler = new Handler();
                     heartHandler.post(heartBeatRunnable);
                 }
             }
