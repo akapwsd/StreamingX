@@ -223,7 +223,7 @@ public class WSManager {
                 LogUtil.e(TAG, "websocket onFailure:" + response.message());
             }
             LogUtil.e(TAG, "websocket fail reason：" + t.getMessage());
-            if (!TextUtils.isEmpty(t.getMessage()) && !Objects.equals(t.getMessage(), "Socket closed") && !Objects.equals(t.getMessage(), "Canceled")) {
+            if (!TextUtils.isEmpty(t.getMessage()) && !Objects.equals(t.getMessage(), "Socket closed") && !Objects.equals(t.getMessage(), "Canceled") && !Objects.requireNonNull(t.getMessage()).equals("Socket is closed")) {
                 reconnect();
             } else {
                 closeConnect();
