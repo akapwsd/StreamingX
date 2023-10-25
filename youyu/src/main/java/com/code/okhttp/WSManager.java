@@ -65,7 +65,7 @@ public class WSManager {
     private String session_token;
     private String token;
     private int reconnectNum = 0;
-    private Handler heartHandler = new Handler();
+    private Handler heartHandler;
     private ChannelMsgListener channelMsgListener;
     private Request request;
 
@@ -328,6 +328,9 @@ public class WSManager {
                 LogUtil.d(TAG, "websocket is connect success");
                 isReceivePong = true;
                 if (heartHandler != null && heartBeatRunnable != null) {
+                    heartHandler.post(heartBeatRunnable);
+                } else {
+                    heartHandler = new Handler();
                     heartHandler.post(heartBeatRunnable);
                 }
             }
