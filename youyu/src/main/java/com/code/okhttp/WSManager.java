@@ -84,6 +84,7 @@ public class WSManager {
 
     public void renewToken(String newToken) {
         LogUtil.d(TAG, "renewToken1 is start");
+        heartHandler.removeCallbacksAndMessages(null);
         token = newToken;
         access_key_id = "";
         access_key_secret = "";
@@ -104,6 +105,7 @@ public class WSManager {
 
     public void renewToken(String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "renewToken2 is start");
+        heartHandler.removeCallbacksAndMessages(null);
         this.access_key_id = access_key_id;
         this.access_key_secret = access_key_secret;
         this.session_token = session_token;
@@ -182,6 +184,8 @@ public class WSManager {
         LogUtil.e(TAG, "disconnect is start code:" + code + " reason:" + reason);
         if (isConnect()) {
             sWeakRefListeners.clear();
+            heartHandler.removeCallbacksAndMessages(null);
+            heartHandler = null;
             mWebSocket.cancel();
             mWebSocket.close(code, reason);
         }
