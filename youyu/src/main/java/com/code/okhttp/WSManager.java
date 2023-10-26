@@ -82,7 +82,7 @@ public class WSManager {
         this.iRtcEngineEventCallBackHandler = callBackHandler;
     }
 
-    private void renewToken(String newToken) {
+    public void renewToken(String newToken) {
         LogUtil.d(TAG, "renewToken1 is start");
         token = newToken;
         access_key_id = "";
