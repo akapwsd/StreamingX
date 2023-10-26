@@ -181,7 +181,7 @@ public class WSManager {
     }
 
     public void disconnect(int code, String reason) {
-        LogUtil.e(TAG, "disconnect is start code:" + code + " reason:" + reason);
+        LogUtil.e(TAG, "disconnect is start code:" + code + " reason:" + reason + " isConnect:" + isConnect());
         if (isConnect()) {
             sWeakRefListeners.clear();
             heartHandler.removeCallbacksAndMessages(null);
@@ -260,12 +260,11 @@ public class WSManager {
             LogUtil.e(TAG, "onClosed code:" + code + " reason:" + reason);
             super.onClosed(webSocket, code, reason);
             mWebSocket = null;
-            closeConnect();
         }
 
         @Override
         public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
-            LogUtil.d(TAG, "onClosing code:" + code + " reason:" + reason);
+            LogUtil.e(TAG, "onClosing code:" + code + " reason:" + reason);
             super.onClosing(webSocket, code, reason);
             mWebSocket = null;
             closeConnect();
@@ -281,7 +280,7 @@ public class WSManager {
             if (!TextUtils.isEmpty(t.getMessage()) && !Objects.equals(t.getMessage(), "Socket closed") && !Objects.equals(t.getMessage(), "Canceled") && !Objects.requireNonNull(t.getMessage()).equals("Socket is closed")) {
                 reconnect();
             } else {
-                closeConnect();
+                disconnect(1004, "socket connect fail");
             }
         }
 
