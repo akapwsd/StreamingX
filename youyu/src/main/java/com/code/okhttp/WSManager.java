@@ -284,8 +284,10 @@ public class WSManager {
                     reconnect();
                 } else if (message.contains("Socket closed") || message.contains("Canceled") || message.contains("Socket is closed") || message.contains("Code 2293 is reserved and may not be used")) {
                     LogUtil.e(TAG, "connect is closed");
-                    heartHandler.removeCallbacksAndMessages(null);
-                    heartHandler = null;
+                    if (heartHandler != null && heartBeatRunnable != null) {
+                        heartHandler.removeCallbacksAndMessages(null);
+                        heartHandler = null;
+                    }
                 } else {
                     disconnect(1004, "socket connect fail");
                 }
