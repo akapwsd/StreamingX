@@ -82,6 +82,54 @@ public class WSManager {
         this.iRtcEngineEventCallBackHandler = callBackHandler;
     }
 
+    private void renewToken(String newToken) {
+        LogUtil.d(TAG, "renewToken1 is start");
+        token = newToken;
+        access_key_id = "";
+        access_key_secret = "";
+        session_token = "";
+        RtcSpUtils.getInstance().setToken(token);
+        RtcSpUtils.getInstance().setAccessKeyId("");
+        RtcSpUtils.getInstance().setAccessKeySecret("");
+        RtcSpUtils.getInstance().setSessionToken("");
+        if (request != null) {
+            request = null;
+            request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
+            mWebSocket.cancel();
+            mWebSocket.close(1003, "renew token");
+            mWebSocket = null;
+            mWebSocket = mClient.newWebSocket(request, new WsListener());
+        }
+        LogUtil.d(TAG, "renewToken1 is end");
+    }
+
+    public void renewToken(String access_key_id, String access_key_secret, String session_token) {
+        LogUtil.d(TAG, "renewToken2 is start");
+        this.access_key_id = access_key_id;
+        this.access_key_secret = access_key_secret;
+        this.session_token = session_token;
+        token = "";
+        RtcSpUtils.getInstance().setAccessKeyId(access_key_id);
+        RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
+        RtcSpUtils.getInstance().setSessionToken(session_token);
+        RtcSpUtils.getInstance().setToken("");
+        long currentTimeMillis = System.currentTimeMillis();
+        String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+        String Content_Type = "application/json";
+        String data = X_Uyj_Timestamp + Content_Type;
+        String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+        LogUtil.d(TAG, "sign:" + sign);
+        if (request != null) {
+            request = null;
+            request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
+            mWebSocket.cancel();
+            mWebSocket.close(1003, "renew token");
+            mWebSocket = null;
+            mWebSocket = mClient.newWebSocket(request, new WsListener());
+        }
+        LogUtil.d(TAG, "renewToken2 is end");
+    }
+
     /**
      * init WebSocket
      */
