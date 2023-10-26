@@ -233,6 +233,7 @@ public class WSManager {
     }
 
     private void connect() {
+        LogUtil.d(TAG, "connect is start token:" + token + " access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
         if (!TextUtils.isEmpty(token)) {
             LogUtil.d(TAG, "connect is start token:" + token);
             if (request == null) {
