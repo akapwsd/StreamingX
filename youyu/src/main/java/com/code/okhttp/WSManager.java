@@ -95,7 +95,6 @@ public class WSManager {
         if (request != null) {
             request = null;
             request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
-            mWebSocket.cancel();
             mWebSocket.close(1003, "renew token");
             mWebSocket = null;
             mWebSocket = mClient.newWebSocket(request, new WsListener());
