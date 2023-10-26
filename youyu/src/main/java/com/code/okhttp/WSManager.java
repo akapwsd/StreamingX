@@ -238,7 +238,8 @@ public class WSManager {
             if (request == null) {
                 request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", token).build();
             }
-        } else {
+            mWebSocket = mClient.newWebSocket(request, new WsListener());
+        } else if (!TextUtils.isEmpty(access_key_id) && !TextUtils.isEmpty(access_key_secret) && !TextUtils.isEmpty(session_token)) {
             LogUtil.d(TAG, "connect is start access_key_id:" + access_key_id + " access_key_secret:" + access_key_secret + " session_token:" + session_token);
             long currentTimeMillis = System.currentTimeMillis();
             String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
@@ -249,8 +250,10 @@ public class WSManager {
             if (request == null) {
                 request = new Request.Builder().url(mWbSocketUrl).addHeader("Authorization", "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign).addHeader("Session-Token", session_token).addHeader("X-Uyj-Timestamp", X_Uyj_Timestamp).addHeader("Content-Type", Content_Type).build();
             }
+            mWebSocket = mClient.newWebSocket(request, new WsListener());
+        } else {
+            LogUtil.e(TAG, "the connect is died");
         }
-        mWebSocket = mClient.newWebSocket(request, new WsListener());
         LogUtil.d(TAG, "connect is end");
     }
 
@@ -266,7 +269,6 @@ public class WSManager {
         public void onClosing(@NotNull WebSocket webSocket, int code, @NotNull String reason) {
             LogUtil.e(TAG, "onClosing code:" + code + " reason:" + reason);
             super.onClosing(webSocket, code, reason);
-            mWebSocket = null;
             closeConnect();
         }
 
@@ -280,16 +282,15 @@ public class WSManager {
                 String message = t.getMessage();
                 LogUtil.e(TAG, "websocket fail reason：" + message);
                 assert message != null;
-                if (!message.contains("Socket closed") && !message.contains("Canceled") && !message.contains("Socket is closed") && !message.contains("Code 2293 is reserved and may not be used")) {
-                    reconnect();
-                } else if (message.contains("Socket closed") || message.contains("Canceled") || message.contains("Socket is closed") || message.contains("Code 2293 is reserved and may not be used")) {
+                if (message.contains("Socket closed") || message.contains("Canceled") || message.contains("Socket is closed") || message.contains("Code 2293 is reserved and may not be used")) {
                     LogUtil.e(TAG, "connect is closed");
                     if (heartHandler != null && heartBeatRunnable != null) {
                         heartHandler.removeCallbacksAndMessages(null);
                         heartHandler = null;
                     }
-                } else {
                     disconnect(1004, "socket connect fail");
+                } else if (!message.contains("Socket closed") && !message.contains("Canceled") && !message.contains("Socket is closed") && !message.contains("Code 2293 is reserved and may not be used")) {
+                    reconnect();
                 }
             }
         }
