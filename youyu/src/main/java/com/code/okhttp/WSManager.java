@@ -198,8 +198,8 @@ public class WSManager {
                 mWebSocket.cancel();
                 mWebSocket.close(code, reason);
             }
-            closeConnect();
         }
+        closeConnect();
     }
 
     private void closeConnect() {
