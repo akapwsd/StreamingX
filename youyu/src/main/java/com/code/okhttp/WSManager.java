@@ -299,7 +299,7 @@ public class WSManager {
                         heartHandler.removeCallbacksAndMessages(null);
                         heartHandler = null;
                     }
-                    disconnect(1004, "socket connect fail");
+                    disconnect(1002, "disconnect");
                 } else if (!message.contains("Socket closed") && !message.contains("Canceled") && !message.contains("Socket is closed") && !message.contains("Code 2293 is reserved and may not be used")) {
                     reconnect();
                 }
