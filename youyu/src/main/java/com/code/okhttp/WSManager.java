@@ -20,8 +20,10 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import io.reactivex.rxjava3.annotations.Nullable;
 import okhttp3.OkHttpClient;
@@ -68,6 +70,137 @@ public class WSManager {
     private Handler heartHandler;
     private ChannelMsgListener channelMsgListener;
     private Request request;
+    private final Map<String, Function<byte[], Boolean>> actionMappings = new HashMap<>();
+
+    private void initDataProcess() {
+        Function<byte[], Boolean> pongFunction = bytes -> pongHandle();
+        Function<byte[], Boolean> banUserRoomFunction = this::banUserRoomHandle;
+        Function<byte[], Boolean> closeRoomFunction = this::closeRoomHandle;
+        Function<byte[], Boolean> msgRecordFunction = this::msgRecordHandle;
+        Function<byte[], Boolean> channelMsgRecordFunction = this::channelMsgRecordHandle;
+        Function<byte[], Boolean> channelMatchFunction = this::channelMatchHandle;
+        Function<byte[], Boolean> channelSkipFunction = this::channelSkipHandle;
+        Function<byte[], Boolean> deviceUpdatedFunction = this::deviceUpdatedHandle;
+        Function<byte[], Boolean> connectErrorFunction = bytes -> connectErrorHandle();
+
+        actionMappings.put(Constants.PONG, pongFunction);
+        actionMappings.put(Constants.BAN_USER_ROOM, banUserRoomFunction);
+        actionMappings.put(Constants.CLOSE_ROOM, closeRoomFunction);
+        actionMappings.put(Constants.MSG_RECORD_ACK, msgRecordFunction);
+        actionMappings.put(Constants.CHANNEL_MSG_RECORD, channelMsgRecordFunction);
+        actionMappings.put(Constants.CHANNEL_MATCH, channelMatchFunction);
+        actionMappings.put(Constants.CHANNEL_SKIP, channelSkipFunction);
+        actionMappings.put(Constants.DEVICE_UPDATED, deviceUpdatedFunction);
+        actionMappings.put(Constants.CONNECT_ERROR, connectErrorFunction);
+    }
+
+    private boolean pongHandle() {
+        isReceivePong = true;
+        return true;
+    }
+
+    private boolean banUserRoomHandle(byte[] data) {
+        try {
+            ChannelImform.channelUserStateChange channelUserStateChange = ChannelImform.channelUserStateChange.parseFrom(data);
+            String uid = channelUserStateChange.getChu().getUid();
+            if (uid.equals(mUid)) {
+                StreamingXRtcManager.getInstance().closeVideoChat();
+            }
+            iRtcEngineEventCallBackHandler.banRoom(uid, channelUserStateChange.getReason());
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "userRoomHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean closeRoomHandle(byte[] data) {
+
+        try {
+            ChannelImform.channelStateChange channelStateChange = ChannelImform.channelStateChange.parseFrom(data);
+            ChannelBase.channel ch = channelStateChange.getCh();
+            String serverChannel = ch.getId();
+            String channelId = RtcSpUtils.getInstance().getChannelId();
+            StreamingXRtcManager.getInstance().closeVideoChat();
+            if (!TextUtils.isEmpty(channelId) && channelId.equals(serverChannel)) {
+                iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
+            }
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "closeRoomHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean msgRecordHandle(byte[] data) {
+        try {
+            ChannelIm.channelMsgRecordAck channelMsgRecordAck = ChannelIm.channelMsgRecordAck.parseFrom(data);
+            if (channelMsgListener != null) {
+                channelMsgListener.sendSuccess(channelMsgRecordAck.getFp());
+            }
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "msgRecordHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean channelMsgRecordHandle(byte[] data) {
+        try {
+            ChannelIm.rcvChannelMsgRecord rcvChannelMsgRecord = ChannelIm.rcvChannelMsgRecord.parseFrom(data);
+            LogUtil.d(TAG, "CHANNEL_MSG_RECORD rcvChannelMsgRecord:" + rcvChannelMsgRecord);
+            MsgBean currentReceiveMsg = new MsgBean();
+            currentReceiveMsg.setMsg(rcvChannelMsgRecord.getMsg().getMsg());
+            currentReceiveMsg.setSendTime(rcvChannelMsgRecord.getMsg().getSendTime());
+            currentReceiveMsg.setFp(rcvChannelMsgRecord.getMsg().getMsgFp());
+            currentReceiveMsg.setChannelId(rcvChannelMsgRecord.getMsg().getChannelId());
+            currentReceiveMsg.setFrom(rcvChannelMsgRecord.getMsg().getFrom());
+            iRtcEngineEventCallBackHandler.receiveMsg(currentReceiveMsg);
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "channelMsgRecordHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean channelMatchHandle(byte[] data) {
+        try {
+            ChannelImform.channelMatched channelMatched = ChannelImform.channelMatched.parseFrom(data);
+            iRtcEngineEventCallBackHandler.receiveMatch(channelMatched);
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "channelMatchHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean channelSkipHandle(byte[] data) {
+        try {
+            ChannelImform.channelSkipped channelSkipped = ChannelImform.channelSkipped.parseFrom(data);
+            iRtcEngineEventCallBackHandler.receiveSkip(channelSkipped.getChannelId());
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "channelSkipHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean deviceUpdatedHandle(byte[] data) {
+        try {
+            ChannelImform.deviceUpdated deviceUpdated = ChannelImform.deviceUpdated.parseFrom(data);
+            iRtcEngineEventCallBackHandler.deviceUpdated(deviceUpdated.getIp());
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "channelSkipHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean connectErrorHandle() {
+        iRtcEngineEventCallBackHandler.connectError();
+        return true;
+    }
+
 
     private static final class SInstanceHolder {
         static final WSManager sInstance = new WSManager();
@@ -141,6 +274,7 @@ public class WSManager {
     public void init(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
+            initDataProcess();
             sWeakRefListeners = new HashMap<>();
             heartHandler = new Handler();
             this.access_key_id = access_key_id;
@@ -165,6 +299,7 @@ public class WSManager {
     public void init(Context context, String token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
+            initDataProcess();
             sWeakRefListeners = new HashMap<>();
             heartHandler = new Handler();
             this.token = token;
@@ -328,67 +463,7 @@ public class WSManager {
             String OxCrcId = Integer.toHexString(crc32);
             byte[] resultData = messageFrame.getData().toByteArray();
             LogUtil.i(TAG, "onMessage receive OxCrcId:" + OxCrcId);
-            try {
-                switch (OxCrcId) {
-                    case Constants.PONG:
-                        isReceivePong = true;
-                        break;
-                    case Constants.BAN_USER_ROOM:
-                        ChannelImform.channelUserStateChange channelUserStateChange = ChannelImform.channelUserStateChange.parseFrom(resultData);
-                        String uid = channelUserStateChange.getChu().getUid();
-                        if (uid.equals(mUid)) {
-                            StreamingXRtcManager.getInstance().closeVideoChat();
-                        }
-                        iRtcEngineEventCallBackHandler.banRoom(uid, channelUserStateChange.getReason());
-                        break;
-                    case Constants.CLOSE_ROOM:
-                        ChannelImform.channelStateChange channelStateChange = ChannelImform.channelStateChange.parseFrom(resultData);
-                        ChannelBase.channel ch = channelStateChange.getCh();
-                        String serverChannel = ch.getId();
-                        String channelId = RtcSpUtils.getInstance().getChannelId();
-                        StreamingXRtcManager.getInstance().closeVideoChat();
-                        if (!TextUtils.isEmpty(channelId) && channelId.equals(serverChannel)) {
-                            iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
-                        }
-                        break;
-                    case Constants.MSG_RECORD_ACK:
-                        ChannelIm.channelMsgRecordAck channelMsgRecordAck = ChannelIm.channelMsgRecordAck.parseFrom(resultData);
-                        if (channelMsgListener != null) {
-                            channelMsgListener.sendSuccess(channelMsgRecordAck.getFp());
-                        }
-                        break;
-                    case Constants.CHANNEL_MSG_RECORD:
-                        ChannelIm.rcvChannelMsgRecord rcvChannelMsgRecord = ChannelIm.rcvChannelMsgRecord.parseFrom(resultData);
-                        LogUtil.d(TAG, "CHANNEL_MSG_RECORD rcvChannelMsgRecord:" + rcvChannelMsgRecord);
-                        MsgBean currentReceiveMsg = new MsgBean();
-                        currentReceiveMsg.setMsg(rcvChannelMsgRecord.getMsg().getMsg());
-                        currentReceiveMsg.setSendTime(rcvChannelMsgRecord.getMsg().getSendTime());
-                        currentReceiveMsg.setFp(rcvChannelMsgRecord.getMsg().getMsgFp());
-                        currentReceiveMsg.setChannelId(rcvChannelMsgRecord.getMsg().getChannelId());
-                        currentReceiveMsg.setFrom(rcvChannelMsgRecord.getMsg().getFrom());
-                        iRtcEngineEventCallBackHandler.receiveMsg(currentReceiveMsg);
-                        break;
-//                    case Constants.GET_DIFF_MSG_RECORD_ACK:
-//                        break;
-                    case Constants.CHANNEL_MATCH:
-                        ChannelImform.channelMatched channelMatched = ChannelImform.channelMatched.parseFrom(resultData);
-                        iRtcEngineEventCallBackHandler.receiveMatch(channelMatched);
-                        break;
-                    case Constants.CHANNEL_SKIP:
-                        ChannelImform.channelSkipped channelSkipped = ChannelImform.channelSkipped.parseFrom(resultData);
-                        iRtcEngineEventCallBackHandler.receiveSkip(channelSkipped.getChannelId());
-                        break;
-                    case Constants.DEVICE_UPDATED:
-                        ChannelImform.deviceUpdated deviceUpdated = ChannelImform.deviceUpdated.parseFrom(resultData);
-                        iRtcEngineEventCallBackHandler.deviceUpdated(deviceUpdated.getIp());
-                        break;
-                    case Constants.CONNECT_ERROR:
-                        iRtcEngineEventCallBackHandler.connectError();
-                        break;
-                }
-            } catch (InvalidProtocolBufferException e) {
-                throw new RuntimeException(e);
-            }
+            Objects.requireNonNull(actionMappings.get(OxCrcId)).apply(resultData);
         }
 
         @Override
