@@ -249,14 +249,42 @@ public class StreamingXRtcManager {
         }
     }
 
+
     /**
-     * call video
+     * match video
      *
-     * @param channel The RTC number of the video
+     * @param context             the context
+     * @param country             the local country code
+     * @param language            the local language
+     * @param peerGender          need match peer gender
+     * @param name                local user name
+     * @param photoUrl            local user avatar
+     * @param gender              local user gender
+     * @param matchType           matchType
+     * @param httpRequestListener callback interface
+     *                            {@link HttpRequestListener} HttpRequestListener listener object
+     * @see HttpRequestListener
      */
-    public void callVideo(String channel, String token, String localUid) {
+    public void match(Context context, String country, String language, int peerGender, String name, String photoUrl, int gender, int matchType, HttpRequestListener httpRequestListener) {
         if (isInit) {
-            joinChannel(channel, token, localUid, Constants.VIDEO);
+            HttpRequestUtils.getInstance().match(context, country, language, peerGender, name, photoUrl, gender, matchType, httpRequestListener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
+    }
+
+    /**
+     * skip match result
+     *
+     * @param context             the context
+     * @param channelId           the room channel id
+     * @param httpRequestListener callback interface
+     *                            {@link HttpRequestListener} HttpRequestListener listener object
+     * @see HttpRequestListener
+     */
+    public void skipMatch(Context context, String channelId, HttpRequestListener httpRequestListener) {
+        if (isInit) {
+            HttpRequestUtils.getInstance().skip(context, channelId, httpRequestListener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
@@ -265,15 +293,40 @@ public class StreamingXRtcManager {
     /**
      * call audio
      *
-     * @param channel The RTC number of the audio
+     * @param context             the context
+     * @param token               The room token
+     * @param channel             your channel uid
+     * @param peerUid             peer uid
+     * @param httpRequestListener callback interface
+     *                            {@link HttpRequestListener} HttpRequestListener listener object
+     * @see HttpRequestListener
      */
-    public void callAudio(String channel, String token, String localUid) {
+    public void callAudio(Context context, String token, String channel, String peerUid, HttpRequestListener httpRequestListener) {
         if (isInit) {
-            joinChannel(channel, token, localUid, Constants.AUDIO);
+            HttpRequestUtils.getInstance().joinChannel(context, token, channel, peerUid, Constants.AUDIO, httpRequestListener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
 
+    }
+
+    /**
+     * call video
+     *
+     * @param context             the context
+     * @param channel             The RTC number of the video
+     * @param token               The room token
+     * @param peerUid             peer uid
+     * @param httpRequestListener callback interface
+     *                            {@link HttpRequestListener} HttpRequestListener listener object
+     * @see HttpRequestListener
+     */
+    public void callVideo(Context context, String token, String channel, String peerUid, HttpRequestListener httpRequestListener) {
+        if (isInit) {
+            HttpRequestUtils.getInstance().joinChannel(context, token, channel, peerUid, Constants.VIDEO, httpRequestListener);
+        } else {
+            LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
+        }
     }
 
     private void joinChannel(String channelId, String token, String localUid, int category) {
