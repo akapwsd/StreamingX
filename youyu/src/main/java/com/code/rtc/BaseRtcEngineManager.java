@@ -122,7 +122,7 @@ public class BaseRtcEngineManager {
             if ((state == 1 && reason == 10) || (state == 5 && reason == 10)) {
                 StreamingXRtcManager.getInstance().closeVideoChat();
             }
-            iRtcEngineEventCallBackHandler.onConnectionStateChanged(state, state);
+            iRtcEngineEventCallBackHandler.onConnectionStateChanged(state, reason);
         }
     };
 }
