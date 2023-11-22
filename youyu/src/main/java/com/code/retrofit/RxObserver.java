@@ -1,10 +1,12 @@
 package com.code.retrofit;
 
+import java.io.IOException;
 import java.io.InterruptedIOException;
 
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
+import retrofit2.HttpException;
 
 public abstract class RxObserver implements Observer {
     public abstract void Success(Object t);
@@ -25,11 +27,20 @@ public abstract class RxObserver implements Observer {
 
     @Override
     public void onError(@NonNull Throwable e) {
-        e.printStackTrace();
         if (e instanceof InterruptedIOException) {
-            error(400, "http connect fail");
+            error(-1, "http connect fail InterruptedIOException");
+        } else if (e instanceof HttpException) {
+            HttpException httpException = (HttpException) e;
+            try {
+                int code = httpException.code();
+                byte[] s = httpException.response().errorBody().bytes();
+                String errorData = new String(s);
+                error(code, errorData);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         } else {
-            error(400, e.getMessage());
+            error(-2, "UNKNOWN ERROR");
         }
     }
 
