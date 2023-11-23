@@ -129,7 +129,7 @@ public abstract class IRtcEngineEventCallBackHandler {
 
     }
 
-    public void connectError() {
+    public void connectError(int code,String reason) {
 
     }
 }

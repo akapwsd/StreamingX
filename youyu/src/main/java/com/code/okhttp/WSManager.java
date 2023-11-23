@@ -13,6 +13,7 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.StreamingXRtcManager;
+import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.NotNull;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -33,6 +35,7 @@ import okhttp3.WebSocket;
 import okhttp3.WebSocketListener;
 import okio.ByteString;
 import uyujoy.api.channelim.frontend.ChannelIm;
+import uyujoy.api.http.ErrorOuterClass;
 import uyujoy.com.api.channel.frontend.ChannelBase;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
@@ -81,7 +84,7 @@ public class WSManager {
         Function<byte[], Boolean> channelMatchFunction = this::channelMatchHandle;
         Function<byte[], Boolean> channelSkipFunction = this::channelSkipHandle;
         Function<byte[], Boolean> deviceUpdatedFunction = this::deviceUpdatedHandle;
-        Function<byte[], Boolean> connectErrorFunction = bytes -> connectErrorHandle();
+        Function<byte[], Boolean> connectErrorFunction = this::connectErrorHandle;
 
         actionMappings.put(Constants.PONG, pongFunction);
         actionMappings.put(Constants.BAN_USER_ROOM, banUserRoomFunction);
@@ -226,14 +229,22 @@ public class WSManager {
         }
     }
 
-    private boolean connectErrorHandle() {
-        for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
-            IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
-            if (iRtcEngineEventCallBackHandler != null) {
-                iRtcEngineEventCallBackHandler.connectError();
+    private boolean connectErrorHandle(byte[] data) {
+        try {
+            ErrorOuterClass.Error error = ErrorOuterClass.Error.parseFrom(data);
+            int code = error.getCode();
+            String s = error.toString();
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.connectError(code, s);
+                }
             }
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "connectErrorHandle throw error:" + e);
+            return false;
         }
-        return true;
     }
 
 
