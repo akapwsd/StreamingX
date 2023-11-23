@@ -26,14 +26,11 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
-#include <google/protobuf/any.pb.h>
-#include "google/api/rpc/code.pb.h"
 // @@protoc_insertion_point(includes)
 
-namespace uyujoy {
-namespace api {
-namespace http {
+namespace proto {
 
 // Internal implementation detail -- do not call these.
 void protobuf_AddDesc_error_2eproto();
@@ -41,11 +38,48 @@ void protobuf_InitDefaults_error_2eproto();
 void protobuf_AssignDesc_error_2eproto();
 void protobuf_ShutdownFile_error_2eproto();
 
+class Any;
 class Error;
 
+enum Code {
+  OK = 0,
+  CANCELLED = 1,
+  UNKNOWN = 2,
+  INVALID_ARGUMENT = 3,
+  DEADLINE_EXCEEDED = 4,
+  NOT_FOUND = 5,
+  ALREADY_EXISTS = 6,
+  PERMISSION_DENIED = 7,
+  UNAUTHENTICATED = 16,
+  RESOURCE_EXHAUSTED = 8,
+  FAILED_PRECONDITION = 9,
+  ABORTED = 10,
+  OUT_OF_RANGE = 11,
+  UNIMPLEMENTED = 12,
+  INTERNAL = 13,
+  UNAVAILABLE = 14,
+  DATA_LOSS = 15,
+  Code_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Code_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool Code_IsValid(int value);
+const Code Code_MIN = OK;
+const Code Code_MAX = UNAUTHENTICATED;
+const int Code_ARRAYSIZE = Code_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* Code_descriptor();
+inline const ::std::string& Code_Name(Code value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    Code_descriptor(), value);
+}
+inline bool Code_Parse(
+    const ::std::string& name, Code* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Code>(
+    Code_descriptor(), name, value);
+}
 // ===================================================================
 
-class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:uyujoy.api.http.Error) */ {
+class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.Error) */ {
  public:
   Error();
   virtual ~Error();
@@ -125,29 +159,29 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   ::std::string* release_message();
   void set_allocated_message(::std::string* message);
 
-  // optional .google.rpc.Code status = 4;
+  // optional .proto.Code status = 4;
   void clear_status();
   static const int kStatusFieldNumber = 4;
-  ::google::rpc::Code status() const;
-  void set_status(::google::rpc::Code value);
+  ::proto::Code status() const;
+  void set_status(::proto::Code value);
 
-  // repeated .google.protobuf.Any details = 5;
+  // repeated .proto.Any details = 5;
   int details_size() const;
   void clear_details();
   static const int kDetailsFieldNumber = 5;
-  const ::google::protobuf::Any& details(int index) const;
-  ::google::protobuf::Any* mutable_details(int index);
-  ::google::protobuf::Any* add_details();
-  ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >*
+  const ::proto::Any& details(int index) const;
+  ::proto::Any* mutable_details(int index);
+  ::proto::Any* add_details();
+  ::google::protobuf::RepeatedPtrField< ::proto::Any >*
       mutable_details();
-  const ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >&
+  const ::google::protobuf::RepeatedPtrField< ::proto::Any >&
       details() const;
 
-  // @@protoc_insertion_point(class_scope:uyujoy.api.http.Error)
+  // @@protoc_insertion_point(class_scope:proto.Error)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any > details_;
+  ::google::protobuf::RepeatedPtrField< ::proto::Any > details_;
   ::google::protobuf::internal::ArenaStringPtr message_;
   ::google::protobuf::int32 code_;
   int status_;
@@ -160,6 +194,109 @@ class Error : public ::google::protobuf::Message /* @@protoc_insertion_point(cla
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<Error> Error_default_instance_;
+
+// -------------------------------------------------------------------
+
+class Any : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.Any) */ {
+ public:
+  Any();
+  virtual ~Any();
+
+  Any(const Any& from);
+
+  inline Any& operator=(const Any& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const Any& default_instance();
+
+  static const Any* internal_default_instance();
+
+  void Swap(Any* other);
+
+  // implements Message ----------------------------------------------
+
+  inline Any* New() const { return New(NULL); }
+
+  Any* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const Any& from);
+  void MergeFrom(const Any& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(Any* other);
+  void UnsafeMergeFrom(const Any& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional string type_url = 1;
+  void clear_type_url();
+  static const int kTypeUrlFieldNumber = 1;
+  const ::std::string& type_url() const;
+  void set_type_url(const ::std::string& value);
+  void set_type_url(const char* value);
+  void set_type_url(const char* value, size_t size);
+  ::std::string* mutable_type_url();
+  ::std::string* release_type_url();
+  void set_allocated_type_url(::std::string* type_url);
+
+  // optional bytes value = 2;
+  void clear_value();
+  static const int kValueFieldNumber = 2;
+  const ::std::string& value() const;
+  void set_value(const ::std::string& value);
+  void set_value(const char* value);
+  void set_value(const void* value, size_t size);
+  ::std::string* mutable_value();
+  ::std::string* release_value();
+  void set_allocated_value(::std::string* value);
+
+  // @@protoc_insertion_point(class_scope:proto.Any)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr type_url_;
+  ::google::protobuf::internal::ArenaStringPtr value_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_error_2eproto_impl();
+  friend void  protobuf_AddDesc_error_2eproto_impl();
+  friend void protobuf_AssignDesc_error_2eproto();
+  friend void protobuf_ShutdownFile_error_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<Any> Any_default_instance_;
 
 // ===================================================================
 
@@ -174,13 +311,13 @@ inline void Error::clear_code() {
   code_ = 0;
 }
 inline ::google::protobuf::int32 Error::code() const {
-  // @@protoc_insertion_point(field_get:uyujoy.api.http.Error.code)
+  // @@protoc_insertion_point(field_get:proto.Error.code)
   return code_;
 }
 inline void Error::set_code(::google::protobuf::int32 value) {
   
   code_ = value;
-  // @@protoc_insertion_point(field_set:uyujoy.api.http.Error.code)
+  // @@protoc_insertion_point(field_set:proto.Error.code)
 }
 
 // optional string message = 2;
@@ -188,32 +325,32 @@ inline void Error::clear_message() {
   message_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline const ::std::string& Error::message() const {
-  // @@protoc_insertion_point(field_get:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_get:proto.Error.message)
   return message_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline void Error::set_message(const ::std::string& value) {
   
   message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_set:proto.Error.message)
 }
 inline void Error::set_message(const char* value) {
   
   message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_set_char:proto.Error.message)
 }
 inline void Error::set_message(const char* value, size_t size) {
   
   message_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
       ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_set_pointer:proto.Error.message)
 }
 inline ::std::string* Error::mutable_message() {
   
-  // @@protoc_insertion_point(field_mutable:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_mutable:proto.Error.message)
   return message_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 inline ::std::string* Error::release_message() {
-  // @@protoc_insertion_point(field_release:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_release:proto.Error.message)
   
   return message_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -224,63 +361,172 @@ inline void Error::set_allocated_message(::std::string* message) {
     
   }
   message_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), message);
-  // @@protoc_insertion_point(field_set_allocated:uyujoy.api.http.Error.message)
+  // @@protoc_insertion_point(field_set_allocated:proto.Error.message)
 }
 
-// optional .google.rpc.Code status = 4;
+// optional .proto.Code status = 4;
 inline void Error::clear_status() {
   status_ = 0;
 }
-inline ::google::rpc::Code Error::status() const {
-  // @@protoc_insertion_point(field_get:uyujoy.api.http.Error.status)
-  return static_cast< ::google::rpc::Code >(status_);
+inline ::proto::Code Error::status() const {
+  // @@protoc_insertion_point(field_get:proto.Error.status)
+  return static_cast< ::proto::Code >(status_);
 }
-inline void Error::set_status(::google::rpc::Code value) {
+inline void Error::set_status(::proto::Code value) {
   
   status_ = value;
-  // @@protoc_insertion_point(field_set:uyujoy.api.http.Error.status)
+  // @@protoc_insertion_point(field_set:proto.Error.status)
 }
 
-// repeated .google.protobuf.Any details = 5;
+// repeated .proto.Any details = 5;
 inline int Error::details_size() const {
   return details_.size();
 }
 inline void Error::clear_details() {
   details_.Clear();
 }
-inline const ::google::protobuf::Any& Error::details(int index) const {
-  // @@protoc_insertion_point(field_get:uyujoy.api.http.Error.details)
+inline const ::proto::Any& Error::details(int index) const {
+  // @@protoc_insertion_point(field_get:proto.Error.details)
   return details_.Get(index);
 }
-inline ::google::protobuf::Any* Error::mutable_details(int index) {
-  // @@protoc_insertion_point(field_mutable:uyujoy.api.http.Error.details)
+inline ::proto::Any* Error::mutable_details(int index) {
+  // @@protoc_insertion_point(field_mutable:proto.Error.details)
   return details_.Mutable(index);
 }
-inline ::google::protobuf::Any* Error::add_details() {
-  // @@protoc_insertion_point(field_add:uyujoy.api.http.Error.details)
+inline ::proto::Any* Error::add_details() {
+  // @@protoc_insertion_point(field_add:proto.Error.details)
   return details_.Add();
 }
-inline ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >*
+inline ::google::protobuf::RepeatedPtrField< ::proto::Any >*
 Error::mutable_details() {
-  // @@protoc_insertion_point(field_mutable_list:uyujoy.api.http.Error.details)
+  // @@protoc_insertion_point(field_mutable_list:proto.Error.details)
   return &details_;
 }
-inline const ::google::protobuf::RepeatedPtrField< ::google::protobuf::Any >&
+inline const ::google::protobuf::RepeatedPtrField< ::proto::Any >&
 Error::details() const {
-  // @@protoc_insertion_point(field_list:uyujoy.api.http.Error.details)
+  // @@protoc_insertion_point(field_list:proto.Error.details)
   return details_;
 }
 
 inline const Error* Error::internal_default_instance() {
   return &Error_default_instance_.get();
 }
+// -------------------------------------------------------------------
+
+// Any
+
+// optional string type_url = 1;
+inline void Any::clear_type_url() {
+  type_url_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Any::type_url() const {
+  // @@protoc_insertion_point(field_get:proto.Any.type_url)
+  return type_url_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Any::set_type_url(const ::std::string& value) {
+  
+  type_url_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:proto.Any.type_url)
+}
+inline void Any::set_type_url(const char* value) {
+  
+  type_url_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:proto.Any.type_url)
+}
+inline void Any::set_type_url(const char* value, size_t size) {
+  
+  type_url_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:proto.Any.type_url)
+}
+inline ::std::string* Any::mutable_type_url() {
+  
+  // @@protoc_insertion_point(field_mutable:proto.Any.type_url)
+  return type_url_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Any::release_type_url() {
+  // @@protoc_insertion_point(field_release:proto.Any.type_url)
+  
+  return type_url_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Any::set_allocated_type_url(::std::string* type_url) {
+  if (type_url != NULL) {
+    
+  } else {
+    
+  }
+  type_url_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), type_url);
+  // @@protoc_insertion_point(field_set_allocated:proto.Any.type_url)
+}
+
+// optional bytes value = 2;
+inline void Any::clear_value() {
+  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& Any::value() const {
+  // @@protoc_insertion_point(field_get:proto.Any.value)
+  return value_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Any::set_value(const ::std::string& value) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:proto.Any.value)
+}
+inline void Any::set_value(const char* value) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:proto.Any.value)
+}
+inline void Any::set_value(const void* value, size_t size) {
+  
+  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:proto.Any.value)
+}
+inline ::std::string* Any::mutable_value() {
+  
+  // @@protoc_insertion_point(field_mutable:proto.Any.value)
+  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* Any::release_value() {
+  // @@protoc_insertion_point(field_release:proto.Any.value)
+  
+  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void Any::set_allocated_value(::std::string* value) {
+  if (value != NULL) {
+    
+  } else {
+    
+  }
+  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set_allocated:proto.Any.value)
+}
+
+inline const Any* Any::internal_default_instance() {
+  return &Any_default_instance_.get();
+}
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace http
-}  // namespace api
-}  // namespace uyujoy
+}  // namespace proto
+
+#ifndef SWIG
+namespace google {
+namespace protobuf {
+
+template <> struct is_proto_enum< ::proto::Code> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::proto::Code>() {
+  return ::proto::Code_descriptor();
+}
+
+}  // namespace protobuf
+}  // namespace google
+#endif  // SWIG
 
 // @@protoc_insertion_point(global_scope)
 
