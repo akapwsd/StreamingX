@@ -48,5 +48,13 @@ enum Code {
 
 message Any {
   string type_url = 1;
-  bytes value = 2;
+  ErrorInfo value = 2;
+}
+
+message ErrorInfo {
+  string reason = 1;
+
+  string domain = 2;
+
+  map<string, string> metadata = 3;
 }

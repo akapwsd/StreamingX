@@ -26,6 +26,8 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>
 #include <google/protobuf/extension_set.h>
+#include <google/protobuf/map.h>
+#include <google/protobuf/map_field_inl.h>
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
@@ -40,6 +42,7 @@ void protobuf_ShutdownFile_error_2eproto();
 
 class Any;
 class Error;
+class ErrorInfo;
 
 enum Code {
   OK = 0,
@@ -271,23 +274,21 @@ class Any : public ::google::protobuf::Message /* @@protoc_insertion_point(class
   ::std::string* release_type_url();
   void set_allocated_type_url(::std::string* type_url);
 
-  // optional bytes value = 2;
+  // optional .proto.ErrorInfo value = 2;
+  bool has_value() const;
   void clear_value();
   static const int kValueFieldNumber = 2;
-  const ::std::string& value() const;
-  void set_value(const ::std::string& value);
-  void set_value(const char* value);
-  void set_value(const void* value, size_t size);
-  ::std::string* mutable_value();
-  ::std::string* release_value();
-  void set_allocated_value(::std::string* value);
+  const ::proto::ErrorInfo& value() const;
+  ::proto::ErrorInfo* mutable_value();
+  ::proto::ErrorInfo* release_value();
+  void set_allocated_value(::proto::ErrorInfo* value);
 
   // @@protoc_insertion_point(class_scope:proto.Any)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr type_url_;
-  ::google::protobuf::internal::ArenaStringPtr value_;
+  ::proto::ErrorInfo* value_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_error_2eproto_impl();
   friend void  protobuf_AddDesc_error_2eproto_impl();
@@ -297,6 +298,130 @@ class Any : public ::google::protobuf::Message /* @@protoc_insertion_point(class
   void InitAsDefaultInstance();
 };
 extern ::google::protobuf::internal::ExplicitlyConstructed<Any> Any_default_instance_;
+
+// -------------------------------------------------------------------
+
+class ErrorInfo : public ::google::protobuf::Message /* @@protoc_insertion_point(class_definition:proto.ErrorInfo) */ {
+ public:
+  ErrorInfo();
+  virtual ~ErrorInfo();
+
+  ErrorInfo(const ErrorInfo& from);
+
+  inline ErrorInfo& operator=(const ErrorInfo& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const ErrorInfo& default_instance();
+
+  static const ErrorInfo* internal_default_instance();
+
+  void Swap(ErrorInfo* other);
+
+  // implements Message ----------------------------------------------
+
+  inline ErrorInfo* New() const { return New(NULL); }
+
+  ErrorInfo* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const ErrorInfo& from);
+  void MergeFrom(const ErrorInfo& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  size_t ByteSizeLong() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* InternalSerializeWithCachedSizesToArray(
+      bool deterministic, ::google::protobuf::uint8* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const {
+    return InternalSerializeWithCachedSizesToArray(false, output);
+  }
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(ErrorInfo* other);
+  void UnsafeMergeFrom(const ErrorInfo& from);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+
+  // accessors -------------------------------------------------------
+
+  // optional string reason = 1;
+  void clear_reason();
+  static const int kReasonFieldNumber = 1;
+  const ::std::string& reason() const;
+  void set_reason(const ::std::string& value);
+  void set_reason(const char* value);
+  void set_reason(const char* value, size_t size);
+  ::std::string* mutable_reason();
+  ::std::string* release_reason();
+  void set_allocated_reason(::std::string* reason);
+
+  // optional string domain = 2;
+  void clear_domain();
+  static const int kDomainFieldNumber = 2;
+  const ::std::string& domain() const;
+  void set_domain(const ::std::string& value);
+  void set_domain(const char* value);
+  void set_domain(const char* value, size_t size);
+  ::std::string* mutable_domain();
+  ::std::string* release_domain();
+  void set_allocated_domain(::std::string* domain);
+
+  // map<string, string> metadata = 3;
+  int metadata_size() const;
+  void clear_metadata();
+  static const int kMetadataFieldNumber = 3;
+  const ::google::protobuf::Map< ::std::string, ::std::string >&
+      metadata() const;
+  ::google::protobuf::Map< ::std::string, ::std::string >*
+      mutable_metadata();
+
+  // @@protoc_insertion_point(class_scope:proto.ErrorInfo)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  typedef ::google::protobuf::internal::MapEntryLite<
+      ::std::string, ::std::string,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      0 >
+      ErrorInfo_MetadataEntry;
+  ::google::protobuf::internal::MapField<
+      ::std::string, ::std::string,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      ::google::protobuf::internal::WireFormatLite::TYPE_STRING,
+      0 > metadata_;
+  ::google::protobuf::internal::ArenaStringPtr reason_;
+  ::google::protobuf::internal::ArenaStringPtr domain_;
+  mutable int _cached_size_;
+  friend void  protobuf_InitDefaults_error_2eproto_impl();
+  friend void  protobuf_AddDesc_error_2eproto_impl();
+  friend void protobuf_AssignDesc_error_2eproto();
+  friend void protobuf_ShutdownFile_error_2eproto();
+
+  void InitAsDefaultInstance();
+};
+extern ::google::protobuf::internal::ExplicitlyConstructed<ErrorInfo> ErrorInfo_default_instance_;
 
 // ===================================================================
 
@@ -459,54 +584,164 @@ inline void Any::set_allocated_type_url(::std::string* type_url) {
   // @@protoc_insertion_point(field_set_allocated:proto.Any.type_url)
 }
 
-// optional bytes value = 2;
+// optional .proto.ErrorInfo value = 2;
+inline bool Any::has_value() const {
+  return this != internal_default_instance() && value_ != NULL;
+}
 inline void Any::clear_value() {
-  value_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && value_ != NULL) delete value_;
+  value_ = NULL;
 }
-inline const ::std::string& Any::value() const {
+inline const ::proto::ErrorInfo& Any::value() const {
   // @@protoc_insertion_point(field_get:proto.Any.value)
-  return value_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return value_ != NULL ? *value_
+                         : *::proto::ErrorInfo::internal_default_instance();
 }
-inline void Any::set_value(const ::std::string& value) {
+inline ::proto::ErrorInfo* Any::mutable_value() {
   
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:proto.Any.value)
-}
-inline void Any::set_value(const char* value) {
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:proto.Any.value)
-}
-inline void Any::set_value(const void* value, size_t size) {
-  
-  value_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:proto.Any.value)
-}
-inline ::std::string* Any::mutable_value() {
-  
+  if (value_ == NULL) {
+    value_ = new ::proto::ErrorInfo;
+  }
   // @@protoc_insertion_point(field_mutable:proto.Any.value)
-  return value_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return value_;
 }
-inline ::std::string* Any::release_value() {
+inline ::proto::ErrorInfo* Any::release_value() {
   // @@protoc_insertion_point(field_release:proto.Any.value)
   
-  return value_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::proto::ErrorInfo* temp = value_;
+  value_ = NULL;
+  return temp;
 }
-inline void Any::set_allocated_value(::std::string* value) {
-  if (value != NULL) {
+inline void Any::set_allocated_value(::proto::ErrorInfo* value) {
+  delete value_;
+  value_ = value;
+  if (value) {
     
   } else {
     
   }
-  value_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set_allocated:proto.Any.value)
 }
 
 inline const Any* Any::internal_default_instance() {
   return &Any_default_instance_.get();
 }
+// -------------------------------------------------------------------
+
+// ErrorInfo
+
+// optional string reason = 1;
+inline void ErrorInfo::clear_reason() {
+  reason_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ErrorInfo::reason() const {
+  // @@protoc_insertion_point(field_get:proto.ErrorInfo.reason)
+  return reason_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ErrorInfo::set_reason(const ::std::string& value) {
+  
+  reason_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:proto.ErrorInfo.reason)
+}
+inline void ErrorInfo::set_reason(const char* value) {
+  
+  reason_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:proto.ErrorInfo.reason)
+}
+inline void ErrorInfo::set_reason(const char* value, size_t size) {
+  
+  reason_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:proto.ErrorInfo.reason)
+}
+inline ::std::string* ErrorInfo::mutable_reason() {
+  
+  // @@protoc_insertion_point(field_mutable:proto.ErrorInfo.reason)
+  return reason_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ErrorInfo::release_reason() {
+  // @@protoc_insertion_point(field_release:proto.ErrorInfo.reason)
+  
+  return reason_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ErrorInfo::set_allocated_reason(::std::string* reason) {
+  if (reason != NULL) {
+    
+  } else {
+    
+  }
+  reason_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), reason);
+  // @@protoc_insertion_point(field_set_allocated:proto.ErrorInfo.reason)
+}
+
+// optional string domain = 2;
+inline void ErrorInfo::clear_domain() {
+  domain_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& ErrorInfo::domain() const {
+  // @@protoc_insertion_point(field_get:proto.ErrorInfo.domain)
+  return domain_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ErrorInfo::set_domain(const ::std::string& value) {
+  
+  domain_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:proto.ErrorInfo.domain)
+}
+inline void ErrorInfo::set_domain(const char* value) {
+  
+  domain_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:proto.ErrorInfo.domain)
+}
+inline void ErrorInfo::set_domain(const char* value, size_t size) {
+  
+  domain_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:proto.ErrorInfo.domain)
+}
+inline ::std::string* ErrorInfo::mutable_domain() {
+  
+  // @@protoc_insertion_point(field_mutable:proto.ErrorInfo.domain)
+  return domain_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* ErrorInfo::release_domain() {
+  // @@protoc_insertion_point(field_release:proto.ErrorInfo.domain)
+  
+  return domain_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void ErrorInfo::set_allocated_domain(::std::string* domain) {
+  if (domain != NULL) {
+    
+  } else {
+    
+  }
+  domain_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), domain);
+  // @@protoc_insertion_point(field_set_allocated:proto.ErrorInfo.domain)
+}
+
+// map<string, string> metadata = 3;
+inline int ErrorInfo::metadata_size() const {
+  return metadata_.size();
+}
+inline void ErrorInfo::clear_metadata() {
+  metadata_.Clear();
+}
+inline const ::google::protobuf::Map< ::std::string, ::std::string >&
+ErrorInfo::metadata() const {
+  // @@protoc_insertion_point(field_map:proto.ErrorInfo.metadata)
+  return metadata_.GetMap();
+}
+inline ::google::protobuf::Map< ::std::string, ::std::string >*
+ErrorInfo::mutable_metadata() {
+  // @@protoc_insertion_point(field_mutable_map:proto.ErrorInfo.metadata)
+  return metadata_.MutableMap();
+}
+
+inline const ErrorInfo* ErrorInfo::internal_default_instance() {
+  return &ErrorInfo_default_instance_.get();
+}
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

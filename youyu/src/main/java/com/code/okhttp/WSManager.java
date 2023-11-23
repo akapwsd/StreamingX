@@ -17,6 +17,8 @@ import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -233,17 +235,23 @@ public class WSManager {
         try {
             ErrorOuterClass.Error error = ErrorOuterClass.Error.parseFrom(data);
             int code = error.getCode();
-            String s = error.toString();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("code", code);
+            jsonObject.put("message", error.getMessage());
+            jsonObject.put("status", error.getStatus());
+            jsonObject.put("details", error.getDetailsList());
             for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
                 IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
                 if (iRtcEngineEventCallBackHandler != null) {
-                    iRtcEngineEventCallBackHandler.connectError(code, s);
+                    iRtcEngineEventCallBackHandler.connectError(code, jsonObject.toString());
                 }
             }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "connectErrorHandle throw error:" + e);
             return false;
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
         }
     }
 
