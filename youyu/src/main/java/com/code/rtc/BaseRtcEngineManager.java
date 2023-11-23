@@ -8,6 +8,9 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.StreamingXRtcManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import io.agora.rtc2.Constants;
 import io.agora.rtc2.IRtcEngineEventHandler;
 import io.agora.rtc2.RtcEngine;
@@ -16,9 +19,11 @@ import io.agora.rtc2.video.VideoEncoderConfiguration;
 
 public class BaseRtcEngineManager {
     public static final String TAG = "BaseRtcEngineManager";
-    private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
+    //    private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private static BaseRtcEngineManager baseRtcEngineManager;
     private RtcEngine mRtcEngine;
+
+    private final HashMap<String, IRtcEngineEventCallBackHandler> callBackHandlerHashMap = new HashMap<>();
 
     public static BaseRtcEngineManager getInstance() {
         if (baseRtcEngineManager == null) {
@@ -35,8 +40,8 @@ public class BaseRtcEngineManager {
         return mRtcEngine;
     }
 
-    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
-        this.iRtcEngineEventCallBackHandler = callBackHandler;
+    public void setIRtcEngineEventCallBackHandler(String tag, IRtcEngineEventCallBackHandler callBackHandler) {
+        callBackHandlerHashMap.put(tag, callBackHandler);
     }
 
     public void initBaseRtc(Context context) {
@@ -58,32 +63,57 @@ public class BaseRtcEngineManager {
         @Override
         public void onFacePositionChanged(int imageWidth, int imageHeight, AgoraFacePositionInfo[] agoraFacePositionInfos) {
             LogUtil.d(TAG, "onFacePositionChanged is start imageWidth:" + imageWidth + " imageHeight:" + imageHeight + " agoraFacePositionInfos:" + agoraFacePositionInfos);
-            iRtcEngineEventCallBackHandler.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.onFacePositionChanged(imageWidth, imageHeight, agoraFacePositionInfos);
+                }
+            }
         }
 
         @Override
         public void onJoinChannelSuccess(String channel, final int uid, int elapsed) {
             LogUtil.d(TAG, "onJoinChannelSuccess is start channel:" + channel + " uid:" + uid + " elapsed:" + elapsed);
             RtcSpUtils.getInstance().setChannelId(channel);
-            iRtcEngineEventCallBackHandler.onJoinChannelSuccess(channel, uid, elapsed);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.onJoinChannelSuccess(channel, uid, elapsed);
+                }
+            }
         }
 
         @Override
         public void onFirstRemoteVideoDecoded(final int uid, int width, int height, int elapsed) {
             LogUtil.d(TAG, "onFirstRemoteVideoDecoded is start uid:" + uid + " width:" + width + " height:" + height + " elapsed:" + elapsed);
-            iRtcEngineEventCallBackHandler.onFirstRemoteVideoDecoded(uid, width, height, elapsed);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.onFirstRemoteVideoDecoded(uid, width, height, elapsed);
+                }
+            }
         }
 
         @Override
         public void onUserOffline(final int uid, int reason) {
             LogUtil.d(TAG, "onUserOffline is start uid:" + uid + " reason:" + reason);
-            iRtcEngineEventCallBackHandler.onUserOffline(uid, reason);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.onUserOffline(uid, reason);
+                }
+            }
         }
 
         @Override
         public void onUserJoined(int uid, int elapsed) {
             LogUtil.d(TAG, "onUserJoined is start uid:" + uid + " elapsed:" + elapsed);
-            iRtcEngineEventCallBackHandler.onUserJoined(uid, elapsed);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.onUserJoined(uid, elapsed);
+                }
+            }
         }
 
         @Override
@@ -122,7 +152,12 @@ public class BaseRtcEngineManager {
             if ((state == 1 && reason == 10) || (state == 5 && reason == 10)) {
                 StreamingXRtcManager.getInstance().closeVideoChat();
             }
-            iRtcEngineEventCallBackHandler.onConnectionStateChanged(state, reason);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.onConnectionStateChanged(state, reason);
+                }
+            }
         }
     };
 }

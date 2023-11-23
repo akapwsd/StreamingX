@@ -16,6 +16,7 @@ public class AgoVideoActivity extends Activity {
     public FrameLayout smallView;
     public FrameLayout bigView;
     public String sendFp;
+    private final String TAG = "AgoVideoActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,26 +26,26 @@ public class AgoVideoActivity extends Activity {
         Button sendMsgBtn = findViewById(R.id.send_msg_btn);
         smallView = findViewById(R.id.small_view);
         bigView = findViewById(R.id.big_view);
-        StreamingXRtcManager.getInstance().setIRtcEngineEventCallBackHandler(new IRtcEngineEventCallBackHandler() {
+        StreamingXRtcManager.getInstance().setIRtcEngineEventCallBackHandler(TAG, new IRtcEngineEventCallBackHandler() {
             @Override
             public void onJoinChannelSuccess(String channel, int uid, int elapsed) {
-                LogUtil.d("TEST", "onJoinChannelSuccess channel:" + channel + " uid:" + uid);
+                LogUtil.d(TAG, "onJoinChannelSuccess channel:" + channel + " uid:" + uid);
             }
 
             @Override
             public void onUserJoined(int uid, int elapsed) {
-                LogUtil.d("TEST", "onUserJoined uid:" + uid);
+                LogUtil.d(TAG, "onUserJoined uid:" + uid);
                 runOnUiThread(() -> StreamingXRtcManager.getInstance().showRemoteView(AgoVideoActivity.this, uid, bigView));
             }
 
             @Override
             public void onUserOffline(int uid, int reason) {
-                LogUtil.d("TEST", "onUserOffline uid:" + uid);
+                LogUtil.d(TAG, "onUserOffline uid:" + uid);
             }
 
             @Override
             public void onFirstRemoteVideoDecoded(int uid, int width, int height, int elapsed) {
-                LogUtil.d("TEST", "onFirstRemoteVideoDecoded uid:" + uid);
+                LogUtil.d(TAG, "onFirstRemoteVideoDecoded uid:" + uid);
             }
 
             @Override

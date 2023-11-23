@@ -134,9 +134,9 @@ public class StreamingXRtcManager {
      *                        {@link IRtcEngineEventCallBackHandler} IRtcEngineEventCallBackHandler listener object
      * @see IRtcEngineEventCallBackHandler
      */
-    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
-        BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
-        WSManager.getInstance().setIRtcEngineEventCallBackHandler(callBackHandler);
+    public void setIRtcEngineEventCallBackHandler(String tag, IRtcEngineEventCallBackHandler callBackHandler) {
+        BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(tag, callBackHandler);
+        WSManager.getInstance().setIRtcEngineEventCallBackHandler(tag,callBackHandler);
     }
 
     /**

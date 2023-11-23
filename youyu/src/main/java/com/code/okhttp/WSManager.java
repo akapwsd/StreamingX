@@ -50,7 +50,7 @@ public class WSManager {
     private final static String MODEL_BASE_URL = "wss://broadcaster.streamingxapp.com/v1/ws";
     private final static String MODEL_BASE_TEST_URL = "wss://broadcaster.hitradegate.com/v1/ws";
     private static HashMap<Integer, WeakReference<WebSocketResultListener>> sWeakRefListeners;
-    private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
+    private final HashMap<String, IRtcEngineEventCallBackHandler> callBackHandlerHashMap = new HashMap<>();
     private WebSocket mWebSocket;
     private OkHttpClient mClient;
     private String mWbSocketUrl;
@@ -106,7 +106,12 @@ public class WSManager {
             if (uid.equals(mUid)) {
                 StreamingXRtcManager.getInstance().closeVideoChat();
             }
-            iRtcEngineEventCallBackHandler.banRoom(uid, channelUserStateChange.getReason());
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.banRoom(uid, channelUserStateChange.getReason());
+                }
+            }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "userRoomHandle throw error:" + e);
@@ -123,7 +128,12 @@ public class WSManager {
             String channelId = RtcSpUtils.getInstance().getChannelId();
             StreamingXRtcManager.getInstance().closeVideoChat();
             if (!TextUtils.isEmpty(channelId) && channelId.equals(serverChannel)) {
-                iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
+                for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                    IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                    if (iRtcEngineEventCallBackHandler != null) {
+                        iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
+                    }
+                }
             }
             return true;
         } catch (InvalidProtocolBufferException e) {
@@ -155,7 +165,12 @@ public class WSManager {
             currentReceiveMsg.setFp(rcvChannelMsgRecord.getMsg().getMsgFp());
             currentReceiveMsg.setChannelId(rcvChannelMsgRecord.getMsg().getChannelId());
             currentReceiveMsg.setFrom(rcvChannelMsgRecord.getMsg().getFrom());
-            iRtcEngineEventCallBackHandler.receiveMsg(currentReceiveMsg);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.receiveMsg(currentReceiveMsg);
+                }
+            }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "channelMsgRecordHandle throw error:" + e);
@@ -166,7 +181,12 @@ public class WSManager {
     private boolean channelMatchHandle(byte[] data) {
         try {
             ChannelImform.channelMatched channelMatched = ChannelImform.channelMatched.parseFrom(data);
-            iRtcEngineEventCallBackHandler.receiveMatch(channelMatched);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.receiveMatch(channelMatched);
+                }
+            }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "channelMatchHandle throw error:" + e);
@@ -177,7 +197,12 @@ public class WSManager {
     private boolean channelSkipHandle(byte[] data) {
         try {
             ChannelImform.channelSkipped channelSkipped = ChannelImform.channelSkipped.parseFrom(data);
-            iRtcEngineEventCallBackHandler.receiveSkip(channelSkipped.getChannelId());
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.receiveSkip(channelSkipped.getChannelId());
+                }
+            }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "channelSkipHandle throw error:" + e);
@@ -188,7 +213,12 @@ public class WSManager {
     private boolean deviceUpdatedHandle(byte[] data) {
         try {
             ChannelImform.deviceUpdated deviceUpdated = ChannelImform.deviceUpdated.parseFrom(data);
-            iRtcEngineEventCallBackHandler.deviceUpdated(deviceUpdated.getIp());
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.deviceUpdated(deviceUpdated.getIp());
+                }
+            }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "channelSkipHandle throw error:" + e);
@@ -197,7 +227,12 @@ public class WSManager {
     }
 
     private boolean connectErrorHandle() {
-        iRtcEngineEventCallBackHandler.connectError();
+        for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+            IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+            if (iRtcEngineEventCallBackHandler != null) {
+                iRtcEngineEventCallBackHandler.connectError();
+            }
+        }
         return true;
     }
 
@@ -211,8 +246,8 @@ public class WSManager {
         return SInstanceHolder.sInstance;
     }
 
-    public void setIRtcEngineEventCallBackHandler(IRtcEngineEventCallBackHandler callBackHandler) {
-        this.iRtcEngineEventCallBackHandler = callBackHandler;
+    public void setIRtcEngineEventCallBackHandler(String tag, IRtcEngineEventCallBackHandler callBackHandler) {
+        callBackHandlerHashMap.put(tag, callBackHandler);
     }
 
     public void renewToken(String newToken) {
