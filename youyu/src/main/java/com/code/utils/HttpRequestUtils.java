@@ -365,7 +365,7 @@ public class HttpRequestUtils {
 
     }
 
-    public void joinChannel(Context context, String token, String channelId, String peerUid, int category, HttpRequestListener httpRequestListener) {
+    public void joinChannel(Context context, String channelId, String peerUid, int category, HttpRequestListener httpRequestListener) {
         try {
             if (StreamingXRtcManager.getInstance().isInit) {
                 String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
@@ -379,7 +379,6 @@ public class HttpRequestUtils {
                 String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
                 JoinChannelBean joinChannelBean = new JoinChannelBean();
                 joinChannelBean.setBroadcaster(peerUid);
-                joinChannelBean.setToken(token);
                 RetrofitHelper.createApi(HttpApi.class, context).joinChannel(authorization, X_Uyj_Timestamp, Content_Type, session_token, channelId, joinChannelBean).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
                     @Override
                     public void Success(Object o) {

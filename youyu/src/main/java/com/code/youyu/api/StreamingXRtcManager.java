@@ -136,7 +136,7 @@ public class StreamingXRtcManager {
      */
     public void setIRtcEngineEventCallBackHandler(String tag, IRtcEngineEventCallBackHandler callBackHandler) {
         BaseRtcEngineManager.getInstance().setIRtcEngineEventCallBackHandler(tag, callBackHandler);
-        WSManager.getInstance().setIRtcEngineEventCallBackHandler(tag,callBackHandler);
+        WSManager.getInstance().setIRtcEngineEventCallBackHandler(tag, callBackHandler);
     }
 
     /**
@@ -294,16 +294,15 @@ public class StreamingXRtcManager {
      * call audio
      *
      * @param context             the context
-     * @param token               The room token
      * @param channel             your channel uid
      * @param peerUid             peer uid
      * @param httpRequestListener callback interface
      *                            {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
      */
-    public void callAudio(Context context, String token, String channel, String peerUid, HttpRequestListener httpRequestListener) {
+    public void callAudio(Context context, String channel, String peerUid, HttpRequestListener httpRequestListener) {
         if (isInit) {
-            HttpRequestUtils.getInstance().joinChannel(context, token, channel, peerUid, Constants.AUDIO, httpRequestListener);
+            HttpRequestUtils.getInstance().joinChannel(context, channel, peerUid, Constants.AUDIO, httpRequestListener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
@@ -315,15 +314,14 @@ public class StreamingXRtcManager {
      *
      * @param context             the context
      * @param channel             The RTC number of the video
-     * @param token               The room token
      * @param peerUid             peer uid
      * @param httpRequestListener callback interface
      *                            {@link HttpRequestListener} HttpRequestListener listener object
      * @see HttpRequestListener
      */
-    public void callVideo(Context context, String token, String channel, String peerUid, HttpRequestListener httpRequestListener) {
+    public void callVideo(Context context, String channel, String peerUid, HttpRequestListener httpRequestListener) {
         if (isInit) {
-            HttpRequestUtils.getInstance().joinChannel(context, token, channel, peerUid, Constants.VIDEO, httpRequestListener);
+            HttpRequestUtils.getInstance().joinChannel(context, channel, peerUid, Constants.VIDEO, httpRequestListener);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
