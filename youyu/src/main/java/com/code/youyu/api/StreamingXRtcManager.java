@@ -293,16 +293,13 @@ public class StreamingXRtcManager {
     /**
      * call audio
      *
-     * @param context             the context
-     * @param channel             your channel uid
-     * @param peerUid             peer uid
-     * @param httpRequestListener callback interface
-     *                            {@link HttpRequestListener} HttpRequestListener listener object
-     * @see HttpRequestListener
+     * @param channel_token the rtc channel token
+     * @param channel       your channel uid
+     * @param localUid      yourself uid
      */
-    public void callAudio(Context context, String channel, String peerUid, HttpRequestListener httpRequestListener) {
+    public void joinAudio(String channel, String channel_token, String localUid) {
         if (isInit) {
-            HttpRequestUtils.getInstance().joinChannel(context, channel, peerUid, Constants.AUDIO, httpRequestListener);
+            joinChannel(channel, channel_token, localUid, Constants.AUDIO);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
@@ -312,16 +309,13 @@ public class StreamingXRtcManager {
     /**
      * call video
      *
-     * @param context             the context
-     * @param channel             The RTC number of the video
-     * @param peerUid             peer uid
-     * @param httpRequestListener callback interface
-     *                            {@link HttpRequestListener} HttpRequestListener listener object
-     * @see HttpRequestListener
+     * @param channel_token the rtc channel token
+     * @param channel       The RTC number of the video
+     * @param localUid      yourself uid
      */
-    public void callVideo(Context context, String channel, String peerUid, HttpRequestListener httpRequestListener) {
+    public void joinVideo(String channel, String channel_token, String localUid) {
         if (isInit) {
-            HttpRequestUtils.getInstance().joinChannel(context, channel, peerUid, Constants.VIDEO, httpRequestListener);
+            joinChannel(channel, channel_token, localUid, Constants.VIDEO);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
