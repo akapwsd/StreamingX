@@ -22,7 +22,8 @@ public class BaseRtcEngineManager {
     //    private IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler;
     private static BaseRtcEngineManager baseRtcEngineManager;
     private RtcEngine mRtcEngine;
-
+    private static String TEST_KEY = "d204e16e727048b08a1d8e1ae10bb238";
+    private static String RELEASE_KEY = "50b9eccdb721455b849a88b375d64e34";
     private final HashMap<String, IRtcEngineEventCallBackHandler> callBackHandlerHashMap = new HashMap<>();
 
     public static BaseRtcEngineManager getInstance() {
@@ -47,7 +48,13 @@ public class BaseRtcEngineManager {
     public void initBaseRtc(Context context) {
         LogUtil.d(TAG, "initBaseRtc is start");
         try {
-            mRtcEngine = RtcEngine.create(context, "d204e16e727048b08a1d8e1ae10bb238", mRtcEventHandler);
+            String key;
+            if (StreamingXRtcManager.getInstance().isEnableDebug) {
+                key = TEST_KEY;
+            } else {
+                key = RELEASE_KEY;
+            }
+            mRtcEngine = RtcEngine.create(context, key, mRtcEventHandler);
             mRtcEngine.enableVideo();
             mRtcEngine.setChannelProfile(Constants.CHANNEL_PROFILE_LIVE_BROADCASTING);
             mRtcEngine.setBeautyEffectOptions(true, AgoraConstants.BEAUTY_OPTIONS);
