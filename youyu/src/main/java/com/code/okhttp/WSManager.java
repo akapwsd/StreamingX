@@ -483,14 +483,20 @@ public class WSManager {
                 String message = t.getMessage();
                 LogUtil.e(TAG, "websocket fail reason：" + message);
                 assert message != null;
-                if (message.contains("Socket closed") || message.contains("Canceled") || message.contains("Socket is closed") || message.contains("Code 2293 is reserved and may not be used")) {
-                    LogUtil.e(TAG, "connect is closed");
+                if (message.contains("Canceled") || message.contains("Socket is closed") || message.contains("Code 2293 is reserved and may not be used")) {
+                    LogUtil.e(TAG, "connect is need close");
                     if (heartHandler != null && heartBeatRunnable != null) {
                         heartHandler.removeCallbacksAndMessages(null);
                         heartHandler = null;
                     }
                     disconnect(1002, "disconnect");
-                } else if (!message.contains("Socket closed") && !message.contains("Canceled") && !message.contains("Socket is closed") && !message.contains("Code 2293 is reserved and may not be used")) {
+                } else if (message.contains("Socket closed")) {
+                    LogUtil.e(TAG, "Socket is closed");
+                    if (heartHandler != null && heartBeatRunnable != null) {
+                        heartHandler.removeCallbacksAndMessages(null);
+                        heartHandler = null;
+                    }
+                } else {
                     reconnect();
                 }
             }
