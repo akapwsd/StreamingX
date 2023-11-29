@@ -1,11 +1,13 @@
 package com.code.youyu.api;
 
+import android.app.Application;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.SurfaceView;
 import android.widget.FrameLayout;
 
 import com.code.bean.ChannelTokenBean;
+import com.code.callback.SensorsDataActivityLifecycleCallbacks;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
@@ -81,19 +83,20 @@ public class StreamingXRtcManager {
      * This is the RTC initialization method, you need to call it before using all audio and video functions
      * For example call it in your Application
      *
-     * @param context           the context
+     * @param application       the application
      * @param access_key_id     the access_key_id
      * @param access_key_secret the access_key_secret
      * @param session_token     the session_token
      */
-    public boolean initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
+    public boolean initRtc(Application application, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "initRtc is start");
         if (!TextUtils.isEmpty(access_key_id) && !TextUtils.isEmpty(access_key_secret) && !TextUtils.isEmpty(session_token)) {
-            mContext = context;
-            RtcSpBase.initContent(context);
+            application.registerActivityLifecycleCallbacks(new SensorsDataActivityLifecycleCallbacks());
+            mContext = application.getApplicationContext();
+            RtcSpBase.initContent(mContext);
             RtcSpUtils.getInstance().setChannelId("");
-            BaseRtcEngineManager.getInstance().initBaseRtc(context);
-            WSManager.getInstance().init(context, access_key_id, access_key_secret, session_token);
+            BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
+            WSManager.getInstance().init(mContext, access_key_id, access_key_secret, session_token);
             isInit = true;
             return true;
         } else {
@@ -101,14 +104,15 @@ public class StreamingXRtcManager {
         }
     }
 
-    public boolean initModelRtc(Context context, String token) {
+    public boolean initModelRtc(Application application, String token) {
         LogUtil.d(TAG, "initModelRtc is start");
         if (!TextUtils.isEmpty(token)) {
-            mContext = context;
-            RtcSpBase.initContent(context);
+            application.registerActivityLifecycleCallbacks(new SensorsDataActivityLifecycleCallbacks());
+            mContext = application.getApplicationContext();
+            RtcSpBase.initContent(mContext);
             RtcSpUtils.getInstance().setChannelId("");
-            BaseRtcEngineManager.getInstance().initBaseRtc(context);
-            WSManager.getInstance().init(context, token);
+            BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
+            WSManager.getInstance().init(mContext, token);
             isInit = true;
             return true;
         } else {
