@@ -162,7 +162,7 @@ public class StreamingXRtcManager {
      */
     public void showRemoteView(Context context, int uid, FrameLayout view) {
         if (isInit) {
-            if (remoteView.getParent() != null) {
+            if (remoteView != null && remoteView.getParent() != null) {
                 ((FrameLayout) remoteView.getParent()).removeView(remoteView);
                 remoteView = null;
             }
@@ -190,7 +190,7 @@ public class StreamingXRtcManager {
             localFrameLayout = view;
             RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
             rtcEngine.enableLocalVideo(true);
-            if (localView.getParent() != null) {
+            if (localView != null && localView.getParent() != null) {
                 ((FrameLayout) localView.getParent()).removeView(localView);
                 localView = null;
             }
