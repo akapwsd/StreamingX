@@ -11,14 +11,20 @@ import com.code.okhttp.WSManager;
 import com.code.utils.LogUtil;
 import com.code.youyu.api.StreamingXRtcManager;
 
+import java.util.ArrayList;
+
 public class SensorsDataActivityLifecycleCallbacks implements Application.ActivityLifecycleCallbacks {
     private static final String TAG = "SensorsDataActivityLifecycleCallbacks";
-    private int startActivityCount = 0;
+    private final ArrayList<String> activityList = new ArrayList<>();
+
+    public SensorsDataActivityLifecycleCallbacks() {
+        StreamingXRtcManager.getInstance().isRegisterActivityLifecycleCallBack = true;
+    }
 
     @Override
     public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
-        startActivityCount++;
-        LogUtil.d(TAG, "onActivityCreated startActivityCount:" + startActivityCount);
+        activityList.add(activity.getLocalClassName());
+        LogUtil.d(TAG, "onActivityCreated activity counts" + activityList.size());
     }
 
     @Override
@@ -47,9 +53,15 @@ public class SensorsDataActivityLifecycleCallbacks implements Application.Activi
 
     @Override
     public void onActivityDestroyed(@NonNull Activity activity) {
-        startActivityCount = startActivityCount > 0 ? --startActivityCount : 0;
-        LogUtil.d(TAG, "onActivityDestroyed startActivityCount:" + startActivityCount);
-        if (startActivityCount <= 0) {
+        for (String activityName : activityList) {
+            if (activityName.equals(activity.getLocalClassName())) {
+                boolean remove = activityList.remove(activityName);
+                LogUtil.d(TAG, "onActivityDestroyed remove:" + remove);
+                break;
+            }
+        }
+        LogUtil.d(TAG, "onActivityDestroyed activity counts:" + activityList.size());
+        if (activityList.size() <= 0) {
             trackAppEnd();
         }
     }
