@@ -162,15 +162,12 @@ public class StreamingXRtcManager {
      */
     public void showRemoteView(Context context, int uid, FrameLayout view) {
         if (isInit) {
-            if (remoteView != null && remoteView.getParent() != null) {
-                ((FrameLayout) remoteView.getParent()).removeView(remoteView);
-                remoteView = null;
-            }
             remoteFrameLayout = view;
             mRemoteUid = uid;
             remoteView = RtcEngine.CreateRendererView(context);
             RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
             rtcEngine.setupRemoteVideo(new VideoCanvas(remoteView, VideoCanvas.RENDER_MODE_HIDDEN, mRemoteUid));
+            view.removeAllViews();
             view.addView(remoteView, 0, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT));
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
@@ -190,15 +187,12 @@ public class StreamingXRtcManager {
             localFrameLayout = view;
             RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
             rtcEngine.enableLocalVideo(true);
-            if (localView != null && localView.getParent() != null) {
-                ((FrameLayout) localView.getParent()).removeView(localView);
-                localView = null;
-            }
             localView = RtcEngine.CreateRendererView(context);
             localView.setZOrderOnTop(true);
-            view.addView(localView);
             rtcEngine.setupLocalVideo(new VideoCanvas(localView, VideoCanvas.RENDER_MODE_HIDDEN, localUid));
             localView.setZOrderMediaOverlay(true);
+            view.removeAllViews();
+            view.addView(localView);
         } else {
             LogUtil.e(TAG, "StreamingXRtcManager is not initialized");
         }
