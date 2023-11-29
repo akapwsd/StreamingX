@@ -162,6 +162,10 @@ public class StreamingXRtcManager {
      */
     public void showRemoteView(Context context, int uid, FrameLayout view) {
         if (isInit) {
+            if (remoteView.getParent() != null) {
+                ((FrameLayout) remoteView.getParent()).removeView(remoteView);
+                remoteView = null;
+            }
             remoteFrameLayout = view;
             mRemoteUid = uid;
             remoteView = RtcEngine.CreateRendererView(context);
@@ -186,6 +190,10 @@ public class StreamingXRtcManager {
             localFrameLayout = view;
             RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
             rtcEngine.enableLocalVideo(true);
+            if (localView.getParent() != null) {
+                ((FrameLayout) localView.getParent()).removeView(localView);
+                localView = null;
+            }
             localView = RtcEngine.CreateRendererView(context);
             localView.setZOrderOnTop(true);
             view.addView(localView);
