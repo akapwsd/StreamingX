@@ -125,14 +125,12 @@ public class WSManager {
     }
 
     private boolean closeRoomHandle(byte[] data) {
-
         try {
             ChannelImform.channelStateChange channelStateChange = ChannelImform.channelStateChange.parseFrom(data);
             ChannelBase.channel ch = channelStateChange.getCh();
             String serverChannel = ch.getId();
-            String channelId = RtcSpUtils.getInstance().getChannelId();
             StreamingXRtcManager.getInstance().closeVideoChat();
-            if (!TextUtils.isEmpty(channelId) && channelId.equals(serverChannel)) {
+            if (!TextUtils.isEmpty(mChannelId) && mChannelId.equals(serverChannel)) {
                 for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
                     IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
                     if (iRtcEngineEventCallBackHandler != null) {
@@ -587,12 +585,11 @@ public class WSManager {
     }
 
     protected void ping() {
-        String channelId = RtcSpUtils.getInstance().getChannelId();
-        LogUtil.d(TAG, "rtc ping is start channelId:" + channelId);
+        LogUtil.d(TAG, "rtc ping is start channelId:" + mChannelId);
         Api.ping ping;
         Api.ping.Builder builder = Api.ping.newBuilder();
-        if (!TextUtils.isEmpty(channelId)) {
-            builder.setChannelId(channelId);
+        if (!TextUtils.isEmpty(mChannelId)) {
+            builder.setChannelId(mChannelId);
         }
         ping = builder.build();
         byte[] bytes = DataUtils.assembleData(0x85e792c3, ping.toByteArray());
@@ -603,13 +600,12 @@ public class WSManager {
     public String sendMsg(int localUid, String msg, ChannelMsgListener channelMsgListener) {
         LogUtil.d(TAG, "send messenger");
         this.channelMsgListener = channelMsgListener;
-        String channelId = RtcSpUtils.getInstance().getChannelId();
-        if (!TextUtils.isEmpty(channelId)) {
+        if (!TextUtils.isEmpty(mChannelId)) {
             String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
             ChannelIm.channelMsgRecord.Builder channelMsgRecord = ChannelIm.channelMsgRecord.newBuilder();
             channelMsgRecord.setMsgFp(msgFp);
             channelMsgRecord.setFrom(String.valueOf(localUid));
-            channelMsgRecord.setChannelId(channelId);
+            channelMsgRecord.setChannelId(mChannelId);
             channelMsgRecord.setMsg(msg);
             long currentTimeMillis = System.currentTimeMillis();
             channelMsgRecord.setSendTime(currentTimeMillis);
@@ -624,9 +620,8 @@ public class WSManager {
 
     private void getDiffMsg(int msgId) {
         LogUtil.d(TAG, "get different messenger msgId:" + msgId);
-        String channelId = RtcSpUtils.getInstance().getChannelId();
         ChannelIm.getDiffChannelMsgRecord.Builder getDiffChannelMsgRecord = ChannelIm.getDiffChannelMsgRecord.newBuilder();
-        getDiffChannelMsgRecord.setChannelId(channelId);
+        getDiffChannelMsgRecord.setChannelId(mChannelId);
         getDiffChannelMsgRecord.setMsgId(msgId);
         byte[] bytes = DataUtils.assembleData(0xebb76c1e, getDiffChannelMsgRecord.build().toByteArray());
         send(ByteString.of(bytes));

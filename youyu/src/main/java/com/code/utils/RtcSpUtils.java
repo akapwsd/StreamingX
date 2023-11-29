@@ -55,13 +55,13 @@ public class RtcSpUtils {
         return (String) RtcSpBase.get("session_token", "");
     }
 
-    public void setChannelId(String calling_channel) {
-        RtcSpBase.put("calling_channel", calling_channel);
-    }
-
-    public String getChannelId() {
-        return (String) RtcSpBase.get("calling_channel", "");
-    }
+//    public void setChannelId(String calling_channel) {
+//        RtcSpBase.put("calling_channel", calling_channel);
+//    }
+//
+//    public String getChannelId() {
+//        return (String) RtcSpBase.get("calling_channel", "");
+//    }
 
     public void setMessageId(long messageId){
         RtcSpBase.put("message_id", messageId);

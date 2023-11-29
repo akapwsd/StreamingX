@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.code.constants.AgoraConstants;
 import com.code.listener.IRtcEngineEventCallBackHandler;
+import com.code.okhttp.WSManager;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.StreamingXRtcManager;
@@ -81,7 +82,7 @@ public class BaseRtcEngineManager {
         @Override
         public void onJoinChannelSuccess(String channel, final int uid, int elapsed) {
             LogUtil.d(TAG, "onJoinChannelSuccess is start channel:" + channel + " uid:" + uid + " elapsed:" + elapsed);
-            RtcSpUtils.getInstance().setChannelId(channel);
+            WSManager.getInstance().mChannelId = channel;
             for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
                 IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
                 if (iRtcEngineEventCallBackHandler != null) {

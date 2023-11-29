@@ -95,7 +95,7 @@ public class StreamingXRtcManager {
             if (isRegisterActivityLifecycleCallBack) {
                 mContext = context;
                 RtcSpBase.initContent(mContext);
-                RtcSpUtils.getInstance().setChannelId("");
+                WSManager.getInstance().mChannelId = "";
                 BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
                 WSManager.getInstance().init(mContext, access_key_id, access_key_secret, session_token);
                 isInit = true;
@@ -116,7 +116,7 @@ public class StreamingXRtcManager {
             if (isRegisterActivityLifecycleCallBack) {
                 mContext = context;
                 RtcSpBase.initContent(mContext);
-                RtcSpUtils.getInstance().setChannelId("");
+                WSManager.getInstance().mChannelId = "";
                 BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
                 WSManager.getInstance().init(mContext, token);
                 isInit = true;
@@ -606,7 +606,6 @@ public class StreamingXRtcManager {
         WSManager.getInstance().leaveChannel();
         RtcEngine rtcEngine = BaseRtcEngineManager.getInstance().getRtcEngine();
         rtcEngine.leaveChannel();
-        RtcSpUtils.getInstance().setChannelId("");
     }
 
     /**
