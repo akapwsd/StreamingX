@@ -96,6 +96,7 @@ public class StreamingXRtcManager {
                 mContext = context;
                 RtcSpBase.initContent(mContext);
                 WSManager.getInstance().mChannelId = "";
+                RtcSpUtils.getInstance().setChannelId("");
                 BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
                 WSManager.getInstance().init(mContext, access_key_id, access_key_secret, session_token);
                 isInit = true;
@@ -117,6 +118,7 @@ public class StreamingXRtcManager {
                 mContext = context;
                 RtcSpBase.initContent(mContext);
                 WSManager.getInstance().mChannelId = "";
+                RtcSpUtils.getInstance().setChannelId("");
                 BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
                 WSManager.getInstance().init(mContext, token);
                 isInit = true;

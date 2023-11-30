@@ -570,6 +570,7 @@ public class WSManager {
     };
 
     public void joinChannel(String channelId, String token, int uid, int clientRole, int callType) {
+        RtcSpUtils.getInstance().setChannelId(channelId);
         mChannelId = channelId;
         mUid = String.valueOf(uid);
         mToken = token;
@@ -579,17 +580,33 @@ public class WSManager {
     }
 
     public void leaveChannel() {
+        RtcSpUtils.getInstance().setChannelId("");
         mChannelId = "";
         mToken = "";
         isCallIng = false;
     }
 
     protected void ping() {
-        LogUtil.d(TAG, "rtc ping is start channelId:" + mChannelId);
+        LogUtil.d(TAG, "rtc ping is start" + " isCallIng:" + isCallIng + " channelId:" + mChannelId);
         Api.ping ping;
         Api.ping.Builder builder = Api.ping.newBuilder();
         if (!TextUtils.isEmpty(mChannelId)) {
             builder.setChannelId(mChannelId);
+        } else {
+            if (isCallIng) {
+                String channelId = RtcSpUtils.getInstance().getChannelId();
+                if(!TextUtils.isEmpty(channelId)){
+                    mChannelId = channelId;
+                    builder.setChannelId(mChannelId);
+                }else {
+                    for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                        IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                        if (iRtcEngineEventCallBackHandler != null) {
+                            iRtcEngineEventCallBackHandler.closeRoom(Constants.ROOM_STATE_ERROR);
+                        }
+                    }
+                }
+            }
         }
         ping = builder.build();
         byte[] bytes = DataUtils.assembleData(0x85e792c3, ping.toByteArray());
