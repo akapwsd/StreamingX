@@ -127,15 +127,11 @@ public class WSManager {
     private boolean closeRoomHandle(byte[] data) {
         try {
             ChannelImform.channelStateChange channelStateChange = ChannelImform.channelStateChange.parseFrom(data);
-            ChannelBase.channel ch = channelStateChange.getCh();
-            String serverChannel = ch.getId();
             StreamingXRtcManager.getInstance().closeVideoChat();
-            if (!TextUtils.isEmpty(mChannelId) && mChannelId.equals(serverChannel)) {
-                for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
-                    IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
-                    if (iRtcEngineEventCallBackHandler != null) {
-                        iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
-                    }
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.closeRoom(channelStateChange.getReason());
                 }
             }
             return true;
@@ -595,10 +591,10 @@ public class WSManager {
         } else {
             if (isCallIng) {
                 String channelId = RtcSpUtils.getInstance().getChannelId();
-                if(!TextUtils.isEmpty(channelId)){
+                if (!TextUtils.isEmpty(channelId)) {
                     mChannelId = channelId;
                     builder.setChannelId(mChannelId);
-                }else {
+                } else {
                     for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
                         IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
                         if (iRtcEngineEventCallBackHandler != null) {
