@@ -337,7 +337,7 @@ public class WSManager {
             RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
             RtcSpUtils.getInstance().setSessionToken(session_token);
             RtcSpUtils.getInstance().setToken("");
-            LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
+            LogUtil.d(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
             connect();
         }
@@ -360,7 +360,7 @@ public class WSManager {
             RtcSpUtils.getInstance().setAccessKeyId("");
             RtcSpUtils.getInstance().setAccessKeySecret("");
             RtcSpUtils.getInstance().setSessionToken("");
-            LogUtil.i(TAG, "mWbSocketUrl=" + mWbSocketUrl);
+            LogUtil.d(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
             connect();
         }
@@ -505,7 +505,7 @@ public class WSManager {
         @Override
         public void onMessage(@NotNull WebSocket webSocket, @NotNull ByteString bytes) {
             super.onMessage(webSocket, bytes);
-            LogUtil.i(TAG, "onMessage receive bytes:" + Arrays.toString(bytes.toByteArray()));
+            LogUtil.d(TAG, "onMessage receive bytes:" + Arrays.toString(bytes.toByteArray()));
             Base.messageFrame messageFrame;
             try {
                 messageFrame = Base.messageFrame.parseFrom(bytes.toByteArray());
@@ -513,17 +513,17 @@ public class WSManager {
                 throw new RuntimeException(e);
             }
             int crc32 = messageFrame.getCrc32();
-            LogUtil.i(TAG, "onMessage receive crc32:" + crc32);
+            LogUtil.d(TAG, "onMessage receive crc32:" + crc32);
             String OxCrcId = Integer.toHexString(crc32);
             byte[] resultData = messageFrame.getData().toByteArray();
-            LogUtil.i(TAG, "onMessage receive OxCrcId:" + OxCrcId);
+            LogUtil.d(TAG, "onMessage receive OxCrcId:" + OxCrcId);
             Objects.requireNonNull(actionMappings.get(OxCrcId)).apply(resultData);
         }
 
         @Override
         public void onOpen(@NotNull WebSocket webSocket, @NotNull Response response) {
             super.onOpen(webSocket, response);
-            LogUtil.i(TAG, "websocket is connect:" + response);
+            LogUtil.d(TAG, "websocket is connect:" + response);
             mWebSocket = webSocket;
             isConnect = response.code() == 101;
             if (!isConnect) {
