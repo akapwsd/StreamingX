@@ -4,6 +4,13 @@ import android.content.Context;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import com.amazonaws.auth.AWSSessionCredentials;
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobile.client.Callback;
+import com.amazonaws.mobile.client.UserStateDetails;
+import com.amazonaws.mobile.config.AWSConfiguration;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.code.bean.MsgBean;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
@@ -45,6 +52,7 @@ import uyujoy.com.api.gateway.frontend.Base;
 
 public class WSManager {
     private final String TAG = "WSManager";
+    private TransferUtility transferUtility;
     private final static int MAX_RECONNECT_NUM = 5;
     private final static int RECONNECT_MILLS = 1000;
     private final static int GLOBAL_HEART_BEAT_RATE = 5000;
@@ -76,6 +84,7 @@ public class WSManager {
     private ChannelMsgListener channelMsgListener;
     private Request request;
     private final Map<String, Function<byte[], Boolean>> actionMappings = new HashMap<>();
+    private final HashMap<String, String> awsTranslateMap = new HashMap<>();
 
     private void initDataProcess() {
         Function<byte[], Boolean> pongFunction = bytes -> pongHandle();
@@ -365,6 +374,75 @@ public class WSManager {
             connect();
         }
         LogUtil.d(TAG, "init is end");
+    }
+
+    public void initAWS(Context context) {
+        LogUtil.d(TAG, "initAWS is start");
+        String sessionToken = awsTranslateMap.get("SessionToken");
+        String accessKeyId = awsTranslateMap.get("AccessKeyId");
+        String secretAccessKey = awsTranslateMap.get("SecretAccessKey");
+        if (!TextUtils.isEmpty(sessionToken) && !TextUtils.isEmpty(accessKeyId) && !TextUtils.isEmpty(secretAccessKey)) {
+            LogUtil.d(TAG, "initAWS is ok");
+            AWSSessionCredentials credentials = new AWSSessionCredentials() {
+                @Override
+                public String getSessionToken() {
+                    return awsTranslateMap.get("SessionToken");
+                }
+
+                @Override
+                public String getAWSAccessKeyId() {
+                    return awsTranslateMap.get("AccessKeyId");
+                }
+
+                @Override
+                public String getAWSSecretKey() {
+                    return awsTranslateMap.get("SecretAccessKey");
+                }
+            };
+            JSONObject jsonConfig = new JSONObject();
+            JSONObject s3TransferUtility = new JSONObject();
+            try {
+                jsonConfig.putOpt("S3TransferUtility", s3TransferUtility);
+                s3TransferUtility.put("Region", Constants.Region);
+                s3TransferUtility.put("Bucket", Constants.Bucket);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            AWSConfiguration configuration = new AWSConfiguration(jsonConfig);
+            AWSMobileClient.getInstance().initialize(context, new Callback<UserStateDetails>() {
+                @Override
+                public void onResult(UserStateDetails userStateDetails) {
+                    LogUtil.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
+                    TransferUtility transferUtility = TransferUtility.builder().context(context)
+                            .awsConfiguration(configuration)
+                            .s3Client(new AmazonS3Client(credentials))
+                            .defaultBucket(Constants.Bucket)
+                            .build();
+                    if (transferUtility != null) {
+                        setTransferUtility(transferUtility);
+                    } else {
+                        LogUtil.e(TAG, "initAWS error::build transfer utility fail");
+                    }
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    LogUtil.e(TAG, "initAWS error: " + e.getMessage());
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            //TODO 获取aws sts
+        }
+        LogUtil.d(TAG, "initAWS is end");
+    }
+
+    public TransferUtility getTransferUtility() {
+        return transferUtility;
+    }
+
+    public void setTransferUtility(TransferUtility transferUtility) {
+        this.transferUtility = transferUtility;
     }
 
     public void disconnect(int code, String reason) {

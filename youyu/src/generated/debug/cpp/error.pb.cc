@@ -143,7 +143,6 @@ void protobuf_InitDefaults_error_2eproto_impl() {
   Any_default_instance_.DefaultConstruct();
   ::google::protobuf::internal::GetEmptyString();
   ErrorInfo_default_instance_.DefaultConstruct();
-  ::google::protobuf::internal::GetEmptyString();
   Error_default_instance_.get_mutable()->InitAsDefaultInstance();
   Any_default_instance_.get_mutable()->InitAsDefaultInstance();
   ErrorInfo_default_instance_.get_mutable()->InitAsDefaultInstance();

@@ -24,4 +24,19 @@ public class Constants {
     public static final int FRACTION_MODE = 1;
 
     public static final int ROOM_STATE_ERROR = -2;
+
+    public static final String AWS_HTTPS_HEAD = "https://ujoy-paas-formal-eks.s3.us-west-2.amazonaws.com/";
+    public static final String Bucket= "ujoy-paas-formal-eks";
+    public static final String Region = "us-west-2";
+
+    public static final int MSG_RECEIVER = 1;
+    public static final int MSG_SENDER = 2;
+
+    public static final int MSG_SEND_TEXT = 0;
+    public static final int MSG_SEND_IMAGE = 1;
+    public static final int MSG_SEND_VOICE = 2;
+
+    public static final int SEND_SUCCESS = 1;
+    public static final int SEND_FAIL = 0;
+    public static final int SENDING = 2;
 }

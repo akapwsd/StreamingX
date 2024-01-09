@@ -1,10 +1,11 @@
 plugins {
     id 'com.android.library'
     id 'com.google.protobuf'
+    id 'org.greenrobot.greendao'
 }
 
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.akapwsd'
+group = 'com.github.akapwsd'
 
 android {
     compileSdkVersion 30
@@ -67,6 +68,12 @@ android {
     }
 }
 
+greendao {
+    schemaVersion 1 //greendao version
+    daoPackage 'com.code.data.greendao'
+    targetGenDir 'src/main/java'
+}
+
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'com.google.android.material:material:1.0.0'
@@ -89,8 +96,11 @@ dependencies {
     api 'com.squareup.retrofit2:converter-gson:2.3.0'
     api 'com.squareup.retrofit2:converter-protobuf:2.3.0'
     api 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-
+    api 'org.greenrobot:greendao:3.3.0'
     api 'com.google.code.gson:gson:2.8.8'
+
+    api 'com.amazonaws:aws-android-sdk-s3:2.16.+'
+    api('com.amazonaws:aws-android-sdk-mobile-client:2.16.+@aar') { transitive = true }
 }
 
 task makeJar(type: Jar, dependsOn: ['build']) {
