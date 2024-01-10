@@ -48,6 +48,7 @@ import okio.ByteString;
 import proto.ErrorOuterClass;
 import uyujoy.api.channelim.frontend.ChannelIm;
 import uyujoy.api.paasim.frontend.MsgBase;
+import uyujoy.api.paasim.frontend.UserBase;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
 import uyujoy.com.api.gateway.frontend.Base;
@@ -415,11 +416,7 @@ public class WSManager {
                 @Override
                 public void onResult(UserStateDetails userStateDetails) {
                     LogUtil.i(TAG, "AWSMobileClient initialized. User State is " + userStateDetails.getUserState());
-                    TransferUtility transferUtility = TransferUtility.builder().context(context)
-                            .awsConfiguration(configuration)
-                            .s3Client(new AmazonS3Client(credentials))
-                            .defaultBucket(Constants.Bucket)
-                            .build();
+                    TransferUtility transferUtility = TransferUtility.builder().context(context).awsConfiguration(configuration).s3Client(new AmazonS3Client(credentials)).defaultBucket(Constants.Bucket).build();
                     if (transferUtility != null) {
                         setTransferUtility(transferUtility);
                     } else {
@@ -715,9 +712,23 @@ public class WSManager {
 
     }
 
-    public void sendTextMsg(int mUid, int peerUid, String msg, ChatMsgListener chatMsgListener) {
+    public String sendTextMsg(int mUid, int peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
+        UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
+        userInfo.setName(nickName);
+        userInfo.setAvatar(avatar);
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
-        msgBase.setMsgFp(DataUtils.getUUID());
+        msgBase.setMsgFp(msgFp);
+        msgBase.setFrom(String.valueOf(mUid));
+        msgBase.setTo(String.valueOf(peerUid));
+        msgBase.setMsgTxt(msg);
+        msgBase.setMsgType(Constants.MSG_SEND_TEXT);
+        msgBase.setSendTime(System.currentTimeMillis());
+        msgBase.setUser(userInfo.build());
+        byte[] bytes = DataUtils.assembleData(0xa58faca5, msgBase.build().toByteArray());
+        LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
+        send(ByteString.of(bytes));
+        return msgFp;
     }
 
     public ArrayList<MsgBean> getChatMsgList() {
@@ -725,7 +736,7 @@ public class WSManager {
     }
 
     public void getChatDiffMsg() {
-
+        //0x961e73bb
     }
 
     private void getChannelDiffMsg(int msgId) {
