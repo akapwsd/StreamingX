@@ -1,0 +1,12 @@
+syntax = "proto3";
+package uyujoy.api.paasim.frontend;
+option go_package = "uyujoy.com/pass/protogen/api/paasim/frontend;paasim";
+
+/*
+  paas 平台 im的消息体力带上的用户信息
+*/
+
+message userInfo{
+  string name = 1;
+  string avatar = 2;
+}

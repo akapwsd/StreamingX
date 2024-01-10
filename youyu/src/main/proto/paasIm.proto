@@ -1,0 +1,61 @@
+syntax = "proto3";
+package uyujoy.api.paasim.frontend;
+option go_package = "uyujoy.com/pass/protogen/api/paasim/frontend;paasim";
+import "updatesBase.proto";
+import "msgBase.proto";
+/*
+  用户客户端WS上传的协议和对应回执
+*/
+
+//-------------------------------发送消息-------------------------------
+//在线发送消息的结构
+message paasImMsgSend {
+    paasMsgRecord msg = 1;
+}
+
+//在线发送消息的结构回执
+message paasImMsgSent{
+  int64 pts = 1;
+  int64 msgId = 2;
+  int64 genMsgId = 3;
+  int64 fp = 4;
+  string from = 5; //消息发送者
+  string to = 6; //消息接受者
+  int64 date = 7;//服务端接收时间
+}
+
+
+//-------------------------------表示自己IM功能就绪等-------------------------------
+//客户端主动改造自己的同步状态
+message updateStatus{
+  uint32 status = 1;// 1 online 2 offline
+}
+
+//客户端主动改造自己的同步状态回执
+message updateStatusAck{}
+
+
+//-------------------------------用户上线第一时间获取自己在服务器端的状态-------------------------------
+//获取同步状态（在获取时间后的第一件事情）
+message getStates{
+  int64 pts = 1;
+  string token = 2 ;
+  //  connDetail detail = 3;
+}
+
+message states{
+  int64 pts = 1;
+  bool tooLong = 2;
+  int64 seq = 3;
+  int64 date = 4;//当前系统时间
+}
+
+//-------------------------------用户发现本地与服务器上的状态差异，进行主动同步-------------------------------
+message reqDifference{
+  uint32 uid = 1;
+  bytes req = 2;//updatGetDifference
+}
+
+message updatesSlice{
+  bytes updatesSlice = 1; //updateDifferenceSlice
+}

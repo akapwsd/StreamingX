@@ -1,0 +1,50 @@
+syntax = "proto3";
+package uyujoy.api.paasim.frontend;
+option go_package = "uyujoy.com/pass/protogen/api/paasim/frontend;paasim";
+import "msgBase.proto";
+
+/*
+  paas 平台 im的消息同步协议结构体
+*/
+
+message updates {
+  uint32 id = 1;
+  string uid = 2;
+  string peer = 3;
+  int64  pts = 4;
+  int64  msgId = 5;
+  uint32 msgType = 6;
+  bytes  content = 7;
+  uint32 status = 8;
+  uint32 send = 9;
+  int64  createTime = 10;
+  int64  updateTime = 11;
+}
+
+//通用update
+message updateUpdate{
+  paasMsgRecord msg = 1; //msg, svc 都需要显示
+  int64 pts = 2;
+  uint32 pts_count = 3;
+  int64 date = 4;
+  int64 seq = 5;//暂时没有用
+}
+
+//用户上线直接下发的消息
+message updateNewMessage{
+  paasMsgRecord msg = 1;
+  int64 pts = 2;
+  uint32 pts_count = 3;
+}
+
+//如果返回了updates_too_long则进行同步(由reqDifference进行使用)
+message updatGetDifference{
+  int64 pts = 1;//本地pts
+  int64 date = 2;//pts对应的时间
+  uint32 limit = 3;//一次拉取多少（单聊，群聊默认200条）
+}
+
+//获取网络波动时丢失的消息回执(由reqDifference的回执作为updatesSlice进行使用)
+message updateDifferenceSlice{
+  repeated updateNewMessage msgs = 1; //本次获取difference拉取出的消息
+}

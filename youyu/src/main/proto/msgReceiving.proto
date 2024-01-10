@@ -1,0 +1,24 @@
+syntax = "proto3";
+package uyujoy.api.paasim.frontend;
+option go_package = "uyujoy.com/pass/protogen/api/paasim/frontend;paasim";
+
+import "updatesBase.proto";
+import "msgBase.proto";
+/*
+  用户客户端WS在线收到的消息推送
+*/
+
+//在线接收消息的格式
+message shortMessage{
+  paasMsgRecord msg = 1; //msg, svc 都需要显示
+  int64 pts = 2;
+  uint32 pts_count = 3;
+  int64 date = 4;
+  int64 seq = 5;//暂时没有用
+}
+
+//用户上线自动下发一批消息
+message updateNewMessages{
+  repeated updateNewMessage msgs = 1;
+  uint32 seq = 2;
+}
