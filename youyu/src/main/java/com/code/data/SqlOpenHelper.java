@@ -3,7 +3,6 @@ package com.code.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.code.bean.MsgBean;
 import com.code.data.greendao.DaoMaster;
 import com.code.data.greendao.MsgBeanDao;
 import com.code.utils.LogUtil;

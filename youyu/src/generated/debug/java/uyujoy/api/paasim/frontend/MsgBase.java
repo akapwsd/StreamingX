@@ -28,9 +28,14 @@ public final class MsgBase {
     long getMsgId();
 
     /**
-     * <code>optional int64 msgFp = 2;</code>
+     * <code>optional string msgFp = 2;</code>
      */
-    long getMsgFp();
+    java.lang.String getMsgFp();
+    /**
+     * <code>optional string msgFp = 2;</code>
+     */
+    com.google.protobuf.ByteString
+        getMsgFpBytes();
 
     /**
      * <pre>
@@ -140,7 +145,7 @@ public final class MsgBase {
     }
     private paasMsgRecord() {
       msgId_ = 0L;
-      msgFp_ = 0L;
+      msgFp_ = "";
       msgType_ = 0;
       from_ = "";
       to_ = "";
@@ -179,9 +184,10 @@ public final class MsgBase {
               msgId_ = input.readInt64();
               break;
             }
-            case 16: {
+            case 18: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              msgFp_ = input.readInt64();
+              msgFp_ = s;
               break;
             }
             case 24: {
@@ -280,12 +286,37 @@ public final class MsgBase {
     }
 
     public static final int MSGFP_FIELD_NUMBER = 2;
-    private long msgFp_;
+    private volatile java.lang.Object msgFp_;
     /**
-     * <code>optional int64 msgFp = 2;</code>
+     * <code>optional string msgFp = 2;</code>
      */
-    public long getMsgFp() {
-      return msgFp_;
+    public java.lang.String getMsgFp() {
+      java.lang.Object ref = msgFp_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        msgFp_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string msgFp = 2;</code>
+     */
+    public com.google.protobuf.ByteString
+        getMsgFpBytes() {
+      java.lang.Object ref = msgFp_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        msgFp_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int MSGTYPE_FIELD_NUMBER = 3;
@@ -498,8 +529,8 @@ public final class MsgBase {
       if (msgId_ != 0L) {
         output.writeInt64(1, msgId_);
       }
-      if (msgFp_ != 0L) {
-        output.writeInt64(2, msgFp_);
+      if (!getMsgFpBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, msgFp_);
       }
       if (msgType_ != 0) {
         output.writeUInt32(3, msgType_);
@@ -536,9 +567,8 @@ public final class MsgBase {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, msgId_);
       }
-      if (msgFp_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(2, msgFp_);
+      if (!getMsgFpBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, msgFp_);
       }
       if (msgType_ != 0) {
         size += com.google.protobuf.CodedOutputStream
@@ -587,8 +617,8 @@ public final class MsgBase {
       boolean result = true;
       result = result && (getMsgId()
           == other.getMsgId());
-      result = result && (getMsgFp()
-          == other.getMsgFp());
+      result = result && getMsgFp()
+          .equals(other.getMsgFp());
       result = result && (getMsgType()
           == other.getMsgType());
       result = result && getFrom()
@@ -625,8 +655,7 @@ public final class MsgBase {
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getMsgId());
       hash = (37 * hash) + MSGFP_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getMsgFp());
+      hash = (53 * hash) + getMsgFp().hashCode();
       hash = (37 * hash) + MSGTYPE_FIELD_NUMBER;
       hash = (53 * hash) + getMsgType();
       hash = (37 * hash) + FROM_FIELD_NUMBER;
@@ -768,7 +797,7 @@ public final class MsgBase {
         super.clear();
         msgId_ = 0L;
 
-        msgFp_ = 0L;
+        msgFp_ = "";
 
         msgType_ = 0;
 
@@ -878,8 +907,9 @@ public final class MsgBase {
         if (other.getMsgId() != 0L) {
           setMsgId(other.getMsgId());
         }
-        if (other.getMsgFp() != 0L) {
-          setMsgFp(other.getMsgFp());
+        if (!other.getMsgFp().isEmpty()) {
+          msgFp_ = other.msgFp_;
+          onChanged();
         }
         if (other.getMsgType() != 0) {
           setMsgType(other.getMsgType());
@@ -972,28 +1002,71 @@ public final class MsgBase {
         return this;
       }
 
-      private long msgFp_ ;
+      private java.lang.Object msgFp_ = "";
       /**
-       * <code>optional int64 msgFp = 2;</code>
+       * <code>optional string msgFp = 2;</code>
        */
-      public long getMsgFp() {
-        return msgFp_;
+      public java.lang.String getMsgFp() {
+        java.lang.Object ref = msgFp_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          msgFp_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int64 msgFp = 2;</code>
+       * <code>optional string msgFp = 2;</code>
        */
-      public Builder setMsgFp(long value) {
-        
+      public com.google.protobuf.ByteString
+          getMsgFpBytes() {
+        java.lang.Object ref = msgFp_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          msgFp_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string msgFp = 2;</code>
+       */
+      public Builder setMsgFp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         msgFp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 msgFp = 2;</code>
+       * <code>optional string msgFp = 2;</code>
        */
       public Builder clearMsgFp() {
         
-        msgFp_ = 0L;
+        msgFp_ = getDefaultInstance().getMsgFp();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string msgFp = 2;</code>
+       */
+      public Builder setMsgFpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        msgFp_ = value;
         onChanged();
         return this;
       }
@@ -1653,7 +1726,7 @@ public final class MsgBase {
       "\n\rmsgBase.proto\022\032uyujoy.api.paasim.front" +
       "end\032\017mediaBase.proto\032\016userBase.proto\"\364\001\n" +
       "\rpaasMsgRecord\022\r\n\005msgId\030\001 \001(\003\022\r\n\005msgFp\030\002" +
-      " \001(\003\022\017\n\007msgType\030\003 \001(\r\022\014\n\004from\030\004 \001(\t\022\n\n\002t" +
+      " \001(\t\022\017\n\007msgType\030\003 \001(\r\022\014\n\004from\030\004 \001(\t\022\n\n\002t" +
       "o\030\005 \001(\t\022\016\n\006msgTxt\030\006 \001(\t\0226\n\005media\030\007 \001(\0132\'" +
       ".uyujoy.api.paasim.frontend.mediaRecord\022" +
       "\014\n\004font\030\010 \001(\014\022\020\n\010sendTime\030\t \001(\003\0222\n\004user\030" +

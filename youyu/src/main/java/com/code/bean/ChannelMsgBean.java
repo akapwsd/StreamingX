@@ -1,6 +1,6 @@
 package com.code.bean;
 
-public class MsgBean {
+public class ChannelMsgBean {
     private String fp;
     private String from;
     private String channelId;

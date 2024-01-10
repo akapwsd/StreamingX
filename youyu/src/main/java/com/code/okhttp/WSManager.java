@@ -11,8 +11,10 @@ import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
-import com.code.bean.MsgBean;
+import com.code.bean.ChannelMsgBean;
+import com.code.data.sqlbean.MsgBean;
 import com.code.listener.ChannelMsgListener;
+import com.code.listener.ChatMsgListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.msg.NettyMsg;
 import com.code.utils.DataUtils;
@@ -20,17 +22,17 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.StreamingXRtcManager;
-import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -45,7 +47,7 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 import proto.ErrorOuterClass;
 import uyujoy.api.channelim.frontend.ChannelIm;
-import uyujoy.com.api.channel.frontend.ChannelBase;
+import uyujoy.api.paasim.frontend.MsgBase;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
 import uyujoy.com.api.gateway.frontend.Base;
@@ -167,7 +169,7 @@ public class WSManager {
         try {
             ChannelIm.rcvChannelMsgRecord rcvChannelMsgRecord = ChannelIm.rcvChannelMsgRecord.parseFrom(data);
             LogUtil.d(TAG, "CHANNEL_MSG_RECORD rcvChannelMsgRecord:" + rcvChannelMsgRecord);
-            MsgBean currentReceiveMsg = new MsgBean();
+            ChannelMsgBean currentReceiveMsg = new ChannelMsgBean();
             currentReceiveMsg.setMsg(rcvChannelMsgRecord.getMsg().getMsg());
             currentReceiveMsg.setSendTime(rcvChannelMsgRecord.getMsg().getSendTime());
             currentReceiveMsg.setFp(rcvChannelMsgRecord.getMsg().getMsgFp());
@@ -709,7 +711,24 @@ public class WSManager {
         }
     }
 
-    private void getDiffMsg(int msgId) {
+    public void sendMediaMsg(int mUid, int peerUid, File file, int mediaType, ChatMsgListener chatMsgListener) {
+
+    }
+
+    public void sendTextMsg(int mUid, int peerUid, String msg, ChatMsgListener chatMsgListener) {
+        MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
+        msgBase.setMsgFp(DataUtils.getUUID());
+    }
+
+    public ArrayList<MsgBean> getChatMsgList() {
+        return new ArrayList<>();
+    }
+
+    public void getChatDiffMsg() {
+
+    }
+
+    private void getChannelDiffMsg(int msgId) {
         LogUtil.d(TAG, "get different messenger msgId:" + msgId);
         ChannelIm.getDiffChannelMsgRecord.Builder getDiffChannelMsgRecord = ChannelIm.getDiffChannelMsgRecord.newBuilder();
         getDiffChannelMsgRecord.setChannelId(mChannelId);

@@ -10,7 +10,7 @@ import "userBase.proto";
 
 message paasMsgRecord {
   int64 msgId = 1; //自增ID，但可能不连续，用于进行服务器-客户端同步
-  int64 msgFp = 2;
+  string msgFp = 2;
   uint32 msgType = 3; //1. user 2. group
   string from = 4;
   string to = 5;

@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.code.bean.MsgBean;
+import com.code.bean.ChannelMsgBean;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.LogUtil;
@@ -49,7 +49,7 @@ public class AgoVideoActivity extends Activity {
             }
 
             @Override
-            public void receiveMsg(MsgBean msg) {
+            public void receiveMsg(ChannelMsgBean msg) {
 
             }
         });

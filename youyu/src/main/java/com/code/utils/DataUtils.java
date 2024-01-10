@@ -1,7 +1,9 @@
 package com.code.utils;
 
 import com.google.protobuf.ByteString;
+
 import java.nio.ByteBuffer;
+import java.util.UUID;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -61,5 +63,11 @@ public class DataUtils {
                 .setData(ByteString.copyFrom(data))
                 .build();
         return messageFrame.toByteArray();
+    }
+
+    public static String getUUID() {
+        UUID uuid = UUID.randomUUID();
+        String str = uuid.toString();
+        return str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
     }
 }

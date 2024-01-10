@@ -115,11 +115,16 @@ class paasMsgRecord : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::google::protobuf::int64 msgid() const;
   void set_msgid(::google::protobuf::int64 value);
 
-  // optional int64 msgFp = 2;
+  // optional string msgFp = 2;
   void clear_msgfp();
   static const int kMsgFpFieldNumber = 2;
-  ::google::protobuf::int64 msgfp() const;
-  void set_msgfp(::google::protobuf::int64 value);
+  const ::std::string& msgfp() const;
+  void set_msgfp(const ::std::string& value);
+  void set_msgfp(const char* value);
+  void set_msgfp(const char* value, size_t size);
+  ::std::string* mutable_msgfp();
+  ::std::string* release_msgfp();
+  void set_allocated_msgfp(::std::string* msgfp);
 
   // optional uint32 msgType = 3;
   void clear_msgtype();
@@ -199,6 +204,7 @@ class paasMsgRecord : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr msgfp_;
   ::google::protobuf::internal::ArenaStringPtr from_;
   ::google::protobuf::internal::ArenaStringPtr to_;
   ::google::protobuf::internal::ArenaStringPtr msgtxt_;
@@ -206,7 +212,6 @@ class paasMsgRecord : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::uyujoy::api::paasim::frontend::mediaRecord* media_;
   ::uyujoy::api::paasim::frontend::userInfo* user_;
   ::google::protobuf::int64 msgid_;
-  ::google::protobuf::int64 msgfp_;
   ::google::protobuf::int64 sendtime_;
   ::google::protobuf::uint32 msgtype_;
   mutable int _cached_size_;
@@ -241,18 +246,48 @@ inline void paasMsgRecord::set_msgid(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.paasMsgRecord.msgId)
 }
 
-// optional int64 msgFp = 2;
+// optional string msgFp = 2;
 inline void paasMsgRecord::clear_msgfp() {
-  msgfp_ = GOOGLE_LONGLONG(0);
+  msgfp_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::int64 paasMsgRecord::msgfp() const {
+inline const ::std::string& paasMsgRecord::msgfp() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
-  return msgfp_;
+  return msgfp_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void paasMsgRecord::set_msgfp(::google::protobuf::int64 value) {
+inline void paasMsgRecord::set_msgfp(const ::std::string& value) {
   
-  msgfp_ = value;
+  msgfp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
+}
+inline void paasMsgRecord::set_msgfp(const char* value) {
+  
+  msgfp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
+}
+inline void paasMsgRecord::set_msgfp(const char* value, size_t size) {
+  
+  msgfp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
+}
+inline ::std::string* paasMsgRecord::mutable_msgfp() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
+  return msgfp_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* paasMsgRecord::release_msgfp() {
+  // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
+  
+  return msgfp_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void paasMsgRecord::set_allocated_msgfp(::std::string* msgfp) {
+  if (msgfp != NULL) {
+    
+  } else {
+    
+  }
+  msgfp_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), msgfp);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.paasMsgRecord.msgFp)
 }
 
 // optional uint32 msgType = 3;
