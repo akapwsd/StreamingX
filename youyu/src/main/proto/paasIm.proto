@@ -39,7 +39,6 @@ message updateStatusAck{}
 //获取同步状态（在获取时间后的第一件事情）
 message getStates{
   int64 pts = 1;
-  string token = 2 ;
   //  connDetail detail = 3;
 }
 

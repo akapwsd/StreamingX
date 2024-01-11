@@ -5,8 +5,11 @@ import com.code.data.GreenDaoHelper;
 import com.code.data.greendao.ChatListBeanDao;
 import com.code.data.greendao.DaoSession;
 import com.code.data.sqlbean.ChatListBean;
+import com.code.data.sqlbean.MsgBean;
 import com.code.utils.LogUtil;
+
 import org.greenrobot.greendao.query.QueryBuilder;
+
 import java.util.List;
 
 
@@ -55,9 +58,10 @@ public class ChatListHelper {
         this.dataListener = null;
     }
 
-    public void insertData(ChatListBean chatListBean) {
-        ChatListBean unique = getChatListBean(chatListBean.getMUid(), chatListBean.getPeerUid());
+    public void insertData(MsgBean msgBean) {
+        ChatListBean unique = getChatListBean(msgBean.getMUid(), msgBean.getPeerUid());
         if (unique == null) {
+            ChatListBean chatListBean = new ChatListBean();
             chatListBean.setUnreadMsgCount(1);
             if (chatListBeanDao != null) {
                 chatListBeanDao.insertOrReplace(chatListBean);
@@ -76,7 +80,7 @@ public class ChatListHelper {
             chatListBeanDao.update(unique);
         }
         if (dataListener != null) {
-            dataListener.dataChange(chatListBean);
+            dataListener.dataChange(unique);
         } else {
             LogUtil.d(TAG, "InsertSingleData::unique not null->insert page error");
         }

@@ -25,17 +25,18 @@ public class MsgBeanDao extends AbstractDao<MsgBean, String> {
      */
     public static class Properties {
         public final static Property Fp = new Property(0, String.class, "fp", true, "FP");
-        public final static Property MUid = new Property(1, int.class, "mUid", false, "M_UID");
-        public final static Property PeerUid = new Property(2, int.class, "peerUid", false, "PEER_UID");
-        public final static Property SourceType = new Property(3, int.class, "sourceType", false, "SOURCE_TYPE");
-        public final static Property Content = new Property(4, String.class, "content", false, "CONTENT");
-        public final static Property LocalPath = new Property(5, String.class, "localPath", false, "LOCAL_PATH");
-        public final static Property Status = new Property(6, int.class, "status", false, "STATUS");
-        public final static Property State = new Property(7, int.class, "state", false, "STATE");
-        public final static Property Progress = new Property(8, double.class, "progress", false, "PROGRESS");
-        public final static Property ActualTime = new Property(9, long.class, "actualTime", false, "ACTUAL_TIME");
-        public final static Property NickName = new Property(10, String.class, "nickName", false, "NICK_NAME");
-        public final static Property Avatar = new Property(11, String.class, "avatar", false, "AVATAR");
+        public final static Property Pts = new Property(1, long.class, "pts", false, "PTS");
+        public final static Property MUid = new Property(2, int.class, "mUid", false, "M_UID");
+        public final static Property PeerUid = new Property(3, int.class, "peerUid", false, "PEER_UID");
+        public final static Property SourceType = new Property(4, int.class, "sourceType", false, "SOURCE_TYPE");
+        public final static Property Content = new Property(5, String.class, "content", false, "CONTENT");
+        public final static Property LocalPath = new Property(6, String.class, "localPath", false, "LOCAL_PATH");
+        public final static Property Status = new Property(7, int.class, "status", false, "STATUS");
+        public final static Property State = new Property(8, int.class, "state", false, "STATE");
+        public final static Property Progress = new Property(9, double.class, "progress", false, "PROGRESS");
+        public final static Property ActualTime = new Property(10, long.class, "actualTime", false, "ACTUAL_TIME");
+        public final static Property NickName = new Property(11, String.class, "nickName", false, "NICK_NAME");
+        public final static Property Avatar = new Property(12, String.class, "avatar", false, "AVATAR");
     }
 
 
@@ -52,17 +53,18 @@ public class MsgBeanDao extends AbstractDao<MsgBean, String> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"MSG_BEAN\" (" + //
                 "\"FP\" TEXT PRIMARY KEY NOT NULL ," + // 0: fp
-                "\"M_UID\" INTEGER NOT NULL ," + // 1: mUid
-                "\"PEER_UID\" INTEGER NOT NULL ," + // 2: peerUid
-                "\"SOURCE_TYPE\" INTEGER NOT NULL ," + // 3: sourceType
-                "\"CONTENT\" TEXT," + // 4: content
-                "\"LOCAL_PATH\" TEXT," + // 5: localPath
-                "\"STATUS\" INTEGER NOT NULL ," + // 6: status
-                "\"STATE\" INTEGER NOT NULL ," + // 7: state
-                "\"PROGRESS\" REAL NOT NULL ," + // 8: progress
-                "\"ACTUAL_TIME\" INTEGER NOT NULL ," + // 9: actualTime
-                "\"NICK_NAME\" TEXT," + // 10: nickName
-                "\"AVATAR\" TEXT);"); // 11: avatar
+                "\"PTS\" INTEGER NOT NULL ," + // 1: pts
+                "\"M_UID\" INTEGER NOT NULL ," + // 2: mUid
+                "\"PEER_UID\" INTEGER NOT NULL ," + // 3: peerUid
+                "\"SOURCE_TYPE\" INTEGER NOT NULL ," + // 4: sourceType
+                "\"CONTENT\" TEXT," + // 5: content
+                "\"LOCAL_PATH\" TEXT," + // 6: localPath
+                "\"STATUS\" INTEGER NOT NULL ," + // 7: status
+                "\"STATE\" INTEGER NOT NULL ," + // 8: state
+                "\"PROGRESS\" REAL NOT NULL ," + // 9: progress
+                "\"ACTUAL_TIME\" INTEGER NOT NULL ," + // 10: actualTime
+                "\"NICK_NAME\" TEXT," + // 11: nickName
+                "\"AVATAR\" TEXT);"); // 12: avatar
     }
 
     /** Drops the underlying database table. */
@@ -79,32 +81,33 @@ public class MsgBeanDao extends AbstractDao<MsgBean, String> {
         if (fp != null) {
             stmt.bindString(1, fp);
         }
-        stmt.bindLong(2, entity.getMUid());
-        stmt.bindLong(3, entity.getPeerUid());
-        stmt.bindLong(4, entity.getSourceType());
+        stmt.bindLong(2, entity.getPts());
+        stmt.bindLong(3, entity.getMUid());
+        stmt.bindLong(4, entity.getPeerUid());
+        stmt.bindLong(5, entity.getSourceType());
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(5, content);
+            stmt.bindString(6, content);
         }
  
         String localPath = entity.getLocalPath();
         if (localPath != null) {
-            stmt.bindString(6, localPath);
+            stmt.bindString(7, localPath);
         }
-        stmt.bindLong(7, entity.getStatus());
-        stmt.bindLong(8, entity.getState());
-        stmt.bindDouble(9, entity.getProgress());
-        stmt.bindLong(10, entity.getActualTime());
+        stmt.bindLong(8, entity.getStatus());
+        stmt.bindLong(9, entity.getState());
+        stmt.bindDouble(10, entity.getProgress());
+        stmt.bindLong(11, entity.getActualTime());
  
         String nickName = entity.getNickName();
         if (nickName != null) {
-            stmt.bindString(11, nickName);
+            stmt.bindString(12, nickName);
         }
  
         String avatar = entity.getAvatar();
         if (avatar != null) {
-            stmt.bindString(12, avatar);
+            stmt.bindString(13, avatar);
         }
     }
 
@@ -116,32 +119,33 @@ public class MsgBeanDao extends AbstractDao<MsgBean, String> {
         if (fp != null) {
             stmt.bindString(1, fp);
         }
-        stmt.bindLong(2, entity.getMUid());
-        stmt.bindLong(3, entity.getPeerUid());
-        stmt.bindLong(4, entity.getSourceType());
+        stmt.bindLong(2, entity.getPts());
+        stmt.bindLong(3, entity.getMUid());
+        stmt.bindLong(4, entity.getPeerUid());
+        stmt.bindLong(5, entity.getSourceType());
  
         String content = entity.getContent();
         if (content != null) {
-            stmt.bindString(5, content);
+            stmt.bindString(6, content);
         }
  
         String localPath = entity.getLocalPath();
         if (localPath != null) {
-            stmt.bindString(6, localPath);
+            stmt.bindString(7, localPath);
         }
-        stmt.bindLong(7, entity.getStatus());
-        stmt.bindLong(8, entity.getState());
-        stmt.bindDouble(9, entity.getProgress());
-        stmt.bindLong(10, entity.getActualTime());
+        stmt.bindLong(8, entity.getStatus());
+        stmt.bindLong(9, entity.getState());
+        stmt.bindDouble(10, entity.getProgress());
+        stmt.bindLong(11, entity.getActualTime());
  
         String nickName = entity.getNickName();
         if (nickName != null) {
-            stmt.bindString(11, nickName);
+            stmt.bindString(12, nickName);
         }
  
         String avatar = entity.getAvatar();
         if (avatar != null) {
-            stmt.bindString(12, avatar);
+            stmt.bindString(13, avatar);
         }
     }
 
@@ -154,17 +158,18 @@ public class MsgBeanDao extends AbstractDao<MsgBean, String> {
     public MsgBean readEntity(Cursor cursor, int offset) {
         MsgBean entity = new MsgBean( //
             cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0), // fp
-            cursor.getInt(offset + 1), // mUid
-            cursor.getInt(offset + 2), // peerUid
-            cursor.getInt(offset + 3), // sourceType
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // content
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // localPath
-            cursor.getInt(offset + 6), // status
-            cursor.getInt(offset + 7), // state
-            cursor.getDouble(offset + 8), // progress
-            cursor.getLong(offset + 9), // actualTime
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // nickName
-            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11) // avatar
+            cursor.getLong(offset + 1), // pts
+            cursor.getInt(offset + 2), // mUid
+            cursor.getInt(offset + 3), // peerUid
+            cursor.getInt(offset + 4), // sourceType
+            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // content
+            cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // localPath
+            cursor.getInt(offset + 7), // status
+            cursor.getInt(offset + 8), // state
+            cursor.getDouble(offset + 9), // progress
+            cursor.getLong(offset + 10), // actualTime
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // nickName
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // avatar
         );
         return entity;
     }
@@ -172,17 +177,18 @@ public class MsgBeanDao extends AbstractDao<MsgBean, String> {
     @Override
     public void readEntity(Cursor cursor, MsgBean entity, int offset) {
         entity.setFp(cursor.isNull(offset + 0) ? null : cursor.getString(offset + 0));
-        entity.setMUid(cursor.getInt(offset + 1));
-        entity.setPeerUid(cursor.getInt(offset + 2));
-        entity.setSourceType(cursor.getInt(offset + 3));
-        entity.setContent(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
-        entity.setLocalPath(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setStatus(cursor.getInt(offset + 6));
-        entity.setState(cursor.getInt(offset + 7));
-        entity.setProgress(cursor.getDouble(offset + 8));
-        entity.setActualTime(cursor.getLong(offset + 9));
-        entity.setNickName(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
-        entity.setAvatar(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setPts(cursor.getLong(offset + 1));
+        entity.setMUid(cursor.getInt(offset + 2));
+        entity.setPeerUid(cursor.getInt(offset + 3));
+        entity.setSourceType(cursor.getInt(offset + 4));
+        entity.setContent(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
+        entity.setLocalPath(cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6));
+        entity.setStatus(cursor.getInt(offset + 7));
+        entity.setState(cursor.getInt(offset + 8));
+        entity.setProgress(cursor.getDouble(offset + 9));
+        entity.setActualTime(cursor.getLong(offset + 10));
+        entity.setNickName(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setAvatar(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

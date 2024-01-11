@@ -514,22 +514,10 @@ class getStates : public ::google::protobuf::Message /* @@protoc_insertion_point
   ::google::protobuf::int64 pts() const;
   void set_pts(::google::protobuf::int64 value);
 
-  // optional string token = 2;
-  void clear_token();
-  static const int kTokenFieldNumber = 2;
-  const ::std::string& token() const;
-  void set_token(const ::std::string& value);
-  void set_token(const char* value);
-  void set_token(const char* value, size_t size);
-  ::std::string* mutable_token();
-  ::std::string* release_token();
-  void set_allocated_token(::std::string* token);
-
   // @@protoc_insertion_point(class_scope:uyujoy.api.paasim.frontend.getStates)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr token_;
   ::google::protobuf::int64 pts_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_paasIm_2eproto_impl();
@@ -1096,50 +1084,6 @@ inline void getStates::set_pts(::google::protobuf::int64 value) {
   
   pts_ = value;
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.getStates.pts)
-}
-
-// optional string token = 2;
-inline void getStates::clear_token() {
-  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline const ::std::string& getStates::token() const {
-  // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.getStates.token)
-  return token_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void getStates::set_token(const ::std::string& value) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.getStates.token)
-}
-inline void getStates::set_token(const char* value) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.getStates.token)
-}
-inline void getStates::set_token(const char* value, size_t size) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.getStates.token)
-}
-inline ::std::string* getStates::mutable_token() {
-  
-  // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.getStates.token)
-  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline ::std::string* getStates::release_token() {
-  // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.getStates.token)
-  
-  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-inline void getStates::set_allocated_token(::std::string* token) {
-  if (token != NULL) {
-    
-  } else {
-    
-  }
-  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
-  // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.getStates.token)
 }
 
 inline const getStates* getStates::internal_default_instance() {

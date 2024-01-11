@@ -13,6 +13,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.code.bean.ChannelMsgBean;
 import com.code.data.sqlbean.MsgBean;
+import com.code.data.sqlhelper.MessageHelper;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.ChatMsgListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
@@ -33,6 +34,7 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
@@ -47,7 +49,10 @@ import okhttp3.WebSocketListener;
 import okio.ByteString;
 import proto.ErrorOuterClass;
 import uyujoy.api.channelim.frontend.ChannelIm;
+import uyujoy.api.paasim.frontend.MediaBase;
 import uyujoy.api.paasim.frontend.MsgBase;
+import uyujoy.api.paasim.frontend.PaasIm;
+import uyujoy.api.paasim.frontend.UpdatesBase;
 import uyujoy.api.paasim.frontend.UserBase;
 import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
@@ -85,9 +90,11 @@ public class WSManager {
     private int reconnectNum = 0;
     private Handler heartHandler;
     private ChannelMsgListener channelMsgListener;
+    private ChatMsgListener chatMsgListener;
     private Request request;
     private final Map<String, Function<byte[], Boolean>> actionMappings = new HashMap<>();
     private final HashMap<String, String> awsTranslateMap = new HashMap<>();
+    private long serverNewPts = 0;
 
     private void initDataProcess() {
         Function<byte[], Boolean> pongFunction = bytes -> pongHandle();
@@ -98,7 +105,9 @@ public class WSManager {
         Function<byte[], Boolean> channelMatchFunction = this::channelMatchHandle;
         Function<byte[], Boolean> channelSkipFunction = this::channelSkipHandle;
         Function<byte[], Boolean> deviceUpdatedFunction = this::deviceUpdatedHandle;
+        Function<byte[], Boolean> diffChatMsgFunction = this::diffMsgHandle;
         Function<byte[], Boolean> connectErrorFunction = this::connectErrorHandle;
+        Function<byte[], Boolean> statesFunction = this::statesHandle;
 
         actionMappings.put(Constants.PONG, pongFunction);
         actionMappings.put(Constants.BAN_USER_ROOM, banUserRoomFunction);
@@ -108,6 +117,8 @@ public class WSManager {
         actionMappings.put(Constants.CHANNEL_MATCH, channelMatchFunction);
         actionMappings.put(Constants.CHANNEL_SKIP, channelSkipFunction);
         actionMappings.put(Constants.DEVICE_UPDATED, deviceUpdatedFunction);
+        actionMappings.put(Constants.CHAT_DIFF_MSG_ACK, diffChatMsgFunction);
+        actionMappings.put(Constants.STATES_ACK, statesFunction);
         actionMappings.put(Constants.CONNECT_ERROR, connectErrorFunction);
     }
 
@@ -232,7 +243,53 @@ public class WSManager {
             }
             return true;
         } catch (InvalidProtocolBufferException e) {
-            LogUtil.e(TAG, "channelSkipHandle throw error:" + e);
+            LogUtil.e(TAG, "deviceUpdatedHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean statesHandle(byte[] data) {
+        try {
+            PaasIm.states states = PaasIm.states.parseFrom(data);
+            serverNewPts = states.getPts();
+            long lastPts = MessageHelper.getSingleton().getLastPts();
+            LogUtil.d(TAG, "statesHandle serverNewPts:" + serverNewPts + " lastPts:" + lastPts);
+            if (serverNewPts > lastPts) {
+                getChatDiffMsg();
+            }
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "statesHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean diffMsgHandle(byte[] data) {
+        try {
+            UpdatesBase.updateDifferenceSlice updateDifferenceSlice = UpdatesBase.updateDifferenceSlice.parseFrom(data);
+            List<UpdatesBase.updateNewMessage> msgsList = updateDifferenceSlice.getMsgsList();
+            for (UpdatesBase.updateNewMessage dataInfo : msgsList) {
+                MsgBean msgBean = new MsgBean();
+                msgBean.setPts(dataInfo.getPts());
+                msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
+                msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
+                msgBean.setContent(dataInfo.getMsg().getMsgTxt());
+                msgBean.setMUid(Integer.parseInt(RtcSpUtils.getInstance().getUserUid()));
+                msgBean.setActualTime(dataInfo.getMsg().getSendTime());
+                String to = dataInfo.getMsg().getTo();
+                if (to.equals(RtcSpUtils.getInstance().getUserUid())) {
+                    msgBean.setSourceType(Constants.MSG_RECEIVER);
+                }
+                MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
+                MessageHelper.getSingleton().insertData(msgBean);
+            }
+            long lastPts = MessageHelper.getSingleton().getLastPts();
+            if (serverNewPts > lastPts) {
+                getChatDiffMsg();
+            }
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "diffMsgHandle throw error:" + e);
             return false;
         }
     }
@@ -709,10 +766,11 @@ public class WSManager {
     }
 
     public void sendMediaMsg(int mUid, int peerUid, File file, int mediaType, ChatMsgListener chatMsgListener) {
-
+        this.chatMsgListener = chatMsgListener;
     }
 
     public String sendTextMsg(int mUid, int peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
         userInfo.setName(nickName);
@@ -731,12 +789,33 @@ public class WSManager {
         return msgFp;
     }
 
+    public void getStates() {
+        long lastPts = MessageHelper.getSingleton().getLastPts();
+        PaasIm.getStates getStates = PaasIm.getStates.newBuilder()
+                .setPts(lastPts)
+                .build();
+        byte[] bytes = DataUtils.assembleData(0x5b7af35f, getStates.toByteArray());
+        send(ByteString.of(bytes));
+    }
+
     public ArrayList<MsgBean> getChatMsgList() {
         return new ArrayList<>();
     }
 
     public void getChatDiffMsg() {
-        //0x961e73bb
+        long lastPts = MessageHelper.getSingleton().getLastPts();
+        long lastPtsDate = MessageHelper.getSingleton().getLastPtsDate();
+        LogUtil.d(TAG, "getChatDiffMsg lastPts:" + lastPts + " lastPtsDate:" + lastPtsDate);
+        UpdatesBase.updatGetDifference updatGetDifference = UpdatesBase.updatGetDifference.newBuilder()
+                .setPts(lastPts)
+                .setDate(lastPtsDate)
+                .build();
+        PaasIm.reqDifference reqDifference = PaasIm.reqDifference.newBuilder()
+                .setUid(Integer.parseInt(RtcSpUtils.getInstance().getUserUid()))
+                .setReq(updatGetDifference.toByteString())
+                .build();
+        byte[] bytes = DataUtils.assembleData(0x961e73bb, reqDifference.toByteArray());
+        send(ByteString.of(bytes));
     }
 
     private void getChannelDiffMsg(int msgId) {

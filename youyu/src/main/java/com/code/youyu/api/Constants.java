@@ -9,6 +9,8 @@ public class Constants {
     public static final String CONNECT_ERROR = "9c1c9375";
     public static final String CHANNEL_MSG_RECORD = "148f5df6";
     public static final String GET_DIFF_MSG_RECORD_ACK = "905c3244";
+    public static final String CHAT_DIFF_MSG_ACK = "f454ab96";
+    public static final String STATES_ACK = "366e727b";
     public static final String CHANNEL_MATCH = "807c0cc4";
     public static final String CHANNEL_SKIP = "deef91bb";
     public static final int VIDEO = 1;
@@ -26,7 +28,7 @@ public class Constants {
     public static final int ROOM_STATE_ERROR = -2;
 
     public static final String AWS_HTTPS_HEAD = "https://ujoy-paas-formal-eks.s3.us-west-2.amazonaws.com/";
-    public static final String Bucket= "ujoy-paas-formal-eks";
+    public static final String Bucket = "ujoy-paas-formal-eks";
     public static final String Region = "us-west-2";
 
     public static final int MSG_RECEIVER = 1;

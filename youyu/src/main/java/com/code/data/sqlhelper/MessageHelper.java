@@ -7,6 +7,7 @@ import com.code.data.greendao.DaoSession;
 import com.code.data.greendao.MsgBeanDao;
 import com.code.data.sqlbean.MsgBean;
 import com.code.utils.LogUtil;
+import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.google.gson.Gson;
 
@@ -101,7 +102,7 @@ public class MessageHelper {
             if (greendaoDataListener != null && QueryId == msgBean.getPeerUid()) {
                 greendaoDataListener.DataChange(msgBean);
             }
-            //TODO 添加聊天列表
+            ChatListHelper.getSingleton().insertData(msgBean);
         }
     }
 
@@ -219,15 +220,29 @@ public class MessageHelper {
     /**
      * Get a range of data
      */
-    public List<MsgBean> getMessage(int uid,int start, int count) {
+    public List<MsgBean> getMessage(int uid, int start, int count) {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.Status.eq(0)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(start).limit(count).build().forCurrentThread().list();
+    }
+
+    public long getLastPtsDate() {
+        QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.MUid.eq(RtcSpUtils.getInstance().getUserUid()),
+                MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        return msgBean.getActualTime();
+    }
+
+    public long getLastPts() {
+        QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.MUid.eq(RtcSpUtils.getInstance().getUserUid()),
+                MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        return msgBean.getPts();
     }
 
     /**
      * Specify person to obtain data
      */
-    public List<MsgBean> getData(int uid,int peerUid, int PageNumber, int IndexNumber) {
+    public List<MsgBean> getData(int uid, int peerUid, int PageNumber, int IndexNumber) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
             return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).build().forCurrentThread().list();
@@ -240,7 +255,7 @@ public class MessageHelper {
     /**
      * Specify person to obtain all data
      */
-    public List<MsgBean> getAllData(int uid,int peerUid) {
+    public List<MsgBean> getAllData(int uid, int peerUid) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
             return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).build().forCurrentThread().list();

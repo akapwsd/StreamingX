@@ -2481,27 +2481,13 @@ public final class PaasIm {
       com.google.protobuf.MessageOrBuilder {
 
     /**
+     * <pre>
+     *  connDetail detail = 3;
+     * </pre>
+     *
      * <code>optional int64 pts = 1;</code>
      */
     long getPts();
-
-    /**
-     * <pre>
-     *  connDetail detail = 3;
-     * </pre>
-     *
-     * <code>optional string token = 2;</code>
-     */
-    java.lang.String getToken();
-    /**
-     * <pre>
-     *  connDetail detail = 3;
-     * </pre>
-     *
-     * <code>optional string token = 2;</code>
-     */
-    com.google.protobuf.ByteString
-        getTokenBytes();
   }
   /**
    * <pre>
@@ -2521,7 +2507,6 @@ public final class PaasIm {
     }
     private getStates() {
       pts_ = 0L;
-      token_ = "";
     }
 
     @java.lang.Override
@@ -2554,12 +2539,6 @@ public final class PaasIm {
               pts_ = input.readInt64();
               break;
             }
-            case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
-
-              token_ = s;
-              break;
-            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -2586,52 +2565,14 @@ public final class PaasIm {
     public static final int PTS_FIELD_NUMBER = 1;
     private long pts_;
     /**
+     * <pre>
+     *  connDetail detail = 3;
+     * </pre>
+     *
      * <code>optional int64 pts = 1;</code>
      */
     public long getPts() {
       return pts_;
-    }
-
-    public static final int TOKEN_FIELD_NUMBER = 2;
-    private volatile java.lang.Object token_;
-    /**
-     * <pre>
-     *  connDetail detail = 3;
-     * </pre>
-     *
-     * <code>optional string token = 2;</code>
-     */
-    public java.lang.String getToken() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        token_ = s;
-        return s;
-      }
-    }
-    /**
-     * <pre>
-     *  connDetail detail = 3;
-     * </pre>
-     *
-     * <code>optional string token = 2;</code>
-     */
-    public com.google.protobuf.ByteString
-        getTokenBytes() {
-      java.lang.Object ref = token_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        token_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
     }
 
     private byte memoizedIsInitialized = -1;
@@ -2649,9 +2590,6 @@ public final class PaasIm {
       if (pts_ != 0L) {
         output.writeInt64(1, pts_);
       }
-      if (!getTokenBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, token_);
-      }
     }
 
     public int getSerializedSize() {
@@ -2662,9 +2600,6 @@ public final class PaasIm {
       if (pts_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(1, pts_);
-      }
-      if (!getTokenBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, token_);
       }
       memoizedSize = size;
       return size;
@@ -2684,8 +2619,6 @@ public final class PaasIm {
       boolean result = true;
       result = result && (getPts()
           == other.getPts());
-      result = result && getToken()
-          .equals(other.getToken());
       return result;
     }
 
@@ -2699,8 +2632,6 @@ public final class PaasIm {
       hash = (37 * hash) + PTS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getPts());
-      hash = (37 * hash) + TOKEN_FIELD_NUMBER;
-      hash = (53 * hash) + getToken().hashCode();
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -2826,8 +2757,6 @@ public final class PaasIm {
         super.clear();
         pts_ = 0L;
 
-        token_ = "";
-
         return this;
       }
 
@@ -2851,7 +2780,6 @@ public final class PaasIm {
       public uyujoy.api.paasim.frontend.PaasIm.getStates buildPartial() {
         uyujoy.api.paasim.frontend.PaasIm.getStates result = new uyujoy.api.paasim.frontend.PaasIm.getStates(this);
         result.pts_ = pts_;
-        result.token_ = token_;
         onBuilt();
         return result;
       }
@@ -2896,10 +2824,6 @@ public final class PaasIm {
         if (other.getPts() != 0L) {
           setPts(other.getPts());
         }
-        if (!other.getToken().isEmpty()) {
-          token_ = other.token_;
-          onChanged();
-        }
         onChanged();
         return this;
       }
@@ -2928,12 +2852,20 @@ public final class PaasIm {
 
       private long pts_ ;
       /**
+       * <pre>
+       *  connDetail detail = 3;
+       * </pre>
+       *
        * <code>optional int64 pts = 1;</code>
        */
       public long getPts() {
         return pts_;
       }
       /**
+       * <pre>
+       *  connDetail detail = 3;
+       * </pre>
+       *
        * <code>optional int64 pts = 1;</code>
        */
       public Builder setPts(long value) {
@@ -2943,100 +2875,15 @@ public final class PaasIm {
         return this;
       }
       /**
+       * <pre>
+       *  connDetail detail = 3;
+       * </pre>
+       *
        * <code>optional int64 pts = 1;</code>
        */
       public Builder clearPts() {
         
         pts_ = 0L;
-        onChanged();
-        return this;
-      }
-
-      private java.lang.Object token_ = "";
-      /**
-       * <pre>
-       *  connDetail detail = 3;
-       * </pre>
-       *
-       * <code>optional string token = 2;</code>
-       */
-      public java.lang.String getToken() {
-        java.lang.Object ref = token_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          token_ = s;
-          return s;
-        } else {
-          return (java.lang.String) ref;
-        }
-      }
-      /**
-       * <pre>
-       *  connDetail detail = 3;
-       * </pre>
-       *
-       * <code>optional string token = 2;</code>
-       */
-      public com.google.protobuf.ByteString
-          getTokenBytes() {
-        java.lang.Object ref = token_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          token_ = b;
-          return b;
-        } else {
-          return (com.google.protobuf.ByteString) ref;
-        }
-      }
-      /**
-       * <pre>
-       *  connDetail detail = 3;
-       * </pre>
-       *
-       * <code>optional string token = 2;</code>
-       */
-      public Builder setToken(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        token_ = value;
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *  connDetail detail = 3;
-       * </pre>
-       *
-       * <code>optional string token = 2;</code>
-       */
-      public Builder clearToken() {
-        
-        token_ = getDefaultInstance().getToken();
-        onChanged();
-        return this;
-      }
-      /**
-       * <pre>
-       *  connDetail detail = 3;
-       * </pre>
-       *
-       * <code>optional string token = 2;</code>
-       */
-      public Builder setTokenBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
-        
-        token_ = value;
         onChanged();
         return this;
       }
@@ -4762,14 +4609,13 @@ public final class PaasIm {
       "sgSent\022\013\n\003pts\030\001 \001(\003\022\r\n\005msgId\030\002 \001(\003\022\020\n\010ge" +
       "nMsgId\030\003 \001(\003\022\n\n\002fp\030\004 \001(\003\022\014\n\004from\030\005 \001(\t\022\n" +
       "\n\002to\030\006 \001(\t\022\014\n\004date\030\007 \001(\003\"\036\n\014updateStatus" +
-      "\022\016\n\006status\030\001 \001(\r\"\021\n\017updateStatusAck\"\'\n\tg" +
-      "etStates\022\013\n\003pts\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\"A\n\006" +
-      "states\022\013\n\003pts\030\001 \001(\003\022\017\n\007tooLong\030\002 \001(\010\022\013\n\003",
-      "seq\030\003 \001(\003\022\014\n\004date\030\004 \001(\003\")\n\rreqDifference" +
-      "\022\013\n\003uid\030\001 \001(\r\022\013\n\003req\030\002 \001(\014\"$\n\014updatesSli" +
-      "ce\022\024\n\014updatesSlice\030\001 \001(\014B5Z3uyujoy.com/p" +
-      "ass/protogen/api/paasim/frontend;paasimb" +
-      "\006proto3"
+      "\022\016\n\006status\030\001 \001(\r\"\021\n\017updateStatusAck\"\030\n\tg" +
+      "etStates\022\013\n\003pts\030\001 \001(\003\"A\n\006states\022\013\n\003pts\030\001" +
+      " \001(\003\022\017\n\007tooLong\030\002 \001(\010\022\013\n\003seq\030\003 \001(\003\022\014\n\004da",
+      "te\030\004 \001(\003\")\n\rreqDifference\022\013\n\003uid\030\001 \001(\r\022\013" +
+      "\n\003req\030\002 \001(\014\"$\n\014updatesSlice\022\024\n\014updatesSl" +
+      "ice\030\001 \001(\014B5Z3uyujoy.com/pass/protogen/ap" +
+      "i/paasim/frontend;paasimb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -4814,7 +4660,7 @@ public final class PaasIm {
     internal_static_uyujoy_api_paasim_frontend_getStates_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_uyujoy_api_paasim_frontend_getStates_descriptor,
-        new java.lang.String[] { "Pts", "Token", });
+        new java.lang.String[] { "Pts", });
     internal_static_uyujoy_api_paasim_frontend_states_descriptor =
       getDescriptor().getMessageTypes().get(5);
     internal_static_uyujoy_api_paasim_frontend_states_fieldAccessorTable = new

@@ -9,6 +9,7 @@ import org.greenrobot.greendao.annotation.Generated;
 public class MsgBean {
     @Id
     private String fp;//Locally logged message unique identification number
+    private long pts;
     @NotNull
     private int mUid; //your uid
     @NotNull
@@ -25,10 +26,11 @@ public class MsgBean {
     private long actualTime;
     private String nickName;
     private String avatar;
-    @Generated(hash = 1436391092)
-    public MsgBean(String fp, int mUid, int peerUid, int sourceType, String content, String localPath, int status,
-            int state, double progress, long actualTime, String nickName, String avatar) {
+    @Generated(hash = 270969052)
+    public MsgBean(String fp, long pts, int mUid, int peerUid, int sourceType, String content, String localPath,
+            int status, int state, double progress, long actualTime, String nickName, String avatar) {
         this.fp = fp;
+        this.pts = pts;
         this.mUid = mUid;
         this.peerUid = peerUid;
         this.sourceType = sourceType;
@@ -115,5 +117,11 @@ public class MsgBean {
     }
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+    public long getPts() {
+        return this.pts;
+    }
+    public void setPts(long pts) {
+        this.pts = pts;
     }
 }

@@ -121,9 +121,8 @@ void protobuf_AssignDesc_paasIm_2eproto() {
       sizeof(updateStatusAck),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(updateStatusAck, _internal_metadata_));
   getStates_descriptor_ = file->message_type(4);
-  static const int getStates_offsets_[2] = {
+  static const int getStates_offsets_[1] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(getStates, pts_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(getStates, token_),
   };
   getStates_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -243,7 +242,6 @@ void protobuf_InitDefaults_paasIm_2eproto_impl() {
   paasImMsgSent_default_instance_.DefaultConstruct();
   updateStatus_default_instance_.DefaultConstruct();
   updateStatusAck_default_instance_.DefaultConstruct();
-  ::google::protobuf::internal::GetEmptyString();
   getStates_default_instance_.DefaultConstruct();
   states_default_instance_.DefaultConstruct();
   ::google::protobuf::internal::GetEmptyString();
@@ -277,14 +275,13 @@ void protobuf_AddDesc_paasIm_2eproto_impl() {
     "sgSent\022\013\n\003pts\030\001 \001(\003\022\r\n\005msgId\030\002 \001(\003\022\020\n\010ge"
     "nMsgId\030\003 \001(\003\022\n\n\002fp\030\004 \001(\003\022\014\n\004from\030\005 \001(\t\022\n"
     "\n\002to\030\006 \001(\t\022\014\n\004date\030\007 \001(\003\"\036\n\014updateStatus"
-    "\022\016\n\006status\030\001 \001(\r\"\021\n\017updateStatusAck\"\'\n\tg"
-    "etStates\022\013\n\003pts\030\001 \001(\003\022\r\n\005token\030\002 \001(\t\"A\n\006"
-    "states\022\013\n\003pts\030\001 \001(\003\022\017\n\007tooLong\030\002 \001(\010\022\013\n\003"
-    "seq\030\003 \001(\003\022\014\n\004date\030\004 \001(\003\")\n\rreqDifference"
-    "\022\013\n\003uid\030\001 \001(\r\022\013\n\003req\030\002 \001(\014\"$\n\014updatesSli"
-    "ce\022\024\n\014updatesSlice\030\001 \001(\014B5Z3uyujoy.com/p"
-    "ass/protogen/api/paasim/frontend;paasimb"
-    "\006proto3", 567);
+    "\022\016\n\006status\030\001 \001(\r\"\021\n\017updateStatusAck\"\030\n\tg"
+    "etStates\022\013\n\003pts\030\001 \001(\003\"A\n\006states\022\013\n\003pts\030\001"
+    " \001(\003\022\017\n\007tooLong\030\002 \001(\010\022\013\n\003seq\030\003 \001(\003\022\014\n\004da"
+    "te\030\004 \001(\003\")\n\rreqDifference\022\013\n\003uid\030\001 \001(\r\022\013"
+    "\n\003req\030\002 \001(\014\"$\n\014updatesSlice\022\024\n\014updatesSl"
+    "ice\030\001 \001(\014B5Z3uyujoy.com/pass/protogen/ap"
+    "i/paasim/frontend;paasimb\006proto3", 552);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "paasIm.proto", &protobuf_RegisterTypes);
   ::uyujoy::api::paasim::frontend::protobuf_AddDesc_updatesBase_2eproto();
@@ -1690,7 +1687,6 @@ inline const updateStatusAck* updateStatusAck::internal_default_instance() {
 
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int getStates::kPtsFieldNumber;
-const int getStates::kTokenFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 getStates::getStates()
@@ -1712,7 +1708,6 @@ getStates::getStates(const getStates& from)
 }
 
 void getStates::SharedCtor() {
-  token_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   pts_ = GOOGLE_LONGLONG(0);
   _cached_size_ = 0;
 }
@@ -1723,7 +1718,6 @@ getStates::~getStates() {
 }
 
 void getStates::SharedDtor() {
-  token_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 void getStates::SetCachedSize(int size) const {
@@ -1754,7 +1748,6 @@ getStates* getStates::New(::google::protobuf::Arena* arena) const {
 void getStates::Clear() {
 // @@protoc_insertion_point(message_clear_start:uyujoy.api.paasim.frontend.getStates)
   pts_ = GOOGLE_LONGLONG(0);
-  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
 
 bool getStates::MergePartialFromCodedStream(
@@ -1774,23 +1767,6 @@ bool getStates::MergePartialFromCodedStream(
           DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
                    ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
                  input, &pts_)));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(18)) goto parse_token;
-        break;
-      }
-
-      // optional string token = 2;
-      case 2: {
-        if (tag == 18) {
-         parse_token:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_token()));
-          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-            this->token().data(), this->token().length(),
-            ::google::protobuf::internal::WireFormatLite::PARSE,
-            "uyujoy.api.paasim.frontend.getStates.token"));
         } else {
           goto handle_unusual;
         }
@@ -1827,16 +1803,6 @@ void getStates::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(1, this->pts(), output);
   }
 
-  // optional string token = 2;
-  if (this->token().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->token().data(), this->token().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "uyujoy.api.paasim.frontend.getStates.token");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->token(), output);
-  }
-
   // @@protoc_insertion_point(serialize_end:uyujoy.api.paasim.frontend.getStates)
 }
 
@@ -1847,17 +1813,6 @@ void getStates::SerializeWithCachedSizes(
   // optional int64 pts = 1;
   if (this->pts() != 0) {
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(1, this->pts(), target);
-  }
-
-  // optional string token = 2;
-  if (this->token().size() > 0) {
-    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
-      this->token().data(), this->token().length(),
-      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
-      "uyujoy.api.paasim.frontend.getStates.token");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->token(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:uyujoy.api.paasim.frontend.getStates)
@@ -1873,13 +1828,6 @@ size_t getStates::ByteSizeLong() const {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::Int64Size(
         this->pts());
-  }
-
-  // optional string token = 2;
-  if (this->token().size() > 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->token());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -1918,10 +1866,6 @@ void getStates::UnsafeMergeFrom(const getStates& from) {
   if (from.pts() != 0) {
     set_pts(from.pts());
   }
-  if (from.token().size() > 0) {
-
-    token_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.token_);
-  }
 }
 
 void getStates::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1949,7 +1893,6 @@ void getStates::Swap(getStates* other) {
 }
 void getStates::InternalSwap(getStates* other) {
   std::swap(pts_, other->pts_);
-  token_.Swap(&other->token_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1977,50 +1920,6 @@ void getStates::set_pts(::google::protobuf::int64 value) {
   
   pts_ = value;
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.getStates.pts)
-}
-
-// optional string token = 2;
-void getStates::clear_token() {
-  token_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-const ::std::string& getStates::token() const {
-  // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.getStates.token)
-  return token_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void getStates::set_token(const ::std::string& value) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.getStates.token)
-}
-void getStates::set_token(const char* value) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.getStates.token)
-}
-void getStates::set_token(const char* value, size_t size) {
-  
-  token_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.getStates.token)
-}
-::std::string* getStates::mutable_token() {
-  
-  // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.getStates.token)
-  return token_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-::std::string* getStates::release_token() {
-  // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.getStates.token)
-  
-  return token_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-}
-void getStates::set_allocated_token(::std::string* token) {
-  if (token != NULL) {
-    
-  } else {
-    
-  }
-  token_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), token);
-  // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.getStates.token)
 }
 
 inline const getStates* getStates::internal_default_instance() {

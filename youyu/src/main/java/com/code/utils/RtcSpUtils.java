@@ -63,11 +63,19 @@ public class RtcSpUtils {
         return (String) RtcSpBase.get("calling_channel", "");
     }
 
-    public void setMessageId(long messageId){
+    public void setMessageId(long messageId) {
         RtcSpBase.put("message_id", messageId);
     }
 
-    public long getMessageId(){
+    public long getMessageId() {
         return (long) RtcSpBase.get("message_id", 0L);
+    }
+
+    public void setUserUid(String uid) {
+        RtcSpBase.put("user_uid", uid);
+    }
+
+    public String getUserUid() {
+        return (String) RtcSpBase.get("user_uid", "");
     }
 }
