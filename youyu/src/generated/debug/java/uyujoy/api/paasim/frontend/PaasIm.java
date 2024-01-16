@@ -604,9 +604,14 @@ public final class PaasIm {
     long getGenMsgId();
 
     /**
-     * <code>optional int64 fp = 4;</code>
+     * <code>optional string fp = 4;</code>
      */
-    long getFp();
+    java.lang.String getFp();
+    /**
+     * <code>optional string fp = 4;</code>
+     */
+    com.google.protobuf.ByteString
+        getFpBytes();
 
     /**
      * <pre>
@@ -672,7 +677,7 @@ public final class PaasIm {
       pts_ = 0L;
       msgId_ = 0L;
       genMsgId_ = 0L;
-      fp_ = 0L;
+      fp_ = "";
       from_ = "";
       to_ = "";
       date_ = 0L;
@@ -718,9 +723,10 @@ public final class PaasIm {
               genMsgId_ = input.readInt64();
               break;
             }
-            case 32: {
+            case 34: {
+              java.lang.String s = input.readStringRequireUtf8();
 
-              fp_ = input.readInt64();
+              fp_ = s;
               break;
             }
             case 42: {
@@ -791,12 +797,37 @@ public final class PaasIm {
     }
 
     public static final int FP_FIELD_NUMBER = 4;
-    private long fp_;
+    private volatile java.lang.Object fp_;
     /**
-     * <code>optional int64 fp = 4;</code>
+     * <code>optional string fp = 4;</code>
      */
-    public long getFp() {
-      return fp_;
+    public java.lang.String getFp() {
+      java.lang.Object ref = fp_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        fp_ = s;
+        return s;
+      }
+    }
+    /**
+     * <code>optional string fp = 4;</code>
+     */
+    public com.google.protobuf.ByteString
+        getFpBytes() {
+      java.lang.Object ref = fp_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        fp_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
 
     public static final int FROM_FIELD_NUMBER = 5;
@@ -917,8 +948,8 @@ public final class PaasIm {
       if (genMsgId_ != 0L) {
         output.writeInt64(3, genMsgId_);
       }
-      if (fp_ != 0L) {
-        output.writeInt64(4, fp_);
+      if (!getFpBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, fp_);
       }
       if (!getFromBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 5, from_);
@@ -948,9 +979,8 @@ public final class PaasIm {
         size += com.google.protobuf.CodedOutputStream
           .computeInt64Size(3, genMsgId_);
       }
-      if (fp_ != 0L) {
-        size += com.google.protobuf.CodedOutputStream
-          .computeInt64Size(4, fp_);
+      if (!getFpBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, fp_);
       }
       if (!getFromBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, from_);
@@ -984,8 +1014,8 @@ public final class PaasIm {
           == other.getMsgId());
       result = result && (getGenMsgId()
           == other.getGenMsgId());
-      result = result && (getFp()
-          == other.getFp());
+      result = result && getFp()
+          .equals(other.getFp());
       result = result && getFrom()
           .equals(other.getFrom());
       result = result && getTo()
@@ -1012,8 +1042,7 @@ public final class PaasIm {
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getGenMsgId());
       hash = (37 * hash) + FP_FIELD_NUMBER;
-      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
-          getFp());
+      hash = (53 * hash) + getFp().hashCode();
       hash = (37 * hash) + FROM_FIELD_NUMBER;
       hash = (53 * hash) + getFrom().hashCode();
       hash = (37 * hash) + TO_FIELD_NUMBER;
@@ -1149,7 +1178,7 @@ public final class PaasIm {
 
         genMsgId_ = 0L;
 
-        fp_ = 0L;
+        fp_ = "";
 
         from_ = "";
 
@@ -1236,8 +1265,9 @@ public final class PaasIm {
         if (other.getGenMsgId() != 0L) {
           setGenMsgId(other.getGenMsgId());
         }
-        if (other.getFp() != 0L) {
-          setFp(other.getFp());
+        if (!other.getFp().isEmpty()) {
+          fp_ = other.fp_;
+          onChanged();
         }
         if (!other.getFrom().isEmpty()) {
           from_ = other.from_;
@@ -1354,28 +1384,71 @@ public final class PaasIm {
         return this;
       }
 
-      private long fp_ ;
+      private java.lang.Object fp_ = "";
       /**
-       * <code>optional int64 fp = 4;</code>
+       * <code>optional string fp = 4;</code>
        */
-      public long getFp() {
-        return fp_;
+      public java.lang.String getFp() {
+        java.lang.Object ref = fp_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          fp_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
       }
       /**
-       * <code>optional int64 fp = 4;</code>
+       * <code>optional string fp = 4;</code>
        */
-      public Builder setFp(long value) {
-        
+      public com.google.protobuf.ByteString
+          getFpBytes() {
+        java.lang.Object ref = fp_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          fp_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <code>optional string fp = 4;</code>
+       */
+      public Builder setFp(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
         fp_ = value;
         onChanged();
         return this;
       }
       /**
-       * <code>optional int64 fp = 4;</code>
+       * <code>optional string fp = 4;</code>
        */
       public Builder clearFp() {
         
-        fp_ = 0L;
+        fp_ = getDefaultInstance().getFp();
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional string fp = 4;</code>
+       */
+      public Builder setFpBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        fp_ = value;
         onChanged();
         return this;
       }
@@ -4607,7 +4680,7 @@ public final class PaasIm {
       "paasImMsgSend\0226\n\003msg\030\001 \001(\0132).uyujoy.api." +
       "paasim.frontend.paasMsgRecord\"q\n\rpaasImM" +
       "sgSent\022\013\n\003pts\030\001 \001(\003\022\r\n\005msgId\030\002 \001(\003\022\020\n\010ge" +
-      "nMsgId\030\003 \001(\003\022\n\n\002fp\030\004 \001(\003\022\014\n\004from\030\005 \001(\t\022\n" +
+      "nMsgId\030\003 \001(\003\022\n\n\002fp\030\004 \001(\t\022\014\n\004from\030\005 \001(\t\022\n" +
       "\n\002to\030\006 \001(\t\022\014\n\004date\030\007 \001(\003\"\036\n\014updateStatus" +
       "\022\016\n\006status\030\001 \001(\r\"\021\n\017updateStatusAck\"\030\n\tg" +
       "etStates\022\013\n\003pts\030\001 \001(\003\"A\n\006states\022\013\n\003pts\030\001" +

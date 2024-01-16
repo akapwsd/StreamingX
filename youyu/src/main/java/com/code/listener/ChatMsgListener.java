@@ -10,7 +10,7 @@ package com.code.listener;
  * @since JDK8
  */
 public interface ChatMsgListener {
-    void sendResult(int state);
+    void sendResult(String fp, int state);
 
     void sendFail(int code, String error);
 

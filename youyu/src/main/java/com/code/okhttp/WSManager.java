@@ -20,6 +20,7 @@ import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.msg.NettyMsg;
 import com.code.utils.DataUtils;
 import com.code.utils.LogUtil;
+import com.code.utils.MessageLoopThread;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.code.youyu.api.StreamingXRtcManager;
@@ -108,6 +109,7 @@ public class WSManager {
         Function<byte[], Boolean> diffChatMsgFunction = this::diffMsgHandle;
         Function<byte[], Boolean> connectErrorFunction = this::connectErrorHandle;
         Function<byte[], Boolean> statesFunction = this::statesHandle;
+        Function<byte[], Boolean> sendChatResultFunction = this::sendChatResultHandle;
 
         actionMappings.put(Constants.PONG, pongFunction);
         actionMappings.put(Constants.BAN_USER_ROOM, banUserRoomFunction);
@@ -120,6 +122,7 @@ public class WSManager {
         actionMappings.put(Constants.CHAT_DIFF_MSG_ACK, diffChatMsgFunction);
         actionMappings.put(Constants.STATES_ACK, statesFunction);
         actionMappings.put(Constants.CONNECT_ERROR, connectErrorFunction);
+        actionMappings.put(Constants.MSG_SENT_ACK, sendChatResultFunction);
     }
 
     private boolean pongHandle() {
@@ -264,6 +267,23 @@ public class WSManager {
         }
     }
 
+    private boolean sendChatResultHandle(byte[] data) {
+        try {
+            PaasIm.paasImMsgSent paasImMsgSent = PaasIm.paasImMsgSent.parseFrom(data);
+            MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(paasImMsgSent.getFp());
+            if (oneMessage != null) {
+                oneMessage.setPts(paasImMsgSent.getPts());
+                MessageHelper.getSingleton().insertOrReplaceData(oneMessage);
+            }
+            MessageLoopThread.getInstance().removeReceivedMsg(paasImMsgSent.getFp(), Constants.SEND_SUCCESS);
+            chatMsgListener.sendResult(paasImMsgSent.getFp(), Constants.SEND_SUCCESS);
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "statesHandle throw error:" + e);
+            return false;
+        }
+    }
+
     private boolean diffMsgHandle(byte[] data) {
         try {
             UpdatesBase.updateDifferenceSlice updateDifferenceSlice = UpdatesBase.updateDifferenceSlice.parseFrom(data);
@@ -281,7 +301,7 @@ public class WSManager {
                     msgBean.setSourceType(Constants.MSG_RECEIVER);
                 }
                 MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
-                MessageHelper.getSingleton().insertData(msgBean);
+                MessageHelper.getSingleton().insertOrReplaceData(msgBean);
             }
             long lastPts = MessageHelper.getSingleton().getLastPts();
             if (serverNewPts > lastPts) {
@@ -783,9 +803,15 @@ public class WSManager {
         msgBase.setMsgType(Constants.MSG_SEND_TEXT);
         msgBase.setSendTime(System.currentTimeMillis());
         msgBase.setUser(userInfo.build());
-        byte[] bytes = DataUtils.assembleData(0xa58faca5, msgBase.build().toByteArray());
+        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder()
+                .setMsg(msgBase.build())
+                .build();
+        byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         send(ByteString.of(bytes));
+        MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
+        MessageHelper.getSingleton().insertOrReplaceData(msgBase.build());
+        chatMsgListener.sendResult(msgFp, Constants.SENDING);
         return msgFp;
     }
 

@@ -273,7 +273,7 @@ void protobuf_AddDesc_paasIm_2eproto_impl() {
     "paasImMsgSend\0226\n\003msg\030\001 \001(\0132).uyujoy.api."
     "paasim.frontend.paasMsgRecord\"q\n\rpaasImM"
     "sgSent\022\013\n\003pts\030\001 \001(\003\022\r\n\005msgId\030\002 \001(\003\022\020\n\010ge"
-    "nMsgId\030\003 \001(\003\022\n\n\002fp\030\004 \001(\003\022\014\n\004from\030\005 \001(\t\022\n"
+    "nMsgId\030\003 \001(\003\022\n\n\002fp\030\004 \001(\t\022\014\n\004from\030\005 \001(\t\022\n"
     "\n\002to\030\006 \001(\t\022\014\n\004date\030\007 \001(\003\"\036\n\014updateStatus"
     "\022\016\n\006status\030\001 \001(\r\"\021\n\017updateStatusAck\"\030\n\tg"
     "etStates\022\013\n\003pts\030\001 \001(\003\"A\n\006states\022\013\n\003pts\030\001"
@@ -618,6 +618,7 @@ paasImMsgSent::paasImMsgSent(const paasImMsgSent& from)
 }
 
 void paasImMsgSent::SharedCtor() {
+  fp_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   from_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   to_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   ::memset(&pts_, 0, reinterpret_cast<char*>(&date_) -
@@ -631,6 +632,7 @@ paasImMsgSent::~paasImMsgSent() {
 }
 
 void paasImMsgSent::SharedDtor() {
+  fp_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   from_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   to_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
@@ -679,6 +681,7 @@ void paasImMsgSent::Clear() {
 } while (0)
 
   ZR_(pts_, date_);
+  fp_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   from_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
   to_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 
@@ -737,18 +740,20 @@ bool paasImMsgSent::MergePartialFromCodedStream(
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(32)) goto parse_fp;
+        if (input->ExpectTag(34)) goto parse_fp;
         break;
       }
 
-      // optional int64 fp = 4;
+      // optional string fp = 4;
       case 4: {
-        if (tag == 32) {
+        if (tag == 34) {
          parse_fp:
-
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
-                 input, &fp_)));
+          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
+                input, this->mutable_fp()));
+          DO_(::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+            this->fp().data(), this->fp().length(),
+            ::google::protobuf::internal::WireFormatLite::PARSE,
+            "uyujoy.api.paasim.frontend.paasImMsgSent.fp"));
         } else {
           goto handle_unusual;
         }
@@ -844,9 +849,14 @@ void paasImMsgSent::SerializeWithCachedSizes(
     ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->genmsgid(), output);
   }
 
-  // optional int64 fp = 4;
-  if (this->fp() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteInt64(4, this->fp(), output);
+  // optional string fp = 4;
+  if (this->fp().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->fp().data(), this->fp().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "uyujoy.api.paasim.frontend.paasImMsgSent.fp");
+    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
+      4, this->fp(), output);
   }
 
   // optional string from = 5;
@@ -896,9 +906,15 @@ void paasImMsgSent::SerializeWithCachedSizes(
     target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(3, this->genmsgid(), target);
   }
 
-  // optional int64 fp = 4;
-  if (this->fp() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(4, this->fp(), target);
+  // optional string fp = 4;
+  if (this->fp().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::VerifyUtf8String(
+      this->fp().data(), this->fp().length(),
+      ::google::protobuf::internal::WireFormatLite::SERIALIZE,
+      "uyujoy.api.paasim.frontend.paasImMsgSent.fp");
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
+        4, this->fp(), target);
   }
 
   // optional string from = 5;
@@ -957,10 +973,10 @@ size_t paasImMsgSent::ByteSizeLong() const {
         this->genmsgid());
   }
 
-  // optional int64 fp = 4;
-  if (this->fp() != 0) {
+  // optional string fp = 4;
+  if (this->fp().size() > 0) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::Int64Size(
+      ::google::protobuf::internal::WireFormatLite::StringSize(
         this->fp());
   }
 
@@ -1027,8 +1043,9 @@ void paasImMsgSent::UnsafeMergeFrom(const paasImMsgSent& from) {
   if (from.genmsgid() != 0) {
     set_genmsgid(from.genmsgid());
   }
-  if (from.fp() != 0) {
-    set_fp(from.fp());
+  if (from.fp().size() > 0) {
+
+    fp_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.fp_);
   }
   if (from.from().size() > 0) {
 
@@ -1070,7 +1087,7 @@ void paasImMsgSent::InternalSwap(paasImMsgSent* other) {
   std::swap(pts_, other->pts_);
   std::swap(msgid_, other->msgid_);
   std::swap(genmsgid_, other->genmsgid_);
-  std::swap(fp_, other->fp_);
+  fp_.Swap(&other->fp_);
   from_.Swap(&other->from_);
   to_.Swap(&other->to_);
   std::swap(date_, other->date_);
@@ -1131,18 +1148,48 @@ void paasImMsgSent::set_genmsgid(::google::protobuf::int64 value) {
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.paasImMsgSent.genMsgId)
 }
 
-// optional int64 fp = 4;
+// optional string fp = 4;
 void paasImMsgSent::clear_fp() {
-  fp_ = GOOGLE_LONGLONG(0);
+  fp_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-::google::protobuf::int64 paasImMsgSent::fp() const {
+const ::std::string& paasImMsgSent::fp() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
-  return fp_;
+  return fp_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-void paasImMsgSent::set_fp(::google::protobuf::int64 value) {
+void paasImMsgSent::set_fp(const ::std::string& value) {
   
-  fp_ = value;
+  fp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
+}
+void paasImMsgSent::set_fp(const char* value) {
+  
+  fp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
+}
+void paasImMsgSent::set_fp(const char* value, size_t size) {
+  
+  fp_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
+}
+::std::string* paasImMsgSent::mutable_fp() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
+  return fp_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+::std::string* paasImMsgSent::release_fp() {
+  // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
+  
+  return fp_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+void paasImMsgSent::set_allocated_fp(::std::string* fp) {
+  if (fp != NULL) {
+    
+  } else {
+    
+  }
+  fp_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), fp);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
 }
 
 // optional string from = 5;

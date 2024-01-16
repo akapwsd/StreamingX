@@ -13,8 +13,9 @@ import com.google.gson.Gson;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.File;
 import java.util.List;
+
+import uyujoy.api.paasim.frontend.MsgBase;
 
 public class MessageHelper {
     private static final String TAG = "MessageHelper";
@@ -94,7 +95,34 @@ public class MessageHelper {
         return null;
     }
 
-    public synchronized void insertData(MsgBean msgBean) {
+    public synchronized void insertOrReplaceData(MsgBase.paasMsgRecord paasMsgRecord) {
+        LogUtil.d(TAG, "insertData start insert data! paasMsgRecord:" + paasMsgRecord);
+        synchronized (msgBeanDao) {
+            MsgBean msgBean = new MsgBean();
+            msgBean.setAvatar(paasMsgRecord.getUser().getAvatar());
+            msgBean.setNickName(paasMsgRecord.getUser().getName());
+            msgBean.setContent(paasMsgRecord.getMsgTxt());
+            msgBean.setActualTime(paasMsgRecord.getSendTime());
+            msgBean.setFp(paasMsgRecord.getMsgFp());
+            msgBean.setMUid(Integer.parseInt(paasMsgRecord.getFrom()));
+            msgBean.setPeerUid(Integer.parseInt(paasMsgRecord.getTo()));
+            if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom())) {
+                msgBean.setSourceType(Constants.MSG_SENDER);
+            } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo())) {
+                msgBean.setSourceType(Constants.MSG_RECEIVER);
+            }
+            msgBean.setState(Constants.SENDING);
+            msgBean.setStatus(paasMsgRecord.getMsgType());
+            long l = msgBeanDao.insertOrReplace(msgBean);
+            LogUtil.d(TAG, "insertData::msg insert to database index is " + l);
+            if (greendaoDataListener != null && QueryId == msgBean.getPeerUid()) {
+                greendaoDataListener.DataChange(msgBean);
+            }
+            ChatListHelper.getSingleton().insertData(msgBean);
+        }
+    }
+
+    public synchronized void insertOrReplaceData(MsgBean msgBean) {
         LogUtil.d(TAG, "insertData start insert data! MsgBean:" + msgBean);
         synchronized (msgBeanDao) {
             long l = msgBeanDao.insertOrReplace(msgBean);
@@ -131,19 +159,16 @@ public class MessageHelper {
      * change msg state
      * state //数据状态 1成功 2失败 3发送中 4暂停
      */
-    public void modifyMessageState(int peerUid, final String fp, final int state) {
+    public void modifyMessageState(final String fp, final int state) {
         LogUtil.d(TAG, "modifyMessageState  fp:" + fp + "   state:" + state);
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         MsgBean unique = qb.where(MsgBeanDao.Properties.Fp.eq(fp)).build().forCurrentThread().unique();
         if (unique != null) {
-            int mUid = unique.getMUid();
-            if (mUid != peerUid) {
-                int status = unique.getStatus();
-                LogUtil.d(TAG, "status:" + status);
-                String content = unique.getContent();
-                if (status == Constants.MSG_SEND_IMAGE) {
-                    LogUtil.d(TAG, "picture result:" + unique.getLocalPath() + "\ncontent:" + content);
-                }
+            int status = unique.getStatus();
+            LogUtil.d(TAG, "status:" + status);
+            String content = unique.getContent();
+            if (status == Constants.MSG_SEND_IMAGE) {
+                LogUtil.d(TAG, "picture result:" + unique.getLocalPath() + "\ncontent:" + content);
             }
             if (unique.getState() == Constants.SEND_SUCCESS) {
                 LogUtil.d(TAG, "=============modifyMessageState=========state is suc and read not need modify");
@@ -215,6 +240,14 @@ public class MessageHelper {
         }
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         return qb.where(MsgBeanDao.Properties.Fp.eq(fp)).build().forCurrentThread().unique();
+    }
+
+    public MsgBean getOneMessage(long pts) {
+        if (pts < 0) {
+            return null;
+        }
+        QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
+        return qb.where(MsgBeanDao.Properties.Pts.eq(pts)).build().forCurrentThread().unique();
     }
 
     /**

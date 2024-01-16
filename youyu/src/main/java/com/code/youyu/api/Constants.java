@@ -7,6 +7,7 @@ public class Constants {
     public static final String MSG_RECORD_ACK = "b5ecf821";
     public static final String DEVICE_UPDATED = "907b7206";
     public static final String CONNECT_ERROR = "9c1c9375";
+    public static final String MSG_SENT_ACK = "b838bcc1";
     public static final String CHANNEL_MSG_RECORD = "148f5df6";
     public static final String GET_DIFF_MSG_RECORD_ACK = "905c3244";
     public static final String CHAT_DIFF_MSG_ACK = "f454ab96";
@@ -38,7 +39,10 @@ public class Constants {
     public static final int MSG_SEND_IMAGE = 1;
     public static final int MSG_SEND_VOICE = 2;
 
-    public static final int SEND_SUCCESS = 1;
-    public static final int SEND_FAIL = 0;
-    public static final int SENDING = 2;
+    public static final int SEND_SUCCESS = 2;
+    public static final int SEND_FAIL = -1;
+    public static final int SENDING = 3;
+    public static final int SEND_TIMEOUT = 4;
+    public static final int CHECK_DATA = 1;
+    public static final int START_CHECK = 0;
 }
