@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.code.data.sqlhelper.MessageHelper;
 import com.code.listener.ChatMsgListener;
 import com.code.youyu.api.Constants;
@@ -20,9 +22,9 @@ public class MessageLoopThread {
     private String lastMsgFP;
     private static final int TIME_OUT = 10000;
     private static final int IMAGE_VIDEO_TIME_OUT = TIME_OUT * 6 * 10;
-    private ExcuteHandler mHandler;
+    private final ExcuteHandler mHandler;
     private boolean checkThreadWork;
-    private ConcurrentHashMap<String, String> waitingReceiptMap;
+    private final ConcurrentHashMap<String, String> waitingReceiptMap;
     private ChatMsgListener chatMsgListener;
 
     public MessageLoopThread() {
@@ -103,7 +105,7 @@ public class MessageLoopThread {
         }
 
         @Override
-        public void handleMessage(Message msg) {
+        public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
                 case Constants.START_CHECK:

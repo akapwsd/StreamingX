@@ -785,8 +785,29 @@ public class WSManager {
         }
     }
 
-    public void sendMediaMsg(int mUid, int peerUid, File file, int mediaType, ChatMsgListener chatMsgListener) {
+    public String sendMediaMsg(int mUid, int peerUid, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         this.chatMsgListener = chatMsgListener;
+        String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
+        UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
+        userInfo.setName(nickName);
+        userInfo.setAvatar(avatar);
+        MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
+        msgBase.setMsgFp(msgFp);
+        msgBase.setFrom(String.valueOf(mUid));
+        msgBase.setTo(String.valueOf(peerUid));
+        msgBase.setMsgType(mediaType);
+        msgBase.setSendTime(System.currentTimeMillis());
+        msgBase.setUser(userInfo.build());
+        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder()
+                .setMsg(msgBase.build())
+                .build();
+        byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
+        LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
+        send(ByteString.of(bytes));
+        MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
+        MessageHelper.getSingleton().insertOrReplaceData(msgBase.build());
+        chatMsgListener.sendResult(msgFp, Constants.SENDING);
+        return msgFp;
     }
 
     public String sendTextMsg(int mUid, int peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
