@@ -13,7 +13,9 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.code.aws.S3AwsHelper;
 import com.code.bean.ChannelMsgBean;
+import com.code.data.sqlbean.ChatListBean;
 import com.code.data.sqlbean.MsgBean;
+import com.code.data.sqlhelper.ChatListHelper;
 import com.code.data.sqlhelper.MessageHelper;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.ChatMsgListener;
@@ -894,8 +896,12 @@ public class WSManager {
         send(ByteString.of(bytes));
     }
 
-    public ArrayList<MsgBean> getChatMsgList() {
-        return new ArrayList<>();
+    public List<ChatListBean> getChatList(int uid) {
+        return ChatListHelper.getSingleton().getAllChatList(uid);
+    }
+
+    public List<MsgBean> getChatMsgList(int uid, int peerUid) {
+        return MessageHelper.getSingleton().getAllData(uid, peerUid);
     }
 
     public void getChatDiffMsg() {
