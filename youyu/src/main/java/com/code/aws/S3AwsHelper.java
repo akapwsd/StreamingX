@@ -34,7 +34,7 @@ public class S3AwsHelper {
         return single;
     }
 
-    public void uploadWithTransferUtility(final String filepath, final int status, IAWSFileRequest request) {
+    public void uploadWithTransferUtility(final String msgFp, final String filepath, final int status, IAWSFileRequest request) {
         TransferUtility transferUtility = WSManager.getInstance().getTransferUtility();
         if (transferUtility == null) {
             LogUtil.e(TAG, "uploadWithTransferUtility::get transfer utility fail");
@@ -60,7 +60,7 @@ public class S3AwsHelper {
                         LogUtil.d(TAG, "Bytes state: " + uploadObserver.getState());
                         LogUtil.d(TAG, "Bytes Transferred: " + uploadObserver.getBytesTransferred());
                         LogUtil.d(TAG, "Bytes Total: " + uploadObserver.getBytesTotal());
-                        request.aws_success(Constants.AWS_UPLOAD, "");
+                        request.aws_success(Constants.AWS_UPLOAD, msgFp, "");
                         uploadObserver.cleanTransferListener();
                     }
                 } else {
@@ -73,19 +73,19 @@ public class S3AwsHelper {
                 float percentDoneF = ((float) bytesCurrent / (float) bytesTotal) * 100;
                 int percentDone = (int) percentDoneF;
                 LogUtil.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
-                request.aws_progress(Constants.AWS_UPLOAD, percentDone);
+                request.aws_progress(Constants.AWS_UPLOAD, msgFp, percentDone);
             }
 
             @Override
             public void onError(int id, Exception ex) {
                 LogUtil.e(TAG, "uploadWithTransferUtility::" + ex.getLocalizedMessage());
                 uploadObserver.cleanTransferListener();
-                request.aws_error(Constants.AWS_UPLOAD, id, ex.getMessage());
+                request.aws_error(Constants.AWS_UPLOAD, msgFp, id, ex.getMessage());
             }
         });
     }
 
-    public void downloadWithTransferUtility(String awsKey, int mediaType, String downloadPath, IAWSFileRequest request) {
+    public void downloadWithTransferUtility(String awsKey, String msgFp, int mediaType, String downloadPath, IAWSFileRequest request) {
         TransferUtility transferUtility = WSManager.getInstance().getTransferUtility();
         if (transferUtility == null) {
             LogUtil.e(TAG, "downloadWithTransferUtility::get transfer utility fail");
@@ -102,7 +102,7 @@ public class S3AwsHelper {
         }
         final File localMediaFileByUrl = findLocalMediaFileByUrl(awsKey, mediaType, downloadPath);
         if (localMediaFileByUrl.exists()) {
-            request.aws_success(Constants.AWS_DOWNLOAD, localMediaFileByUrl.getPath());
+            request.aws_success(Constants.AWS_DOWNLOAD, msgFp, localMediaFileByUrl.getPath());
             downloadList.remove(awsKey);
             return;
         }
@@ -117,14 +117,14 @@ public class S3AwsHelper {
                         LogUtil.d(TAG, "Bytes state: " + downloadObserver.getState());
                         LogUtil.d(TAG, "Bytes Transferred: " + downloadObserver.getBytesTransferred());
                         LogUtil.d(TAG, "Bytes Total: " + downloadObserver.getBytesTotal());
-                        request.aws_success(Constants.AWS_DOWNLOAD, localMediaFileByUrl.getPath());
+                        request.aws_success(Constants.AWS_DOWNLOAD, msgFp, localMediaFileByUrl.getPath());
                         downloadObserver.cleanTransferListener();
                         downloadList.remove(awsKey);
                     }
                 } else {
                     LogUtil.d(TAG, "1----update other state and state is: " + state);
                     if (state == TransferState.FAILED) {
-                        request.aws_error(Constants.AWS_DOWNLOAD, Constants.AWS_REQUEST_TIMEOUT, "download timeout");
+                        request.aws_error(Constants.AWS_DOWNLOAD, msgFp, Constants.AWS_REQUEST_TIMEOUT, "download timeout");
                         downloadObserver.cleanTransferListener();
                         downloadList.remove(awsKey);
                         if (localMediaFileByUrl.exists()) {
@@ -140,7 +140,7 @@ public class S3AwsHelper {
                 float percentDoneF = ((float) bytesCurrent / (float) bytesTotal) * 100;
                 int percentDone = (int) percentDoneF;
                 LogUtil.d(TAG, "onProgressChanged::ID is: " + id + "   bytesCurrent is: " + bytesCurrent + "  bytesTotal is: " + bytesTotal + " " + percentDone + "%");
-                request.aws_progress(Constants.AWS_DOWNLOAD, percentDone);
+                request.aws_progress(Constants.AWS_DOWNLOAD, msgFp, percentDone);
             }
 
             @Override
@@ -148,7 +148,7 @@ public class S3AwsHelper {
                 ex.printStackTrace();
                 LogUtil.e(TAG, "downloadWithTransferUtility::" + ex.getLocalizedMessage());
                 downloadObserver.cleanTransferListener();
-                request.aws_error(Constants.AWS_DOWNLOAD, id, ex.getMessage());
+                request.aws_error(Constants.AWS_DOWNLOAD, msgFp, id, ex.getMessage());
                 downloadList.remove(awsKey);
                 if (localMediaFileByUrl.exists()) {
                     boolean delete = localMediaFileByUrl.delete();
@@ -201,10 +201,10 @@ public class S3AwsHelper {
     }
 
     public interface IAWSFileRequest {
-        void aws_success(int requestType, String key);
+        void aws_success(int requestType, String msgFp, String key);
 
-        void aws_progress(int requestType, int progress);
+        void aws_progress(int requestType, String msgFp, int progress);
 
-        void aws_error(int requestType, int error_code, String error_msg);
+        void aws_error(int requestType, String msgFp, int error_code, String error_msg);
     }
 }

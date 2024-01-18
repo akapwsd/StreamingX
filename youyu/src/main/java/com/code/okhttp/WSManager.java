@@ -11,11 +11,13 @@ import com.amazonaws.mobile.client.UserStateDetails;
 import com.amazonaws.mobile.config.AWSConfiguration;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.code.aws.S3AwsHelper;
 import com.code.bean.ChannelMsgBean;
 import com.code.data.sqlbean.MsgBean;
 import com.code.data.sqlhelper.MessageHelper;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.ChatMsgListener;
+import com.code.listener.DownloadListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.msg.NettyMsg;
 import com.code.utils.DataUtils;
@@ -785,9 +787,41 @@ public class WSManager {
         }
     }
 
+    public void getMediaFile(String awsKey, String msgFp, int mediaType, String downloadPath, DownloadListener downloadListener) {
+        S3AwsHelper.getInstance().downloadWithTransferUtility(awsKey, msgFp, mediaType, downloadPath, new S3AwsHelper.IAWSFileRequest() {
+            @Override
+            public void aws_success(int requestType, String msgFp, String key) {
+                downloadListener.downloadResult(msgFp);
+            }
+
+            @Override
+            public void aws_progress(int requestType, String msgFp, int progress) {
+                downloadListener.downloadProgress(progress);
+            }
+
+            @Override
+            public void aws_error(int requestType, String msgFp, int error_code, String error_msg) {
+                downloadListener.downloadFail(error_code, error_msg);
+            }
+        });
+    }
+
     public String sendMediaMsg(int mUid, int peerUid, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
+        MediaBase.mediaRecord.Builder mediaRecord = MediaBase.mediaRecord.newBuilder();
+        mediaRecord.setMediaType(mediaType);
+        byte[] byteData = new byte[0];
+        if (mediaType == Constants.MSG_SEND_IMAGE) {
+            String fileSuffix = DataUtils.getFileSuffix(file.getName());
+            MediaBase.mediaImage mediaImage = MediaBase.mediaImage.newBuilder()
+                    .setExt(fileSuffix)
+                    .build();
+            byteData = mediaImage.toByteArray();
+        } else if (mediaType == Constants.MSG_SEND_VOICE) {
+
+        }
+        mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(byteData));
         UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
         userInfo.setName(nickName);
         userInfo.setAvatar(avatar);
@@ -798,15 +832,30 @@ public class WSManager {
         msgBase.setMsgType(mediaType);
         msgBase.setSendTime(System.currentTimeMillis());
         msgBase.setUser(userInfo.build());
+        msgBase.setMedia(mediaRecord.build());
         PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder()
                 .setMsg(msgBase.build())
                 .build();
         byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
-        send(ByteString.of(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
         MessageHelper.getSingleton().insertOrReplaceData(msgBase.build());
-        chatMsgListener.sendResult(msgFp, Constants.SENDING);
+        S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, file.getPath(), mediaType, new S3AwsHelper.IAWSFileRequest() {
+            @Override
+            public void aws_success(int requestType, String msgFp, String key) {
+                send(ByteString.of(bytes));
+            }
+
+            @Override
+            public void aws_progress(int requestType, String msgFp, int progress) {
+                chatMsgListener.sendProgress(progress);
+            }
+
+            @Override
+            public void aws_error(int requestType, String msgFp, int error_code, String error_msg) {
+                chatMsgListener.sendFail(error_code, error_msg);
+            }
+        });
         return msgFp;
     }
 

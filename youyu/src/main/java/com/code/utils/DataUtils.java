@@ -1,5 +1,7 @@
 package com.code.utils;
 
+import android.text.TextUtils;
+
 import com.google.protobuf.ByteString;
 
 import java.nio.ByteBuffer;
@@ -69,5 +71,12 @@ public class DataUtils {
         UUID uuid = UUID.randomUUID();
         String str = uuid.toString();
         return str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str.substring(19, 23) + str.substring(24);
+    }
+
+    public static String getFileSuffix(String fileName) {
+        if (!TextUtils.isEmpty(fileName)) {
+            return fileName.substring(fileName.lastIndexOf(".") + 1);
+        }
+        return "";
     }
 }
