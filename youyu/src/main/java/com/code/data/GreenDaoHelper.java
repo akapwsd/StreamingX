@@ -6,6 +6,7 @@ import com.code.data.greendao.DaoMaster;
 import com.code.data.greendao.DaoSession;
 import com.code.utils.LogUtil;
 import com.code.utils.ThreadPoolUtils;
+import com.code.youyu.api.StreamingXRtcManager;
 
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
@@ -46,6 +47,7 @@ public class GreenDaoHelper {
             if (mDaoMaster != null && mDaoSession != null) {
                 LogUtil.d(TAG, "initGreenDao daoComplete");
                 mInitState = true;
+                StreamingXRtcManager.getInstance().getStates();
             } else {
                 LogUtil.d(TAG, "initGreenDao::listener is null");
                 mInitState = false;
