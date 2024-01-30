@@ -19,8 +19,8 @@ message paasImMsgSent{
   int64 msgId = 2;
   int64 genMsgId = 3;
   string fp = 4;
-  string from = 5; //消息发送者
-  string to = 6; //消息接受者
+  UserId from = 5; //消息发送者
+  UserId to = 6; //消息接受者
   int64 date = 7;//服务端接收时间
 }
 
@@ -39,7 +39,6 @@ message updateStatusAck{}
 //获取同步状态（在获取时间后的第一件事情）
 message getStates{
   int64 pts = 1;
-  //  connDetail detail = 3;
 }
 
 message states{
@@ -51,10 +50,11 @@ message states{
 
 //-------------------------------用户发现本地与服务器上的状态差异，进行主动同步-------------------------------
 message reqDifference{
-  uint32 uid = 1;
+  string uid = 1;
   bytes req = 2;//updatGetDifference
 }
 
 message updatesSlice{
   bytes updatesSlice = 1; //updateDifferenceSlice
 }
+

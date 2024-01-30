@@ -58,7 +58,7 @@ public class AgoVideoActivity extends Activity {
             StreamingXRtcManager.getInstance().closeVideoChat();
             finish();
         });
-        sendMsgBtn.setOnClickListener(view -> sendFp = StreamingXRtcManager.getInstance().sendMsg("123456", new ChannelMsgListener() {
+        sendMsgBtn.setOnClickListener(view -> sendFp = StreamingXRtcManager.getInstance().sendChannelMsg("123456", new ChannelMsgListener() {
             @Override
             public void sendSuccess(String fp) {
                 if (sendFp.equals(fp)) {

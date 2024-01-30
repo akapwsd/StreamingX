@@ -8,15 +8,33 @@ import "userBase.proto";
   paas 平台 im的消息结构
 */
 
+//  用户类型
+enum UserType {
+  UNSPECIFIED = 0;
+  // 用户
+  USER = 1;
+  // 主播
+  BROADCASTER = 2;
+}
+
+message UserId {
+  // 用户ID
+  string id = 1;
+  // 用户类型
+  UserType type = 2;
+}
+
+//  paas 平台 im的消息结构
 message paasMsgRecord {
   int64 msgId = 1; //自增ID，但可能不连续，用于进行服务器-客户端同步
   string msgFp = 2;
   uint32 msgType = 3; //1. user 2. group
-  string from = 4;
-  string to = 5;
+  UserId from = 4;
+  UserId to = 5;
   string msgTxt = 6; //文本消息
   mediaRecord media = 7; // 媒体描述消息
   bytes font = 8;
   int64 sendTime = 9;
   userInfo user = 10;
 }
+

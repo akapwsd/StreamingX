@@ -39,7 +39,7 @@ public class ChatListHelper {
 
         void dataChange(ChatListBean chatListBean);
 
-        void changeUnReadCount(int peerUid, int count);
+        void changeUnReadCount(String peerUid, int count);
 
         void delete(int peerUid);
 
@@ -142,7 +142,7 @@ public class ChatListHelper {
         }
     }
 
-    public ChatListBean getChatListBean(int mUid, int peerUid) {
+    public ChatListBean getChatListBean(String mUid, String peerUid) {
         try {
             if (chatListBeanDao == null) {
                 return null;
@@ -187,7 +187,7 @@ public class ChatListHelper {
         return null;
     }
 
-    public void setUnreadToCount(int mUid, int peerUid, int count) {
+    public void setUnreadToCount(String mUid, String peerUid, int count) {
         LogUtil.d(TAG, "setUnreadToCount::set unread count id is: " + peerUid + " count:" + count);
         if (count < 0) {
             count = 0;

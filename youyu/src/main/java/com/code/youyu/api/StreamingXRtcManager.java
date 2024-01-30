@@ -8,21 +8,34 @@ import android.widget.FrameLayout;
 
 import com.code.bean.ChannelTokenBean;
 import com.code.callback.SensorsDataActivityLifecycleCallbacks;
+import com.code.data.sqlbean.ChatListBean;
+import com.code.data.sqlbean.MsgBean;
+import com.code.data.sqlhelper.ChatListHelper;
+import com.code.data.sqlhelper.MessageHelper;
 import com.code.listener.ChannelMsgListener;
+import com.code.listener.ChatMsgListener;
+import com.code.listener.DownloadListener;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
 import com.code.okhttp.WSManager;
 import com.code.rtc.BaseRtcEngineManager;
+import com.code.utils.DataUtils;
 import com.code.utils.HttpRequestUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpBase;
 import com.code.utils.RtcSpUtils;
 
+import java.io.File;
+import java.util.List;
+
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.video.VideoCanvas;
+import okio.ByteString;
+import uyujoy.api.paasim.frontend.PaasIm;
+import uyujoy.api.paasim.frontend.UpdatesBase;
 
 /**
  * RtcManager is a method class for fast communication
@@ -643,7 +656,43 @@ public class StreamingXRtcManager {
      * @return Returns the unique identifier for the current message
      * @see ChannelMsgListener
      */
-    public String sendMsg(String msg, ChannelMsgListener channelMsgListener) {
+    public String sendChannelMsg(String msg, ChannelMsgListener channelMsgListener) {
         return WSManager.getInstance().sendMsg(localUid, msg, channelMsgListener);
+    }
+
+    public void getMediaFile(String awsKey, String msgFp, int mediaType, String downloadPath, DownloadListener downloadListener) {
+        WSManager.getInstance().getMediaFile(awsKey, msgFp, mediaType, downloadPath, downloadListener);
+    }
+
+    public String sendMediaMsgToUser(String mUid, String peerUid, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, false, file, mediaType, nickName, avatar, chatMsgListener);
+    }
+
+    public String sendMediaMsgToBroadcaster(String mUid, String peerUid, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, true, file, mediaType, nickName, avatar, chatMsgListener);
+    }
+
+    public String sendTextMsgToUser(String mUid, String peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        return WSManager.getInstance().sendTextMsg(mUid, peerUid, false, msg, nickName, avatar, chatMsgListener);
+    }
+
+    public String sendTextMsgToBroadcaster(String mUid, String peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        return WSManager.getInstance().sendTextMsg(mUid, peerUid, true, msg, nickName, avatar, chatMsgListener);
+    }
+
+    public void getStates() {
+        WSManager.getInstance().getStates();
+    }
+
+    public List<ChatListBean> getChatList(int uid) {
+        return WSManager.getInstance().getChatList(uid);
+    }
+
+    public List<MsgBean> getChatMsgList(int uid, int peerUid) {
+        return WSManager.getInstance().getChatMsgList(uid, peerUid);
+    }
+
+    public void getChatDiffMsg() {
+        WSManager.getInstance().getChatDiffMsg();
     }
 }

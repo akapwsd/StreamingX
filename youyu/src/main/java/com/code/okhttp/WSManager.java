@@ -298,9 +298,9 @@ public class WSManager {
                 msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
                 msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
                 msgBean.setContent(dataInfo.getMsg().getMsgTxt());
-                msgBean.setMUid(Integer.parseInt(RtcSpUtils.getInstance().getUserUid()));
+                msgBean.setMUid(RtcSpUtils.getInstance().getUserUid());
                 msgBean.setActualTime(dataInfo.getMsg().getSendTime());
-                String to = dataInfo.getMsg().getTo();
+                String to = dataInfo.getMsg().getTo().getId();
                 if (to.equals(RtcSpUtils.getInstance().getUserUid())) {
                     msgBean.setSourceType(Constants.MSG_RECEIVER);
                 }
@@ -808,7 +808,7 @@ public class WSManager {
         });
     }
 
-    public String sendMediaMsg(int mUid, int peerUid, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+    public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         MediaBase.mediaRecord.Builder mediaRecord = MediaBase.mediaRecord.newBuilder();
@@ -821,7 +821,9 @@ public class WSManager {
                     .build();
             byteData = mediaImage.toByteArray();
         } else if (mediaType == Constants.MSG_SEND_VOICE) {
-
+            MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.newBuilder()
+                    .build();
+            byteData = mediaAudio.toByteArray();
         }
         mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(byteData));
         UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
@@ -829,8 +831,10 @@ public class WSManager {
         userInfo.setAvatar(avatar);
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
         msgBase.setMsgFp(msgFp);
-        msgBase.setFrom(String.valueOf(mUid));
-        msgBase.setTo(String.valueOf(peerUid));
+        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).setType(MsgBase.UserType.USER).build();
+        MsgBase.UserId to = MsgBase.UserId.newBuilder().setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+        msgBase.setFrom(from);
+        msgBase.setTo(to);
         msgBase.setMsgType(mediaType);
         msgBase.setSendTime(System.currentTimeMillis());
         msgBase.setUser(userInfo.build());
@@ -861,7 +865,7 @@ public class WSManager {
         return msgFp;
     }
 
-    public String sendTextMsg(int mUid, int peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+    public String sendTextMsg(String mUid, String peerUid, boolean isBroadcast, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
@@ -869,8 +873,10 @@ public class WSManager {
         userInfo.setAvatar(avatar);
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
         msgBase.setMsgFp(msgFp);
-        msgBase.setFrom(String.valueOf(mUid));
-        msgBase.setTo(String.valueOf(peerUid));
+        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).setType(MsgBase.UserType.USER).build();
+        MsgBase.UserId to = MsgBase.UserId.newBuilder().setId(peerUid).setType(isBroadcast ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+        msgBase.setFrom(from);
+        msgBase.setTo(to);
         msgBase.setMsgTxt(msg);
         msgBase.setMsgType(Constants.MSG_SEND_TEXT);
         msgBase.setSendTime(System.currentTimeMillis());
@@ -913,7 +919,7 @@ public class WSManager {
                 .setDate(lastPtsDate)
                 .build();
         PaasIm.reqDifference reqDifference = PaasIm.reqDifference.newBuilder()
-                .setUid(Integer.parseInt(RtcSpUtils.getInstance().getUserUid()))
+                .setUid(RtcSpUtils.getInstance().getUserUid())
                 .setReq(updatGetDifference.toByteString())
                 .build();
         byte[] bytes = DataUtils.assembleData(0x961e73bb, reqDifference.toByteArray());

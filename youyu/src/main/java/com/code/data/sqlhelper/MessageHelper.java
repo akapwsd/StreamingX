@@ -23,7 +23,7 @@ public class MessageHelper {
     private static MessageHelper messageHelper;
     private MsgBeanDao msgBeanDao;
     private GreenDaoDataListener greendaoDataListener;
-    private int QueryId = -1;
+    private String QueryId = "";
 
     public MessageHelper() {
         gson = new Gson();
@@ -42,14 +42,14 @@ public class MessageHelper {
         return messageHelper;
     }
 
-    public void setGreenDaoDataListener(int QueryId, GreenDaoDataListener greendaoDataListener) {
+    public void setGreenDaoDataListener(String QueryId, GreenDaoDataListener greendaoDataListener) {
         this.greendaoDataListener = greendaoDataListener;
         this.QueryId = QueryId;
     }
 
     public void removeGreenDaoDataListener() {
         greendaoDataListener = null;
-        QueryId = -1;
+        QueryId = "";
     }
 
     public synchronized void insertList(List<MsgBean> lists) {
@@ -104,18 +104,18 @@ public class MessageHelper {
             msgBean.setContent(paasMsgRecord.getMsgTxt());
             msgBean.setActualTime(paasMsgRecord.getSendTime());
             msgBean.setFp(paasMsgRecord.getMsgFp());
-            msgBean.setMUid(Integer.parseInt(paasMsgRecord.getFrom()));
-            msgBean.setPeerUid(Integer.parseInt(paasMsgRecord.getTo()));
-            if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom())) {
+            msgBean.setMUid(paasMsgRecord.getFrom().getId());
+            msgBean.setPeerUid(paasMsgRecord.getTo().getId());
+            if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
                 msgBean.setSourceType(Constants.MSG_SENDER);
-            } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo())) {
+            } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo().getId())) {
                 msgBean.setSourceType(Constants.MSG_RECEIVER);
             }
             msgBean.setState(Constants.SENDING);
             msgBean.setStatus(paasMsgRecord.getMsgType());
             long l = msgBeanDao.insertOrReplace(msgBean);
             LogUtil.d(TAG, "insertData::msg insert to database index is " + l);
-            if (greendaoDataListener != null && QueryId == msgBean.getPeerUid()) {
+            if (greendaoDataListener != null && QueryId.equals(msgBean.getPeerUid())) {
                 greendaoDataListener.DataChange(msgBean);
             }
             ChatListHelper.getSingleton().insertData(msgBean);
@@ -127,7 +127,7 @@ public class MessageHelper {
         synchronized (msgBeanDao) {
             long l = msgBeanDao.insertOrReplace(msgBean);
             LogUtil.d(TAG, "insertData::msg insert to database index is " + l);
-            if (greendaoDataListener != null && QueryId == msgBean.getPeerUid()) {
+            if (greendaoDataListener != null && QueryId.equals(msgBean.getPeerUid())) {
                 greendaoDataListener.DataChange(msgBean);
             }
             ChatListHelper.getSingleton().insertData(msgBean);
@@ -142,8 +142,8 @@ public class MessageHelper {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
             MsgBean unique = qb.where(MsgBeanDao.Properties.Fp.eq(fp)).build().forCurrentThread().unique();
             if (unique != null) {
-                int fid = unique.getPeerUid();
-                if (fid == 0) {
+                String fid = unique.getPeerUid();
+                if (TextUtils.isEmpty(fid)) {
                     unique.setContent(null);
                     msgBeanDao.update(unique);
                 } else {
@@ -179,8 +179,8 @@ public class MessageHelper {
                     unique.setProgress(1);
                 }
                 msgBeanDao.update(unique);
-                int fid = unique.getPeerUid();
-                if (greendaoDataListener != null && QueryId == fid) {
+                String fid = unique.getPeerUid();
+                if (greendaoDataListener != null && QueryId.equals(fid)) {
                     greendaoDataListener.StateChange(unique);
                 }
             }
@@ -198,7 +198,7 @@ public class MessageHelper {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         MsgBean unique = qb.where(MsgBeanDao.Properties.Fp.eq(fp)).build().forCurrentThread().unique();
         if (unique != null) {
-            int fid = unique.getPeerUid();
+            String fid = unique.getPeerUid();
             if (progress < 1 && progress >= 0) {
                 unique.setState(Constants.SENDING);
             } else {
@@ -206,7 +206,7 @@ public class MessageHelper {
             }
             unique.setProgress(progress);
             msgBeanDao.update(unique);
-            if (greendaoDataListener != null && QueryId == fid) {
+            if (greendaoDataListener != null && QueryId.equals(fid)) {
                 greendaoDataListener.DataProgress(unique);
             }
         }

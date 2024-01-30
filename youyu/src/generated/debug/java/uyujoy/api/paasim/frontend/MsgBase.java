@@ -14,6 +14,800 @@ public final class MsgBase {
     registerAllExtensions(
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
+  /**
+   * <pre>
+   *  用户类型
+   * </pre>
+   *
+   * Protobuf enum {@code uyujoy.api.paasim.frontend.UserType}
+   */
+  public enum UserType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    /**
+     * <code>UNSPECIFIED = 0;</code>
+     */
+    UNSPECIFIED(0),
+    /**
+     * <pre>
+     * 用户
+     * </pre>
+     *
+     * <code>USER = 1;</code>
+     */
+    USER(1),
+    /**
+     * <pre>
+     * 主播
+     * </pre>
+     *
+     * <code>BROADCASTER = 2;</code>
+     */
+    BROADCASTER(2),
+    UNRECOGNIZED(-1),
+    ;
+
+    /**
+     * <code>UNSPECIFIED = 0;</code>
+     */
+    public static final int UNSPECIFIED_VALUE = 0;
+    /**
+     * <pre>
+     * 用户
+     * </pre>
+     *
+     * <code>USER = 1;</code>
+     */
+    public static final int USER_VALUE = 1;
+    /**
+     * <pre>
+     * 主播
+     * </pre>
+     *
+     * <code>BROADCASTER = 2;</code>
+     */
+    public static final int BROADCASTER_VALUE = 2;
+
+
+    public final int getNumber() {
+      if (this == UNRECOGNIZED) {
+        throw new java.lang.IllegalArgumentException(
+            "Can't get the number of an unknown enum value.");
+      }
+      return value;
+    }
+
+    /**
+     * @deprecated Use {@link #forNumber(int)} instead.
+     */
+    @java.lang.Deprecated
+    public static UserType valueOf(int value) {
+      return forNumber(value);
+    }
+
+    public static UserType forNumber(int value) {
+      switch (value) {
+        case 0: return UNSPECIFIED;
+        case 1: return USER;
+        case 2: return BROADCASTER;
+        default: return null;
+      }
+    }
+
+    public static com.google.protobuf.Internal.EnumLiteMap<UserType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static final com.google.protobuf.Internal.EnumLiteMap<
+        UserType> internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<UserType>() {
+            public UserType findValueByNumber(int number) {
+              return UserType.forNumber(number);
+            }
+          };
+
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(ordinal());
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return uyujoy.api.paasim.frontend.MsgBase.getDescriptor().getEnumTypes().get(0);
+    }
+
+    private static final UserType[] VALUES = values();
+
+    public static UserType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      if (desc.getIndex() == -1) {
+        return UNRECOGNIZED;
+      }
+      return VALUES[desc.getIndex()];
+    }
+
+    private final int value;
+
+    private UserType(int value) {
+      this.value = value;
+    }
+
+    // @@protoc_insertion_point(enum_scope:uyujoy.api.paasim.frontend.UserType)
+  }
+
+  public interface UserIdOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:uyujoy.api.paasim.frontend.UserId)
+      com.google.protobuf.MessageOrBuilder {
+
+    /**
+     * <pre>
+     * 用户ID
+     * </pre>
+     *
+     * <code>optional string id = 1;</code>
+     */
+    java.lang.String getId();
+    /**
+     * <pre>
+     * 用户ID
+     * </pre>
+     *
+     * <code>optional string id = 1;</code>
+     */
+    com.google.protobuf.ByteString
+        getIdBytes();
+
+    /**
+     * <pre>
+     * 用户类型
+     * </pre>
+     *
+     * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+     */
+    int getTypeValue();
+    /**
+     * <pre>
+     * 用户类型
+     * </pre>
+     *
+     * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+     */
+    uyujoy.api.paasim.frontend.MsgBase.UserType getType();
+  }
+  /**
+   * Protobuf type {@code uyujoy.api.paasim.frontend.UserId}
+   */
+  public  static final class UserId extends
+      com.google.protobuf.GeneratedMessageV3 implements
+      // @@protoc_insertion_point(message_implements:uyujoy.api.paasim.frontend.UserId)
+      UserIdOrBuilder {
+    // Use UserId.newBuilder() to construct.
+    private UserId(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
+      super(builder);
+    }
+    private UserId() {
+      id_ = "";
+      type_ = 0;
+    }
+
+    @java.lang.Override
+    public final com.google.protobuf.UnknownFieldSet
+    getUnknownFields() {
+      return com.google.protobuf.UnknownFieldSet.getDefaultInstance();
+    }
+    private UserId(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      this();
+      int mutable_bitField0_ = 0;
+      try {
+        boolean done = false;
+        while (!done) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              done = true;
+              break;
+            default: {
+              if (!input.skipField(tag)) {
+                done = true;
+              }
+              break;
+            }
+            case 10: {
+              java.lang.String s = input.readStringRequireUtf8();
+
+              id_ = s;
+              break;
+            }
+            case 16: {
+              int rawValue = input.readEnum();
+
+              type_ = rawValue;
+              break;
+            }
+          }
+        }
+      } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+        throw e.setUnfinishedMessage(this);
+      } catch (java.io.IOException e) {
+        throw new com.google.protobuf.InvalidProtocolBufferException(
+            e).setUnfinishedMessage(this);
+      } finally {
+        makeExtensionsImmutable();
+      }
+    }
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return uyujoy.api.paasim.frontend.MsgBase.internal_static_uyujoy_api_paasim_frontend_UserId_descriptor;
+    }
+
+    protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return uyujoy.api.paasim.frontend.MsgBase.internal_static_uyujoy_api_paasim_frontend_UserId_fieldAccessorTable
+          .ensureFieldAccessorsInitialized(
+              uyujoy.api.paasim.frontend.MsgBase.UserId.class, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder.class);
+    }
+
+    public static final int ID_FIELD_NUMBER = 1;
+    private volatile java.lang.Object id_;
+    /**
+     * <pre>
+     * 用户ID
+     * </pre>
+     *
+     * <code>optional string id = 1;</code>
+     */
+    public java.lang.String getId() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        return (java.lang.String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        java.lang.String s = bs.toStringUtf8();
+        id_ = s;
+        return s;
+      }
+    }
+    /**
+     * <pre>
+     * 用户ID
+     * </pre>
+     *
+     * <code>optional string id = 1;</code>
+     */
+    public com.google.protobuf.ByteString
+        getIdBytes() {
+      java.lang.Object ref = id_;
+      if (ref instanceof java.lang.String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8(
+                (java.lang.String) ref);
+        id_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+
+    public static final int TYPE_FIELD_NUMBER = 2;
+    private int type_;
+    /**
+     * <pre>
+     * 用户类型
+     * </pre>
+     *
+     * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+     */
+    public int getTypeValue() {
+      return type_;
+    }
+    /**
+     * <pre>
+     * 用户类型
+     * </pre>
+     *
+     * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+     */
+    public uyujoy.api.paasim.frontend.MsgBase.UserType getType() {
+      uyujoy.api.paasim.frontend.MsgBase.UserType result = uyujoy.api.paasim.frontend.MsgBase.UserType.valueOf(type_);
+      return result == null ? uyujoy.api.paasim.frontend.MsgBase.UserType.UNRECOGNIZED : result;
+    }
+
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized == 1) return true;
+      if (isInitialized == 0) return false;
+
+      memoizedIsInitialized = 1;
+      return true;
+    }
+
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      if (!getIdBytes().isEmpty()) {
+        com.google.protobuf.GeneratedMessageV3.writeString(output, 1, id_);
+      }
+      if (type_ != uyujoy.api.paasim.frontend.MsgBase.UserType.UNSPECIFIED.getNumber()) {
+        output.writeEnum(2, type_);
+      }
+    }
+
+    public int getSerializedSize() {
+      int size = memoizedSize;
+      if (size != -1) return size;
+
+      size = 0;
+      if (!getIdBytes().isEmpty()) {
+        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(1, id_);
+      }
+      if (type_ != uyujoy.api.paasim.frontend.MsgBase.UserType.UNSPECIFIED.getNumber()) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeEnumSize(2, type_);
+      }
+      memoizedSize = size;
+      return size;
+    }
+
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    public boolean equals(final java.lang.Object obj) {
+      if (obj == this) {
+       return true;
+      }
+      if (!(obj instanceof uyujoy.api.paasim.frontend.MsgBase.UserId)) {
+        return super.equals(obj);
+      }
+      uyujoy.api.paasim.frontend.MsgBase.UserId other = (uyujoy.api.paasim.frontend.MsgBase.UserId) obj;
+
+      boolean result = true;
+      result = result && getId()
+          .equals(other.getId());
+      result = result && type_ == other.type_;
+      return result;
+    }
+
+    @java.lang.Override
+    public int hashCode() {
+      if (memoizedHashCode != 0) {
+        return memoizedHashCode;
+      }
+      int hash = 41;
+      hash = (19 * hash) + getDescriptorForType().hashCode();
+      hash = (37 * hash) + ID_FIELD_NUMBER;
+      hash = (53 * hash) + getId().hashCode();
+      hash = (37 * hash) + TYPE_FIELD_NUMBER;
+      hash = (53 * hash) + type_;
+      hash = (29 * hash) + unknownFields.hashCode();
+      memoizedHashCode = hash;
+      return hash;
+    }
+
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return PARSER.parseFrom(data, extensionRegistry);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input);
+    }
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageV3
+          .parseWithIOException(PARSER, input, extensionRegistry);
+    }
+
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder() {
+      return DEFAULT_INSTANCE.toBuilder();
+    }
+    public static Builder newBuilder(uyujoy.api.paasim.frontend.MsgBase.UserId prototype) {
+      return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() {
+      return this == DEFAULT_INSTANCE
+          ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    /**
+     * Protobuf type {@code uyujoy.api.paasim.frontend.UserId}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
+        // @@protoc_insertion_point(builder_implements:uyujoy.api.paasim.frontend.UserId)
+        uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return uyujoy.api.paasim.frontend.MsgBase.internal_static_uyujoy_api_paasim_frontend_UserId_descriptor;
+      }
+
+      protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return uyujoy.api.paasim.frontend.MsgBase.internal_static_uyujoy_api_paasim_frontend_UserId_fieldAccessorTable
+            .ensureFieldAccessorsInitialized(
+                uyujoy.api.paasim.frontend.MsgBase.UserId.class, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder.class);
+      }
+
+      // Construct using uyujoy.api.paasim.frontend.MsgBase.UserId.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+
+      private Builder(
+          com.google.protobuf.GeneratedMessageV3.BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessageV3
+                .alwaysUseFieldBuilders) {
+        }
+      }
+      public Builder clear() {
+        super.clear();
+        id_ = "";
+
+        type_ = 0;
+
+        return this;
+      }
+
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return uyujoy.api.paasim.frontend.MsgBase.internal_static_uyujoy_api_paasim_frontend_UserId_descriptor;
+      }
+
+      public uyujoy.api.paasim.frontend.MsgBase.UserId getDefaultInstanceForType() {
+        return uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance();
+      }
+
+      public uyujoy.api.paasim.frontend.MsgBase.UserId build() {
+        uyujoy.api.paasim.frontend.MsgBase.UserId result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+
+      public uyujoy.api.paasim.frontend.MsgBase.UserId buildPartial() {
+        uyujoy.api.paasim.frontend.MsgBase.UserId result = new uyujoy.api.paasim.frontend.MsgBase.UserId(this);
+        result.id_ = id_;
+        result.type_ = type_;
+        onBuilt();
+        return result;
+      }
+
+      public Builder clone() {
+        return (Builder) super.clone();
+      }
+      public Builder setField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.setField(field, value);
+      }
+      public Builder clearField(
+          com.google.protobuf.Descriptors.FieldDescriptor field) {
+        return (Builder) super.clearField(field);
+      }
+      public Builder clearOneof(
+          com.google.protobuf.Descriptors.OneofDescriptor oneof) {
+        return (Builder) super.clearOneof(oneof);
+      }
+      public Builder setRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          int index, Object value) {
+        return (Builder) super.setRepeatedField(field, index, value);
+      }
+      public Builder addRepeatedField(
+          com.google.protobuf.Descriptors.FieldDescriptor field,
+          Object value) {
+        return (Builder) super.addRepeatedField(field, value);
+      }
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof uyujoy.api.paasim.frontend.MsgBase.UserId) {
+          return mergeFrom((uyujoy.api.paasim.frontend.MsgBase.UserId)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+
+      public Builder mergeFrom(uyujoy.api.paasim.frontend.MsgBase.UserId other) {
+        if (other == uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance()) return this;
+        if (!other.getId().isEmpty()) {
+          id_ = other.id_;
+          onChanged();
+        }
+        if (other.type_ != 0) {
+          setTypeValue(other.getTypeValue());
+        }
+        onChanged();
+        return this;
+      }
+
+      public final boolean isInitialized() {
+        return true;
+      }
+
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        uyujoy.api.paasim.frontend.MsgBase.UserId parsedMessage = null;
+        try {
+          parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
+        } catch (com.google.protobuf.InvalidProtocolBufferException e) {
+          parsedMessage = (uyujoy.api.paasim.frontend.MsgBase.UserId) e.getUnfinishedMessage();
+          throw e.unwrapIOException();
+        } finally {
+          if (parsedMessage != null) {
+            mergeFrom(parsedMessage);
+          }
+        }
+        return this;
+      }
+
+      private java.lang.Object id_ = "";
+      /**
+       * <pre>
+       * 用户ID
+       * </pre>
+       *
+       * <code>optional string id = 1;</code>
+       */
+      public java.lang.String getId() {
+        java.lang.Object ref = id_;
+        if (!(ref instanceof java.lang.String)) {
+          com.google.protobuf.ByteString bs =
+              (com.google.protobuf.ByteString) ref;
+          java.lang.String s = bs.toStringUtf8();
+          id_ = s;
+          return s;
+        } else {
+          return (java.lang.String) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 用户ID
+       * </pre>
+       *
+       * <code>optional string id = 1;</code>
+       */
+      public com.google.protobuf.ByteString
+          getIdBytes() {
+        java.lang.Object ref = id_;
+        if (ref instanceof String) {
+          com.google.protobuf.ByteString b = 
+              com.google.protobuf.ByteString.copyFromUtf8(
+                  (java.lang.String) ref);
+          id_ = b;
+          return b;
+        } else {
+          return (com.google.protobuf.ByteString) ref;
+        }
+      }
+      /**
+       * <pre>
+       * 用户ID
+       * </pre>
+       *
+       * <code>optional string id = 1;</code>
+       */
+      public Builder setId(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  
+        id_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 用户ID
+       * </pre>
+       *
+       * <code>optional string id = 1;</code>
+       */
+      public Builder clearId() {
+        
+        id_ = getDefaultInstance().getId();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 用户ID
+       * </pre>
+       *
+       * <code>optional string id = 1;</code>
+       */
+      public Builder setIdBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  checkByteStringIsUtf8(value);
+        
+        id_ = value;
+        onChanged();
+        return this;
+      }
+
+      private int type_ = 0;
+      /**
+       * <pre>
+       * 用户类型
+       * </pre>
+       *
+       * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+       */
+      public int getTypeValue() {
+        return type_;
+      }
+      /**
+       * <pre>
+       * 用户类型
+       * </pre>
+       *
+       * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+       */
+      public Builder setTypeValue(int value) {
+        type_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 用户类型
+       * </pre>
+       *
+       * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserType getType() {
+        uyujoy.api.paasim.frontend.MsgBase.UserType result = uyujoy.api.paasim.frontend.MsgBase.UserType.valueOf(type_);
+        return result == null ? uyujoy.api.paasim.frontend.MsgBase.UserType.UNRECOGNIZED : result;
+      }
+      /**
+       * <pre>
+       * 用户类型
+       * </pre>
+       *
+       * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+       */
+      public Builder setType(uyujoy.api.paasim.frontend.MsgBase.UserType value) {
+        if (value == null) {
+          throw new NullPointerException();
+        }
+        
+        type_ = value.getNumber();
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * 用户类型
+       * </pre>
+       *
+       * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
+       */
+      public Builder clearType() {
+        
+        type_ = 0;
+        onChanged();
+        return this;
+      }
+      public final Builder setUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+      public final Builder mergeUnknownFields(
+          final com.google.protobuf.UnknownFieldSet unknownFields) {
+        return this;
+      }
+
+
+      // @@protoc_insertion_point(builder_scope:uyujoy.api.paasim.frontend.UserId)
+    }
+
+    // @@protoc_insertion_point(class_scope:uyujoy.api.paasim.frontend.UserId)
+    private static final uyujoy.api.paasim.frontend.MsgBase.UserId DEFAULT_INSTANCE;
+    static {
+      DEFAULT_INSTANCE = new uyujoy.api.paasim.frontend.MsgBase.UserId();
+    }
+
+    public static uyujoy.api.paasim.frontend.MsgBase.UserId getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static final com.google.protobuf.Parser<UserId>
+        PARSER = new com.google.protobuf.AbstractParser<UserId>() {
+      public UserId parsePartialFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+          return new UserId(input, extensionRegistry);
+      }
+    };
+
+    public static com.google.protobuf.Parser<UserId> parser() {
+      return PARSER;
+    }
+
+    @java.lang.Override
+    public com.google.protobuf.Parser<UserId> getParserForType() {
+      return PARSER;
+    }
+
+    public uyujoy.api.paasim.frontend.MsgBase.UserId getDefaultInstanceForType() {
+      return DEFAULT_INSTANCE;
+    }
+
+  }
+
   public interface paasMsgRecordOrBuilder extends
       // @@protoc_insertion_point(interface_extends:uyujoy.api.paasim.frontend.paasMsgRecord)
       com.google.protobuf.MessageOrBuilder {
@@ -47,24 +841,30 @@ public final class MsgBase {
     int getMsgType();
 
     /**
-     * <code>optional string from = 4;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
      */
-    java.lang.String getFrom();
+    boolean hasFrom();
     /**
-     * <code>optional string from = 4;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
      */
-    com.google.protobuf.ByteString
-        getFromBytes();
+    uyujoy.api.paasim.frontend.MsgBase.UserId getFrom();
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
+     */
+    uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getFromOrBuilder();
 
     /**
-     * <code>optional string to = 5;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
      */
-    java.lang.String getTo();
+    boolean hasTo();
     /**
-     * <code>optional string to = 5;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
      */
-    com.google.protobuf.ByteString
-        getToBytes();
+    uyujoy.api.paasim.frontend.MsgBase.UserId getTo();
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
+     */
+    uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getToOrBuilder();
 
     /**
      * <pre>
@@ -133,6 +933,10 @@ public final class MsgBase {
     uyujoy.api.paasim.frontend.UserBase.userInfoOrBuilder getUserOrBuilder();
   }
   /**
+   * <pre>
+   *  paas 平台 im的消息结构
+   * </pre>
+   *
    * Protobuf type {@code uyujoy.api.paasim.frontend.paasMsgRecord}
    */
   public  static final class paasMsgRecord extends
@@ -147,8 +951,6 @@ public final class MsgBase {
       msgId_ = 0L;
       msgFp_ = "";
       msgType_ = 0;
-      from_ = "";
-      to_ = "";
       msgTxt_ = "";
       font_ = com.google.protobuf.ByteString.EMPTY;
       sendTime_ = 0L;
@@ -196,15 +998,29 @@ public final class MsgBase {
               break;
             }
             case 34: {
-              java.lang.String s = input.readStringRequireUtf8();
+              uyujoy.api.paasim.frontend.MsgBase.UserId.Builder subBuilder = null;
+              if (from_ != null) {
+                subBuilder = from_.toBuilder();
+              }
+              from_ = input.readMessage(uyujoy.api.paasim.frontend.MsgBase.UserId.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(from_);
+                from_ = subBuilder.buildPartial();
+              }
 
-              from_ = s;
               break;
             }
             case 42: {
-              java.lang.String s = input.readStringRequireUtf8();
+              uyujoy.api.paasim.frontend.MsgBase.UserId.Builder subBuilder = null;
+              if (to_ != null) {
+                subBuilder = to_.toBuilder();
+              }
+              to_ = input.readMessage(uyujoy.api.paasim.frontend.MsgBase.UserId.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(to_);
+                to_ = subBuilder.buildPartial();
+              }
 
-              to_ = s;
               break;
             }
             case 50: {
@@ -333,71 +1149,45 @@ public final class MsgBase {
     }
 
     public static final int FROM_FIELD_NUMBER = 4;
-    private volatile java.lang.Object from_;
+    private uyujoy.api.paasim.frontend.MsgBase.UserId from_;
     /**
-     * <code>optional string from = 4;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
      */
-    public java.lang.String getFrom() {
-      java.lang.Object ref = from_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        from_ = s;
-        return s;
-      }
+    public boolean hasFrom() {
+      return from_ != null;
     }
     /**
-     * <code>optional string from = 4;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
      */
-    public com.google.protobuf.ByteString
-        getFromBytes() {
-      java.lang.Object ref = from_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        from_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public uyujoy.api.paasim.frontend.MsgBase.UserId getFrom() {
+      return from_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : from_;
+    }
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
+     */
+    public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getFromOrBuilder() {
+      return getFrom();
     }
 
     public static final int TO_FIELD_NUMBER = 5;
-    private volatile java.lang.Object to_;
+    private uyujoy.api.paasim.frontend.MsgBase.UserId to_;
     /**
-     * <code>optional string to = 5;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
      */
-    public java.lang.String getTo() {
-      java.lang.Object ref = to_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        to_ = s;
-        return s;
-      }
+    public boolean hasTo() {
+      return to_ != null;
     }
     /**
-     * <code>optional string to = 5;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
      */
-    public com.google.protobuf.ByteString
-        getToBytes() {
-      java.lang.Object ref = to_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        to_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public uyujoy.api.paasim.frontend.MsgBase.UserId getTo() {
+      return to_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : to_;
+    }
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
+     */
+    public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getToOrBuilder() {
+      return getTo();
     }
 
     public static final int MSGTXT_FIELD_NUMBER = 6;
@@ -535,11 +1325,11 @@ public final class MsgBase {
       if (msgType_ != 0) {
         output.writeUInt32(3, msgType_);
       }
-      if (!getFromBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 4, from_);
+      if (from_ != null) {
+        output.writeMessage(4, getFrom());
       }
-      if (!getToBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 5, to_);
+      if (to_ != null) {
+        output.writeMessage(5, getTo());
       }
       if (!getMsgTxtBytes().isEmpty()) {
         com.google.protobuf.GeneratedMessageV3.writeString(output, 6, msgTxt_);
@@ -574,11 +1364,13 @@ public final class MsgBase {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(3, msgType_);
       }
-      if (!getFromBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(4, from_);
+      if (from_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(4, getFrom());
       }
-      if (!getToBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(5, to_);
+      if (to_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(5, getTo());
       }
       if (!getMsgTxtBytes().isEmpty()) {
         size += com.google.protobuf.GeneratedMessageV3.computeStringSize(6, msgTxt_);
@@ -621,10 +1413,16 @@ public final class MsgBase {
           .equals(other.getMsgFp());
       result = result && (getMsgType()
           == other.getMsgType());
-      result = result && getFrom()
-          .equals(other.getFrom());
-      result = result && getTo()
-          .equals(other.getTo());
+      result = result && (hasFrom() == other.hasFrom());
+      if (hasFrom()) {
+        result = result && getFrom()
+            .equals(other.getFrom());
+      }
+      result = result && (hasTo() == other.hasTo());
+      if (hasTo()) {
+        result = result && getTo()
+            .equals(other.getTo());
+      }
       result = result && getMsgTxt()
           .equals(other.getMsgTxt());
       result = result && (hasMedia() == other.hasMedia());
@@ -658,10 +1456,14 @@ public final class MsgBase {
       hash = (53 * hash) + getMsgFp().hashCode();
       hash = (37 * hash) + MSGTYPE_FIELD_NUMBER;
       hash = (53 * hash) + getMsgType();
-      hash = (37 * hash) + FROM_FIELD_NUMBER;
-      hash = (53 * hash) + getFrom().hashCode();
-      hash = (37 * hash) + TO_FIELD_NUMBER;
-      hash = (53 * hash) + getTo().hashCode();
+      if (hasFrom()) {
+        hash = (37 * hash) + FROM_FIELD_NUMBER;
+        hash = (53 * hash) + getFrom().hashCode();
+      }
+      if (hasTo()) {
+        hash = (37 * hash) + TO_FIELD_NUMBER;
+        hash = (53 * hash) + getTo().hashCode();
+      }
       hash = (37 * hash) + MSGTXT_FIELD_NUMBER;
       hash = (53 * hash) + getMsgTxt().hashCode();
       if (hasMedia()) {
@@ -760,6 +1562,10 @@ public final class MsgBase {
       return builder;
     }
     /**
+     * <pre>
+     *  paas 平台 im的消息结构
+     * </pre>
+     *
      * Protobuf type {@code uyujoy.api.paasim.frontend.paasMsgRecord}
      */
     public static final class Builder extends
@@ -801,10 +1607,18 @@ public final class MsgBase {
 
         msgType_ = 0;
 
-        from_ = "";
-
-        to_ = "";
-
+        if (fromBuilder_ == null) {
+          from_ = null;
+        } else {
+          from_ = null;
+          fromBuilder_ = null;
+        }
+        if (toBuilder_ == null) {
+          to_ = null;
+        } else {
+          to_ = null;
+          toBuilder_ = null;
+        }
         msgTxt_ = "";
 
         if (mediaBuilder_ == null) {
@@ -848,8 +1662,16 @@ public final class MsgBase {
         result.msgId_ = msgId_;
         result.msgFp_ = msgFp_;
         result.msgType_ = msgType_;
-        result.from_ = from_;
-        result.to_ = to_;
+        if (fromBuilder_ == null) {
+          result.from_ = from_;
+        } else {
+          result.from_ = fromBuilder_.build();
+        }
+        if (toBuilder_ == null) {
+          result.to_ = to_;
+        } else {
+          result.to_ = toBuilder_.build();
+        }
         result.msgTxt_ = msgTxt_;
         if (mediaBuilder_ == null) {
           result.media_ = media_;
@@ -914,13 +1736,11 @@ public final class MsgBase {
         if (other.getMsgType() != 0) {
           setMsgType(other.getMsgType());
         }
-        if (!other.getFrom().isEmpty()) {
-          from_ = other.from_;
-          onChanged();
+        if (other.hasFrom()) {
+          mergeFrom(other.getFrom());
         }
-        if (!other.getTo().isEmpty()) {
-          to_ = other.to_;
-          onChanged();
+        if (other.hasTo()) {
+          mergeTo(other.getTo());
         }
         if (!other.getMsgTxt().isEmpty()) {
           msgTxt_ = other.msgTxt_;
@@ -1109,142 +1929,238 @@ public final class MsgBase {
         return this;
       }
 
-      private java.lang.Object from_ = "";
+      private uyujoy.api.paasim.frontend.MsgBase.UserId from_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> fromBuilder_;
       /**
-       * <code>optional string from = 4;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
        */
-      public java.lang.String getFrom() {
-        java.lang.Object ref = from_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          from_ = s;
-          return s;
+      public boolean hasFrom() {
+        return fromBuilder_ != null || from_ != null;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserId getFrom() {
+        if (fromBuilder_ == null) {
+          return from_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : from_;
         } else {
-          return (java.lang.String) ref;
+          return fromBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional string from = 4;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
        */
-      public com.google.protobuf.ByteString
-          getFromBytes() {
-        java.lang.Object ref = from_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          from_ = b;
-          return b;
+      public Builder setFrom(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (fromBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          from_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          fromBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>optional string from = 4;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
        */
       public Builder setFrom(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        from_ = value;
-        onChanged();
+          uyujoy.api.paasim.frontend.MsgBase.UserId.Builder builderForValue) {
+        if (fromBuilder_ == null) {
+          from_ = builderForValue.build();
+          onChanged();
+        } else {
+          fromBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>optional string from = 4;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
+       */
+      public Builder mergeFrom(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (fromBuilder_ == null) {
+          if (from_ != null) {
+            from_ =
+              uyujoy.api.paasim.frontend.MsgBase.UserId.newBuilder(from_).mergeFrom(value).buildPartial();
+          } else {
+            from_ = value;
+          }
+          onChanged();
+        } else {
+          fromBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
        */
       public Builder clearFrom() {
-        
-        from_ = getDefaultInstance().getFrom();
-        onChanged();
+        if (fromBuilder_ == null) {
+          from_ = null;
+          onChanged();
+        } else {
+          from_ = null;
+          fromBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>optional string from = 4;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
        */
-      public Builder setFromBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public uyujoy.api.paasim.frontend.MsgBase.UserId.Builder getFromBuilder() {
         
-        from_ = value;
         onChanged();
-        return this;
+        return getFromFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getFromOrBuilder() {
+        if (fromBuilder_ != null) {
+          return fromBuilder_.getMessageOrBuilder();
+        } else {
+          return from_ == null ?
+              uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : from_;
+        }
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId from = 4;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> 
+          getFromFieldBuilder() {
+        if (fromBuilder_ == null) {
+          fromBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder>(
+                  getFrom(),
+                  getParentForChildren(),
+                  isClean());
+          from_ = null;
+        }
+        return fromBuilder_;
       }
 
-      private java.lang.Object to_ = "";
+      private uyujoy.api.paasim.frontend.MsgBase.UserId to_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> toBuilder_;
       /**
-       * <code>optional string to = 5;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
        */
-      public java.lang.String getTo() {
-        java.lang.Object ref = to_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          to_ = s;
-          return s;
+      public boolean hasTo() {
+        return toBuilder_ != null || to_ != null;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserId getTo() {
+        if (toBuilder_ == null) {
+          return to_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : to_;
         } else {
-          return (java.lang.String) ref;
+          return toBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional string to = 5;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
        */
-      public com.google.protobuf.ByteString
-          getToBytes() {
-        java.lang.Object ref = to_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          to_ = b;
-          return b;
+      public Builder setTo(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (toBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          to_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          toBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>optional string to = 5;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
        */
       public Builder setTo(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        to_ = value;
-        onChanged();
+          uyujoy.api.paasim.frontend.MsgBase.UserId.Builder builderForValue) {
+        if (toBuilder_ == null) {
+          to_ = builderForValue.build();
+          onChanged();
+        } else {
+          toBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>optional string to = 5;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
+       */
+      public Builder mergeTo(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (toBuilder_ == null) {
+          if (to_ != null) {
+            to_ =
+              uyujoy.api.paasim.frontend.MsgBase.UserId.newBuilder(to_).mergeFrom(value).buildPartial();
+          } else {
+            to_ = value;
+          }
+          onChanged();
+        } else {
+          toBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
        */
       public Builder clearTo() {
-        
-        to_ = getDefaultInstance().getTo();
-        onChanged();
+        if (toBuilder_ == null) {
+          to_ = null;
+          onChanged();
+        } else {
+          to_ = null;
+          toBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>optional string to = 5;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
        */
-      public Builder setToBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public uyujoy.api.paasim.frontend.MsgBase.UserId.Builder getToBuilder() {
         
-        to_ = value;
         onChanged();
-        return this;
+        return getToFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getToOrBuilder() {
+        if (toBuilder_ != null) {
+          return toBuilder_.getMessageOrBuilder();
+        } else {
+          return to_ == null ?
+              uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : to_;
+        }
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId to = 5;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> 
+          getToFieldBuilder() {
+        if (toBuilder_ == null) {
+          toBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder>(
+                  getTo(),
+                  getParentForChildren(),
+                  isClean());
+          to_ = null;
+        }
+        return toBuilder_;
       }
 
       private java.lang.Object msgTxt_ = "";
@@ -1710,6 +2626,11 @@ public final class MsgBase {
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
+    internal_static_uyujoy_api_paasim_frontend_UserId_descriptor;
+  private static final 
+    com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
+      internal_static_uyujoy_api_paasim_frontend_UserId_fieldAccessorTable;
+  private static final com.google.protobuf.Descriptors.Descriptor
     internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
@@ -1724,15 +2645,20 @@ public final class MsgBase {
   static {
     java.lang.String[] descriptorData = {
       "\n\rmsgBase.proto\022\032uyujoy.api.paasim.front" +
-      "end\032\017mediaBase.proto\032\016userBase.proto\"\364\001\n" +
-      "\rpaasMsgRecord\022\r\n\005msgId\030\001 \001(\003\022\r\n\005msgFp\030\002" +
-      " \001(\t\022\017\n\007msgType\030\003 \001(\r\022\014\n\004from\030\004 \001(\t\022\n\n\002t" +
-      "o\030\005 \001(\t\022\016\n\006msgTxt\030\006 \001(\t\0226\n\005media\030\007 \001(\0132\'" +
-      ".uyujoy.api.paasim.frontend.mediaRecord\022" +
-      "\014\n\004font\030\010 \001(\014\022\020\n\010sendTime\030\t \001(\003\0222\n\004user\030" +
-      "\n \001(\0132$.uyujoy.api.paasim.frontend.userI" +
-      "nfoB5Z3uyujoy.com/pass/protogen/api/paas" +
-      "im/frontend;paasimb\006proto3"
+      "end\032\017mediaBase.proto\032\016userBase.proto\"H\n\006" +
+      "UserId\022\n\n\002id\030\001 \001(\t\0222\n\004type\030\002 \001(\0162$.uyujo" +
+      "y.api.paasim.frontend.UserType\"\274\002\n\rpaasM" +
+      "sgRecord\022\r\n\005msgId\030\001 \001(\003\022\r\n\005msgFp\030\002 \001(\t\022\017" +
+      "\n\007msgType\030\003 \001(\r\0220\n\004from\030\004 \001(\0132\".uyujoy.a" +
+      "pi.paasim.frontend.UserId\022.\n\002to\030\005 \001(\0132\"." +
+      "uyujoy.api.paasim.frontend.UserId\022\016\n\006msg" +
+      "Txt\030\006 \001(\t\0226\n\005media\030\007 \001(\0132\'.uyujoy.api.pa" +
+      "asim.frontend.mediaRecord\022\014\n\004font\030\010 \001(\014\022",
+      "\020\n\010sendTime\030\t \001(\003\0222\n\004user\030\n \001(\0132$.uyujoy" +
+      ".api.paasim.frontend.userInfo*6\n\010UserTyp" +
+      "e\022\017\n\013UNSPECIFIED\020\000\022\010\n\004USER\020\001\022\017\n\013BROADCAS" +
+      "TER\020\002B5Z3uyujoy.com/pass/protogen/api/pa" +
+      "asim/frontend;paasimb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -1748,8 +2674,14 @@ public final class MsgBase {
           uyujoy.api.paasim.frontend.MediaBase.getDescriptor(),
           uyujoy.api.paasim.frontend.UserBase.getDescriptor(),
         }, assigner);
-    internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_descriptor =
+    internal_static_uyujoy_api_paasim_frontend_UserId_descriptor =
       getDescriptor().getMessageTypes().get(0);
+    internal_static_uyujoy_api_paasim_frontend_UserId_fieldAccessorTable = new
+      com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
+        internal_static_uyujoy_api_paasim_frontend_UserId_descriptor,
+        new java.lang.String[] { "Id", "Type", });
+    internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_descriptor =
+      getDescriptor().getMessageTypes().get(1);
     internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_descriptor,

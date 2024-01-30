@@ -234,27 +234,23 @@ class paasImMsgSent : public ::google::protobuf::Message /* @@protoc_insertion_p
   ::std::string* release_fp();
   void set_allocated_fp(::std::string* fp);
 
-  // optional string from = 5;
+  // optional .uyujoy.api.paasim.frontend.UserId from = 5;
+  bool has_from() const;
   void clear_from();
   static const int kFromFieldNumber = 5;
-  const ::std::string& from() const;
-  void set_from(const ::std::string& value);
-  void set_from(const char* value);
-  void set_from(const char* value, size_t size);
-  ::std::string* mutable_from();
-  ::std::string* release_from();
-  void set_allocated_from(::std::string* from);
+  const ::uyujoy::api::paasim::frontend::UserId& from() const;
+  ::uyujoy::api::paasim::frontend::UserId* mutable_from();
+  ::uyujoy::api::paasim::frontend::UserId* release_from();
+  void set_allocated_from(::uyujoy::api::paasim::frontend::UserId* from);
 
-  // optional string to = 6;
+  // optional .uyujoy.api.paasim.frontend.UserId to = 6;
+  bool has_to() const;
   void clear_to();
   static const int kToFieldNumber = 6;
-  const ::std::string& to() const;
-  void set_to(const ::std::string& value);
-  void set_to(const char* value);
-  void set_to(const char* value, size_t size);
-  ::std::string* mutable_to();
-  ::std::string* release_to();
-  void set_allocated_to(::std::string* to);
+  const ::uyujoy::api::paasim::frontend::UserId& to() const;
+  ::uyujoy::api::paasim::frontend::UserId* mutable_to();
+  ::uyujoy::api::paasim::frontend::UserId* release_to();
+  void set_allocated_to(::uyujoy::api::paasim::frontend::UserId* to);
 
   // optional int64 date = 7;
   void clear_date();
@@ -267,8 +263,8 @@ class paasImMsgSent : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr fp_;
-  ::google::protobuf::internal::ArenaStringPtr from_;
-  ::google::protobuf::internal::ArenaStringPtr to_;
+  ::uyujoy::api::paasim::frontend::UserId* from_;
+  ::uyujoy::api::paasim::frontend::UserId* to_;
   ::google::protobuf::int64 pts_;
   ::google::protobuf::int64 msgid_;
   ::google::protobuf::int64 genmsgid_;
@@ -706,11 +702,16 @@ class reqDifference : public ::google::protobuf::Message /* @@protoc_insertion_p
 
   // accessors -------------------------------------------------------
 
-  // optional uint32 uid = 1;
+  // optional string uid = 1;
   void clear_uid();
   static const int kUidFieldNumber = 1;
-  ::google::protobuf::uint32 uid() const;
-  void set_uid(::google::protobuf::uint32 value);
+  const ::std::string& uid() const;
+  void set_uid(const ::std::string& value);
+  void set_uid(const char* value);
+  void set_uid(const char* value, size_t size);
+  ::std::string* mutable_uid();
+  ::std::string* release_uid();
+  void set_allocated_uid(::std::string* uid);
 
   // optional bytes req = 2;
   void clear_req();
@@ -727,8 +728,8 @@ class reqDifference : public ::google::protobuf::Message /* @@protoc_insertion_p
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  ::google::protobuf::internal::ArenaStringPtr uid_;
   ::google::protobuf::internal::ArenaStringPtr req_;
-  ::google::protobuf::uint32 uid_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_paasIm_2eproto_impl();
   friend void  protobuf_AddDesc_paasIm_2eproto_impl();
@@ -970,91 +971,81 @@ inline void paasImMsgSent::set_allocated_fp(::std::string* fp) {
   // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.paasImMsgSent.fp)
 }
 
-// optional string from = 5;
+// optional .uyujoy.api.paasim.frontend.UserId from = 5;
+inline bool paasImMsgSent::has_from() const {
+  return this != internal_default_instance() && from_ != NULL;
+}
 inline void paasImMsgSent::clear_from() {
-  from_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && from_ != NULL) delete from_;
+  from_ = NULL;
 }
-inline const ::std::string& paasImMsgSent::from() const {
+inline const ::uyujoy::api::paasim::frontend::UserId& paasImMsgSent::from() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.paasImMsgSent.from)
-  return from_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return from_ != NULL ? *from_
+                         : *::uyujoy::api::paasim::frontend::UserId::internal_default_instance();
 }
-inline void paasImMsgSent::set_from(const ::std::string& value) {
+inline ::uyujoy::api::paasim::frontend::UserId* paasImMsgSent::mutable_from() {
   
-  from_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.paasImMsgSent.from)
-}
-inline void paasImMsgSent::set_from(const char* value) {
-  
-  from_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.paasImMsgSent.from)
-}
-inline void paasImMsgSent::set_from(const char* value, size_t size) {
-  
-  from_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.paasImMsgSent.from)
-}
-inline ::std::string* paasImMsgSent::mutable_from() {
-  
+  if (from_ == NULL) {
+    from_ = new ::uyujoy::api::paasim::frontend::UserId;
+  }
   // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.paasImMsgSent.from)
-  return from_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return from_;
 }
-inline ::std::string* paasImMsgSent::release_from() {
+inline ::uyujoy::api::paasim::frontend::UserId* paasImMsgSent::release_from() {
   // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.paasImMsgSent.from)
   
-  return from_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::uyujoy::api::paasim::frontend::UserId* temp = from_;
+  from_ = NULL;
+  return temp;
 }
-inline void paasImMsgSent::set_allocated_from(::std::string* from) {
-  if (from != NULL) {
+inline void paasImMsgSent::set_allocated_from(::uyujoy::api::paasim::frontend::UserId* from) {
+  delete from_;
+  from_ = from;
+  if (from) {
     
   } else {
     
   }
-  from_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from);
   // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.paasImMsgSent.from)
 }
 
-// optional string to = 6;
+// optional .uyujoy.api.paasim.frontend.UserId to = 6;
+inline bool paasImMsgSent::has_to() const {
+  return this != internal_default_instance() && to_ != NULL;
+}
 inline void paasImMsgSent::clear_to() {
-  to_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && to_ != NULL) delete to_;
+  to_ = NULL;
 }
-inline const ::std::string& paasImMsgSent::to() const {
+inline const ::uyujoy::api::paasim::frontend::UserId& paasImMsgSent::to() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.paasImMsgSent.to)
-  return to_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return to_ != NULL ? *to_
+                         : *::uyujoy::api::paasim::frontend::UserId::internal_default_instance();
 }
-inline void paasImMsgSent::set_to(const ::std::string& value) {
+inline ::uyujoy::api::paasim::frontend::UserId* paasImMsgSent::mutable_to() {
   
-  to_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.paasImMsgSent.to)
-}
-inline void paasImMsgSent::set_to(const char* value) {
-  
-  to_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.paasImMsgSent.to)
-}
-inline void paasImMsgSent::set_to(const char* value, size_t size) {
-  
-  to_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.paasImMsgSent.to)
-}
-inline ::std::string* paasImMsgSent::mutable_to() {
-  
+  if (to_ == NULL) {
+    to_ = new ::uyujoy::api::paasim::frontend::UserId;
+  }
   // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.paasImMsgSent.to)
-  return to_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return to_;
 }
-inline ::std::string* paasImMsgSent::release_to() {
+inline ::uyujoy::api::paasim::frontend::UserId* paasImMsgSent::release_to() {
   // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.paasImMsgSent.to)
   
-  return to_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::uyujoy::api::paasim::frontend::UserId* temp = to_;
+  to_ = NULL;
+  return temp;
 }
-inline void paasImMsgSent::set_allocated_to(::std::string* to) {
-  if (to != NULL) {
+inline void paasImMsgSent::set_allocated_to(::uyujoy::api::paasim::frontend::UserId* to) {
+  delete to_;
+  to_ = to;
+  if (to) {
     
   } else {
     
   }
-  to_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), to);
   // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.paasImMsgSent.to)
 }
 
@@ -1191,18 +1182,48 @@ inline const states* states::internal_default_instance() {
 
 // reqDifference
 
-// optional uint32 uid = 1;
+// optional string uid = 1;
 inline void reqDifference::clear_uid() {
-  uid_ = 0u;
+  uid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline ::google::protobuf::uint32 reqDifference::uid() const {
+inline const ::std::string& reqDifference::uid() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.reqDifference.uid)
-  return uid_;
+  return uid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
 }
-inline void reqDifference::set_uid(::google::protobuf::uint32 value) {
+inline void reqDifference::set_uid(const ::std::string& value) {
   
-  uid_ = value;
+  uid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.reqDifference.uid)
+}
+inline void reqDifference::set_uid(const char* value) {
+  
+  uid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.reqDifference.uid)
+}
+inline void reqDifference::set_uid(const char* value, size_t size) {
+  
+  uid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.reqDifference.uid)
+}
+inline ::std::string* reqDifference::mutable_uid() {
+  
+  // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.reqDifference.uid)
+  return uid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* reqDifference::release_uid() {
+  // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.reqDifference.uid)
+  
+  return uid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void reqDifference::set_allocated_uid(::std::string* uid) {
+  if (uid != NULL) {
+    
+  } else {
+    
+  }
+  uid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), uid);
+  // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.reqDifference.uid)
 }
 
 // optional bytes req = 2;

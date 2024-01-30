@@ -11,10 +11,10 @@ public class ChatListBean {
     private Long id;
 
     @NotNull
-    private int mUid;
+    private String mUid;
 
     @NotNull
-    private int peerUid;
+    private String peerUid;
 
     private int unreadMsgCount;
 
@@ -32,10 +32,10 @@ public class ChatListBean {
 
     private String userAvatar;
 
-    @Generated(hash = 2087522836)
-    public ChatListBean(Long id, int mUid, int peerUid, int unreadMsgCount,
-            long oldMessageTime, String oldMessage, int status, int sourceType,
-            String nickName, int sendState, String userAvatar) {
+    @Generated(hash = 359873815)
+    public ChatListBean(Long id, @NotNull String mUid, @NotNull String peerUid,
+            int unreadMsgCount, long oldMessageTime, String oldMessage, int status,
+            int sourceType, String nickName, int sendState, String userAvatar) {
         this.id = id;
         this.mUid = mUid;
         this.peerUid = peerUid;
@@ -61,19 +61,19 @@ public class ChatListBean {
         this.id = id;
     }
 
-    public int getMUid() {
+    public String getMUid() {
         return this.mUid;
     }
 
-    public void setMUid(int mUid) {
+    public void setMUid(String mUid) {
         this.mUid = mUid;
     }
 
-    public int getPeerUid() {
+    public String getPeerUid() {
         return this.peerUid;
     }
 
-    public void setPeerUid(int peerUid) {
+    public void setPeerUid(String peerUid) {
         this.peerUid = peerUid;
     }
 

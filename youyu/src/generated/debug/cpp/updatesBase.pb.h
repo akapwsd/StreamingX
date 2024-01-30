@@ -118,27 +118,23 @@ class updates : public ::google::protobuf::Message /* @@protoc_insertion_point(c
   ::google::protobuf::uint32 id() const;
   void set_id(::google::protobuf::uint32 value);
 
-  // optional string uid = 2;
+  // optional .uyujoy.api.paasim.frontend.UserId uid = 2;
+  bool has_uid() const;
   void clear_uid();
   static const int kUidFieldNumber = 2;
-  const ::std::string& uid() const;
-  void set_uid(const ::std::string& value);
-  void set_uid(const char* value);
-  void set_uid(const char* value, size_t size);
-  ::std::string* mutable_uid();
-  ::std::string* release_uid();
-  void set_allocated_uid(::std::string* uid);
+  const ::uyujoy::api::paasim::frontend::UserId& uid() const;
+  ::uyujoy::api::paasim::frontend::UserId* mutable_uid();
+  ::uyujoy::api::paasim::frontend::UserId* release_uid();
+  void set_allocated_uid(::uyujoy::api::paasim::frontend::UserId* uid);
 
-  // optional string peer = 3;
+  // optional .uyujoy.api.paasim.frontend.UserId peer = 3;
+  bool has_peer() const;
   void clear_peer();
   static const int kPeerFieldNumber = 3;
-  const ::std::string& peer() const;
-  void set_peer(const ::std::string& value);
-  void set_peer(const char* value);
-  void set_peer(const char* value, size_t size);
-  ::std::string* mutable_peer();
-  ::std::string* release_peer();
-  void set_allocated_peer(::std::string* peer);
+  const ::uyujoy::api::paasim::frontend::UserId& peer() const;
+  ::uyujoy::api::paasim::frontend::UserId* mutable_peer();
+  ::uyujoy::api::paasim::frontend::UserId* release_peer();
+  void set_allocated_peer(::uyujoy::api::paasim::frontend::UserId* peer);
 
   // optional int64 pts = 4;
   void clear_pts();
@@ -197,9 +193,9 @@ class updates : public ::google::protobuf::Message /* @@protoc_insertion_point(c
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  ::google::protobuf::internal::ArenaStringPtr uid_;
-  ::google::protobuf::internal::ArenaStringPtr peer_;
   ::google::protobuf::internal::ArenaStringPtr content_;
+  ::uyujoy::api::paasim::frontend::UserId* uid_;
+  ::uyujoy::api::paasim::frontend::UserId* peer_;
   ::google::protobuf::uint32 id_;
   ::google::protobuf::uint32 msgtype_;
   ::google::protobuf::int64 pts_;
@@ -652,91 +648,81 @@ inline void updates::set_id(::google::protobuf::uint32 value) {
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.updates.id)
 }
 
-// optional string uid = 2;
+// optional .uyujoy.api.paasim.frontend.UserId uid = 2;
+inline bool updates::has_uid() const {
+  return this != internal_default_instance() && uid_ != NULL;
+}
 inline void updates::clear_uid() {
-  uid_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && uid_ != NULL) delete uid_;
+  uid_ = NULL;
 }
-inline const ::std::string& updates::uid() const {
+inline const ::uyujoy::api::paasim::frontend::UserId& updates::uid() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.updates.uid)
-  return uid_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return uid_ != NULL ? *uid_
+                         : *::uyujoy::api::paasim::frontend::UserId::internal_default_instance();
 }
-inline void updates::set_uid(const ::std::string& value) {
+inline ::uyujoy::api::paasim::frontend::UserId* updates::mutable_uid() {
   
-  uid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.updates.uid)
-}
-inline void updates::set_uid(const char* value) {
-  
-  uid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.updates.uid)
-}
-inline void updates::set_uid(const char* value, size_t size) {
-  
-  uid_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.updates.uid)
-}
-inline ::std::string* updates::mutable_uid() {
-  
+  if (uid_ == NULL) {
+    uid_ = new ::uyujoy::api::paasim::frontend::UserId;
+  }
   // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.updates.uid)
-  return uid_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return uid_;
 }
-inline ::std::string* updates::release_uid() {
+inline ::uyujoy::api::paasim::frontend::UserId* updates::release_uid() {
   // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.updates.uid)
   
-  return uid_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::uyujoy::api::paasim::frontend::UserId* temp = uid_;
+  uid_ = NULL;
+  return temp;
 }
-inline void updates::set_allocated_uid(::std::string* uid) {
-  if (uid != NULL) {
+inline void updates::set_allocated_uid(::uyujoy::api::paasim::frontend::UserId* uid) {
+  delete uid_;
+  uid_ = uid;
+  if (uid) {
     
   } else {
     
   }
-  uid_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), uid);
   // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.updates.uid)
 }
 
-// optional string peer = 3;
+// optional .uyujoy.api.paasim.frontend.UserId peer = 3;
+inline bool updates::has_peer() const {
+  return this != internal_default_instance() && peer_ != NULL;
+}
 inline void updates::clear_peer() {
-  peer_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (GetArenaNoVirtual() == NULL && peer_ != NULL) delete peer_;
+  peer_ = NULL;
 }
-inline const ::std::string& updates::peer() const {
+inline const ::uyujoy::api::paasim::frontend::UserId& updates::peer() const {
   // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.updates.peer)
-  return peer_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return peer_ != NULL ? *peer_
+                         : *::uyujoy::api::paasim::frontend::UserId::internal_default_instance();
 }
-inline void updates::set_peer(const ::std::string& value) {
+inline ::uyujoy::api::paasim::frontend::UserId* updates::mutable_peer() {
   
-  peer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
-  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.updates.peer)
-}
-inline void updates::set_peer(const char* value) {
-  
-  peer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
-  // @@protoc_insertion_point(field_set_char:uyujoy.api.paasim.frontend.updates.peer)
-}
-inline void updates::set_peer(const char* value, size_t size) {
-  
-  peer_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-      ::std::string(reinterpret_cast<const char*>(value), size));
-  // @@protoc_insertion_point(field_set_pointer:uyujoy.api.paasim.frontend.updates.peer)
-}
-inline ::std::string* updates::mutable_peer() {
-  
+  if (peer_ == NULL) {
+    peer_ = new ::uyujoy::api::paasim::frontend::UserId;
+  }
   // @@protoc_insertion_point(field_mutable:uyujoy.api.paasim.frontend.updates.peer)
-  return peer_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  return peer_;
 }
-inline ::std::string* updates::release_peer() {
+inline ::uyujoy::api::paasim::frontend::UserId* updates::release_peer() {
   // @@protoc_insertion_point(field_release:uyujoy.api.paasim.frontend.updates.peer)
   
-  return peer_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::uyujoy::api::paasim::frontend::UserId* temp = peer_;
+  peer_ = NULL;
+  return temp;
 }
-inline void updates::set_allocated_peer(::std::string* peer) {
-  if (peer != NULL) {
+inline void updates::set_allocated_peer(::uyujoy::api::paasim::frontend::UserId* peer) {
+  delete peer_;
+  peer_ = peer;
+  if (peer) {
     
   } else {
     
   }
-  peer_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), peer);
   // @@protoc_insertion_point(field_set_allocated:uyujoy.api.paasim.frontend.updates.peer)
 }
 

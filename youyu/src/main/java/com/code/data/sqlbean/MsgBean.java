@@ -7,13 +7,15 @@ import org.greenrobot.greendao.annotation.Generated;
 
 @Entity
 public class MsgBean {
-    @Id
+    @Id(autoincrement = true)
+    private Long id;
     private String fp;//Locally logged message unique identification number
+    private long msgId;
     private long pts;
     @NotNull
-    private int mUid; //your uid
+    private String mUid; //your uid
     @NotNull
-    private int peerUid; //peer uid
+    private String peerUid; //peer uid
     @NotNull
     private int sourceType;  //source  Constants.MSG_RECEIVER is receiver  Constants.MSG_SENDER is sender
     private String content;
@@ -26,10 +28,13 @@ public class MsgBean {
     private long actualTime;
     private String nickName;
     private String avatar;
-    @Generated(hash = 270969052)
-    public MsgBean(String fp, long pts, int mUid, int peerUid, int sourceType, String content, String localPath,
-            int status, int state, double progress, long actualTime, String nickName, String avatar) {
+    @Generated(hash = 1939456291)
+    public MsgBean(Long id, String fp, long msgId, long pts, @NotNull String mUid, @NotNull String peerUid,
+            int sourceType, String content, String localPath, int status, int state, double progress,
+            long actualTime, String nickName, String avatar) {
+        this.id = id;
         this.fp = fp;
+        this.msgId = msgId;
         this.pts = pts;
         this.mUid = mUid;
         this.peerUid = peerUid;
@@ -46,22 +51,40 @@ public class MsgBean {
     @Generated(hash = 237905234)
     public MsgBean() {
     }
+    public Long getId() {
+        return this.id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
     public String getFp() {
         return this.fp;
     }
     public void setFp(String fp) {
         this.fp = fp;
     }
-    public int getMUid() {
+    public long getMsgId() {
+        return this.msgId;
+    }
+    public void setMsgId(long msgId) {
+        this.msgId = msgId;
+    }
+    public long getPts() {
+        return this.pts;
+    }
+    public void setPts(long pts) {
+        this.pts = pts;
+    }
+    public String getMUid() {
         return this.mUid;
     }
-    public void setMUid(int mUid) {
+    public void setMUid(String mUid) {
         this.mUid = mUid;
     }
-    public int getPeerUid() {
+    public String getPeerUid() {
         return this.peerUid;
     }
-    public void setPeerUid(int peerUid) {
+    public void setPeerUid(String peerUid) {
         this.peerUid = peerUid;
     }
     public int getSourceType() {
@@ -117,11 +140,5 @@ public class MsgBean {
     }
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-    public long getPts() {
-        return this.pts;
-    }
-    public void setPts(long pts) {
-        this.pts = pts;
     }
 }

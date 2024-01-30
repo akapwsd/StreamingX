@@ -25,8 +25,8 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
      */
     public static class Properties {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
-        public final static Property MUid = new Property(1, int.class, "mUid", false, "M_UID");
-        public final static Property PeerUid = new Property(2, int.class, "peerUid", false, "PEER_UID");
+        public final static Property MUid = new Property(1, String.class, "mUid", false, "M_UID");
+        public final static Property PeerUid = new Property(2, String.class, "peerUid", false, "PEER_UID");
         public final static Property UnreadMsgCount = new Property(3, int.class, "unreadMsgCount", false, "UNREAD_MSG_COUNT");
         public final static Property OldMessageTime = new Property(4, long.class, "oldMessageTime", false, "OLD_MESSAGE_TIME");
         public final static Property OldMessage = new Property(5, String.class, "oldMessage", false, "OLD_MESSAGE");
@@ -51,8 +51,8 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         String constraint = ifNotExists? "IF NOT EXISTS ": "";
         db.execSQL("CREATE TABLE " + constraint + "\"CHAT_LIST_BEAN\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
-                "\"M_UID\" INTEGER NOT NULL ," + // 1: mUid
-                "\"PEER_UID\" INTEGER NOT NULL ," + // 2: peerUid
+                "\"M_UID\" TEXT NOT NULL ," + // 1: mUid
+                "\"PEER_UID\" TEXT NOT NULL ," + // 2: peerUid
                 "\"UNREAD_MSG_COUNT\" INTEGER NOT NULL ," + // 3: unreadMsgCount
                 "\"OLD_MESSAGE_TIME\" INTEGER NOT NULL ," + // 4: oldMessageTime
                 "\"OLD_MESSAGE\" TEXT," + // 5: oldMessage
@@ -77,8 +77,8 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getMUid());
-        stmt.bindLong(3, entity.getPeerUid());
+        stmt.bindString(2, entity.getMUid());
+        stmt.bindString(3, entity.getPeerUid());
         stmt.bindLong(4, entity.getUnreadMsgCount());
         stmt.bindLong(5, entity.getOldMessageTime());
  
@@ -109,8 +109,8 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         if (id != null) {
             stmt.bindLong(1, id);
         }
-        stmt.bindLong(2, entity.getMUid());
-        stmt.bindLong(3, entity.getPeerUid());
+        stmt.bindString(2, entity.getMUid());
+        stmt.bindString(3, entity.getPeerUid());
         stmt.bindLong(4, entity.getUnreadMsgCount());
         stmt.bindLong(5, entity.getOldMessageTime());
  
@@ -142,8 +142,8 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
     public ChatListBean readEntity(Cursor cursor, int offset) {
         ChatListBean entity = new ChatListBean( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
-            cursor.getInt(offset + 1), // mUid
-            cursor.getInt(offset + 2), // peerUid
+            cursor.getString(offset + 1), // mUid
+            cursor.getString(offset + 2), // peerUid
             cursor.getInt(offset + 3), // unreadMsgCount
             cursor.getLong(offset + 4), // oldMessageTime
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // oldMessage
@@ -159,8 +159,8 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
     @Override
     public void readEntity(Cursor cursor, ChatListBean entity, int offset) {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
-        entity.setMUid(cursor.getInt(offset + 1));
-        entity.setPeerUid(cursor.getInt(offset + 2));
+        entity.setMUid(cursor.getString(offset + 1));
+        entity.setPeerUid(cursor.getString(offset + 2));
         entity.setUnreadMsgCount(cursor.getInt(offset + 3));
         entity.setOldMessageTime(cursor.getLong(offset + 4));
         entity.setOldMessage(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));

@@ -24,24 +24,30 @@ public final class UpdatesBase {
     int getId();
 
     /**
-     * <code>optional string uid = 2;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
      */
-    java.lang.String getUid();
+    boolean hasUid();
     /**
-     * <code>optional string uid = 2;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
      */
-    com.google.protobuf.ByteString
-        getUidBytes();
+    uyujoy.api.paasim.frontend.MsgBase.UserId getUid();
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
+     */
+    uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getUidOrBuilder();
 
     /**
-     * <code>optional string peer = 3;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
      */
-    java.lang.String getPeer();
+    boolean hasPeer();
     /**
-     * <code>optional string peer = 3;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
      */
-    com.google.protobuf.ByteString
-        getPeerBytes();
+    uyujoy.api.paasim.frontend.MsgBase.UserId getPeer();
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
+     */
+    uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getPeerOrBuilder();
 
     /**
      * <code>optional int64 pts = 4;</code>
@@ -96,8 +102,6 @@ public final class UpdatesBase {
     }
     private updates() {
       id_ = 0;
-      uid_ = "";
-      peer_ = "";
       pts_ = 0L;
       msgId_ = 0L;
       msgType_ = 0;
@@ -139,15 +143,29 @@ public final class UpdatesBase {
               break;
             }
             case 18: {
-              java.lang.String s = input.readStringRequireUtf8();
+              uyujoy.api.paasim.frontend.MsgBase.UserId.Builder subBuilder = null;
+              if (uid_ != null) {
+                subBuilder = uid_.toBuilder();
+              }
+              uid_ = input.readMessage(uyujoy.api.paasim.frontend.MsgBase.UserId.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(uid_);
+                uid_ = subBuilder.buildPartial();
+              }
 
-              uid_ = s;
               break;
             }
             case 26: {
-              java.lang.String s = input.readStringRequireUtf8();
+              uyujoy.api.paasim.frontend.MsgBase.UserId.Builder subBuilder = null;
+              if (peer_ != null) {
+                subBuilder = peer_.toBuilder();
+              }
+              peer_ = input.readMessage(uyujoy.api.paasim.frontend.MsgBase.UserId.parser(), extensionRegistry);
+              if (subBuilder != null) {
+                subBuilder.mergeFrom(peer_);
+                peer_ = subBuilder.buildPartial();
+              }
 
-              peer_ = s;
               break;
             }
             case 32: {
@@ -223,71 +241,45 @@ public final class UpdatesBase {
     }
 
     public static final int UID_FIELD_NUMBER = 2;
-    private volatile java.lang.Object uid_;
+    private uyujoy.api.paasim.frontend.MsgBase.UserId uid_;
     /**
-     * <code>optional string uid = 2;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
      */
-    public java.lang.String getUid() {
-      java.lang.Object ref = uid_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        uid_ = s;
-        return s;
-      }
+    public boolean hasUid() {
+      return uid_ != null;
     }
     /**
-     * <code>optional string uid = 2;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
      */
-    public com.google.protobuf.ByteString
-        getUidBytes() {
-      java.lang.Object ref = uid_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        uid_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public uyujoy.api.paasim.frontend.MsgBase.UserId getUid() {
+      return uid_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : uid_;
+    }
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
+     */
+    public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getUidOrBuilder() {
+      return getUid();
     }
 
     public static final int PEER_FIELD_NUMBER = 3;
-    private volatile java.lang.Object peer_;
+    private uyujoy.api.paasim.frontend.MsgBase.UserId peer_;
     /**
-     * <code>optional string peer = 3;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
      */
-    public java.lang.String getPeer() {
-      java.lang.Object ref = peer_;
-      if (ref instanceof java.lang.String) {
-        return (java.lang.String) ref;
-      } else {
-        com.google.protobuf.ByteString bs = 
-            (com.google.protobuf.ByteString) ref;
-        java.lang.String s = bs.toStringUtf8();
-        peer_ = s;
-        return s;
-      }
+    public boolean hasPeer() {
+      return peer_ != null;
     }
     /**
-     * <code>optional string peer = 3;</code>
+     * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
      */
-    public com.google.protobuf.ByteString
-        getPeerBytes() {
-      java.lang.Object ref = peer_;
-      if (ref instanceof java.lang.String) {
-        com.google.protobuf.ByteString b = 
-            com.google.protobuf.ByteString.copyFromUtf8(
-                (java.lang.String) ref);
-        peer_ = b;
-        return b;
-      } else {
-        return (com.google.protobuf.ByteString) ref;
-      }
+    public uyujoy.api.paasim.frontend.MsgBase.UserId getPeer() {
+      return peer_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : peer_;
+    }
+    /**
+     * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
+     */
+    public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getPeerOrBuilder() {
+      return getPeer();
     }
 
     public static final int PTS_FIELD_NUMBER = 4;
@@ -377,11 +369,11 @@ public final class UpdatesBase {
       if (id_ != 0) {
         output.writeUInt32(1, id_);
       }
-      if (!getUidBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 2, uid_);
+      if (uid_ != null) {
+        output.writeMessage(2, getUid());
       }
-      if (!getPeerBytes().isEmpty()) {
-        com.google.protobuf.GeneratedMessageV3.writeString(output, 3, peer_);
+      if (peer_ != null) {
+        output.writeMessage(3, getPeer());
       }
       if (pts_ != 0L) {
         output.writeInt64(4, pts_);
@@ -418,11 +410,13 @@ public final class UpdatesBase {
         size += com.google.protobuf.CodedOutputStream
           .computeUInt32Size(1, id_);
       }
-      if (!getUidBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(2, uid_);
+      if (uid_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(2, getUid());
       }
-      if (!getPeerBytes().isEmpty()) {
-        size += com.google.protobuf.GeneratedMessageV3.computeStringSize(3, peer_);
+      if (peer_ != null) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(3, getPeer());
       }
       if (pts_ != 0L) {
         size += com.google.protobuf.CodedOutputStream
@@ -474,10 +468,16 @@ public final class UpdatesBase {
       boolean result = true;
       result = result && (getId()
           == other.getId());
-      result = result && getUid()
-          .equals(other.getUid());
-      result = result && getPeer()
-          .equals(other.getPeer());
+      result = result && (hasUid() == other.hasUid());
+      if (hasUid()) {
+        result = result && getUid()
+            .equals(other.getUid());
+      }
+      result = result && (hasPeer() == other.hasPeer());
+      if (hasPeer()) {
+        result = result && getPeer()
+            .equals(other.getPeer());
+      }
       result = result && (getPts()
           == other.getPts());
       result = result && (getMsgId()
@@ -506,10 +506,14 @@ public final class UpdatesBase {
       hash = (19 * hash) + getDescriptorForType().hashCode();
       hash = (37 * hash) + ID_FIELD_NUMBER;
       hash = (53 * hash) + getId();
-      hash = (37 * hash) + UID_FIELD_NUMBER;
-      hash = (53 * hash) + getUid().hashCode();
-      hash = (37 * hash) + PEER_FIELD_NUMBER;
-      hash = (53 * hash) + getPeer().hashCode();
+      if (hasUid()) {
+        hash = (37 * hash) + UID_FIELD_NUMBER;
+        hash = (53 * hash) + getUid().hashCode();
+      }
+      if (hasPeer()) {
+        hash = (37 * hash) + PEER_FIELD_NUMBER;
+        hash = (53 * hash) + getPeer().hashCode();
+      }
       hash = (37 * hash) + PTS_FIELD_NUMBER;
       hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
           getPts());
@@ -650,10 +654,18 @@ public final class UpdatesBase {
         super.clear();
         id_ = 0;
 
-        uid_ = "";
-
-        peer_ = "";
-
+        if (uidBuilder_ == null) {
+          uid_ = null;
+        } else {
+          uid_ = null;
+          uidBuilder_ = null;
+        }
+        if (peerBuilder_ == null) {
+          peer_ = null;
+        } else {
+          peer_ = null;
+          peerBuilder_ = null;
+        }
         pts_ = 0L;
 
         msgId_ = 0L;
@@ -693,8 +705,16 @@ public final class UpdatesBase {
       public uyujoy.api.paasim.frontend.UpdatesBase.updates buildPartial() {
         uyujoy.api.paasim.frontend.UpdatesBase.updates result = new uyujoy.api.paasim.frontend.UpdatesBase.updates(this);
         result.id_ = id_;
-        result.uid_ = uid_;
-        result.peer_ = peer_;
+        if (uidBuilder_ == null) {
+          result.uid_ = uid_;
+        } else {
+          result.uid_ = uidBuilder_.build();
+        }
+        if (peerBuilder_ == null) {
+          result.peer_ = peer_;
+        } else {
+          result.peer_ = peerBuilder_.build();
+        }
         result.pts_ = pts_;
         result.msgId_ = msgId_;
         result.msgType_ = msgType_;
@@ -747,13 +767,11 @@ public final class UpdatesBase {
         if (other.getId() != 0) {
           setId(other.getId());
         }
-        if (!other.getUid().isEmpty()) {
-          uid_ = other.uid_;
-          onChanged();
+        if (other.hasUid()) {
+          mergeUid(other.getUid());
         }
-        if (!other.getPeer().isEmpty()) {
-          peer_ = other.peer_;
-          onChanged();
+        if (other.hasPeer()) {
+          mergePeer(other.getPeer());
         }
         if (other.getPts() != 0L) {
           setPts(other.getPts());
@@ -831,142 +849,238 @@ public final class UpdatesBase {
         return this;
       }
 
-      private java.lang.Object uid_ = "";
+      private uyujoy.api.paasim.frontend.MsgBase.UserId uid_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> uidBuilder_;
       /**
-       * <code>optional string uid = 2;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
        */
-      public java.lang.String getUid() {
-        java.lang.Object ref = uid_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          uid_ = s;
-          return s;
+      public boolean hasUid() {
+        return uidBuilder_ != null || uid_ != null;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserId getUid() {
+        if (uidBuilder_ == null) {
+          return uid_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : uid_;
         } else {
-          return (java.lang.String) ref;
+          return uidBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional string uid = 2;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
        */
-      public com.google.protobuf.ByteString
-          getUidBytes() {
-        java.lang.Object ref = uid_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          uid_ = b;
-          return b;
+      public Builder setUid(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (uidBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          uid_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          uidBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>optional string uid = 2;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
        */
       public Builder setUid(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        uid_ = value;
-        onChanged();
+          uyujoy.api.paasim.frontend.MsgBase.UserId.Builder builderForValue) {
+        if (uidBuilder_ == null) {
+          uid_ = builderForValue.build();
+          onChanged();
+        } else {
+          uidBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>optional string uid = 2;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
+       */
+      public Builder mergeUid(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (uidBuilder_ == null) {
+          if (uid_ != null) {
+            uid_ =
+              uyujoy.api.paasim.frontend.MsgBase.UserId.newBuilder(uid_).mergeFrom(value).buildPartial();
+          } else {
+            uid_ = value;
+          }
+          onChanged();
+        } else {
+          uidBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
        */
       public Builder clearUid() {
-        
-        uid_ = getDefaultInstance().getUid();
-        onChanged();
+        if (uidBuilder_ == null) {
+          uid_ = null;
+          onChanged();
+        } else {
+          uid_ = null;
+          uidBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>optional string uid = 2;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
        */
-      public Builder setUidBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public uyujoy.api.paasim.frontend.MsgBase.UserId.Builder getUidBuilder() {
         
-        uid_ = value;
         onChanged();
-        return this;
+        return getUidFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getUidOrBuilder() {
+        if (uidBuilder_ != null) {
+          return uidBuilder_.getMessageOrBuilder();
+        } else {
+          return uid_ == null ?
+              uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : uid_;
+        }
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId uid = 2;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> 
+          getUidFieldBuilder() {
+        if (uidBuilder_ == null) {
+          uidBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder>(
+                  getUid(),
+                  getParentForChildren(),
+                  isClean());
+          uid_ = null;
+        }
+        return uidBuilder_;
       }
 
-      private java.lang.Object peer_ = "";
+      private uyujoy.api.paasim.frontend.MsgBase.UserId peer_ = null;
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> peerBuilder_;
       /**
-       * <code>optional string peer = 3;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
        */
-      public java.lang.String getPeer() {
-        java.lang.Object ref = peer_;
-        if (!(ref instanceof java.lang.String)) {
-          com.google.protobuf.ByteString bs =
-              (com.google.protobuf.ByteString) ref;
-          java.lang.String s = bs.toStringUtf8();
-          peer_ = s;
-          return s;
+      public boolean hasPeer() {
+        return peerBuilder_ != null || peer_ != null;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserId getPeer() {
+        if (peerBuilder_ == null) {
+          return peer_ == null ? uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : peer_;
         } else {
-          return (java.lang.String) ref;
+          return peerBuilder_.getMessage();
         }
       }
       /**
-       * <code>optional string peer = 3;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
        */
-      public com.google.protobuf.ByteString
-          getPeerBytes() {
-        java.lang.Object ref = peer_;
-        if (ref instanceof String) {
-          com.google.protobuf.ByteString b = 
-              com.google.protobuf.ByteString.copyFromUtf8(
-                  (java.lang.String) ref);
-          peer_ = b;
-          return b;
+      public Builder setPeer(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (peerBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          peer_ = value;
+          onChanged();
         } else {
-          return (com.google.protobuf.ByteString) ref;
+          peerBuilder_.setMessage(value);
         }
+
+        return this;
       }
       /**
-       * <code>optional string peer = 3;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
        */
       public Builder setPeer(
-          java.lang.String value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  
-        peer_ = value;
-        onChanged();
+          uyujoy.api.paasim.frontend.MsgBase.UserId.Builder builderForValue) {
+        if (peerBuilder_ == null) {
+          peer_ = builderForValue.build();
+          onChanged();
+        } else {
+          peerBuilder_.setMessage(builderForValue.build());
+        }
+
         return this;
       }
       /**
-       * <code>optional string peer = 3;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
+       */
+      public Builder mergePeer(uyujoy.api.paasim.frontend.MsgBase.UserId value) {
+        if (peerBuilder_ == null) {
+          if (peer_ != null) {
+            peer_ =
+              uyujoy.api.paasim.frontend.MsgBase.UserId.newBuilder(peer_).mergeFrom(value).buildPartial();
+          } else {
+            peer_ = value;
+          }
+          onChanged();
+        } else {
+          peerBuilder_.mergeFrom(value);
+        }
+
+        return this;
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
        */
       public Builder clearPeer() {
-        
-        peer_ = getDefaultInstance().getPeer();
-        onChanged();
+        if (peerBuilder_ == null) {
+          peer_ = null;
+          onChanged();
+        } else {
+          peer_ = null;
+          peerBuilder_ = null;
+        }
+
         return this;
       }
       /**
-       * <code>optional string peer = 3;</code>
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
        */
-      public Builder setPeerBytes(
-          com.google.protobuf.ByteString value) {
-        if (value == null) {
-    throw new NullPointerException();
-  }
-  checkByteStringIsUtf8(value);
+      public uyujoy.api.paasim.frontend.MsgBase.UserId.Builder getPeerBuilder() {
         
-        peer_ = value;
         onChanged();
-        return this;
+        return getPeerFieldBuilder().getBuilder();
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
+       */
+      public uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder getPeerOrBuilder() {
+        if (peerBuilder_ != null) {
+          return peerBuilder_.getMessageOrBuilder();
+        } else {
+          return peer_ == null ?
+              uyujoy.api.paasim.frontend.MsgBase.UserId.getDefaultInstance() : peer_;
+        }
+      }
+      /**
+       * <code>optional .uyujoy.api.paasim.frontend.UserId peer = 3;</code>
+       */
+      private com.google.protobuf.SingleFieldBuilderV3<
+          uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder> 
+          getPeerFieldBuilder() {
+        if (peerBuilder_ == null) {
+          peerBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+              uyujoy.api.paasim.frontend.MsgBase.UserId, uyujoy.api.paasim.frontend.MsgBase.UserId.Builder, uyujoy.api.paasim.frontend.MsgBase.UserIdOrBuilder>(
+                  getPeer(),
+                  getParentForChildren(),
+                  isClean());
+          peer_ = null;
+        }
+        return peerBuilder_;
       }
 
       private long pts_ ;
@@ -4341,23 +4455,25 @@ public final class UpdatesBase {
   static {
     java.lang.String[] descriptorData = {
       "\n\021updatesBase.proto\022\032uyujoy.api.paasim.f" +
-      "rontend\032\rmsgBase.proto\"\264\001\n\007updates\022\n\n\002id" +
-      "\030\001 \001(\r\022\013\n\003uid\030\002 \001(\t\022\014\n\004peer\030\003 \001(\t\022\013\n\003pts" +
-      "\030\004 \001(\003\022\r\n\005msgId\030\005 \001(\003\022\017\n\007msgType\030\006 \001(\r\022\017" +
-      "\n\007content\030\007 \001(\014\022\016\n\006status\030\010 \001(\r\022\014\n\004send\030" +
-      "\t \001(\r\022\022\n\ncreateTime\030\n \001(\003\022\022\n\nupdateTime\030" +
-      "\013 \001(\003\"\201\001\n\014updateUpdate\0226\n\003msg\030\001 \001(\0132).uy" +
-      "ujoy.api.paasim.frontend.paasMsgRecord\022\013" +
-      "\n\003pts\030\002 \001(\003\022\021\n\tpts_count\030\003 \001(\r\022\014\n\004date\030\004" +
-      " \001(\003\022\013\n\003seq\030\005 \001(\003\"j\n\020updateNewMessage\0226\n",
-      "\003msg\030\001 \001(\0132).uyujoy.api.paasim.frontend." +
-      "paasMsgRecord\022\013\n\003pts\030\002 \001(\003\022\021\n\tpts_count\030" +
-      "\003 \001(\r\">\n\022updatGetDifference\022\013\n\003pts\030\001 \001(\003" +
-      "\022\014\n\004date\030\002 \001(\003\022\r\n\005limit\030\003 \001(\r\"S\n\025updateD" +
-      "ifferenceSlice\022:\n\004msgs\030\001 \003(\0132,.uyujoy.ap" +
-      "i.paasim.frontend.updateNewMessageB5Z3uy" +
-      "ujoy.com/pass/protogen/api/paasim/fronte" +
-      "nd;paasimb\006proto3"
+      "rontend\032\rmsgBase.proto\"\374\001\n\007updates\022\n\n\002id" +
+      "\030\001 \001(\r\022/\n\003uid\030\002 \001(\0132\".uyujoy.api.paasim." +
+      "frontend.UserId\0220\n\004peer\030\003 \001(\0132\".uyujoy.a" +
+      "pi.paasim.frontend.UserId\022\013\n\003pts\030\004 \001(\003\022\r" +
+      "\n\005msgId\030\005 \001(\003\022\017\n\007msgType\030\006 \001(\r\022\017\n\007conten" +
+      "t\030\007 \001(\014\022\016\n\006status\030\010 \001(\r\022\014\n\004send\030\t \001(\r\022\022\n" +
+      "\ncreateTime\030\n \001(\003\022\022\n\nupdateTime\030\013 \001(\003\"\201\001" +
+      "\n\014updateUpdate\0226\n\003msg\030\001 \001(\0132).uyujoy.api" +
+      ".paasim.frontend.paasMsgRecord\022\013\n\003pts\030\002 ",
+      "\001(\003\022\021\n\tpts_count\030\003 \001(\r\022\014\n\004date\030\004 \001(\003\022\013\n\003" +
+      "seq\030\005 \001(\003\"j\n\020updateNewMessage\0226\n\003msg\030\001 \001" +
+      "(\0132).uyujoy.api.paasim.frontend.paasMsgR" +
+      "ecord\022\013\n\003pts\030\002 \001(\003\022\021\n\tpts_count\030\003 \001(\r\">\n" +
+      "\022updatGetDifference\022\013\n\003pts\030\001 \001(\003\022\014\n\004date" +
+      "\030\002 \001(\003\022\r\n\005limit\030\003 \001(\r\"S\n\025updateDifferenc" +
+      "eSlice\022:\n\004msgs\030\001 \003(\0132,.uyujoy.api.paasim" +
+      ".frontend.updateNewMessageB5Z3uyujoy.com" +
+      "/pass/protogen/api/paasim/frontend;paasi" +
+      "mb\006proto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
