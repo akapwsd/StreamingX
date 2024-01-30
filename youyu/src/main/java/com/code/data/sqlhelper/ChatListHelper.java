@@ -62,6 +62,13 @@ public class ChatListHelper {
         ChatListBean unique = getChatListBean(msgBean.getMUid(), msgBean.getPeerUid());
         if (unique == null) {
             ChatListBean chatListBean = new ChatListBean();
+            chatListBean.setMUid(msgBean.getMUid());
+            chatListBean.setPeerUid(msgBean.getPeerUid());
+            chatListBean.setNickName(msgBean.getNickName());
+            chatListBean.setSendState(msgBean.getState());
+            chatListBean.setUserAvatar(msgBean.getAvatar());
+            chatListBean.setOldMessageTime(msgBean.getActualTime());
+            chatListBean.setOldMessage(msgBean.getContent());
             chatListBean.setUnreadMsgCount(1);
             if (chatListBeanDao != null) {
                 chatListBeanDao.insertOrReplace(chatListBean);

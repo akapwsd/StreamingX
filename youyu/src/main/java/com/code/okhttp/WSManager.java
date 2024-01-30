@@ -924,7 +924,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         userInfo.setAvatar(avatar);
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
         msgBase.setMsgFp(msgFp);
-        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).setType(MsgBase.UserType.USER).build();
+        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).build();
         MsgBase.UserId to = MsgBase.UserId.newBuilder().setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
         msgBase.setFrom(from);
         msgBase.setTo(to);
@@ -965,7 +965,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         userInfo.setAvatar(avatar);
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
         msgBase.setMsgFp(msgFp);
-        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).setType(MsgBase.UserType.USER).build();
+        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).build();
         MsgBase.UserId to = MsgBase.UserId.newBuilder().setId(peerUid).setType(isBroadcast ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
         msgBase.setFrom(from);
         msgBase.setTo(to);
