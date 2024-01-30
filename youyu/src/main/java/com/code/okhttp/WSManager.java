@@ -13,6 +13,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.code.aws.S3AwsHelper;
 import com.code.bean.ChannelMsgBean;
+import com.code.data.GreenDaoHelper;
 import com.code.data.sqlbean.ChatListBean;
 import com.code.data.sqlbean.MsgBean;
 import com.code.data.sqlhelper.ChatListHelper;
@@ -476,6 +477,8 @@ public class WSManager {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             initDataProcess();
+            initAWS(context);
+            GreenDaoHelper.getSingleTon().initGreenDao(context);
             sWeakRefListeners = new HashMap<>();
             heartHandler = new Handler();
             this.access_key_id = access_key_id;
@@ -501,6 +504,8 @@ public class WSManager {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             initDataProcess();
+            initAWS(context);
+            GreenDaoHelper.getSingleTon().initGreenDao(context);
             sWeakRefListeners = new HashMap<>();
             heartHandler = new Handler();
             this.token = token;
@@ -931,6 +936,7 @@ public class WSManager {
     }
 
     public String sendTextMsg(String mUid, String peerUid, boolean isBroadcast, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        LogUtil.d(TAG, "sendTextMsg mUid:" + mUid + " peerUid:" + peerUid + " isBroadcast:" + isBroadcast + " msg:" + msg + " nickName:" + nickName + " avatar:" + avatar);
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
@@ -959,6 +965,7 @@ public class WSManager {
     }
 
     public void resendMsg(String fp, ChatMsgListener chatMsgListener) {
+        LogUtil.d(TAG, "resendMsg fp:" + fp);
         MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(fp);
         if (oneMessage.getSourceType() == Constants.MSG_SEND_TEXT) {
             sendTextMsg(oneMessage.getMUid(), oneMessage.getPeerUid(), oneMessage.getIsBroadcaster(), oneMessage.getContent(), oneMessage.getNickName(), oneMessage.getAvatar(), chatMsgListener);
@@ -969,6 +976,7 @@ public class WSManager {
 
     public void getStates() {
         long lastPts = MessageHelper.getSingleton().getLastPts();
+        LogUtil.d(TAG, "getStates lastPts:" + lastPts);
         PaasIm.getStates getStates = PaasIm.getStates.newBuilder()
                 .setPts(lastPts)
                 .build();
@@ -977,10 +985,12 @@ public class WSManager {
     }
 
     public List<ChatListBean> getChatList(String uid) {
+        LogUtil.d(TAG, "getChatList is start uid:" + uid);
         return ChatListHelper.getSingleton().getAllChatList(uid);
     }
 
     public List<MsgBean> getChatMsgList(String uid, String peerUid) {
+        LogUtil.d(TAG, "getChatMsgList is start uid:" + uid + " peerUid:" + peerUid);
         return MessageHelper.getSingleton().getAllData(uid, peerUid);
     }
 
