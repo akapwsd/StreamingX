@@ -263,14 +263,22 @@ public class MessageHelper {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         MsgBean msgBean = qb.where(MsgBeanDao.Properties.MUid.eq(RtcSpUtils.getInstance().getUserUid()),
                 MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
-        return msgBean.getActualTime();
+        if (msgBean != null) {
+            return msgBean.getActualTime();
+        } else {
+            return 0L;
+        }
     }
 
     public long getLastPts() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         MsgBean msgBean = qb.where(MsgBeanDao.Properties.MUid.eq(RtcSpUtils.getInstance().getUserUid()),
                 MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
-        return msgBean.getPts();
+        if (msgBean != null) {
+            return msgBean.getPts();
+        } else {
+            return 0L;
+        }
     }
 
     /**
