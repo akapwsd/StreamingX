@@ -680,6 +680,10 @@ public class StreamingXRtcManager {
         return WSManager.getInstance().sendTextMsg(mUid, peerUid, true, msg, nickName, avatar, chatMsgListener);
     }
 
+    public void resendMsg(String fp, ChatMsgListener chatMsgListener) {
+        WSManager.getInstance().resendMsg(fp, chatMsgListener);
+    }
+
     public void getStates() {
         WSManager.getInstance().getStates();
     }

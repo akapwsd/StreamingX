@@ -893,6 +893,15 @@ public class WSManager {
         return msgFp;
     }
 
+    public void resendMsg(String fp, ChatMsgListener chatMsgListener) {
+        MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(fp);
+        if (oneMessage.getSourceType() == Constants.MSG_SEND_TEXT) {
+            sendTextMsg(oneMessage.getMUid(), oneMessage.getPeerUid(), oneMessage.getIsBroadcaster(), oneMessage.getContent(), oneMessage.getNickName(), oneMessage.getAvatar(), chatMsgListener);
+        } else {
+            //TODO sendMediaMsg
+        }
+    }
+
     public void getStates() {
         long lastPts = MessageHelper.getSingleton().getLastPts();
         PaasIm.getStates getStates = PaasIm.getStates.newBuilder()

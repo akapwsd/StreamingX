@@ -105,6 +105,7 @@ public class MessageHelper {
             msgBean.setActualTime(paasMsgRecord.getSendTime());
             msgBean.setFp(paasMsgRecord.getMsgFp());
             msgBean.setMUid(paasMsgRecord.getFrom().getId());
+            msgBean.setIsBroadcaster(paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER);
             msgBean.setPeerUid(paasMsgRecord.getTo().getId());
             if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
                 msgBean.setSourceType(Constants.MSG_SENDER);
