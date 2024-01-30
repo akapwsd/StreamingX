@@ -808,18 +808,23 @@ public class WSManager {
         });
     }
 
-    public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, File file, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+    public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         MediaBase.mediaRecord.Builder mediaRecord = MediaBase.mediaRecord.newBuilder();
         mediaRecord.setMediaType(mediaType);
         byte[] byteData = new byte[0];
         if (mediaType == Constants.MSG_SEND_IMAGE) {
-            String fileSuffix = DataUtils.getFileSuffix(file.getName());
-            MediaBase.mediaImage mediaImage = MediaBase.mediaImage.newBuilder()
-                    .setExt(fileSuffix)
-                    .build();
-            byteData = mediaImage.toByteArray();
+            File file = new File(filePath);
+            if (file.exists()) {
+                String fileSuffix = DataUtils.getFileSuffix(file.getName());
+                MediaBase.mediaImage mediaImage = MediaBase.mediaImage.newBuilder()
+                        .setExt(fileSuffix)
+                        .build();
+                byteData = mediaImage.toByteArray();
+            } else {
+                return "file does not exist";
+            }
         } else if (mediaType == Constants.MSG_SEND_VOICE) {
             MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.newBuilder()
                     .build();
@@ -846,7 +851,7 @@ public class WSManager {
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
         MessageHelper.getSingleton().insertOrReplaceData(msgBase.build());
-        S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, file.getPath(), mediaType, new S3AwsHelper.IAWSFileRequest() {
+        S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, mediaType, new S3AwsHelper.IAWSFileRequest() {
             @Override
             public void aws_success(int requestType, String msgFp, String key) {
                 send(ByteString.of(bytes));
