@@ -19,7 +19,7 @@ public class GreenDaoHelper {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     private boolean mInitState;
-
+    private GreenDaoInitResultListener greenDaoInitResultListener;
     private static GreenDaoHelper greenDaoUtils;
 
     private GreenDaoHelper() {
@@ -47,10 +47,12 @@ public class GreenDaoHelper {
             if (mDaoMaster != null && mDaoSession != null) {
                 LogUtil.d(TAG, "initGreenDao daoComplete");
                 mInitState = true;
-                StreamingXRtcManager.getInstance().getStates();
             } else {
                 LogUtil.d(TAG, "initGreenDao::listener is null");
                 mInitState = false;
+            }
+            if (greenDaoInitResultListener != null) {
+                greenDaoInitResultListener.result(mInitState);
             }
             LogUtil.d(TAG, "initGreenDao is end!");
         });
@@ -74,4 +76,11 @@ public class GreenDaoHelper {
         DaoMaster.createAllTables(daoMaster.getDatabase(), true);
     }
 
+    public void setGreenDaoInitResultListener(GreenDaoInitResultListener greenDaoInitResultListener) {
+        this.greenDaoInitResultListener = greenDaoInitResultListener;
+    }
+
+    public interface GreenDaoInitResultListener {
+        void result(boolean mInitState);
+    }
 }

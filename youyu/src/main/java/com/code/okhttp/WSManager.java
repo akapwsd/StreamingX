@@ -65,8 +65,10 @@ import uyujoy.com.api.channel.frontend.ChannelImform;
 import uyujoy.com.api.gateway.frontend.Api;
 import uyujoy.com.api.gateway.frontend.Base;
 
-public class WSManager {
+public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     private final String TAG = "WSManager";
+    private boolean isNeedGetState = false;
+    private Context mContext;
     private TransferUtility transferUtility;
     private final static int MAX_RECONNECT_NUM = 5;
     private final static int RECONNECT_MILLS = 1000;
@@ -404,6 +406,20 @@ public class WSManager {
         MessageHelper.getSingleton().insertOrReplaceData(msgBean);
     }
 
+    @Override
+    public void result(boolean mInitState) {
+        if (isNeedGetState && mInitState) {
+            getStates();
+            isNeedGetState = false;
+        } else {
+            GreenDaoHelper.getSingleTon().initGreenDao(mContext);
+        }
+    }
+
+    WSManager() {
+        GreenDaoHelper.getSingleTon().setGreenDaoInitResultListener(this);
+    }
+
     private static final class SInstanceHolder {
         static final WSManager sInstance = new WSManager();
     }
@@ -476,6 +492,7 @@ public class WSManager {
     public void init(Context context, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
+            mContext = context;
             initDataProcess();
             initAWS(context);
             GreenDaoHelper.getSingleTon().initGreenDao(context);
@@ -503,6 +520,7 @@ public class WSManager {
     public void init(Context context, String token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
+            mContext = context;
             initDataProcess();
             initAWS(context);
             GreenDaoHelper.getSingleTon().initGreenDao(context);
@@ -753,6 +771,12 @@ public class WSManager {
                 reconnect();
             } else {
                 LogUtil.d(TAG, "websocket is connect success");
+                boolean initState = GreenDaoHelper.getSingleTon().getInitState();
+                if (initState) {
+                    getStates();
+                } else {
+                    isNeedGetState = true;
+                }
                 isReceivePong = true;
                 if (heartHandler != null && heartBeatRunnable != null) {
                     heartHandler.post(heartBeatRunnable);
