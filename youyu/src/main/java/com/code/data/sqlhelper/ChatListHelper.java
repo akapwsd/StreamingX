@@ -41,7 +41,7 @@ public class ChatListHelper {
 
         void changeUnReadCount(String peerUid, int count);
 
-        void delete(int peerUid);
+        void delete(String peerUid);
 
         void deleteAll();
     }
@@ -86,7 +86,7 @@ public class ChatListHelper {
         }
     }
 
-    public ChatListBean select(int mUid, int peerUid) {
+    public ChatListBean select(String mUid, String peerUid) {
         if (chatListBeanDao == null) {
             return null;
         }
@@ -98,7 +98,7 @@ public class ChatListHelper {
                 .unique();
     }
 
-    public void delete(int mUid, int peerId) {
+    public void delete(String mUid, String peerId) {
         if (chatListBeanDao == null) {
             return;
         }
@@ -126,7 +126,7 @@ public class ChatListHelper {
         }
     }
 
-    public void deleteAll(int mUid) {
+    public void deleteAll(String mUid) {
         if (chatListBeanDao == null) {
             return;
         }
@@ -170,7 +170,7 @@ public class ChatListHelper {
         }
     }
 
-    public List<ChatListBean> getAllChatList(int mUid) {
+    public List<ChatListBean> getAllChatList(String mUid) {
         try {
             if (chatListBeanDao == null) {
                 return null;

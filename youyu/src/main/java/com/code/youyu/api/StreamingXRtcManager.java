@@ -678,11 +678,11 @@ public class StreamingXRtcManager {
         WSManager.getInstance().getStates();
     }
 
-    public List<ChatListBean> getChatList(int uid) {
+    public List<ChatListBean> getChatList(String uid) {
         return WSManager.getInstance().getChatList(uid);
     }
 
-    public List<MsgBean> getChatMsgList(int uid, int peerUid) {
+    public List<MsgBean> getChatMsgList(String uid, String peerUid) {
         return WSManager.getInstance().getChatMsgList(uid, peerUid);
     }
 

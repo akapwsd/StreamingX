@@ -976,11 +976,11 @@ public class WSManager {
         send(ByteString.of(bytes));
     }
 
-    public List<ChatListBean> getChatList(int uid) {
+    public List<ChatListBean> getChatList(String uid) {
         return ChatListHelper.getSingleton().getAllChatList(uid);
     }
 
-    public List<MsgBean> getChatMsgList(int uid, int peerUid) {
+    public List<MsgBean> getChatMsgList(String uid, String peerUid) {
         return MessageHelper.getSingleton().getAllData(uid, peerUid);
     }
 
