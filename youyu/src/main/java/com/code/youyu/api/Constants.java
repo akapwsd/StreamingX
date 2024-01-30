@@ -9,6 +9,8 @@ public class Constants {
     public static final String CONNECT_ERROR = "9c1c9375";
     public static final String MSG_SENT_ACK = "b838bcc1";
     public static final String CHANNEL_MSG_RECORD = "148f5df6";
+    public static final String SHORT_MESSAGE = "e8e8c4b7";
+    public static final String UPDATE_NEW_MESSAGES = "db78e11c";
     public static final String GET_DIFF_MSG_RECORD_ACK = "905c3244";
     public static final String CHAT_DIFF_MSG_ACK = "f454ab96";
     public static final String STATES_ACK = "366e727b";

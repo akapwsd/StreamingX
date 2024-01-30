@@ -1,6 +1,7 @@
 package com.code.listener;
 
 import com.code.bean.ChannelMsgBean;
+import com.code.data.sqlbean.MsgBean;
 
 import io.agora.rtc2.IRtcEngineEventHandler;
 import uyujoy.com.api.channel.frontend.ChannelImform;
@@ -132,4 +133,6 @@ public abstract class IRtcEngineEventCallBackHandler {
     public void connectError(int code,String reason) {
 
     }
+
+    public void receiveMsg(MsgBean msgBean){}
 }

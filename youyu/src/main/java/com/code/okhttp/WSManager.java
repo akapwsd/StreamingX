@@ -56,6 +56,7 @@ import proto.ErrorOuterClass;
 import uyujoy.api.channelim.frontend.ChannelIm;
 import uyujoy.api.paasim.frontend.MediaBase;
 import uyujoy.api.paasim.frontend.MsgBase;
+import uyujoy.api.paasim.frontend.MsgReceiving;
 import uyujoy.api.paasim.frontend.PaasIm;
 import uyujoy.api.paasim.frontend.UpdatesBase;
 import uyujoy.api.paasim.frontend.UserBase;
@@ -114,6 +115,8 @@ public class WSManager {
         Function<byte[], Boolean> connectErrorFunction = this::connectErrorHandle;
         Function<byte[], Boolean> statesFunction = this::statesHandle;
         Function<byte[], Boolean> sendChatResultFunction = this::sendChatResultHandle;
+        Function<byte[], Boolean> shortMessageFunction = this::shortMessageHandle;
+        Function<byte[], Boolean> updateNewMessageFunction = this::updateNewMessageHandle;
 
         actionMappings.put(Constants.PONG, pongFunction);
         actionMappings.put(Constants.BAN_USER_ROOM, banUserRoomFunction);
@@ -127,6 +130,8 @@ public class WSManager {
         actionMappings.put(Constants.STATES_ACK, statesFunction);
         actionMappings.put(Constants.CONNECT_ERROR, connectErrorFunction);
         actionMappings.put(Constants.MSG_SENT_ACK, sendChatResultFunction);
+        actionMappings.put(Constants.SHORT_MESSAGE, shortMessageFunction);
+        actionMappings.put(Constants.UPDATE_NEW_MESSAGES, updateNewMessageFunction);
     }
 
     private boolean pongHandle() {
@@ -288,24 +293,64 @@ public class WSManager {
         }
     }
 
+    private boolean shortMessageHandle(byte[] data) {
+        try {
+            MsgReceiving.shortMessage shortMessage = MsgReceiving.shortMessage.parseFrom(data);
+            MsgBase.paasMsgRecord msg = shortMessage.getMsg();
+            MsgBean msgBean = new MsgBean();
+            msgBean.setPts(shortMessage.getPts());
+            msgBean.setFp(msg.getMsgFp());
+            msgBean.setMsgId(msg.getMsgId());
+            msgBean.setMUid(msg.getFrom().getId());
+            msgBean.setPeerUid(msg.getTo().getId());
+            msgBean.setSourceType(msg.getMsgType());
+            msgBean.setContent(msg.getMsgTxt());
+            msgBean.setActualTime(msg.getSendTime());
+            msgBean.setNickName(msg.getUser().getName());
+            msgBean.setAvatar(msg.getUser().getAvatar());
+            MessageHelper.getSingleton().insertOrReplaceData(msgBean);
+            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                if (iRtcEngineEventCallBackHandler != null) {
+                    iRtcEngineEventCallBackHandler.receiveMsg(msgBean);
+                }
+            }
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "statesHandle throw error:" + e);
+            return false;
+        }
+    }
+
+    private boolean updateNewMessageHandle(byte[] data) {
+        try {
+            MsgReceiving.updateNewMessages updateNewMessages = MsgReceiving.updateNewMessages.parseFrom(data);
+            List<UpdatesBase.updateNewMessage> msgsList = updateNewMessages.getMsgsList();
+            LogUtil.d(TAG, "updateNewMessageHandle new msg size is:" + msgsList.size());
+            if (msgsList.size() > 0) {
+                long lastPts = MessageHelper.getSingleton().getLastPts();
+                if (msgsList.get(0).getPts() > lastPts) {
+                    LogUtil.d(TAG, "updateNewMessageHandle server pts > local pts");
+                    getChatDiffMsg();
+                }
+                for (UpdatesBase.updateNewMessage dataInfo : msgsList) {
+                    updateNewMessageData(dataInfo);
+                }
+            }
+
+            return true;
+        } catch (InvalidProtocolBufferException e) {
+            LogUtil.e(TAG, "statesHandle throw error:" + e);
+            return false;
+        }
+    }
+
     private boolean diffMsgHandle(byte[] data) {
         try {
             UpdatesBase.updateDifferenceSlice updateDifferenceSlice = UpdatesBase.updateDifferenceSlice.parseFrom(data);
             List<UpdatesBase.updateNewMessage> msgsList = updateDifferenceSlice.getMsgsList();
             for (UpdatesBase.updateNewMessage dataInfo : msgsList) {
-                MsgBean msgBean = new MsgBean();
-                msgBean.setPts(dataInfo.getPts());
-                msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
-                msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
-                msgBean.setContent(dataInfo.getMsg().getMsgTxt());
-                msgBean.setMUid(RtcSpUtils.getInstance().getUserUid());
-                msgBean.setActualTime(dataInfo.getMsg().getSendTime());
-                String to = dataInfo.getMsg().getTo().getId();
-                if (to.equals(RtcSpUtils.getInstance().getUserUid())) {
-                    msgBean.setSourceType(Constants.MSG_RECEIVER);
-                }
-                MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
-                MessageHelper.getSingleton().insertOrReplaceData(msgBean);
+                updateNewMessageData(dataInfo);
             }
             long lastPts = MessageHelper.getSingleton().getLastPts();
             if (serverNewPts > lastPts) {
@@ -342,6 +387,21 @@ public class WSManager {
         }
     }
 
+    private void updateNewMessageData(UpdatesBase.updateNewMessage dataInfo) {
+        MsgBean msgBean = new MsgBean();
+        msgBean.setPts(dataInfo.getPts());
+        msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
+        msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
+        msgBean.setContent(dataInfo.getMsg().getMsgTxt());
+        msgBean.setMUid(RtcSpUtils.getInstance().getUserUid());
+        msgBean.setActualTime(dataInfo.getMsg().getSendTime());
+        String to = dataInfo.getMsg().getTo().getId();
+        if (to.equals(RtcSpUtils.getInstance().getUserUid())) {
+            msgBean.setSourceType(Constants.MSG_RECEIVER);
+        }
+        MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
+        MessageHelper.getSingleton().insertOrReplaceData(msgBean);
+    }
 
     private static final class SInstanceHolder {
         static final WSManager sInstance = new WSManager();
