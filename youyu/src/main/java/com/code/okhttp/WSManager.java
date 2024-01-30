@@ -408,9 +408,11 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
 
     @Override
     public void result(boolean mInitState) {
-        if (isNeedGetState && mInitState) {
-            getStates();
-            isNeedGetState = false;
+        if (mInitState) {
+            if (isNeedGetState) {
+                getStates();
+                isNeedGetState = false;
+            }
         } else {
             GreenDaoHelper.getSingleTon().initGreenDao(mContext);
         }
@@ -907,16 +909,13 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             File file = new File(filePath);
             if (file.exists()) {
                 String fileSuffix = DataUtils.getFileSuffix(file.getName());
-                MediaBase.mediaImage mediaImage = MediaBase.mediaImage.newBuilder()
-                        .setExt(fileSuffix)
-                        .build();
+                MediaBase.mediaImage mediaImage = MediaBase.mediaImage.newBuilder().setExt(fileSuffix).build();
                 byteData = mediaImage.toByteArray();
             } else {
                 return "file does not exist";
             }
         } else if (mediaType == Constants.MSG_SEND_VOICE) {
-            MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.newBuilder()
-                    .build();
+            MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.newBuilder().build();
             byteData = mediaAudio.toByteArray();
         }
         mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(byteData));
@@ -933,9 +932,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         msgBase.setSendTime(System.currentTimeMillis());
         msgBase.setUser(userInfo.build());
         msgBase.setMedia(mediaRecord.build());
-        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder()
-                .setMsg(msgBase.build())
-                .build();
+        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder().setMsg(msgBase.build()).build();
         byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
@@ -976,9 +973,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         msgBase.setMsgType(Constants.MSG_SEND_TEXT);
         msgBase.setSendTime(System.currentTimeMillis());
         msgBase.setUser(userInfo.build());
-        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder()
-                .setMsg(msgBase.build())
-                .build();
+        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder().setMsg(msgBase.build()).build();
         byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         send(ByteString.of(bytes));
@@ -1001,9 +996,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     public void getStates() {
         long lastPts = MessageHelper.getSingleton().getLastPts();
         LogUtil.d(TAG, "getStates lastPts:" + lastPts);
-        PaasIm.getStates getStates = PaasIm.getStates.newBuilder()
-                .setPts(lastPts)
-                .build();
+        PaasIm.getStates getStates = PaasIm.getStates.newBuilder().setPts(lastPts).build();
         byte[] bytes = DataUtils.assembleData(0x5b7af35f, getStates.toByteArray());
         send(ByteString.of(bytes));
     }
@@ -1022,14 +1015,8 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         long lastPts = MessageHelper.getSingleton().getLastPts();
         long lastPtsDate = MessageHelper.getSingleton().getLastPtsDate();
         LogUtil.d(TAG, "getChatDiffMsg lastPts:" + lastPts + " lastPtsDate:" + lastPtsDate);
-        UpdatesBase.updatGetDifference updatGetDifference = UpdatesBase.updatGetDifference.newBuilder()
-                .setPts(lastPts)
-                .setDate(lastPtsDate)
-                .build();
-        PaasIm.reqDifference reqDifference = PaasIm.reqDifference.newBuilder()
-                .setUid(RtcSpUtils.getInstance().getUserUid())
-                .setReq(updatGetDifference.toByteString())
-                .build();
+        UpdatesBase.updatGetDifference updatGetDifference = UpdatesBase.updatGetDifference.newBuilder().setPts(lastPts).setDate(lastPtsDate).build();
+        PaasIm.reqDifference reqDifference = PaasIm.reqDifference.newBuilder().setUid(RtcSpUtils.getInstance().getUserUid()).setReq(updatGetDifference.toByteString()).build();
         byte[] bytes = DataUtils.assembleData(0x961e73bb, reqDifference.toByteArray());
         send(ByteString.of(bytes));
     }
