@@ -187,8 +187,10 @@ public class ChatListHelper {
     public List<ChatListBean> getAllChatList(String mUid) {
         try {
             if (chatListBeanDao == null) {
+                LogUtil.e(TAG, "getAllChatList is start chatListBeanDao is null");
                 return null;
             }
+            LogUtil.d(TAG, "getAllChatList is start search mUid:" + mUid);
             QueryBuilder<ChatListBean> qb = chatListBeanDao.queryBuilder();
             return qb.where(ChatListBeanDao.Properties.MUid.eq(mUid))
                     .orderDesc(ChatListBeanDao.Properties.OldMessageTime)
