@@ -294,8 +294,8 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     private boolean shortMessageHandle(byte[] data) {
         try {
             MsgReceiving.shortMessage shortMessage = MsgReceiving.shortMessage.parseFrom(data);
+            LogUtil.d(TAG, "shortMessageHandle shortMessage:" + shortMessage + " uid:" + RtcSpUtils.getInstance().getUserUid());
             MsgBase.paasMsgRecord msg = shortMessage.getMsg();
-            LogUtil.d(TAG, "shortMessageHandle msg:" + msg + " uid:" + RtcSpUtils.getInstance().getUserUid());
             MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(msg.getMsgFp());
             if (oneMessage != null) {
                 LogUtil.d(TAG, "shortMessageHandle have data");
