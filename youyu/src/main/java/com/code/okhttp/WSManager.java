@@ -1010,7 +1010,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         long lastPts = MessageHelper.getSingleton().getLastPts();
         long lastPtsDate = MessageHelper.getSingleton().getLastPtsDate();
         LogUtil.d(TAG, "getChatDiffMsg lastPts:" + lastPts + " lastPtsDate:" + lastPtsDate);
-        UpdatesBase.updatGetDifference updatGetDifference = UpdatesBase.updatGetDifference.newBuilder().setPts(lastPts).setDate(lastPtsDate).build();
+        UpdatesBase.updatGetDifference updatGetDifference = UpdatesBase.updatGetDifference.newBuilder().setPts(lastPts).setDate(lastPtsDate).setLimit(Constants.LIMIT).build();
         PaasIm.reqDifference reqDifference = PaasIm.reqDifference.newBuilder().setUid(RtcSpUtils.getInstance().getUserUid()).setReq(updatGetDifference.toByteString()).build();
         byte[] bytes = DataUtils.assembleData(0x961e73bb, reqDifference.toByteArray());
         send(ByteString.of(bytes));
