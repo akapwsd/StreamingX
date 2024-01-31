@@ -18,7 +18,7 @@ import java.util.List;
 
 
 public class ChatListHelper {
-    private static final String TAG = "TempChatListHelper";
+    private static final String TAG = "ChatListHelper";
     private ChatListBeanDao chatListBeanDao;
     private ChatListDataChangeListener dataListener;
 
@@ -89,6 +89,11 @@ public class ChatListHelper {
             int unreadMsgCount = unique.getUnreadMsgCount();
             unreadMsgCount += 1;
             unique.setUnreadMsgCount(unreadMsgCount);
+            unique.setOldMessage(msgBean.getContent());
+            unique.setOldMessageTime(msgBean.getActualTime());
+            unique.setNickName(msgBean.getNickName());
+            unique.setUserAvatar(msgBean.getAvatar());
+            unique.setSourceType(msgBean.getSourceType());
             if (chatListBeanDao != null) {
                 chatListBeanDao.update(unique);
             }
