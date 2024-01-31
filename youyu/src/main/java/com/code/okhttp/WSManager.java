@@ -280,12 +280,8 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
 
     private boolean sendChatResultHandle(byte[] data) {
         try {
+            LogUtil.d(TAG, "sendChatResultHandle is start");
             PaasIm.paasImMsgSent paasImMsgSent = PaasIm.paasImMsgSent.parseFrom(data);
-            MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(paasImMsgSent.getFp());
-            if (oneMessage != null) {
-                oneMessage.setPts(paasImMsgSent.getPts());
-                MessageHelper.getSingleton().insertOrReplaceData(oneMessage);
-            }
             MessageLoopThread.getInstance().removeReceivedMsg(paasImMsgSent.getFp(), Constants.SEND_SUCCESS);
             chatMsgListener.sendResult(paasImMsgSent.getFp(), Constants.SEND_SUCCESS);
             return true;
@@ -299,31 +295,41 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         try {
             MsgReceiving.shortMessage shortMessage = MsgReceiving.shortMessage.parseFrom(data);
             MsgBase.paasMsgRecord msg = shortMessage.getMsg();
-            MsgBean msgBean = new MsgBean();
-            msgBean.setPts(shortMessage.getPts());
-            msgBean.setFp(msg.getMsgFp());
-            msgBean.setMsgId(msg.getMsgId());
-            msgBean.setSourceType(msg.getMsgType());
-            msgBean.setContent(msg.getMsgTxt());
-            msgBean.setActualTime(msg.getSendTime());
-            msgBean.setNickName(msg.getUser().getName());
-            msgBean.setAvatar(msg.getUser().getAvatar());
-            msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
-            if (RtcSpUtils.getInstance().getUserUid().equals(msg.getFrom().getId())) {
-                msgBean.setPeerUid(msg.getTo().getId());
-                msgBean.setSourceType(Constants.MSG_SENDER);
-            } else if (RtcSpUtils.getInstance().getUserUid().equals(msg.getTo().getId())) {
-                msgBean.setPeerUid(msg.getFrom().getId());
-                msgBean.setSourceType(Constants.MSG_RECEIVER);
+            LogUtil.d(TAG, "shortMessageHandle msg:" + msg + " uid:" + RtcSpUtils.getInstance().getUserUid());
+            MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(msg.getMsgFp());
+            if (oneMessage != null) {
+                LogUtil.d(TAG, "shortMessageHandle have data");
+                oneMessage.setPts(shortMessage.getPts());
+                oneMessage.setMsgId(msg.getMsgId());
+                MessageHelper.getSingleton().insertOrReplaceData(oneMessage);
             } else {
-                LogUtil.e(TAG, "shortMessageHandle fail the data is error");
-                return false;
-            }
-            MessageHelper.getSingleton().insertOrReplaceData(msgBean);
-            for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
-                IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
-                if (iRtcEngineEventCallBackHandler != null) {
-                    iRtcEngineEventCallBackHandler.receiveMsg(msgBean);
+                LogUtil.d(TAG, "shortMessageHandle new data");
+                MsgBean msgBean = new MsgBean();
+                msgBean.setPts(shortMessage.getPts());
+                msgBean.setFp(msg.getMsgFp());
+                msgBean.setMsgId(msg.getMsgId());
+                msgBean.setSourceType(msg.getMsgType());
+                msgBean.setContent(msg.getMsgTxt());
+                msgBean.setActualTime(msg.getSendTime());
+                msgBean.setNickName(msg.getUser().getName());
+                msgBean.setAvatar(msg.getUser().getAvatar());
+                msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
+                if (RtcSpUtils.getInstance().getUserUid().equals(msg.getFrom().getId())) {
+                    msgBean.setPeerUid(msg.getTo().getId());
+                    msgBean.setSourceType(Constants.MSG_SENDER);
+                } else if (RtcSpUtils.getInstance().getUserUid().equals(msg.getTo().getId())) {
+                    msgBean.setPeerUid(msg.getFrom().getId());
+                    msgBean.setSourceType(Constants.MSG_RECEIVER);
+                } else {
+                    LogUtil.e(TAG, "shortMessageHandle fail the data is error");
+                    return false;
+                }
+                MessageHelper.getSingleton().insertOrReplaceData(msgBean);
+                for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
+                    IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
+                    if (iRtcEngineEventCallBackHandler != null) {
+                        iRtcEngineEventCallBackHandler.receiveMsg(msgBean);
+                    }
                 }
             }
             return true;
