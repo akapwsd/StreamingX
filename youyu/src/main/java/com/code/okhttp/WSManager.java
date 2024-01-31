@@ -303,14 +303,22 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             msgBean.setPts(shortMessage.getPts());
             msgBean.setFp(msg.getMsgFp());
             msgBean.setMsgId(msg.getMsgId());
-            msgBean.setMUid(msg.getFrom().getId());
-            msgBean.setPeerUid(msg.getTo().getId());
             msgBean.setSourceType(msg.getMsgType());
             msgBean.setContent(msg.getMsgTxt());
             msgBean.setActualTime(msg.getSendTime());
             msgBean.setNickName(msg.getUser().getName());
             msgBean.setAvatar(msg.getUser().getAvatar());
-            msgBean.setSourceType(Constants.MSG_RECEIVER);
+            msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
+            if (RtcSpUtils.getInstance().getUserUid().equals(msg.getFrom().getId())) {
+                msgBean.setPeerUid(msg.getTo().getId());
+                msgBean.setSourceType(Constants.MSG_SENDER);
+            } else if (RtcSpUtils.getInstance().getUserUid().equals(msg.getTo().getId())) {
+                msgBean.setPeerUid(msg.getFrom().getId());
+                msgBean.setSourceType(Constants.MSG_RECEIVER);
+            } else {
+                LogUtil.e(TAG, "shortMessageHandle fail the data is error");
+                return false;
+            }
             MessageHelper.getSingleton().insertOrReplaceData(msgBean);
             for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
                 IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
@@ -393,10 +401,19 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
         msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
         msgBean.setContent(dataInfo.getMsg().getMsgTxt());
-        msgBean.setMUid(dataInfo.getMsg().getFrom().getId());
+        msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
         msgBean.setActualTime(dataInfo.getMsg().getSendTime());
-        msgBean.setPeerUid(dataInfo.getMsg().getTo().getId());
-        msgBean.setSourceType(Constants.MSG_RECEIVER);
+        if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getFrom().getId())) {
+            msgBean.setSourceType(Constants.MSG_SENDER);
+            msgBean.setPeerUid(dataInfo.getMsg().getTo().getId());
+        } else if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getTo().getId())) {
+            msgBean.setSourceType(Constants.MSG_RECEIVER);
+            msgBean.setPeerUid(dataInfo.getMsg().getFrom().getId());
+        } else {
+            msgBean.setSourceType(Constants.MSG_UNKNOWN);
+            LogUtil.e(TAG, "updateNewMessageData fail the data is error");
+            return;
+        }
         MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
         MessageHelper.getSingleton().insertOrReplaceData(msgBean);
     }
@@ -486,7 +503,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     /**
      * init WebSocket
      */
-    public void init(Context context, String access_key_id, String access_key_secret, String session_token) {
+    public void init(Context context, String uid, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             mContext = context;
@@ -506,6 +523,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             RtcSpUtils.getInstance().setAccessKeyId(access_key_id);
             RtcSpUtils.getInstance().setAccessKeySecret(access_key_secret);
             RtcSpUtils.getInstance().setSessionToken(session_token);
+            RtcSpUtils.getInstance().setUserUid(uid);
             RtcSpUtils.getInstance().setToken("");
             LogUtil.d(TAG, "mWbSocketUrl=" + mWbSocketUrl);
             mClient = new OkHttpClient.Builder().writeTimeout(60, TimeUnit.SECONDS).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).pingInterval(10, TimeUnit.SECONDS).build();
@@ -514,7 +532,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         LogUtil.d(TAG, "init is end");
     }
 
-    public void init(Context context, String token) {
+    public void init(Context context, String uid, String token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
             mContext = context;
@@ -530,6 +548,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 mWbSocketUrl = MODEL_BASE_URL;
             }
             RtcSpUtils.getInstance().setToken(token);
+            RtcSpUtils.getInstance().setUserUid(uid);
             RtcSpUtils.getInstance().setAccessKeyId("");
             RtcSpUtils.getInstance().setAccessKeySecret("");
             RtcSpUtils.getInstance().setSessionToken("");
@@ -931,7 +950,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
-        MessageHelper.getSingleton().insertOrReplaceDataSend(msgBase.build());
+        MessageHelper.getSingleton().insertOrReplaceDataData(msgBase.build());
         S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, mediaType, new S3AwsHelper.IAWSFileRequest() {
             @Override
             public void aws_success(int requestType, String msgFp, String key) {
@@ -973,7 +992,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         send(ByteString.of(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
-        MessageHelper.getSingleton().insertOrReplaceDataSend(msgBase.build());
+        MessageHelper.getSingleton().insertOrReplaceDataData(msgBase.build());
         chatMsgListener.sendResult(msgFp, Constants.SENDING);
         return msgFp;
     }
@@ -982,7 +1001,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         LogUtil.d(TAG, "resendMsg fp:" + fp);
         MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(fp);
         if (oneMessage.getSourceType() == Constants.MSG_SEND_TEXT) {
-            sendTextMsg(oneMessage.getMUid(), oneMessage.getPeerUid(), oneMessage.getIsBroadcaster(), oneMessage.getContent(), oneMessage.getNickName(), oneMessage.getAvatar(), chatMsgListener);
+            sendTextMsg(oneMessage.getUid(), oneMessage.getPeerUid(), oneMessage.getIsBroadcaster(), oneMessage.getContent(), oneMessage.getNickName(), oneMessage.getAvatar(), chatMsgListener);
         } else {
             //TODO sendMediaMsg
         }

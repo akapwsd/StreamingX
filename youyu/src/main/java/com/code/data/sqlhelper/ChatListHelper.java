@@ -1,12 +1,16 @@
 package com.code.data.sqlhelper;
 
 
+import android.util.Log;
+
 import com.code.data.GreenDaoHelper;
 import com.code.data.greendao.ChatListBeanDao;
 import com.code.data.greendao.DaoSession;
 import com.code.data.sqlbean.ChatListBean;
 import com.code.data.sqlbean.MsgBean;
 import com.code.utils.LogUtil;
+import com.code.utils.RtcSpUtils;
+import com.code.youyu.api.Constants;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -59,11 +63,11 @@ public class ChatListHelper {
     }
 
     public void insertData(MsgBean msgBean) {
-        ChatListBean unique = getChatListBean(msgBean.getMUid(), msgBean.getPeerUid());
+        ChatListBean unique = getChatListBean(msgBean.getUid(), msgBean.getPeerUid());
         if (unique == null) {
             LogUtil.d(TAG, "insertData this is one new data");
             ChatListBean chatListBean = new ChatListBean();
-            chatListBean.setMUid(msgBean.getMUid());
+            chatListBean.setMUid(msgBean.getUid());
             chatListBean.setPeerUid(msgBean.getPeerUid());
             chatListBean.setNickName(msgBean.getNickName());
             chatListBean.setSendState(msgBean.getState());
@@ -71,6 +75,7 @@ public class ChatListHelper {
             chatListBean.setOldMessageTime(msgBean.getActualTime());
             chatListBean.setOldMessage(msgBean.getContent());
             chatListBean.setUnreadMsgCount(1);
+            chatListBean.setSourceType(msgBean.getSourceType());
             if (chatListBeanDao != null) {
                 chatListBeanDao.insertOrReplace(chatListBean);
             }

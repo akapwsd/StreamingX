@@ -21,8 +21,10 @@ import com.code.utils.HttpRequestUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.RtcSpBase;
 import com.code.utils.RtcSpUtils;
+
 import java.io.File;
 import java.util.List;
+
 import io.agora.rtc2.RtcEngine;
 import io.agora.rtc2.ChannelMediaOptions;
 import io.agora.rtc2.video.VideoCanvas;
@@ -92,16 +94,16 @@ public class StreamingXRtcManager {
      * @param access_key_secret the access_key_secret
      * @param session_token     the session_token
      */
-    public boolean initRtc(Context context, String access_key_id, String access_key_secret, String session_token) {
+    public boolean initRtc(Context context, String uid, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "initRtc is start");
-        if (!TextUtils.isEmpty(access_key_id) && !TextUtils.isEmpty(access_key_secret) && !TextUtils.isEmpty(session_token)) {
+        if (!TextUtils.isEmpty(access_key_id) && !TextUtils.isEmpty(access_key_secret) && !TextUtils.isEmpty(session_token) && !TextUtils.isEmpty(uid)) {
             if (isRegisterActivityLifecycleCallBack) {
                 mContext = context;
                 RtcSpBase.initContent(mContext);
                 WSManager.getInstance().mChannelId = "";
                 RtcSpUtils.getInstance().setChannelId("");
                 BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
-                WSManager.getInstance().init(mContext, access_key_id, access_key_secret, session_token);
+                WSManager.getInstance().init(mContext, uid, access_key_id, access_key_secret, session_token);
                 isInit = true;
                 return true;
             } else {
@@ -114,16 +116,16 @@ public class StreamingXRtcManager {
         }
     }
 
-    public boolean initModelRtc(Context context, String token) {
+    public boolean initModelRtc(Context context, String uid, String token) {
         LogUtil.d(TAG, "initModelRtc is start");
-        if (!TextUtils.isEmpty(token)) {
+        if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(uid)) {
             if (isRegisterActivityLifecycleCallBack) {
                 mContext = context;
                 RtcSpBase.initContent(mContext);
                 WSManager.getInstance().mChannelId = "";
                 RtcSpUtils.getInstance().setChannelId("");
                 BaseRtcEngineManager.getInstance().initBaseRtc(mContext);
-                WSManager.getInstance().init(mContext, token);
+                WSManager.getInstance().init(mContext, uid, token);
                 isInit = true;
                 return true;
             } else {

@@ -73,7 +73,7 @@ public class MessageHelper {
     public List<MsgBean> getData(String uid, String peerUid, Long time) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid), MsgBeanDao.Properties.ActualTime.ge(time)).orderDesc(MsgBeanDao.Properties.ActualTime).list();
+            return qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid), MsgBeanDao.Properties.ActualTime.ge(time)).orderDesc(MsgBeanDao.Properties.ActualTime).list();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -84,7 +84,7 @@ public class MessageHelper {
         try {
             LogUtil.d(TAG, "getData::uid is: " + uid + " and time is: " + time + " and PageNumber is: " + PageNumber + "IndexNumber is: " + IndexNumber);
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            List<MsgBean> list = qb.where(MsgBeanDao.Properties.MUid.eq(uid)
+            List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid)
                     , MsgBeanDao.Properties.ActualTime.lt(time)
                     , MsgBeanDao.Properties.PeerUid.eq(uid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
             LogUtil.d(TAG, "getData list:" + list);
@@ -95,7 +95,7 @@ public class MessageHelper {
         return null;
     }
 
-    public synchronized void insertOrReplaceDataSend(MsgBase.paasMsgRecord paasMsgRecord) {
+    public synchronized void insertOrReplaceDataData(MsgBase.paasMsgRecord paasMsgRecord) {
         LogUtil.d(TAG, "insertData start insert data! paasMsgRecord:" + paasMsgRecord);
         synchronized (msgBeanDao) {
             MsgBean msgBean = new MsgBean();
@@ -104,14 +104,19 @@ public class MessageHelper {
             msgBean.setContent(paasMsgRecord.getMsgTxt());
             msgBean.setActualTime(paasMsgRecord.getSendTime());
             msgBean.setFp(paasMsgRecord.getMsgFp());
-            msgBean.setMUid(paasMsgRecord.getFrom().getId());
+            msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
             msgBean.setIsBroadcaster(paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER);
-            msgBean.setPeerUid(paasMsgRecord.getTo().getId());
             msgBean.setSourceType(Constants.MSG_SENDER);
             if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
                 msgBean.setSourceType(Constants.MSG_SENDER);
+                msgBean.setPeerUid(paasMsgRecord.getTo().getId());
             } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo().getId())) {
                 msgBean.setSourceType(Constants.MSG_RECEIVER);
+                msgBean.setPeerUid(paasMsgRecord.getFrom().getId());
+            } else {
+                msgBean.setSourceType(Constants.MSG_UNKNOWN);
+                LogUtil.e(TAG, "insertOrReplaceDataData fail data is error");
+                return;
             }
             msgBean.setState(Constants.SENDING);
             msgBean.setStatus(paasMsgRecord.getMsgType());
@@ -219,7 +224,7 @@ public class MessageHelper {
      */
     public MsgBean getLastMessage(String uid, String peerUid) {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean unique = qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        MsgBean unique = qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         String content;
         if (unique != null) {
             content = unique.getContent();
@@ -257,12 +262,12 @@ public class MessageHelper {
      */
     public List<MsgBean> getMessage(String uid, int start, int count) {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.Status.eq(0)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(start).limit(count).build().forCurrentThread().list();
+        return qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.Status.eq(0)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(start).limit(count).build().forCurrentThread().list();
     }
 
     public long getLastPtsDate() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean msgBean = qb.where(MsgBeanDao.Properties.MUid.eq(RtcSpUtils.getInstance().getUserUid()),
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()),
                 MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         if (msgBean != null) {
             return msgBean.getActualTime();
@@ -273,7 +278,7 @@ public class MessageHelper {
 
     public long getLastPts() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean msgBean = qb.where(MsgBeanDao.Properties.MUid.eq(RtcSpUtils.getInstance().getUserUid()),
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()),
                 MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         if (msgBean != null) {
             return msgBean.getPts();
@@ -288,7 +293,7 @@ public class MessageHelper {
     public List<MsgBean> getData(String uid, String peerUid, int PageNumber, int IndexNumber) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).build().forCurrentThread().list();
+            return qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).build().forCurrentThread().list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -301,7 +306,7 @@ public class MessageHelper {
     public List<MsgBean> getAllData(String uid, String peerUid) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            return qb.where(MsgBeanDao.Properties.MUid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).build().forCurrentThread().list();
+            return qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).build().forCurrentThread().list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

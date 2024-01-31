@@ -14,7 +14,7 @@ public class MsgBean {
     private long msgId;
     private long pts;
     @NotNull
-    private String mUid; //your uid
+    private String uid; //your uid
     @NotNull
     private String peerUid; //peer uid
     @NotNull
@@ -29,9 +29,8 @@ public class MsgBean {
     private long actualTime;
     private String nickName;
     private String avatar;
-
-    @Generated(hash = 1596360405)
-    public MsgBean(Long id, String fp, boolean isBroadcaster, long msgId, long pts, @NotNull String mUid,
+    @Generated(hash = 332465387)
+    public MsgBean(Long id, String fp, boolean isBroadcaster, long msgId, long pts, @NotNull String uid,
             @NotNull String peerUid, int sourceType, String content, String localPath, int status, int state,
             double progress, long actualTime, String nickName, String avatar) {
         this.id = id;
@@ -39,7 +38,7 @@ public class MsgBean {
         this.isBroadcaster = isBroadcaster;
         this.msgId = msgId;
         this.pts = pts;
-        this.mUid = mUid;
+        this.uid = uid;
         this.peerUid = peerUid;
         this.sourceType = sourceType;
         this.content = content;
@@ -51,158 +50,103 @@ public class MsgBean {
         this.nickName = nickName;
         this.avatar = avatar;
     }
-
     @Generated(hash = 237905234)
     public MsgBean() {
     }
-
     public Long getId() {
         return this.id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
     public String getFp() {
         return this.fp;
     }
-
     public void setFp(String fp) {
         this.fp = fp;
     }
-
-    public long getMsgId() {
-        return this.msgId;
-    }
-
-    public void setMsgId(long msgId) {
-        this.msgId = msgId;
-    }
-
-    public long getPts() {
-        return this.pts;
-    }
-
-    public void setPts(long pts) {
-        this.pts = pts;
-    }
-
-    public String getMUid() {
-        return this.mUid;
-    }
-
-    public void setMUid(String mUid) {
-        this.mUid = mUid;
-    }
-
-    public String getPeerUid() {
-        return this.peerUid;
-    }
-
-    public void setPeerUid(String peerUid) {
-        this.peerUid = peerUid;
-    }
-
-    public int getSourceType() {
-        return this.sourceType;
-    }
-
-    public void setSourceType(int sourceType) {
-        this.sourceType = sourceType;
-    }
-
-    public String getContent() {
-        return this.content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getLocalPath() {
-        return this.localPath;
-    }
-
-    public void setLocalPath(String localPath) {
-        this.localPath = localPath;
-    }
-
-    public int getStatus() {
-        return this.status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
-
-    public int getState() {
-        return this.state;
-    }
-
-    public void setState(int state) {
-        this.state = state;
-    }
-
-    public double getProgress() {
-        return this.progress;
-    }
-
-    public void setProgress(double progress) {
-        this.progress = progress;
-    }
-
-    public long getActualTime() {
-        return this.actualTime;
-    }
-
-    public void setActualTime(long actualTime) {
-        this.actualTime = actualTime;
-    }
-
-    public String getNickName() {
-        return this.nickName;
-    }
-
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
-    }
-
-    public String getAvatar() {
-        return this.avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
     public boolean getIsBroadcaster() {
         return this.isBroadcaster;
     }
-
     public void setIsBroadcaster(boolean isBroadcaster) {
         this.isBroadcaster = isBroadcaster;
     }
-
-    @Override
-    public String toString() {
-        return "MsgBean{" +
-                "id=" + id +
-                ", fp='" + fp + '\'' +
-                ", isBroadcaster=" + isBroadcaster +
-                ", msgId=" + msgId +
-                ", pts=" + pts +
-                ", mUid='" + mUid + '\'' +
-                ", peerUid='" + peerUid + '\'' +
-                ", sourceType=" + sourceType +
-                ", content='" + content + '\'' +
-                ", localPath='" + localPath + '\'' +
-                ", status=" + status +
-                ", state=" + state +
-                ", progress=" + progress +
-                ", actualTime=" + actualTime +
-                ", nickName='" + nickName + '\'' +
-                ", avatar='" + avatar + '\'' +
-                '}';
+    public long getMsgId() {
+        return this.msgId;
+    }
+    public void setMsgId(long msgId) {
+        this.msgId = msgId;
+    }
+    public long getPts() {
+        return this.pts;
+    }
+    public void setPts(long pts) {
+        this.pts = pts;
+    }
+    public String getUid() {
+        return this.uid;
+    }
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+    public String getPeerUid() {
+        return this.peerUid;
+    }
+    public void setPeerUid(String peerUid) {
+        this.peerUid = peerUid;
+    }
+    public int getSourceType() {
+        return this.sourceType;
+    }
+    public void setSourceType(int sourceType) {
+        this.sourceType = sourceType;
+    }
+    public String getContent() {
+        return this.content;
+    }
+    public void setContent(String content) {
+        this.content = content;
+    }
+    public String getLocalPath() {
+        return this.localPath;
+    }
+    public void setLocalPath(String localPath) {
+        this.localPath = localPath;
+    }
+    public int getStatus() {
+        return this.status;
+    }
+    public void setStatus(int status) {
+        this.status = status;
+    }
+    public int getState() {
+        return this.state;
+    }
+    public void setState(int state) {
+        this.state = state;
+    }
+    public double getProgress() {
+        return this.progress;
+    }
+    public void setProgress(double progress) {
+        this.progress = progress;
+    }
+    public long getActualTime() {
+        return this.actualTime;
+    }
+    public void setActualTime(long actualTime) {
+        this.actualTime = actualTime;
+    }
+    public String getNickName() {
+        return this.nickName;
+    }
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+    public String getAvatar() {
+        return this.avatar;
+    }
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }

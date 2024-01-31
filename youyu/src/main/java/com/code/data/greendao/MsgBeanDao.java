@@ -29,7 +29,7 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         public final static Property IsBroadcaster = new Property(2, boolean.class, "isBroadcaster", false, "IS_BROADCASTER");
         public final static Property MsgId = new Property(3, long.class, "msgId", false, "MSG_ID");
         public final static Property Pts = new Property(4, long.class, "pts", false, "PTS");
-        public final static Property MUid = new Property(5, String.class, "mUid", false, "M_UID");
+        public final static Property Uid = new Property(5, String.class, "uid", false, "UID");
         public final static Property PeerUid = new Property(6, String.class, "peerUid", false, "PEER_UID");
         public final static Property SourceType = new Property(7, int.class, "sourceType", false, "SOURCE_TYPE");
         public final static Property Content = new Property(8, String.class, "content", false, "CONTENT");
@@ -60,7 +60,7 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
                 "\"IS_BROADCASTER\" INTEGER NOT NULL ," + // 2: isBroadcaster
                 "\"MSG_ID\" INTEGER NOT NULL ," + // 3: msgId
                 "\"PTS\" INTEGER NOT NULL ," + // 4: pts
-                "\"M_UID\" TEXT NOT NULL ," + // 5: mUid
+                "\"UID\" TEXT NOT NULL ," + // 5: uid
                 "\"PEER_UID\" TEXT NOT NULL ," + // 6: peerUid
                 "\"SOURCE_TYPE\" INTEGER NOT NULL ," + // 7: sourceType
                 "\"CONTENT\" TEXT," + // 8: content
@@ -95,7 +95,7 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         stmt.bindLong(3, entity.getIsBroadcaster() ? 1L: 0L);
         stmt.bindLong(4, entity.getMsgId());
         stmt.bindLong(5, entity.getPts());
-        stmt.bindString(6, entity.getMUid());
+        stmt.bindString(6, entity.getUid());
         stmt.bindString(7, entity.getPeerUid());
         stmt.bindLong(8, entity.getSourceType());
  
@@ -140,7 +140,7 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         stmt.bindLong(3, entity.getIsBroadcaster() ? 1L: 0L);
         stmt.bindLong(4, entity.getMsgId());
         stmt.bindLong(5, entity.getPts());
-        stmt.bindString(6, entity.getMUid());
+        stmt.bindString(6, entity.getUid());
         stmt.bindString(7, entity.getPeerUid());
         stmt.bindLong(8, entity.getSourceType());
  
@@ -182,7 +182,7 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
             cursor.getShort(offset + 2) != 0, // isBroadcaster
             cursor.getLong(offset + 3), // msgId
             cursor.getLong(offset + 4), // pts
-            cursor.getString(offset + 5), // mUid
+            cursor.getString(offset + 5), // uid
             cursor.getString(offset + 6), // peerUid
             cursor.getInt(offset + 7), // sourceType
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // content
@@ -204,7 +204,7 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         entity.setIsBroadcaster(cursor.getShort(offset + 2) != 0);
         entity.setMsgId(cursor.getLong(offset + 3));
         entity.setPts(cursor.getLong(offset + 4));
-        entity.setMUid(cursor.getString(offset + 5));
+        entity.setUid(cursor.getString(offset + 5));
         entity.setPeerUid(cursor.getString(offset + 6));
         entity.setSourceType(cursor.getInt(offset + 7));
         entity.setContent(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));

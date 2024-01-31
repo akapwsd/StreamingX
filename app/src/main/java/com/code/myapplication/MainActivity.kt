@@ -25,12 +25,10 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         init_btn_1.setOnClickListener {
-            StreamingXRtcManager.getInstance().initRtc(this, "9aee5d42f62111eda17ce69f99b16e0f", "u@jkyAZ5cTALBPL!4GD9MC2Fkv2DaNs2cKr9Yjg6", "9f30f59674e627cd2882b6a75e0f3f517a3d696ba3308037394286abed46f68ceb")
-            startActivity(Intent(this@MainActivity, ChannelActivity::class.java))
+
         }
         init_btn_2.setOnClickListener {
-            StreamingXRtcManager.getInstance().initRtc(this, "7e504b54f62111eda17ce69f99b16e0f", "yw9UUJWp4S2PKi!LdI+rtt8sXLOw!ctFypF==_TM", "8927f99ea788e7cd6212f3b15b17619c403a06c94f3b3340f9b841a5bbcfd78e55")
-            startActivity(Intent(this@MainActivity, ChannelActivity::class.java))
+
         }
         resume_btn_1.setOnClickListener {
 
