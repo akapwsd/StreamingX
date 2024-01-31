@@ -37,7 +37,6 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -311,6 +310,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             msgBean.setActualTime(msg.getSendTime());
             msgBean.setNickName(msg.getUser().getName());
             msgBean.setAvatar(msg.getUser().getAvatar());
+            msgBean.setSourceType(Constants.MSG_RECEIVER);
             MessageHelper.getSingleton().insertOrReplaceData(msgBean);
             for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
                 IRtcEngineEventCallBackHandler iRtcEngineEventCallBackHandler = entry.getValue();
@@ -355,10 +355,6 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             for (UpdatesBase.updateNewMessage dataInfo : msgsList) {
                 updateNewMessageData(dataInfo);
             }
-            long lastPts = MessageHelper.getSingleton().getLastPts();
-            if (serverNewPts > lastPts) {
-                getChatDiffMsg();
-            }
             return true;
         } catch (InvalidProtocolBufferException e) {
             LogUtil.e(TAG, "diffMsgHandle throw error:" + e);
@@ -391,17 +387,16 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     }
 
     private void updateNewMessageData(UpdatesBase.updateNewMessage dataInfo) {
+        LogUtil.d(TAG, "updateNewMessageData dataInfo:" + dataInfo);
         MsgBean msgBean = new MsgBean();
         msgBean.setPts(dataInfo.getPts());
         msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
         msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
         msgBean.setContent(dataInfo.getMsg().getMsgTxt());
-        msgBean.setMUid(RtcSpUtils.getInstance().getUserUid());
+        msgBean.setMUid(dataInfo.getMsg().getFrom().getId());
         msgBean.setActualTime(dataInfo.getMsg().getSendTime());
-        String to = dataInfo.getMsg().getTo().getId();
-        if (to.equals(RtcSpUtils.getInstance().getUserUid())) {
-            msgBean.setSourceType(Constants.MSG_RECEIVER);
-        }
+        msgBean.setPeerUid(dataInfo.getMsg().getTo().getId());
+        msgBean.setSourceType(Constants.MSG_RECEIVER);
         MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
         MessageHelper.getSingleton().insertOrReplaceData(msgBean);
     }
@@ -936,7 +931,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
-        MessageHelper.getSingleton().insertOrReplaceData(msgBase.build());
+        MessageHelper.getSingleton().insertOrReplaceDataSend(msgBase.build());
         S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, mediaType, new S3AwsHelper.IAWSFileRequest() {
             @Override
             public void aws_success(int requestType, String msgFp, String key) {
@@ -978,7 +973,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
         send(ByteString.of(bytes));
         MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
-        MessageHelper.getSingleton().insertOrReplaceData(msgBase.build());
+        MessageHelper.getSingleton().insertOrReplaceDataSend(msgBase.build());
         chatMsgListener.sendResult(msgFp, Constants.SENDING);
         return msgFp;
     }

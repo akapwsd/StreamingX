@@ -95,7 +95,7 @@ public class MessageHelper {
         return null;
     }
 
-    public synchronized void insertOrReplaceData(MsgBase.paasMsgRecord paasMsgRecord) {
+    public synchronized void insertOrReplaceDataSend(MsgBase.paasMsgRecord paasMsgRecord) {
         LogUtil.d(TAG, "insertData start insert data! paasMsgRecord:" + paasMsgRecord);
         synchronized (msgBeanDao) {
             MsgBean msgBean = new MsgBean();
@@ -107,6 +107,7 @@ public class MessageHelper {
             msgBean.setMUid(paasMsgRecord.getFrom().getId());
             msgBean.setIsBroadcaster(paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER);
             msgBean.setPeerUid(paasMsgRecord.getTo().getId());
+            msgBean.setSourceType(Constants.MSG_SENDER);
             if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
                 msgBean.setSourceType(Constants.MSG_SENDER);
             } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo().getId())) {

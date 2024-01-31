@@ -34,8 +34,8 @@ public class Constants {
     public static final String Bucket = "ujoy-paas-formal-eks";
     public static final String Region = "us-west-2";
     public static final String AWS_KEY = "broadcaster/cover/";
-    public static final int MSG_RECEIVER = 1;
-    public static final int MSG_SENDER = 2;
+    public static final int MSG_RECEIVER = 2;
+    public static final int MSG_SENDER = 1;
     public static final int AWS_UPLOAD = 1;
     public static final int AWS_DOWNLOAD = 2;
     public static final int AWS_REQUEST_TIMEOUT = -1;
