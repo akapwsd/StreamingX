@@ -149,4 +149,26 @@ public class MsgBean {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+
+    @Override
+    public String toString() {
+        return "MsgBean{" +
+                "id=" + id +
+                ", fp='" + fp + '\'' +
+                ", isBroadcaster=" + isBroadcaster +
+                ", msgId=" + msgId +
+                ", pts=" + pts +
+                ", uid='" + uid + '\'' +
+                ", peerUid='" + peerUid + '\'' +
+                ", sourceType=" + sourceType +
+                ", content='" + content + '\'' +
+                ", localPath='" + localPath + '\'' +
+                ", status=" + status +
+                ", state=" + state +
+                ", progress=" + progress +
+                ", actualTime=" + actualTime +
+                ", nickName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 }

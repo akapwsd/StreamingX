@@ -86,7 +86,7 @@ public class MessageHelper {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
             List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid)
                     , MsgBeanDao.Properties.ActualTime.lt(time)
-                    , MsgBeanDao.Properties.PeerUid.eq(uid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
+                    , MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
             LogUtil.d(TAG, "getData list:" + list);
             return list;
         } catch (Exception e) {
