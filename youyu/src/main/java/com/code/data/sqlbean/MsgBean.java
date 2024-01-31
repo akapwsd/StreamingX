@@ -183,4 +183,26 @@ public class MsgBean {
     public void setIsBroadcaster(boolean isBroadcaster) {
         this.isBroadcaster = isBroadcaster;
     }
+
+    @Override
+    public String toString() {
+        return "MsgBean{" +
+                "id=" + id +
+                ", fp='" + fp + '\'' +
+                ", isBroadcaster=" + isBroadcaster +
+                ", msgId=" + msgId +
+                ", pts=" + pts +
+                ", mUid='" + mUid + '\'' +
+                ", peerUid='" + peerUid + '\'' +
+                ", sourceType=" + sourceType +
+                ", content='" + content + '\'' +
+                ", localPath='" + localPath + '\'' +
+                ", status=" + status +
+                ", state=" + state +
+                ", progress=" + progress +
+                ", actualTime=" + actualTime +
+                ", nickName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 }

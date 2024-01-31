@@ -61,6 +61,7 @@ public class ChatListHelper {
     public void insertData(MsgBean msgBean) {
         ChatListBean unique = getChatListBean(msgBean.getMUid(), msgBean.getPeerUid());
         if (unique == null) {
+            LogUtil.d(TAG, "insertData this is one new data");
             ChatListBean chatListBean = new ChatListBean();
             chatListBean.setMUid(msgBean.getMUid());
             chatListBean.setPeerUid(msgBean.getPeerUid());
@@ -79,17 +80,18 @@ public class ChatListHelper {
                 LogUtil.d(TAG, "InsertSingleData::unique is null->insert page error");
             }
         } else {
+            LogUtil.d(TAG, "insertData update data");
             int unreadMsgCount = unique.getUnreadMsgCount();
             unreadMsgCount += 1;
             unique.setUnreadMsgCount(unreadMsgCount);
-        }
-        if (chatListBeanDao != null) {
-            chatListBeanDao.update(unique);
-        }
-        if (dataListener != null) {
-            dataListener.dataChange(unique);
-        } else {
-            LogUtil.d(TAG, "InsertSingleData::unique not null->insert page error");
+            if (chatListBeanDao != null) {
+                chatListBeanDao.update(unique);
+            }
+            if (dataListener != null) {
+                dataListener.dataChange(unique);
+            } else {
+                LogUtil.d(TAG, "InsertSingleData::unique is null->insert page error");
+            }
         }
     }
 
