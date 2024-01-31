@@ -37,7 +37,7 @@ public class GreenDaoHelper {
     }
 
     public void initGreenDao(Context context) {
-        ThreadPoolUtils.execute(() -> {
+//        ThreadPoolUtils.execute(() -> {
             LogUtil.d(TAG, "initGreenDao is start!");
             mHelper = new SqlOpenHelper(context, DB_NAME, null);
             LogUtil.d(TAG, "===============================NORMAL DATABASE==========================");
@@ -55,7 +55,7 @@ public class GreenDaoHelper {
                 greenDaoInitResultListener.result(mInitState);
             }
             LogUtil.d(TAG, "initGreenDao is end!");
-        });
+//        });
     }
 
     public DaoSession getmDaoSession() {
