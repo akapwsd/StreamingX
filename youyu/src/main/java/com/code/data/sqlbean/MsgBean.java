@@ -13,9 +13,7 @@ public class MsgBean {
     private boolean isBroadcaster = false;
     private long msgId;
     private long pts;
-    @NotNull
     private long account;
-    @NotNull
     private int userType;
     @NotNull
     private String uid; //your uid
@@ -89,6 +87,18 @@ public class MsgBean {
     public void setPts(long pts) {
         this.pts = pts;
     }
+    public long getAccount() {
+        return this.account;
+    }
+    public void setAccount(long account) {
+        this.account = account;
+    }
+    public int getUserType() {
+        return this.userType;
+    }
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
     public String getUid() {
         return this.uid;
     }
@@ -154,40 +164,5 @@ public class MsgBean {
     }
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-    public long getAccount() {
-        return this.account;
-    }
-    public void setAccount(long account) {
-        this.account = account;
-    }
-
-    @Override
-    public String toString() {
-        return "MsgBean{" +
-                "id=" + id +
-                ", fp='" + fp + '\'' +
-                ", isBroadcaster=" + isBroadcaster +
-                ", msgId=" + msgId +
-                ", pts=" + pts +
-                ", account=" + account +
-                ", uid='" + uid + '\'' +
-                ", peerUid='" + peerUid + '\'' +
-                ", sourceType=" + sourceType +
-                ", content='" + content + '\'' +
-                ", localPath='" + localPath + '\'' +
-                ", status=" + status +
-                ", state=" + state +
-                ", progress=" + progress +
-                ", actualTime=" + actualTime +
-                ", nickName='" + nickName + '\'' +
-                ", avatar='" + avatar + '\'' +
-                '}';
-    }
-    public int getUserType() {
-        return this.userType;
-    }
-    public void setUserType(int userType) {
-        this.userType = userType;
     }
 }

@@ -15,10 +15,8 @@ public class ChatListBean {
 
     @NotNull
     private String peerUid;
-    @NotNull
     private int userType;
     private int unreadMsgCount;
-    @NotNull
     private long account;
     private long oldMessageTime;
 
@@ -82,12 +80,28 @@ public class ChatListBean {
         this.peerUid = peerUid;
     }
 
+    public int getUserType() {
+        return this.userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
+    }
+
     public int getUnreadMsgCount() {
         return this.unreadMsgCount;
     }
 
     public void setUnreadMsgCount(int unreadMsgCount) {
         this.unreadMsgCount = unreadMsgCount;
+    }
+
+    public long getAccount() {
+        return this.account;
+    }
+
+    public void setAccount(long account) {
+        this.account = account;
     }
 
     public long getOldMessageTime() {
@@ -144,38 +158,5 @@ public class ChatListBean {
 
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
-    }
-    public long getAccount() {
-        return this.account;
-    }
-
-    public void setAccount(long account) {
-        this.account = account;
-    }
-
-    @Override
-    public String toString() {
-        return "ChatListBean{" +
-                "id=" + id +
-                ", mUid='" + mUid + '\'' +
-                ", peerUid='" + peerUid + '\'' +
-                ", unreadMsgCount=" + unreadMsgCount +
-                ", account=" + account +
-                ", oldMessageTime=" + oldMessageTime +
-                ", oldMessage='" + oldMessage + '\'' +
-                ", status=" + status +
-                ", sourceType=" + sourceType +
-                ", nickName='" + nickName + '\'' +
-                ", sendState=" + sendState +
-                ", userAvatar='" + userAvatar + '\'' +
-                '}';
-    }
-
-    public int getUserType() {
-        return this.userType;
-    }
-
-    public void setUserType(int userType) {
-        this.userType = userType;
     }
 }
