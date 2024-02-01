@@ -70,21 +70,29 @@ public class MessageHelper {
         void DataProgress(MsgBean tempChatMessageBean);
     }
 
-    public List<MsgBean> getData(String uid, String peerUid, Long time) {
+    public List<MsgBean> getData(String uid, String peerUid, int userType, long account, Long time) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            return qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid), MsgBeanDao.Properties.ActualTime.ge(time)).orderDesc(MsgBeanDao.Properties.ActualTime).list();
+            return qb.where(MsgBeanDao.Properties.Uid.eq(uid),
+                    MsgBeanDao.Properties.PeerUid.eq(peerUid),
+                    MsgBeanDao.Properties.UserType.eq(userType),
+                    MsgBeanDao.Properties.Account.eq(account),
+                    MsgBeanDao.Properties.ActualTime.ge(time)).orderDesc(MsgBeanDao.Properties.ActualTime).list();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public List<MsgBean> getData(String uid, String peerUid, long time, int PageNumber, int IndexNumber) {
+    public List<MsgBean> getData(String uid, String peerUid, int userType, long account, long time, int PageNumber, int IndexNumber) {
         try {
             LogUtil.d(TAG, "getData::uid is: " + uid + " and time is: " + time + " and PageNumber is: " + PageNumber + "IndexNumber is: " + IndexNumber);
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.ActualTime.lt(time), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
+            List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid),
+                    MsgBeanDao.Properties.ActualTime.lt(time),
+                    MsgBeanDao.Properties.UserType.eq(userType),
+                    MsgBeanDao.Properties.Account.eq(account),
+                    MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
             LogUtil.d(TAG, "getData list:" + list);
             return list;
         } catch (Exception e) {
