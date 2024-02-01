@@ -15,9 +15,11 @@ public class ChatListBean {
 
     @NotNull
     private String peerUid;
-
+    @NotNull
+    private int userType;
     private int unreadMsgCount;
-
+    @NotNull
+    private long account;
     private long oldMessageTime;
 
     private String oldMessage;
@@ -32,14 +34,17 @@ public class ChatListBean {
 
     private String userAvatar;
 
-    @Generated(hash = 359873815)
+    @Generated(hash = 920092510)
     public ChatListBean(Long id, @NotNull String mUid, @NotNull String peerUid,
-            int unreadMsgCount, long oldMessageTime, String oldMessage, int status,
-            int sourceType, String nickName, int sendState, String userAvatar) {
+            int userType, int unreadMsgCount, long account, long oldMessageTime,
+            String oldMessage, int status, int sourceType, String nickName,
+            int sendState, String userAvatar) {
         this.id = id;
         this.mUid = mUid;
         this.peerUid = peerUid;
+        this.userType = userType;
         this.unreadMsgCount = unreadMsgCount;
+        this.account = account;
         this.oldMessageTime = oldMessageTime;
         this.oldMessage = oldMessage;
         this.status = status;
@@ -140,6 +145,13 @@ public class ChatListBean {
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
     }
+    public long getAccount() {
+        return this.account;
+    }
+
+    public void setAccount(long account) {
+        this.account = account;
+    }
 
     @Override
     public String toString() {
@@ -148,6 +160,7 @@ public class ChatListBean {
                 ", mUid='" + mUid + '\'' +
                 ", peerUid='" + peerUid + '\'' +
                 ", unreadMsgCount=" + unreadMsgCount +
+                ", account=" + account +
                 ", oldMessageTime=" + oldMessageTime +
                 ", oldMessage='" + oldMessage + '\'' +
                 ", status=" + status +
@@ -156,5 +169,13 @@ public class ChatListBean {
                 ", sendState=" + sendState +
                 ", userAvatar='" + userAvatar + '\'' +
                 '}';
+    }
+
+    public int getUserType() {
+        return this.userType;
+    }
+
+    public void setUserType(int userType) {
+        this.userType = userType;
     }
 }

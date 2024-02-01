@@ -84,9 +84,7 @@ public class MessageHelper {
         try {
             LogUtil.d(TAG, "getData::uid is: " + uid + " and time is: " + time + " and PageNumber is: " + PageNumber + "IndexNumber is: " + IndexNumber);
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid)
-                    , MsgBeanDao.Properties.ActualTime.lt(time)
-                    , MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
+            List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.ActualTime.lt(time), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).offset(PageNumber * IndexNumber).limit(IndexNumber).list();
             LogUtil.d(TAG, "getData list:" + list);
             return list;
         } catch (Exception e) {
@@ -110,9 +108,21 @@ public class MessageHelper {
             if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
                 msgBean.setSourceType(Constants.MSG_SENDER);
                 msgBean.setPeerUid(paasMsgRecord.getTo().getId());
+                msgBean.setAccount(paasMsgRecord.getTo().getAccount());
+                if (paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER) {
+                    msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                } else {
+                    msgBean.setUserType(Constants.TYPE_USER);
+                }
             } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo().getId())) {
                 msgBean.setSourceType(Constants.MSG_RECEIVER);
                 msgBean.setPeerUid(paasMsgRecord.getFrom().getId());
+                msgBean.setAccount(paasMsgRecord.getFrom().getAccount());
+                if (paasMsgRecord.getFrom().getType() == MsgBase.UserType.BROADCASTER) {
+                    msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                } else {
+                    msgBean.setUserType(Constants.TYPE_USER);
+                }
             } else {
                 msgBean.setSourceType(Constants.MSG_UNKNOWN);
                 LogUtil.e(TAG, "insertOrReplaceDataData fail data is error");
@@ -125,7 +135,8 @@ public class MessageHelper {
             if (greendaoDataListener != null && QueryId.equals(msgBean.getPeerUid())) {
                 greendaoDataListener.DataChange(msgBean);
             }
-            ChatListHelper.getSingleton().insertData(msgBean);
+            ChatListHelper.getSingleton().insertOrReplaceData(msgBean);
+            UserInfoHelper.getSingleton().insertOrReplaceData(msgBean);
         }
     }
 
@@ -137,7 +148,8 @@ public class MessageHelper {
             if (greendaoDataListener != null && QueryId.equals(msgBean.getPeerUid())) {
                 greendaoDataListener.DataChange(msgBean);
             }
-            ChatListHelper.getSingleton().insertData(msgBean);
+            ChatListHelper.getSingleton().insertOrReplaceData(msgBean);
+            UserInfoHelper.getSingleton().insertOrReplaceData(msgBean);
         }
     }
 
@@ -267,8 +279,7 @@ public class MessageHelper {
 
     public long getLastPtsDate() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()),
-                MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()), MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         if (msgBean != null) {
             return msgBean.getActualTime();
         } else {
@@ -278,8 +289,7 @@ public class MessageHelper {
 
     public long getLastPts() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()),
-                MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()), MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         if (msgBean != null) {
             return msgBean.getPts();
         } else {
@@ -303,10 +313,11 @@ public class MessageHelper {
     /**
      * Specify person to obtain all data
      */
-    public List<MsgBean> getAllData(String uid, String peerUid) {
+    public List<MsgBean> getAllData(String uid, String peerUid, int userType, long account) {
         try {
             QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-            return qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).build().forCurrentThread().list();
+            return qb.where(MsgBeanDao.Properties.Uid.eq(uid),
+                    MsgBeanDao.Properties.PeerUid.eq(peerUid), MsgBeanDao.Properties.UserType.eq(userType), MsgBeanDao.Properties.Account.eq(account)).orderDesc(MsgBeanDao.Properties.ActualTime).build().forCurrentThread().list();
         } catch (Exception e) {
             e.printStackTrace();
             return null;

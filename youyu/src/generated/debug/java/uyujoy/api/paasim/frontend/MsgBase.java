@@ -179,6 +179,11 @@ public final class MsgBase {
      * <code>optional .uyujoy.api.paasim.frontend.UserType type = 2;</code>
      */
     uyujoy.api.paasim.frontend.MsgBase.UserType getType();
+
+    /**
+     * <code>optional int64 account = 3;</code>
+     */
+    long getAccount();
   }
   /**
    * Protobuf type {@code uyujoy.api.paasim.frontend.UserId}
@@ -194,6 +199,7 @@ public final class MsgBase {
     private UserId() {
       id_ = "";
       type_ = 0;
+      account_ = 0L;
     }
 
     @java.lang.Override
@@ -231,6 +237,11 @@ public final class MsgBase {
               int rawValue = input.readEnum();
 
               type_ = rawValue;
+              break;
+            }
+            case 24: {
+
+              account_ = input.readInt64();
               break;
             }
           }
@@ -322,6 +333,15 @@ public final class MsgBase {
       return result == null ? uyujoy.api.paasim.frontend.MsgBase.UserType.UNRECOGNIZED : result;
     }
 
+    public static final int ACCOUNT_FIELD_NUMBER = 3;
+    private long account_;
+    /**
+     * <code>optional int64 account = 3;</code>
+     */
+    public long getAccount() {
+      return account_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -340,6 +360,9 @@ public final class MsgBase {
       if (type_ != uyujoy.api.paasim.frontend.MsgBase.UserType.UNSPECIFIED.getNumber()) {
         output.writeEnum(2, type_);
       }
+      if (account_ != 0L) {
+        output.writeInt64(3, account_);
+      }
     }
 
     public int getSerializedSize() {
@@ -353,6 +376,10 @@ public final class MsgBase {
       if (type_ != uyujoy.api.paasim.frontend.MsgBase.UserType.UNSPECIFIED.getNumber()) {
         size += com.google.protobuf.CodedOutputStream
           .computeEnumSize(2, type_);
+      }
+      if (account_ != 0L) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt64Size(3, account_);
       }
       memoizedSize = size;
       return size;
@@ -373,6 +400,8 @@ public final class MsgBase {
       result = result && getId()
           .equals(other.getId());
       result = result && type_ == other.type_;
+      result = result && (getAccount()
+          == other.getAccount());
       return result;
     }
 
@@ -387,6 +416,9 @@ public final class MsgBase {
       hash = (53 * hash) + getId().hashCode();
       hash = (37 * hash) + TYPE_FIELD_NUMBER;
       hash = (53 * hash) + type_;
+      hash = (37 * hash) + ACCOUNT_FIELD_NUMBER;
+      hash = (53 * hash) + com.google.protobuf.Internal.hashLong(
+          getAccount());
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
@@ -509,6 +541,8 @@ public final class MsgBase {
 
         type_ = 0;
 
+        account_ = 0L;
+
         return this;
       }
 
@@ -533,6 +567,7 @@ public final class MsgBase {
         uyujoy.api.paasim.frontend.MsgBase.UserId result = new uyujoy.api.paasim.frontend.MsgBase.UserId(this);
         result.id_ = id_;
         result.type_ = type_;
+        result.account_ = account_;
         onBuilt();
         return result;
       }
@@ -580,6 +615,9 @@ public final class MsgBase {
         }
         if (other.type_ != 0) {
           setTypeValue(other.getTypeValue());
+        }
+        if (other.getAccount() != 0L) {
+          setAccount(other.getAccount());
         }
         onChanged();
         return this;
@@ -756,6 +794,32 @@ public final class MsgBase {
       public Builder clearType() {
         
         type_ = 0;
+        onChanged();
+        return this;
+      }
+
+      private long account_ ;
+      /**
+       * <code>optional int64 account = 3;</code>
+       */
+      public long getAccount() {
+        return account_;
+      }
+      /**
+       * <code>optional int64 account = 3;</code>
+       */
+      public Builder setAccount(long value) {
+        
+        account_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <code>optional int64 account = 3;</code>
+       */
+      public Builder clearAccount() {
+        
+        account_ = 0L;
         onChanged();
         return this;
       }
@@ -2645,20 +2709,21 @@ public final class MsgBase {
   static {
     java.lang.String[] descriptorData = {
       "\n\rmsgBase.proto\022\032uyujoy.api.paasim.front" +
-      "end\032\017mediaBase.proto\032\016userBase.proto\"H\n\006" +
+      "end\032\017mediaBase.proto\032\016userBase.proto\"Y\n\006" +
       "UserId\022\n\n\002id\030\001 \001(\t\0222\n\004type\030\002 \001(\0162$.uyujo" +
-      "y.api.paasim.frontend.UserType\"\274\002\n\rpaasM" +
-      "sgRecord\022\r\n\005msgId\030\001 \001(\003\022\r\n\005msgFp\030\002 \001(\t\022\017" +
-      "\n\007msgType\030\003 \001(\r\0220\n\004from\030\004 \001(\0132\".uyujoy.a" +
-      "pi.paasim.frontend.UserId\022.\n\002to\030\005 \001(\0132\"." +
-      "uyujoy.api.paasim.frontend.UserId\022\016\n\006msg" +
-      "Txt\030\006 \001(\t\0226\n\005media\030\007 \001(\0132\'.uyujoy.api.pa" +
-      "asim.frontend.mediaRecord\022\014\n\004font\030\010 \001(\014\022",
-      "\020\n\010sendTime\030\t \001(\003\0222\n\004user\030\n \001(\0132$.uyujoy" +
-      ".api.paasim.frontend.userInfo*6\n\010UserTyp" +
-      "e\022\017\n\013UNSPECIFIED\020\000\022\010\n\004USER\020\001\022\017\n\013BROADCAS" +
-      "TER\020\002B5Z3uyujoy.com/pass/protogen/api/pa" +
-      "asim/frontend;paasimb\006proto3"
+      "y.api.paasim.frontend.UserType\022\017\n\007accoun" +
+      "t\030\003 \001(\003\"\274\002\n\rpaasMsgRecord\022\r\n\005msgId\030\001 \001(\003" +
+      "\022\r\n\005msgFp\030\002 \001(\t\022\017\n\007msgType\030\003 \001(\r\0220\n\004from" +
+      "\030\004 \001(\0132\".uyujoy.api.paasim.frontend.User" +
+      "Id\022.\n\002to\030\005 \001(\0132\".uyujoy.api.paasim.front" +
+      "end.UserId\022\016\n\006msgTxt\030\006 \001(\t\0226\n\005media\030\007 \001(" +
+      "\0132\'.uyujoy.api.paasim.frontend.mediaReco",
+      "rd\022\014\n\004font\030\010 \001(\014\022\020\n\010sendTime\030\t \001(\003\0222\n\004us" +
+      "er\030\n \001(\0132$.uyujoy.api.paasim.frontend.us" +
+      "erInfo*6\n\010UserType\022\017\n\013UNSPECIFIED\020\000\022\010\n\004U" +
+      "SER\020\001\022\017\n\013BROADCASTER\020\002B5Z3uyujoy.com/pas" +
+      "s/protogen/api/paasim/frontend;paasimb\006p" +
+      "roto3"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -2679,7 +2744,7 @@ public final class MsgBase {
     internal_static_uyujoy_api_paasim_frontend_UserId_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
         internal_static_uyujoy_api_paasim_frontend_UserId_descriptor,
-        new java.lang.String[] { "Id", "Type", });
+        new java.lang.String[] { "Id", "Type", "Account", });
     internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_descriptor =
       getDescriptor().getMessageTypes().get(1);
     internal_static_uyujoy_api_paasim_frontend_paasMsgRecord_fieldAccessorTable = new

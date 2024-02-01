@@ -1,16 +1,11 @@
 package com.code.data.sqlhelper;
 
-
-import android.util.Log;
-
 import com.code.data.GreenDaoHelper;
 import com.code.data.greendao.ChatListBeanDao;
 import com.code.data.greendao.DaoSession;
 import com.code.data.sqlbean.ChatListBean;
 import com.code.data.sqlbean.MsgBean;
 import com.code.utils.LogUtil;
-import com.code.utils.RtcSpUtils;
-import com.code.youyu.api.Constants;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
@@ -62,8 +57,8 @@ public class ChatListHelper {
         this.dataListener = null;
     }
 
-    public void insertData(MsgBean msgBean) {
-        ChatListBean unique = getChatListBean(msgBean.getUid(), msgBean.getPeerUid());
+    public void insertOrReplaceData(MsgBean msgBean) {
+        ChatListBean unique = getChatListBean(msgBean.getUid(), msgBean.getPeerUid(), msgBean.getUserType(), msgBean.getAccount());
         if (unique == null) {
             LogUtil.d(TAG, "insertData this is one new data");
             ChatListBean chatListBean = new ChatListBean();
@@ -75,7 +70,9 @@ public class ChatListHelper {
             chatListBean.setOldMessageTime(msgBean.getActualTime());
             chatListBean.setOldMessage(msgBean.getContent());
             chatListBean.setUnreadMsgCount(1);
+            chatListBean.setAccount(msgBean.getAccount());
             chatListBean.setSourceType(msgBean.getSourceType());
+            chatListBean.setUserType(msgBean.getUserType());
             if (chatListBeanDao != null) {
                 chatListBeanDao.insertOrReplace(chatListBean);
             }
@@ -94,6 +91,8 @@ public class ChatListHelper {
             unique.setNickName(msgBean.getNickName());
             unique.setUserAvatar(msgBean.getAvatar());
             unique.setSourceType(msgBean.getSourceType());
+            unique.setAccount(msgBean.getAccount());
+            unique.setUserType(msgBean.getUserType());
             if (chatListBeanDao != null) {
                 chatListBeanDao.update(unique);
             }
@@ -161,14 +160,16 @@ public class ChatListHelper {
         }
     }
 
-    public ChatListBean getChatListBean(String mUid, String peerUid) {
+    public ChatListBean getChatListBean(String mUid, String peerUid, int userType, long account) {
         try {
             if (chatListBeanDao == null) {
                 return null;
             }
             QueryBuilder<ChatListBean> qb = chatListBeanDao.queryBuilder();
             return qb.where(ChatListBeanDao.Properties.MUid.eq(mUid),
-                            ChatListBeanDao.Properties.PeerUid.eq(peerUid))
+                            ChatListBeanDao.Properties.PeerUid.eq(peerUid),
+                            ChatListBeanDao.Properties.UserType.eq(userType),
+                            ChatListBeanDao.Properties.Account.eq(account))
                     .build()
                     .forCurrentThread()
                     .unique();
@@ -208,13 +209,13 @@ public class ChatListHelper {
         return null;
     }
 
-    public void setUnreadToCount(String mUid, String peerUid, int count) {
+    public void setUnreadToCount(String mUid, String peerUid, int userType, long account, int count) {
         LogUtil.d(TAG, "setUnreadToCount::set unread count id is: " + peerUid + " count:" + count);
         if (count < 0) {
             count = 0;
         }
         final int finalCount = count;
-        ChatListBean unique = getChatListBean(mUid, peerUid);
+        ChatListBean unique = getChatListBean(mUid, peerUid, userType, account);
         if (unique != null) {
             LogUtil.d(TAG, "SetUnreadToCount::do set unread");
             unique.setUnreadMsgCount(finalCount);

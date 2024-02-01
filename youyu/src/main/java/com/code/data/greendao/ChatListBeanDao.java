@@ -27,14 +27,16 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property MUid = new Property(1, String.class, "mUid", false, "M_UID");
         public final static Property PeerUid = new Property(2, String.class, "peerUid", false, "PEER_UID");
-        public final static Property UnreadMsgCount = new Property(3, int.class, "unreadMsgCount", false, "UNREAD_MSG_COUNT");
-        public final static Property OldMessageTime = new Property(4, long.class, "oldMessageTime", false, "OLD_MESSAGE_TIME");
-        public final static Property OldMessage = new Property(5, String.class, "oldMessage", false, "OLD_MESSAGE");
-        public final static Property Status = new Property(6, int.class, "status", false, "STATUS");
-        public final static Property SourceType = new Property(7, int.class, "sourceType", false, "SOURCE_TYPE");
-        public final static Property NickName = new Property(8, String.class, "nickName", false, "NICK_NAME");
-        public final static Property SendState = new Property(9, int.class, "sendState", false, "SEND_STATE");
-        public final static Property UserAvatar = new Property(10, String.class, "userAvatar", false, "USER_AVATAR");
+        public final static Property UserType = new Property(3, int.class, "userType", false, "USER_TYPE");
+        public final static Property UnreadMsgCount = new Property(4, int.class, "unreadMsgCount", false, "UNREAD_MSG_COUNT");
+        public final static Property Account = new Property(5, long.class, "account", false, "ACCOUNT");
+        public final static Property OldMessageTime = new Property(6, long.class, "oldMessageTime", false, "OLD_MESSAGE_TIME");
+        public final static Property OldMessage = new Property(7, String.class, "oldMessage", false, "OLD_MESSAGE");
+        public final static Property Status = new Property(8, int.class, "status", false, "STATUS");
+        public final static Property SourceType = new Property(9, int.class, "sourceType", false, "SOURCE_TYPE");
+        public final static Property NickName = new Property(10, String.class, "nickName", false, "NICK_NAME");
+        public final static Property SendState = new Property(11, int.class, "sendState", false, "SEND_STATE");
+        public final static Property UserAvatar = new Property(12, String.class, "userAvatar", false, "USER_AVATAR");
     }
 
 
@@ -53,14 +55,16 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"M_UID\" TEXT NOT NULL ," + // 1: mUid
                 "\"PEER_UID\" TEXT NOT NULL ," + // 2: peerUid
-                "\"UNREAD_MSG_COUNT\" INTEGER NOT NULL ," + // 3: unreadMsgCount
-                "\"OLD_MESSAGE_TIME\" INTEGER NOT NULL ," + // 4: oldMessageTime
-                "\"OLD_MESSAGE\" TEXT," + // 5: oldMessage
-                "\"STATUS\" INTEGER NOT NULL ," + // 6: status
-                "\"SOURCE_TYPE\" INTEGER NOT NULL ," + // 7: sourceType
-                "\"NICK_NAME\" TEXT," + // 8: nickName
-                "\"SEND_STATE\" INTEGER NOT NULL ," + // 9: sendState
-                "\"USER_AVATAR\" TEXT);"); // 10: userAvatar
+                "\"USER_TYPE\" INTEGER NOT NULL ," + // 3: userType
+                "\"UNREAD_MSG_COUNT\" INTEGER NOT NULL ," + // 4: unreadMsgCount
+                "\"ACCOUNT\" INTEGER NOT NULL ," + // 5: account
+                "\"OLD_MESSAGE_TIME\" INTEGER NOT NULL ," + // 6: oldMessageTime
+                "\"OLD_MESSAGE\" TEXT," + // 7: oldMessage
+                "\"STATUS\" INTEGER NOT NULL ," + // 8: status
+                "\"SOURCE_TYPE\" INTEGER NOT NULL ," + // 9: sourceType
+                "\"NICK_NAME\" TEXT," + // 10: nickName
+                "\"SEND_STATE\" INTEGER NOT NULL ," + // 11: sendState
+                "\"USER_AVATAR\" TEXT);"); // 12: userAvatar
     }
 
     /** Drops the underlying database table. */
@@ -79,25 +83,27 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         }
         stmt.bindString(2, entity.getMUid());
         stmt.bindString(3, entity.getPeerUid());
-        stmt.bindLong(4, entity.getUnreadMsgCount());
-        stmt.bindLong(5, entity.getOldMessageTime());
+        stmt.bindLong(4, entity.getUserType());
+        stmt.bindLong(5, entity.getUnreadMsgCount());
+        stmt.bindLong(6, entity.getAccount());
+        stmt.bindLong(7, entity.getOldMessageTime());
  
         String oldMessage = entity.getOldMessage();
         if (oldMessage != null) {
-            stmt.bindString(6, oldMessage);
+            stmt.bindString(8, oldMessage);
         }
-        stmt.bindLong(7, entity.getStatus());
-        stmt.bindLong(8, entity.getSourceType());
+        stmt.bindLong(9, entity.getStatus());
+        stmt.bindLong(10, entity.getSourceType());
  
         String nickName = entity.getNickName();
         if (nickName != null) {
-            stmt.bindString(9, nickName);
+            stmt.bindString(11, nickName);
         }
-        stmt.bindLong(10, entity.getSendState());
+        stmt.bindLong(12, entity.getSendState());
  
         String userAvatar = entity.getUserAvatar();
         if (userAvatar != null) {
-            stmt.bindString(11, userAvatar);
+            stmt.bindString(13, userAvatar);
         }
     }
 
@@ -111,25 +117,27 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         }
         stmt.bindString(2, entity.getMUid());
         stmt.bindString(3, entity.getPeerUid());
-        stmt.bindLong(4, entity.getUnreadMsgCount());
-        stmt.bindLong(5, entity.getOldMessageTime());
+        stmt.bindLong(4, entity.getUserType());
+        stmt.bindLong(5, entity.getUnreadMsgCount());
+        stmt.bindLong(6, entity.getAccount());
+        stmt.bindLong(7, entity.getOldMessageTime());
  
         String oldMessage = entity.getOldMessage();
         if (oldMessage != null) {
-            stmt.bindString(6, oldMessage);
+            stmt.bindString(8, oldMessage);
         }
-        stmt.bindLong(7, entity.getStatus());
-        stmt.bindLong(8, entity.getSourceType());
+        stmt.bindLong(9, entity.getStatus());
+        stmt.bindLong(10, entity.getSourceType());
  
         String nickName = entity.getNickName();
         if (nickName != null) {
-            stmt.bindString(9, nickName);
+            stmt.bindString(11, nickName);
         }
-        stmt.bindLong(10, entity.getSendState());
+        stmt.bindLong(12, entity.getSendState());
  
         String userAvatar = entity.getUserAvatar();
         if (userAvatar != null) {
-            stmt.bindString(11, userAvatar);
+            stmt.bindString(13, userAvatar);
         }
     }
 
@@ -144,14 +152,16 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.getString(offset + 1), // mUid
             cursor.getString(offset + 2), // peerUid
-            cursor.getInt(offset + 3), // unreadMsgCount
-            cursor.getLong(offset + 4), // oldMessageTime
-            cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5), // oldMessage
-            cursor.getInt(offset + 6), // status
-            cursor.getInt(offset + 7), // sourceType
-            cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // nickName
-            cursor.getInt(offset + 9), // sendState
-            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // userAvatar
+            cursor.getInt(offset + 3), // userType
+            cursor.getInt(offset + 4), // unreadMsgCount
+            cursor.getLong(offset + 5), // account
+            cursor.getLong(offset + 6), // oldMessageTime
+            cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7), // oldMessage
+            cursor.getInt(offset + 8), // status
+            cursor.getInt(offset + 9), // sourceType
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // nickName
+            cursor.getInt(offset + 11), // sendState
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12) // userAvatar
         );
         return entity;
     }
@@ -161,14 +171,16 @@ public class ChatListBeanDao extends AbstractDao<ChatListBean, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setMUid(cursor.getString(offset + 1));
         entity.setPeerUid(cursor.getString(offset + 2));
-        entity.setUnreadMsgCount(cursor.getInt(offset + 3));
-        entity.setOldMessageTime(cursor.getLong(offset + 4));
-        entity.setOldMessage(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
-        entity.setStatus(cursor.getInt(offset + 6));
-        entity.setSourceType(cursor.getInt(offset + 7));
-        entity.setNickName(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
-        entity.setSendState(cursor.getInt(offset + 9));
-        entity.setUserAvatar(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setUserType(cursor.getInt(offset + 3));
+        entity.setUnreadMsgCount(cursor.getInt(offset + 4));
+        entity.setAccount(cursor.getLong(offset + 5));
+        entity.setOldMessageTime(cursor.getLong(offset + 6));
+        entity.setOldMessage(cursor.isNull(offset + 7) ? null : cursor.getString(offset + 7));
+        entity.setStatus(cursor.getInt(offset + 8));
+        entity.setSourceType(cursor.getInt(offset + 9));
+        entity.setNickName(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setSendState(cursor.getInt(offset + 11));
+        entity.setUserAvatar(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
      }
     
     @Override

@@ -43,9 +43,10 @@ void protobuf_AssignDesc_msgBase_2eproto() {
       "msgBase.proto");
   GOOGLE_CHECK(file != NULL);
   UserId_descriptor_ = file->message_type(0);
-  static const int UserId_offsets_[2] = {
+  static const int UserId_offsets_[3] = {
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserId, id_),
     GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserId, type_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(UserId, account_),
   };
   UserId_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -133,20 +134,21 @@ void protobuf_AddDesc_msgBase_2eproto_impl() {
   protobuf_InitDefaults_msgBase_2eproto();
   ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
     "\n\rmsgBase.proto\022\032uyujoy.api.paasim.front"
-    "end\032\017mediaBase.proto\032\016userBase.proto\"H\n\006"
+    "end\032\017mediaBase.proto\032\016userBase.proto\"Y\n\006"
     "UserId\022\n\n\002id\030\001 \001(\t\0222\n\004type\030\002 \001(\0162$.uyujo"
-    "y.api.paasim.frontend.UserType\"\274\002\n\rpaasM"
-    "sgRecord\022\r\n\005msgId\030\001 \001(\003\022\r\n\005msgFp\030\002 \001(\t\022\017"
-    "\n\007msgType\030\003 \001(\r\0220\n\004from\030\004 \001(\0132\".uyujoy.a"
-    "pi.paasim.frontend.UserId\022.\n\002to\030\005 \001(\0132\"."
-    "uyujoy.api.paasim.frontend.UserId\022\016\n\006msg"
-    "Txt\030\006 \001(\t\0226\n\005media\030\007 \001(\0132\'.uyujoy.api.pa"
-    "asim.frontend.mediaRecord\022\014\n\004font\030\010 \001(\014\022"
-    "\020\n\010sendTime\030\t \001(\003\0222\n\004user\030\n \001(\0132$.uyujoy"
-    ".api.paasim.frontend.userInfo*6\n\010UserTyp"
-    "e\022\017\n\013UNSPECIFIED\020\000\022\010\n\004USER\020\001\022\017\n\013BROADCAS"
-    "TER\020\002B5Z3uyujoy.com/pass/protogen/api/pa"
-    "asim/frontend;paasimb\006proto3", 588);
+    "y.api.paasim.frontend.UserType\022\017\n\007accoun"
+    "t\030\003 \001(\003\"\274\002\n\rpaasMsgRecord\022\r\n\005msgId\030\001 \001(\003"
+    "\022\r\n\005msgFp\030\002 \001(\t\022\017\n\007msgType\030\003 \001(\r\0220\n\004from"
+    "\030\004 \001(\0132\".uyujoy.api.paasim.frontend.User"
+    "Id\022.\n\002to\030\005 \001(\0132\".uyujoy.api.paasim.front"
+    "end.UserId\022\016\n\006msgTxt\030\006 \001(\t\0226\n\005media\030\007 \001("
+    "\0132\'.uyujoy.api.paasim.frontend.mediaReco"
+    "rd\022\014\n\004font\030\010 \001(\014\022\020\n\010sendTime\030\t \001(\003\0222\n\004us"
+    "er\030\n \001(\0132$.uyujoy.api.paasim.frontend.us"
+    "erInfo*6\n\010UserType\022\017\n\013UNSPECIFIED\020\000\022\010\n\004U"
+    "SER\020\001\022\017\n\013BROADCASTER\020\002B5Z3uyujoy.com/pas"
+    "s/protogen/api/paasim/frontend;paasimb\006p"
+    "roto3", 605);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "msgBase.proto", &protobuf_RegisterTypes);
   ::uyujoy::api::paasim::frontend::protobuf_AddDesc_mediaBase_2eproto();
@@ -196,6 +198,7 @@ static void MergeFromFail(int line) {
 #if !defined(_MSC_VER) || _MSC_VER >= 1900
 const int UserId::kIdFieldNumber;
 const int UserId::kTypeFieldNumber;
+const int UserId::kAccountFieldNumber;
 #endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
 
 UserId::UserId()
@@ -218,7 +221,8 @@ UserId::UserId(const UserId& from)
 
 void UserId::SharedCtor() {
   id_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  ::memset(&account_, 0, reinterpret_cast<char*>(&type_) -
+    reinterpret_cast<char*>(&account_) + sizeof(type_));
   _cached_size_ = 0;
 }
 
@@ -258,8 +262,28 @@ UserId* UserId::New(::google::protobuf::Arena* arena) const {
 
 void UserId::Clear() {
 // @@protoc_insertion_point(message_clear_start:uyujoy.api.paasim.frontend.UserId)
+#if defined(__clang__)
+#define ZR_HELPER_(f) \
+  _Pragma("clang diagnostic push") \
+  _Pragma("clang diagnostic ignored \"-Winvalid-offsetof\"") \
+  __builtin_offsetof(UserId, f) \
+  _Pragma("clang diagnostic pop")
+#else
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<UserId*>(16)->f)
+#endif
+
+#define ZR_(first, last) do {\
+  ::memset(&(first), 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(account_, type_);
   id_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+
+#undef ZR_HELPER_
+#undef ZR_
+
 }
 
 bool UserId::MergePartialFromCodedStream(
@@ -297,6 +321,21 @@ bool UserId::MergePartialFromCodedStream(
                    int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
                  input, &value)));
           set_type(static_cast< ::uyujoy::api::paasim::frontend::UserType >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(24)) goto parse_account;
+        break;
+      }
+
+      // optional int64 account = 3;
+      case 3: {
+        if (tag == 24) {
+         parse_account:
+
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::int64, ::google::protobuf::internal::WireFormatLite::TYPE_INT64>(
+                 input, &account_)));
         } else {
           goto handle_unusual;
         }
@@ -344,6 +383,11 @@ void UserId::SerializeWithCachedSizes(
       2, this->type(), output);
   }
 
+  // optional int64 account = 3;
+  if (this->account() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteInt64(3, this->account(), output);
+  }
+
   // @@protoc_insertion_point(serialize_end:uyujoy.api.paasim.frontend.UserId)
 }
 
@@ -368,6 +412,11 @@ void UserId::SerializeWithCachedSizes(
       2, this->type(), target);
   }
 
+  // optional int64 account = 3;
+  if (this->account() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteInt64ToArray(3, this->account(), target);
+  }
+
   // @@protoc_insertion_point(serialize_to_array_end:uyujoy.api.paasim.frontend.UserId)
   return target;
 }
@@ -387,6 +436,13 @@ size_t UserId::ByteSizeLong() const {
   if (this->type() != 0) {
     total_size += 1 +
       ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
+  }
+
+  // optional int64 account = 3;
+  if (this->account() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::Int64Size(
+        this->account());
   }
 
   int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
@@ -429,6 +485,9 @@ void UserId::UnsafeMergeFrom(const UserId& from) {
   if (from.type() != 0) {
     set_type(from.type());
   }
+  if (from.account() != 0) {
+    set_account(from.account());
+  }
 }
 
 void UserId::CopyFrom(const ::google::protobuf::Message& from) {
@@ -457,6 +516,7 @@ void UserId::Swap(UserId* other) {
 void UserId::InternalSwap(UserId* other) {
   id_.Swap(&other->id_);
   std::swap(type_, other->type_);
+  std::swap(account_, other->account_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -528,6 +588,20 @@ void UserId::set_type(::uyujoy::api::paasim::frontend::UserType value) {
   
   type_ = value;
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.UserId.type)
+}
+
+// optional int64 account = 3;
+void UserId::clear_account() {
+  account_ = GOOGLE_LONGLONG(0);
+}
+::google::protobuf::int64 UserId::account() const {
+  // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.UserId.account)
+  return account_;
+}
+void UserId::set_account(::google::protobuf::int64 value) {
+  
+  account_ = value;
+  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.UserId.account)
 }
 
 inline const UserId* UserId::internal_default_instance() {

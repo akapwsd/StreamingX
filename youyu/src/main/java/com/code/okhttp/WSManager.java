@@ -316,10 +316,22 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
                 if (RtcSpUtils.getInstance().getUserUid().equals(msg.getFrom().getId())) {
                     msgBean.setPeerUid(msg.getTo().getId());
+                    if (msg.getTo().getType() == MsgBase.UserType.BROADCASTER) {
+                        msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                    } else {
+                        msgBean.setUserType(Constants.TYPE_USER);
+                    }
                     msgBean.setSourceType(Constants.MSG_SENDER);
+                    msgBean.setAccount(msg.getTo().getAccount());
                 } else if (RtcSpUtils.getInstance().getUserUid().equals(msg.getTo().getId())) {
                     msgBean.setPeerUid(msg.getFrom().getId());
+                    if (msg.getFrom().getType() == MsgBase.UserType.BROADCASTER) {
+                        msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                    } else {
+                        msgBean.setUserType(Constants.TYPE_USER);
+                    }
                     msgBean.setSourceType(Constants.MSG_RECEIVER);
+                    msgBean.setAccount(msg.getFrom().getAccount());
                 } else {
                     LogUtil.e(TAG, "shortMessageHandle fail the data is error");
                     return false;
@@ -412,9 +424,21 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getFrom().getId())) {
             msgBean.setSourceType(Constants.MSG_SENDER);
             msgBean.setPeerUid(dataInfo.getMsg().getTo().getId());
+            msgBean.setAccount(dataInfo.getMsg().getTo().getAccount());
+            if (dataInfo.getMsg().getTo().getType() == MsgBase.UserType.BROADCASTER) {
+                msgBean.setUserType(Constants.TYPE_BROADCASTER);
+            } else {
+                msgBean.setUserType(Constants.TYPE_USER);
+            }
         } else if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getTo().getId())) {
             msgBean.setSourceType(Constants.MSG_RECEIVER);
             msgBean.setPeerUid(dataInfo.getMsg().getFrom().getId());
+            msgBean.setAccount(dataInfo.getMsg().getFrom().getAccount());
+            if (dataInfo.getMsg().getFrom().getType() == MsgBase.UserType.BROADCASTER) {
+                msgBean.setUserType(Constants.TYPE_BROADCASTER);
+            } else {
+                msgBean.setUserType(Constants.TYPE_USER);
+            }
         } else {
             msgBean.setSourceType(Constants.MSG_UNKNOWN);
             LogUtil.e(TAG, "updateNewMessageData fail the data is error");
@@ -919,7 +943,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         });
     }
 
-    public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+    public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, long account, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         MediaBase.mediaRecord.Builder mediaRecord = MediaBase.mediaRecord.newBuilder();
@@ -945,9 +969,14 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
         msgBase.setMsgFp(msgFp);
         MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).build();
-        MsgBase.UserId to = MsgBase.UserId.newBuilder().setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+        MsgBase.UserId.Builder builder = MsgBase.UserId.newBuilder();
+        if (account != 0L) {
+            builder.setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).setAccount(account).build();
+        } else {
+            builder.setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+        }
         msgBase.setFrom(from);
-        msgBase.setTo(to);
+        msgBase.setTo(builder.build());
         msgBase.setMsgType(mediaType);
         msgBase.setSendTime(System.currentTimeMillis());
         msgBase.setUser(userInfo.build());
@@ -976,7 +1005,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         return msgFp;
     }
 
-    public String sendTextMsg(String mUid, String peerUid, boolean isBroadcast, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+    public String sendTextMsg(String mUid, String peerUid, boolean isBroadcast, long account, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         LogUtil.d(TAG, "sendTextMsg mUid:" + mUid + " peerUid:" + peerUid + " isBroadcast:" + isBroadcast + " msg:" + msg + " nickName:" + nickName + " avatar:" + avatar);
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
@@ -986,9 +1015,14 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
         msgBase.setMsgFp(msgFp);
         MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).build();
-        MsgBase.UserId to = MsgBase.UserId.newBuilder().setId(peerUid).setType(isBroadcast ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+        MsgBase.UserId.Builder builder = MsgBase.UserId.newBuilder();
+        if (account != 0L) {
+            builder.setId(peerUid).setType(isBroadcast ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).setAccount(account).build();
+        } else {
+            builder.setId(peerUid).setType(isBroadcast ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+        }
         msgBase.setFrom(from);
-        msgBase.setTo(to);
+        msgBase.setTo(builder.build());
         msgBase.setMsgTxt(msg);
         msgBase.setMsgType(Constants.MSG_SEND_TEXT);
         msgBase.setSendTime(System.currentTimeMillis());
@@ -1007,7 +1041,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         LogUtil.d(TAG, "resendMsg fp:" + fp);
         MsgBean oneMessage = MessageHelper.getSingleton().getOneMessage(fp);
         if (oneMessage.getSourceType() == Constants.MSG_SEND_TEXT) {
-            sendTextMsg(oneMessage.getUid(), oneMessage.getPeerUid(), oneMessage.getIsBroadcaster(), oneMessage.getContent(), oneMessage.getNickName(), oneMessage.getAvatar(), chatMsgListener);
+            sendTextMsg(oneMessage.getUid(), oneMessage.getPeerUid(), oneMessage.getIsBroadcaster(), oneMessage.getAccount(), oneMessage.getContent(), oneMessage.getNickName(), oneMessage.getAvatar(), chatMsgListener);
         } else {
             //TODO sendMediaMsg
         }
@@ -1026,9 +1060,9 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         return ChatListHelper.getSingleton().getAllChatList(uid);
     }
 
-    public List<MsgBean> getChatMsgList(String uid, String peerUid) {
-        LogUtil.d(TAG, "getChatMsgList is start uid:" + uid + " peerUid:" + peerUid);
-        return MessageHelper.getSingleton().getAllData(uid, peerUid);
+    public List<MsgBean> getChatMsgList(String uid, String peerUid, int userType, long account) {
+        LogUtil.d(TAG, "getChatMsgList is start uid:" + uid + " peerUid:" + peerUid + " userType:" + userType + " account:" + account);
+        return MessageHelper.getSingleton().getAllData(uid, peerUid, userType, account);
     }
 
     public void getChatDiffMsg() {

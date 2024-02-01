@@ -150,11 +150,18 @@ class UserId : public ::google::protobuf::Message /* @@protoc_insertion_point(cl
   ::uyujoy::api::paasim::frontend::UserType type() const;
   void set_type(::uyujoy::api::paasim::frontend::UserType value);
 
+  // optional int64 account = 3;
+  void clear_account();
+  static const int kAccountFieldNumber = 3;
+  ::google::protobuf::int64 account() const;
+  void set_account(::google::protobuf::int64 value);
+
   // @@protoc_insertion_point(class_scope:uyujoy.api.paasim.frontend.UserId)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   ::google::protobuf::internal::ArenaStringPtr id_;
+  ::google::protobuf::int64 account_;
   int type_;
   mutable int _cached_size_;
   friend void  protobuf_InitDefaults_msgBase_2eproto_impl();
@@ -406,6 +413,20 @@ inline void UserId::set_type(::uyujoy::api::paasim::frontend::UserType value) {
   
   type_ = value;
   // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.UserId.type)
+}
+
+// optional int64 account = 3;
+inline void UserId::clear_account() {
+  account_ = GOOGLE_LONGLONG(0);
+}
+inline ::google::protobuf::int64 UserId::account() const {
+  // @@protoc_insertion_point(field_get:uyujoy.api.paasim.frontend.UserId.account)
+  return account_;
+}
+inline void UserId::set_account(::google::protobuf::int64 value) {
+  
+  account_ = value;
+  // @@protoc_insertion_point(field_set:uyujoy.api.paasim.frontend.UserId.account)
 }
 
 inline const UserId* UserId::internal_default_instance() {

@@ -51,4 +51,6 @@ public class Constants {
     public static final int CHECK_DATA = 1;
     public static final int START_CHECK = 0;
     public static final int LIMIT = 1000;
+    public static final int TYPE_USER = 1;
+    public static final int TYPE_BROADCASTER = 2;
 }

@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import com.code.data.greendao.ChatListBeanDao;
 import com.code.data.greendao.DaoMaster;
 import com.code.data.greendao.MsgBeanDao;
+import com.code.data.greendao.UserInfoBeanDao;
 import com.code.utils.LogUtil;
 
 import org.greenrobot.greendao.database.Database;
@@ -42,6 +43,7 @@ public class SqlOpenHelper extends DaoMaster.OpenHelper {
                     }
                     , MsgBeanDao.class
                     , ChatListBeanDao.class
+                    , UserInfoBeanDao.class
             );
         }
     }

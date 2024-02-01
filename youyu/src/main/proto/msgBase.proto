@@ -22,6 +22,7 @@ message UserId {
   string id = 1;
   // 用户类型
   UserType type = 2;
+  int64 account = 3;
 }
 
 //  paas 平台 im的消息结构

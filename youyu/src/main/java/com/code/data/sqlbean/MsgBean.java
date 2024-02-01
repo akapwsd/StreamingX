@@ -14,6 +14,10 @@ public class MsgBean {
     private long msgId;
     private long pts;
     @NotNull
+    private long account;
+    @NotNull
+    private int userType;
+    @NotNull
     private String uid; //your uid
     @NotNull
     private String peerUid; //peer uid
@@ -29,15 +33,17 @@ public class MsgBean {
     private long actualTime;
     private String nickName;
     private String avatar;
-    @Generated(hash = 332465387)
-    public MsgBean(Long id, String fp, boolean isBroadcaster, long msgId, long pts, @NotNull String uid,
-            @NotNull String peerUid, int sourceType, String content, String localPath, int status, int state,
-            double progress, long actualTime, String nickName, String avatar) {
+    @Generated(hash = 1504798607)
+    public MsgBean(Long id, String fp, boolean isBroadcaster, long msgId, long pts, long account, int userType,
+            @NotNull String uid, @NotNull String peerUid, int sourceType, String content, String localPath,
+            int status, int state, double progress, long actualTime, String nickName, String avatar) {
         this.id = id;
         this.fp = fp;
         this.isBroadcaster = isBroadcaster;
         this.msgId = msgId;
         this.pts = pts;
+        this.account = account;
+        this.userType = userType;
         this.uid = uid;
         this.peerUid = peerUid;
         this.sourceType = sourceType;
@@ -149,6 +155,12 @@ public class MsgBean {
     public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
+    public long getAccount() {
+        return this.account;
+    }
+    public void setAccount(long account) {
+        this.account = account;
+    }
 
     @Override
     public String toString() {
@@ -158,6 +170,7 @@ public class MsgBean {
                 ", isBroadcaster=" + isBroadcaster +
                 ", msgId=" + msgId +
                 ", pts=" + pts +
+                ", account=" + account +
                 ", uid='" + uid + '\'' +
                 ", peerUid='" + peerUid + '\'' +
                 ", sourceType=" + sourceType +
@@ -170,5 +183,11 @@ public class MsgBean {
                 ", nickName='" + nickName + '\'' +
                 ", avatar='" + avatar + '\'' +
                 '}';
+    }
+    public int getUserType() {
+        return this.userType;
+    }
+    public void setUserType(int userType) {
+        this.userType = userType;
     }
 }
