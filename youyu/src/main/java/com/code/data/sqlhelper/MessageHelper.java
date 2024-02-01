@@ -242,9 +242,12 @@ public class MessageHelper {
     /**
      * Get the last message
      */
-    public MsgBean getLastMessage(String uid, String peerUid) {
+    public MsgBean getLastMessage(String uid, String peerUid, int userType, long account) {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean unique = qb.where(MsgBeanDao.Properties.Uid.eq(uid), MsgBeanDao.Properties.PeerUid.eq(peerUid)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        MsgBean unique = qb.where(MsgBeanDao.Properties.Uid.eq(uid),
+                MsgBeanDao.Properties.PeerUid.eq(peerUid),
+                MsgBeanDao.Properties.UserType.eq(userType),
+                MsgBeanDao.Properties.Account.eq(account)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         String content;
         if (unique != null) {
             content = unique.getContent();

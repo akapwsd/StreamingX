@@ -104,25 +104,28 @@ public class ChatListHelper {
         }
     }
 
-    public ChatListBean select(String mUid, String peerUid) {
+    public ChatListBean select(String mUid, String peerUid, int userType, long account) {
         if (chatListBeanDao == null) {
             return null;
         }
         QueryBuilder<ChatListBean> qb = chatListBeanDao.queryBuilder();
         return qb.where(ChatListBeanDao.Properties.MUid.eq(mUid),
-                        ChatListBeanDao.Properties.PeerUid.eq(peerUid))
+                        ChatListBeanDao.Properties.PeerUid.eq(peerUid),
+                        ChatListBeanDao.Properties.UserType.eq(userType),
+                        ChatListBeanDao.Properties.Account.eq(account))
                 .build()
                 .forCurrentThread()
                 .unique();
     }
 
-    public void delete(String mUid, String peerId) {
+    public void delete(String mUid, String peerId, int userType, long account) {
         if (chatListBeanDao == null) {
             return;
         }
         QueryBuilder<ChatListBean> qb = chatListBeanDao.queryBuilder();
         ChatListBean unique = qb.where(ChatListBeanDao.Properties.MUid.eq(mUid),
-                        ChatListBeanDao.Properties.PeerUid.eq(peerId))
+                        ChatListBeanDao.Properties.PeerUid.eq(peerId), ChatListBeanDao.Properties.UserType.eq(userType),
+                        ChatListBeanDao.Properties.Account.eq(account))
                 .build()
                 .forCurrentThread()
                 .unique();

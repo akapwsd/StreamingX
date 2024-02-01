@@ -417,7 +417,8 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         MsgBean msgBean = new MsgBean();
         msgBean.setPts(dataInfo.getPts());
         msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
-        msgBean.setFp(String.valueOf(NettyMsg.getInstance().getMessageID()));
+        msgBean.setFp(dataInfo.getMsg().getMsgFp());
+        msgBean.setMsgId(dataInfo.getMsg().getMsgId());
         msgBean.setContent(dataInfo.getMsg().getMsgTxt());
         msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
         msgBean.setActualTime(dataInfo.getMsg().getSendTime());
