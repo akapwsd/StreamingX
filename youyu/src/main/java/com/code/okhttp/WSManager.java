@@ -376,8 +376,8 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
 
     private boolean diffMsgHandle(byte[] data) {
         try {
-            UpdatesBase.updateDifferenceSlice updateDifferenceSlice = UpdatesBase.updateDifferenceSlice.parseFrom(data);
-            List<UpdatesBase.updateNewMessage> msgsList = updateDifferenceSlice.getMsgsList();
+            PaasIm.updatesSlice updateDifferenceSlice = PaasIm.updatesSlice.parseFrom(data);
+            List<UpdatesBase.updateNewMessage> msgsList = UpdatesBase.updateDifferenceSlice.parseFrom(updateDifferenceSlice.getUpdatesSlice()).getMsgsList();
             for (UpdatesBase.updateNewMessage dataInfo : msgsList) {
                 updateNewMessageData(dataInfo);
             }
