@@ -301,7 +301,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 LogUtil.d(TAG, "shortMessageHandle have data");
                 oneMessage.setPts(shortMessage.getPts());
                 oneMessage.setMsgId(msg.getMsgId());
-                MessageHelper.getSingleton().insertOrReplaceData(oneMessage);
+                MessageHelper.getSingleton().modifyMessageState(oneMessage.getFp(), Constants.SEND_SUCCESS);
             } else {
                 LogUtil.d(TAG, "shortMessageHandle new data");
                 MsgBean msgBean = new MsgBean();
@@ -1006,7 +1006,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     }
 
     public String sendTextMsg(String mUid, String peerUid, boolean isBroadcast, long account, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
-        LogUtil.d(TAG, "sendTextMsg mUid:" + mUid + " peerUid:" + peerUid + " isBroadcast:" + isBroadcast + " msg:" + msg + " nickName:" + nickName + " avatar:" + avatar);
+        LogUtil.d(TAG, "sendTextMsg mUid:" + mUid + " peerUid:" + peerUid + " isBroadcast:" + isBroadcast + " msg:" + msg + " nickName:" + nickName + " avatar:" + avatar + " account:" + account);
         this.chatMsgListener = chatMsgListener;
         String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
         UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
