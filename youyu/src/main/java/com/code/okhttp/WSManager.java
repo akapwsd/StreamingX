@@ -67,6 +67,7 @@ import uyujoy.com.api.gateway.frontend.Base;
 
 public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     private final String TAG = "WSManager";
+    private boolean isBroadcaster = false;
     private boolean isNeedGetState = false;
     private Context mContext;
     private TransferUtility transferUtility;
@@ -587,6 +588,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     public void init(Context context, String uid, String access_key_id, String access_key_secret, String session_token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
+            isBroadcaster = false;
             mContext = context;
             initDataProcess();
             GreenDaoHelper.getSingleTon().initGreenDao(context);
@@ -615,6 +617,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     public void init(Context context, String uid, String token) {
         LogUtil.d(TAG, "init is start");
         if (context != null) {
+            isBroadcaster = true;
             mContext = context;
             initDataProcess();
             GreenDaoHelper.getSingleTon().initGreenDao(context);
@@ -877,7 +880,9 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 } else {
                     isNeedGetState = true;
                 }
-                HttpRequestUtils.getInstance().requestAwsSts(mContext);
+                if (!isBroadcaster) {
+                    HttpRequestUtils.getInstance().requestAwsSts(mContext);
+                }
                 isReceivePong = true;
                 if (heartHandler != null && heartBeatRunnable != null) {
                     heartHandler.post(heartBeatRunnable);
