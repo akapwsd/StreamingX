@@ -24,6 +24,7 @@ import com.code.listener.DownloadListener;
 import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.msg.NettyMsg;
 import com.code.utils.DataUtils;
+import com.code.utils.HttpRequestUtils;
 import com.code.utils.LogUtil;
 import com.code.utils.MessageLoopThread;
 import com.code.utils.RtcSpUtils;
@@ -103,6 +104,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     private final Map<String, Function<byte[], Boolean>> actionMappings = new HashMap<>();
     private final HashMap<String, String> awsTranslateMap = new HashMap<>();
     private long serverNewPts = 0;
+    private int initAwsCount = 0;
 
     private void initDataProcess() {
         Function<byte[], Boolean> pongFunction = bytes -> pongHandle();
@@ -304,12 +306,12 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 MessageHelper.getSingleton().modifyMessageState(oneMessage.getFp(), Constants.SEND_SUCCESS);
             } else {
                 LogUtil.d(TAG, "shortMessageHandle new data");
+                int msgType = msg.getMsgType();
                 MsgBean msgBean = new MsgBean();
                 msgBean.setPts(shortMessage.getPts());
                 msgBean.setFp(msg.getMsgFp());
                 msgBean.setMsgId(msg.getMsgId());
                 msgBean.setSourceType(msg.getMsgType());
-                msgBean.setContent(msg.getMsgTxt());
                 msgBean.setActualTime(msg.getSendTime());
                 msgBean.setNickName(msg.getUser().getName());
                 msgBean.setAvatar(msg.getUser().getAvatar());
@@ -335,6 +337,28 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 } else {
                     LogUtil.e(TAG, "shortMessageHandle fail the data is error");
                     return false;
+                }
+                if (msgType == Constants.MSG_SEND_TEXT) {
+                    msgBean.setContent(msg.getMsgTxt());
+                } else {
+                    MediaBase.mediaRecord media = msg.getMedia();
+                    if (msgType == Constants.MSG_SEND_IMAGE) {
+                        MediaBase.mediaImage mediaImage = MediaBase.mediaImage.parseFrom(media.getMediaContent());
+                        msgBean.setLocalPath(mediaImage.getPreview().getUrl());
+                        msgBean.setHash(mediaImage.getPreview().getHash());
+                        msgBean.setWight(mediaImage.getPreview().getWight());
+                        msgBean.setHeight(mediaImage.getPreview().getHeight());
+                        msgBean.setSize(mediaImage.getPreview().getSize());
+                    } else if (msgType == Constants.MSG_SEND_VOICE) {
+                        MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.parseFrom(media.getMediaContent());
+                        msgBean.setLocalPath(mediaAudio.getUrl());
+                        msgBean.setHash(mediaAudio.getHash());
+                        msgBean.setSize(mediaAudio.getSize());
+                        msgBean.setTime(mediaAudio.getTimeLen());
+                    } else {
+                        LogUtil.d(TAG, "shortMessageHandle msg type is error");
+                        return false;
+                    }
                 }
                 MessageHelper.getSingleton().insertOrReplaceData(msgBean);
                 for (Map.Entry<String, IRtcEngineEventCallBackHandler> entry : callBackHandlerHashMap.entrySet()) {
@@ -414,40 +438,65 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
 
     private void updateNewMessageData(UpdatesBase.updateNewMessage dataInfo) {
         LogUtil.d(TAG, "updateNewMessageData dataInfo:" + dataInfo);
-        MsgBean msgBean = new MsgBean();
-        msgBean.setPts(dataInfo.getPts());
-        msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
-        msgBean.setFp(dataInfo.getMsg().getMsgFp());
-        msgBean.setMsgId(dataInfo.getMsg().getMsgId());
-        msgBean.setContent(dataInfo.getMsg().getMsgTxt());
-        msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
-        msgBean.setActualTime(dataInfo.getMsg().getSendTime());
-        msgBean.setNickName(dataInfo.getMsg().getUser().getName());
-        if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getFrom().getId())) {
-            msgBean.setSourceType(Constants.MSG_SENDER);
-            msgBean.setPeerUid(dataInfo.getMsg().getTo().getId());
-            msgBean.setAccount(dataInfo.getMsg().getTo().getAccount());
-            if (dataInfo.getMsg().getTo().getType() == MsgBase.UserType.BROADCASTER) {
-                msgBean.setUserType(Constants.TYPE_BROADCASTER);
+        try {
+            MsgBean msgBean = new MsgBean();
+            msgBean.setPts(dataInfo.getPts());
+            msgBean.setAvatar(dataInfo.getMsg().getUser().getAvatar());
+            msgBean.setFp(dataInfo.getMsg().getMsgFp());
+            msgBean.setMsgId(dataInfo.getMsg().getMsgId());
+            msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
+            msgBean.setActualTime(dataInfo.getMsg().getSendTime());
+            msgBean.setNickName(dataInfo.getMsg().getUser().getName());
+            if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getFrom().getId())) {
+                msgBean.setSourceType(Constants.MSG_SENDER);
+                msgBean.setPeerUid(dataInfo.getMsg().getTo().getId());
+                msgBean.setAccount(dataInfo.getMsg().getTo().getAccount());
+                if (dataInfo.getMsg().getTo().getType() == MsgBase.UserType.BROADCASTER) {
+                    msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                } else {
+                    msgBean.setUserType(Constants.TYPE_USER);
+                }
+            } else if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getTo().getId())) {
+                msgBean.setSourceType(Constants.MSG_RECEIVER);
+                msgBean.setPeerUid(dataInfo.getMsg().getFrom().getId());
+                msgBean.setAccount(dataInfo.getMsg().getFrom().getAccount());
+                if (dataInfo.getMsg().getFrom().getType() == MsgBase.UserType.BROADCASTER) {
+                    msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                } else {
+                    msgBean.setUserType(Constants.TYPE_USER);
+                }
             } else {
-                msgBean.setUserType(Constants.TYPE_USER);
+                msgBean.setSourceType(Constants.MSG_UNKNOWN);
+                LogUtil.e(TAG, "updateNewMessageData fail the data is error");
+                return;
             }
-        } else if (RtcSpUtils.getInstance().getUserUid().equals(dataInfo.getMsg().getTo().getId())) {
-            msgBean.setSourceType(Constants.MSG_RECEIVER);
-            msgBean.setPeerUid(dataInfo.getMsg().getFrom().getId());
-            msgBean.setAccount(dataInfo.getMsg().getFrom().getAccount());
-            if (dataInfo.getMsg().getFrom().getType() == MsgBase.UserType.BROADCASTER) {
-                msgBean.setUserType(Constants.TYPE_BROADCASTER);
+            int msgType = dataInfo.getMsg().getMsgType();
+            if (msgType == Constants.MSG_SEND_TEXT) {
+                msgBean.setContent(dataInfo.getMsg().getMsgTxt());
             } else {
-                msgBean.setUserType(Constants.TYPE_USER);
+                MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
+                if (msgType == Constants.MSG_SEND_IMAGE) {
+                    MediaBase.mediaImage mediaImage = MediaBase.mediaImage.parseFrom(media.getMediaContent());
+                    msgBean.setLocalPath(mediaImage.getPreview().getUrl());
+                    msgBean.setHash(mediaImage.getPreview().getHash());
+                    msgBean.setWight(mediaImage.getPreview().getWight());
+                    msgBean.setHeight(mediaImage.getPreview().getHeight());
+                    msgBean.setSize(mediaImage.getPreview().getSize());
+                } else if (msgType == Constants.MSG_SEND_VOICE) {
+                    MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.parseFrom(media.getMediaContent());
+                    msgBean.setLocalPath(mediaAudio.getUrl());
+                    msgBean.setHash(mediaAudio.getHash());
+                    msgBean.setSize(mediaAudio.getSize());
+                    msgBean.setTime(mediaAudio.getTimeLen());
+                } else {
+                    LogUtil.d(TAG, "shortMessageHandle msg type is error");
+                    return;
+                }
             }
-        } else {
-            msgBean.setSourceType(Constants.MSG_UNKNOWN);
-            LogUtil.e(TAG, "updateNewMessageData fail the data is error");
-            return;
+            MessageHelper.getSingleton().insertOrReplaceData(msgBean);
+        } catch (InvalidProtocolBufferException e) {
+            throw new RuntimeException(e);
         }
-        MediaBase.mediaRecord media = dataInfo.getMsg().getMedia();
-        MessageHelper.getSingleton().insertOrReplaceData(msgBean);
     }
 
     @Override
@@ -540,7 +589,6 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         if (context != null) {
             mContext = context;
             initDataProcess();
-            initAWS(context);
             GreenDaoHelper.getSingleTon().initGreenDao(context);
             sWeakRefListeners = new HashMap<>();
             heartHandler = new Handler();
@@ -569,7 +617,6 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         if (context != null) {
             mContext = context;
             initDataProcess();
-            initAWS(context);
             GreenDaoHelper.getSingleTon().initGreenDao(context);
             sWeakRefListeners = new HashMap<>();
             heartHandler = new Handler();
@@ -643,7 +690,12 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 }
             });
         } else {
-            //TODO 获取aws sts
+            if (initAwsCount < 5) {
+                initAwsCount++;
+                HttpRequestUtils.getInstance().requestAwsSts(mContext);
+            } else {
+                LogUtil.e(TAG, "initAWS fail please check your net");
+            }
         }
         LogUtil.d(TAG, "initAWS is end");
     }
@@ -825,6 +877,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                 } else {
                     isNeedGetState = true;
                 }
+                HttpRequestUtils.getInstance().requestAwsSts(mContext);
                 isReceivePong = true;
                 if (heartHandler != null && heartBeatRunnable != null) {
                     heartHandler.post(heartBeatRunnable);
@@ -926,8 +979,8 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         }
     }
 
-    public void getMediaFile(String awsKey, String msgFp, int mediaType, String downloadPath, DownloadListener downloadListener) {
-        S3AwsHelper.getInstance().downloadWithTransferUtility(awsKey, msgFp, mediaType, downloadPath, new S3AwsHelper.IAWSFileRequest() {
+    public void getMediaFile(String awsKey, String msgFp, int mediaType, long account, String downloadPath, DownloadListener downloadListener) {
+        S3AwsHelper.getInstance().downloadWithTransferUtility(awsKey, msgFp, mediaType, account, downloadPath, new S3AwsHelper.IAWSFileRequest() {
             @Override
             public void aws_success(int requestType, String msgFp, String key) {
                 downloadListener.downloadResult(msgFp);
@@ -946,65 +999,84 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     }
 
     public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, long account, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
-        this.chatMsgListener = chatMsgListener;
-        String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
-        MediaBase.mediaRecord.Builder mediaRecord = MediaBase.mediaRecord.newBuilder();
-        mediaRecord.setMediaType(mediaType);
-        byte[] byteData = new byte[0];
-        if (mediaType == Constants.MSG_SEND_IMAGE) {
-            File file = new File(filePath);
-            if (file.exists()) {
-                String fileSuffix = DataUtils.getFileSuffix(file.getName());
-                MediaBase.mediaImage mediaImage = MediaBase.mediaImage.newBuilder().setExt(fileSuffix).build();
-                byteData = mediaImage.toByteArray();
+        File file = new File(filePath);
+        if (file.exists()) {
+            String fileSuffix = "";
+            this.chatMsgListener = chatMsgListener;
+            MediaBase.mediaImagePreview.Builder mediaImagePreview = null;
+            MediaBase.mediaImage.Builder mediaImage = null;
+            MediaBase.mediaAudio.Builder mediaAudio = null;
+
+            String msgFp = String.valueOf(NettyMsg.getInstance().getMessageID());
+            UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
+            userInfo.setName(nickName);
+            userInfo.setAvatar(avatar);
+            MediaBase.mediaRecord.Builder mediaRecord = MediaBase.mediaRecord.newBuilder();
+            MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
+            msgBase.setMsgFp(msgFp);
+            MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).build();
+            MsgBase.UserId.Builder builder = MsgBase.UserId.newBuilder();
+            if (account != 0L) {
+                builder.setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).setAccount(account).build();
             } else {
-                return "file does not exist";
+                builder.setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
             }
-        } else if (mediaType == Constants.MSG_SEND_VOICE) {
-            MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.newBuilder().build();
-            byteData = mediaAudio.toByteArray();
-        }
-        mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(byteData));
-        UserBase.userInfo.Builder userInfo = UserBase.userInfo.newBuilder();
-        userInfo.setName(nickName);
-        userInfo.setAvatar(avatar);
-        MsgBase.paasMsgRecord.Builder msgBase = MsgBase.paasMsgRecord.newBuilder();
-        msgBase.setMsgFp(msgFp);
-        MsgBase.UserId from = MsgBase.UserId.newBuilder().setId(mUid).build();
-        MsgBase.UserId.Builder builder = MsgBase.UserId.newBuilder();
-        if (account != 0L) {
-            builder.setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).setAccount(account).build();
+            msgBase.setFrom(from);
+            msgBase.setTo(builder.build());
+            msgBase.setMsgType(mediaType);
+            msgBase.setSendTime(System.currentTimeMillis());
+            msgBase.setUser(userInfo.build());
+            mediaRecord.setMediaType(mediaType);
+            if (mediaType == Constants.MSG_SEND_IMAGE) {
+                fileSuffix = DataUtils.getFileSuffix(file.getName());
+                mediaImagePreview = MediaBase.mediaImagePreview.newBuilder().setSize((int) file.length()).setHash(DataUtils.fileToHash(filePath)).setUrl(filePath).setHeight(DataUtils.fileToBitmap(filePath).getHeight()).setWight(DataUtils.fileToBitmap(filePath).getWidth());
+                mediaImage = MediaBase.mediaImage.newBuilder().setExt(fileSuffix);
+            } else if (mediaType == Constants.MSG_SEND_VOICE) {
+                fileSuffix = DataUtils.getFileSuffix(file.getName());
+                mediaAudio = MediaBase.mediaAudio.newBuilder().setExtName(fileSuffix).setSize((int) file.length()).setHash(DataUtils.fileToHash(filePath)).setName(file.getName()).setUrl(filePath).setTimeLen((int) DataUtils.getMediaTime(filePath));
+            }
+            MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
+            MessageHelper.getSingleton().insertOrReplaceDataData(msgBase.build());
+            MediaBase.mediaImage.Builder finalMediaImage = mediaImage;
+            MediaBase.mediaAudio.Builder finalMediaAudio = mediaAudio;
+            MediaBase.mediaImagePreview.Builder finalMediaImagePreview = mediaImagePreview;
+            S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, fileSuffix, mediaType, account, new S3AwsHelper.IAWSFileRequest() {
+                @Override
+                public void aws_success(int requestType, String msgFp, String key) {
+                    byte[] byteData = new byte[0];
+                    int msgType = msgBase.getMsgType();
+                    if (msgType == Constants.MSG_SEND_IMAGE) {
+                        assert finalMediaImage != null;
+                        finalMediaImagePreview.setUrl(key);
+                        finalMediaImage.setPreview(finalMediaImagePreview.build());
+                        byteData = finalMediaImage.build().toByteArray();
+                    } else if (msgType == Constants.MSG_SEND_VOICE) {
+                        assert finalMediaAudio != null;
+                        finalMediaAudio.setUrl(key);
+                        byteData = finalMediaAudio.build().toByteArray();
+                    }
+                    mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(byteData));
+                    msgBase.setMedia(mediaRecord.build());
+                    PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder().setMsg(msgBase.build()).build();
+                    byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
+                    LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
+                    send(ByteString.of(bytes));
+                }
+
+                @Override
+                public void aws_progress(int requestType, String msgFp, int progress) {
+                    chatMsgListener.sendProgress(progress);
+                }
+
+                @Override
+                public void aws_error(int requestType, String msgFp, int error_code, String error_msg) {
+                    chatMsgListener.sendFail(error_code, error_msg);
+                }
+            });
+            return msgFp;
         } else {
-            builder.setId(peerUid).setType(isBroadcaster ? MsgBase.UserType.BROADCASTER : MsgBase.UserType.USER).build();
+            return "file does not exist";
         }
-        msgBase.setFrom(from);
-        msgBase.setTo(builder.build());
-        msgBase.setMsgType(mediaType);
-        msgBase.setSendTime(System.currentTimeMillis());
-        msgBase.setUser(userInfo.build());
-        msgBase.setMedia(mediaRecord.build());
-        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder().setMsg(msgBase.build()).build();
-        byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
-        LogUtil.d(TAG, "rtc sendTextMsg data:" + Arrays.toString(bytes));
-        MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
-        MessageHelper.getSingleton().insertOrReplaceDataData(msgBase.build());
-        S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, mediaType, new S3AwsHelper.IAWSFileRequest() {
-            @Override
-            public void aws_success(int requestType, String msgFp, String key) {
-                send(ByteString.of(bytes));
-            }
-
-            @Override
-            public void aws_progress(int requestType, String msgFp, int progress) {
-                chatMsgListener.sendProgress(progress);
-            }
-
-            @Override
-            public void aws_error(int requestType, String msgFp, int error_code, String error_msg) {
-                chatMsgListener.sendFail(error_code, error_msg);
-            }
-        });
-        return msgFp;
     }
 
     public String sendTextMsg(String mUid, String peerUid, boolean isBroadcast, long account, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
@@ -1140,5 +1212,9 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         void onSuccess(int code, String data);
 
         void onFailure(int code, String reason);
+    }
+
+    public HashMap<String, String> getAwsTranslateMap() {
+        return awsTranslateMap;
     }
 }

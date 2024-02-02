@@ -652,18 +652,24 @@ public class StreamingXRtcManager {
         return WSManager.getInstance().sendMsg(localUid, msg, channelMsgListener);
     }
 
+    public void getMediaByBroadcast(String awsKey, String msgFp, int mediaType, String downloadPath, long account, DownloadListener downloadListener) {
+        WSManager.getInstance().getMediaFile(awsKey, msgFp, mediaType, account, downloadPath, downloadListener);
+    }
+
     public void getMediaFile(String awsKey, String msgFp, int mediaType, String downloadPath, DownloadListener downloadListener) {
-        WSManager.getInstance().getMediaFile(awsKey, msgFp, mediaType, downloadPath, downloadListener);
+        WSManager.getInstance().getMediaFile(awsKey, msgFp, mediaType, 0L, downloadPath, downloadListener);
     }
 
     public String sendMediaMsgToUser(String mUid, String peerUid, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
-        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, false, 0L,filePath, mediaType, nickName, avatar, chatMsgListener);
+        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, false, 0L, filePath, mediaType, nickName, avatar, chatMsgListener);
     }
-    public String broadcasterSendMedia(String mUid, String peerUid,boolean isBroadcast, long account,  String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
-        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, isBroadcast,account, filePath, mediaType, nickName, avatar, chatMsgListener);
+
+    public String broadcasterSendMedia(String mUid, String peerUid, boolean isBroadcast, long account, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
+        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, isBroadcast, account, filePath, mediaType, nickName, avatar, chatMsgListener);
     }
+
     public String sendMediaMsgToBroadcaster(String mUid, String peerUid, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
-        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, true,0L, filePath, mediaType, nickName, avatar, chatMsgListener);
+        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, true, 0L, filePath, mediaType, nickName, avatar, chatMsgListener);
     }
 
     public String sendTextMsgToUser(String mUid, String peerUid, String msg, String nickName, String avatar, ChatMsgListener chatMsgListener) {
@@ -690,12 +696,12 @@ public class StreamingXRtcManager {
         return WSManager.getInstance().getChatList(uid);
     }
 
-    public List<MsgBean> getChatMsgList(String uid, String peerUid,int userType) {
-        return WSManager.getInstance().getChatMsgList(uid, peerUid,userType,0L);
+    public List<MsgBean> getChatMsgList(String uid, String peerUid, int userType) {
+        return WSManager.getInstance().getChatMsgList(uid, peerUid, userType, 0L);
     }
 
-    public List<MsgBean> getChatMsgListBroadcast(String uid, String peerUid,int userType,long account){
-        return WSManager.getInstance().getChatMsgList(uid, peerUid,userType,account);
+    public List<MsgBean> getChatMsgListBroadcast(String uid, String peerUid, int userType, long account) {
+        return WSManager.getInstance().getChatMsgList(uid, peerUid, userType, account);
     }
 
     public void getChatDiffMsg() {

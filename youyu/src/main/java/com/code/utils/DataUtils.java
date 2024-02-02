@@ -1,10 +1,21 @@
 package com.code.utils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaPlayer;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
 
 import com.google.protobuf.ByteString;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
 import javax.crypto.Mac;
@@ -78,5 +89,58 @@ public class DataUtils {
             return fileName.substring(fileName.lastIndexOf(".") + 1);
         }
         return "";
+    }
+
+    public static String fileToHash(String file) {
+        FileInputStream fs;
+        try {
+            fs = new FileInputStream(file);
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len;
+            while (-1 != (len = fs.read(buffer))) {
+                outStream.write(buffer, 0, len);
+            }
+            outStream.close();
+            fs.close();
+            return md5byte(outStream.toByteArray());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String md5byte(byte[] string) {
+        MessageDigest md5;
+        try {
+            md5 = MessageDigest.getInstance("MD5");
+            byte[] bytes = md5.digest(string);
+            StringBuilder result = new StringBuilder();
+            for (byte b : bytes) {
+                String temp = Integer.toHexString(b & 0xff);
+                if (temp.length() == 1) {
+                    temp = "0" + temp;
+                }
+                result.append(temp);
+            }
+            return result.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
+
+    public static Bitmap fileToBitmap(String imageFile) {
+        return BitmapFactory.decodeFile(imageFile);
+    }
+
+    public static long getMediaTime(String mediaFile) {
+        try {
+            MediaPlayer mediaPlayer = new MediaPlayer();
+            mediaPlayer.setDataSource(mediaFile);
+            mediaPlayer.prepare();
+            return mediaPlayer.getDuration();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

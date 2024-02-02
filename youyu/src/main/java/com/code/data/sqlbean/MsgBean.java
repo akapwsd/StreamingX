@@ -31,10 +31,17 @@ public class MsgBean {
     private long actualTime;
     private String nickName;
     private String avatar;
-    @Generated(hash = 1504798607)
+    private int wight;
+    private int height;
+    private int size;
+    private int time;
+    private String ext;
+    private String hash;
+    @Generated(hash = 1865244351)
     public MsgBean(Long id, String fp, boolean isBroadcaster, long msgId, long pts, long account, int userType,
             @NotNull String uid, @NotNull String peerUid, int sourceType, String content, String localPath,
-            int status, int state, double progress, long actualTime, String nickName, String avatar) {
+            int status, int state, double progress, long actualTime, String nickName, String avatar, int wight,
+            int height, int size, int time, String ext, String hash) {
         this.id = id;
         this.fp = fp;
         this.isBroadcaster = isBroadcaster;
@@ -53,6 +60,12 @@ public class MsgBean {
         this.actualTime = actualTime;
         this.nickName = nickName;
         this.avatar = avatar;
+        this.wight = wight;
+        this.height = height;
+        this.size = size;
+        this.time = time;
+        this.ext = ext;
+        this.hash = hash;
     }
     @Generated(hash = 237905234)
     public MsgBean() {
@@ -164,5 +177,71 @@ public class MsgBean {
     }
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+    public int getWight() {
+        return this.wight;
+    }
+    public void setWight(int wight) {
+        this.wight = wight;
+    }
+    public int getHeight() {
+        return this.height;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public int getSize() {
+        return this.size;
+    }
+    public void setSize(int size) {
+        this.size = size;
+    }
+    public int getTime() {
+        return this.time;
+    }
+    public void setTime(int time) {
+        this.time = time;
+    }
+    public String getExt() {
+        return this.ext;
+    }
+    public void setExt(String ext) {
+        this.ext = ext;
+    }
+    public String getHash() {
+        return this.hash;
+    }
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+
+    @Override
+    public String toString() {
+        return "MsgBean{" +
+                "id=" + id +
+                ", fp='" + fp + '\'' +
+                ", isBroadcaster=" + isBroadcaster +
+                ", msgId=" + msgId +
+                ", pts=" + pts +
+                ", account=" + account +
+                ", userType=" + userType +
+                ", uid='" + uid + '\'' +
+                ", peerUid='" + peerUid + '\'' +
+                ", sourceType=" + sourceType +
+                ", content='" + content + '\'' +
+                ", localPath='" + localPath + '\'' +
+                ", status=" + status +
+                ", state=" + state +
+                ", progress=" + progress +
+                ", actualTime=" + actualTime +
+                ", nickName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", wight=" + wight +
+                ", height=" + height +
+                ", size=" + size +
+                ", time=" + time +
+                ", ext='" + ext + '\'' +
+                ", hash='" + hash + '\'' +
+                '}';
     }
 }

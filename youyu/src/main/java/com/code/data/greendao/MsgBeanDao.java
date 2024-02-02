@@ -42,6 +42,12 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         public final static Property ActualTime = new Property(15, long.class, "actualTime", false, "ACTUAL_TIME");
         public final static Property NickName = new Property(16, String.class, "nickName", false, "NICK_NAME");
         public final static Property Avatar = new Property(17, String.class, "avatar", false, "AVATAR");
+        public final static Property Wight = new Property(18, int.class, "wight", false, "WIGHT");
+        public final static Property Height = new Property(19, int.class, "height", false, "HEIGHT");
+        public final static Property Size = new Property(20, int.class, "size", false, "SIZE");
+        public final static Property Time = new Property(21, int.class, "time", false, "TIME");
+        public final static Property Ext = new Property(22, String.class, "ext", false, "EXT");
+        public final static Property Hash = new Property(23, String.class, "hash", false, "HASH");
     }
 
 
@@ -74,7 +80,13 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
                 "\"PROGRESS\" REAL NOT NULL ," + // 14: progress
                 "\"ACTUAL_TIME\" INTEGER NOT NULL ," + // 15: actualTime
                 "\"NICK_NAME\" TEXT," + // 16: nickName
-                "\"AVATAR\" TEXT);"); // 17: avatar
+                "\"AVATAR\" TEXT," + // 17: avatar
+                "\"WIGHT\" INTEGER NOT NULL ," + // 18: wight
+                "\"HEIGHT\" INTEGER NOT NULL ," + // 19: height
+                "\"SIZE\" INTEGER NOT NULL ," + // 20: size
+                "\"TIME\" INTEGER NOT NULL ," + // 21: time
+                "\"EXT\" TEXT," + // 22: ext
+                "\"HASH\" TEXT);"); // 23: hash
     }
 
     /** Drops the underlying database table. */
@@ -128,6 +140,20 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         if (avatar != null) {
             stmt.bindString(18, avatar);
         }
+        stmt.bindLong(19, entity.getWight());
+        stmt.bindLong(20, entity.getHeight());
+        stmt.bindLong(21, entity.getSize());
+        stmt.bindLong(22, entity.getTime());
+ 
+        String ext = entity.getExt();
+        if (ext != null) {
+            stmt.bindString(23, ext);
+        }
+ 
+        String hash = entity.getHash();
+        if (hash != null) {
+            stmt.bindString(24, hash);
+        }
     }
 
     @Override
@@ -175,6 +201,20 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         if (avatar != null) {
             stmt.bindString(18, avatar);
         }
+        stmt.bindLong(19, entity.getWight());
+        stmt.bindLong(20, entity.getHeight());
+        stmt.bindLong(21, entity.getSize());
+        stmt.bindLong(22, entity.getTime());
+ 
+        String ext = entity.getExt();
+        if (ext != null) {
+            stmt.bindString(23, ext);
+        }
+ 
+        String hash = entity.getHash();
+        if (hash != null) {
+            stmt.bindString(24, hash);
+        }
     }
 
     @Override
@@ -202,7 +242,13 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
             cursor.getDouble(offset + 14), // progress
             cursor.getLong(offset + 15), // actualTime
             cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16), // nickName
-            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17) // avatar
+            cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17), // avatar
+            cursor.getInt(offset + 18), // wight
+            cursor.getInt(offset + 19), // height
+            cursor.getInt(offset + 20), // size
+            cursor.getInt(offset + 21), // time
+            cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22), // ext
+            cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23) // hash
         );
         return entity;
     }
@@ -227,6 +273,12 @@ public class MsgBeanDao extends AbstractDao<MsgBean, Long> {
         entity.setActualTime(cursor.getLong(offset + 15));
         entity.setNickName(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
         entity.setAvatar(cursor.isNull(offset + 17) ? null : cursor.getString(offset + 17));
+        entity.setWight(cursor.getInt(offset + 18));
+        entity.setHeight(cursor.getInt(offset + 19));
+        entity.setSize(cursor.getInt(offset + 20));
+        entity.setTime(cursor.getInt(offset + 21));
+        entity.setExt(cursor.isNull(offset + 22) ? null : cursor.getString(offset + 22));
+        entity.setHash(cursor.isNull(offset + 23) ? null : cursor.getString(offset + 23));
      }
     
     @Override

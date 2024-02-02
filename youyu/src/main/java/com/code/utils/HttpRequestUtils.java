@@ -2,10 +2,8 @@ package com.code.utils;
 
 import android.content.Context;
 
-import com.code.bean.AvatarBean;
-import com.code.bean.AvatarListBean;
+import com.code.bean.AwsStsBean;
 import com.code.bean.ChannelInfoBean;
-import com.code.bean.CreateChannelBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
 import com.code.bean.MatchAttrBean;
@@ -13,11 +11,7 @@ import com.code.bean.MatchBean;
 import com.code.bean.MatchExpectBean;
 import com.code.bean.ModelCoverListBean;
 import com.code.bean.ModelListBean;
-import com.code.bean.NullBean;
 import com.code.bean.SkipBean;
-import com.code.bean.SmsCodeBean;
-import com.code.bean.UploadAvatarBean;
-import com.code.bean.UploadUserInfoBean;
 import com.code.listener.HttpRequestListener;
 import com.code.listener.RequestModelAvatarListListener;
 import com.code.listener.RequestModelListListener;
@@ -27,7 +21,7 @@ import com.code.retrofit.RxObserver;
 import com.code.youyu.api.HttpApi;
 import com.code.youyu.api.StreamingXRtcManager;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import io.agora.rtc2.Constants;
 
@@ -329,6 +323,50 @@ public class HttpRequestUtils {
             });
         } else {
             httpRequestListener.requestError(-1, "init fail");
+        }
+    }
+
+    public void requestAwsSts(Context context) {
+        LogUtil.d(TAG, "requestAwsSts is start");
+        try {
+            if (StreamingXRtcManager.getInstance().isInit) {
+                String access_key_secret = RtcSpUtils.getInstance().getAccessKeySecret();
+                String access_key_id = RtcSpUtils.getInstance().getAccessKeyId();
+                String session_token = RtcSpUtils.getInstance().getSessionToken();
+                long currentTimeMillis = System.currentTimeMillis();
+                String X_Uyj_Timestamp = String.valueOf(currentTimeMillis);
+                String Content_Type = com.code.youyu.api.Constants.CONTENT_TYPE_JSON;
+                String data = X_Uyj_Timestamp + Content_Type;
+                String sign = DataUtils.sha256_HMAC(access_key_secret, data);
+                String authorization = "UYJ-HMAC-SHA256 " + access_key_id + ", X-Uyj-Timestamp;Content-Type, " + sign;
+                RetrofitHelper.createApi(HttpApi.class, context).requestAwsSts(authorization, X_Uyj_Timestamp, Content_Type, session_token).compose(RetrofitHelper.schedulersTransformer()).subscribe(new RxObserver() {
+                    @Override
+                    public void Success(Object o) {
+                        AwsStsBean stsBean = (AwsStsBean) o;
+                        LogUtil.d(TAG, "requestAwsSts stsBean:" + stsBean);
+                        String accessKeyId = stsBean.getAccessKeyId();
+                        String accessKeySecret = stsBean.getAccessKeyId();
+                        String sessionToken = stsBean.getSecurityToken();
+                        String paasImPrefix = stsBean.getPaasImPrefix();
+                        RtcSpUtils.getInstance().setPaasImPrefix(paasImPrefix);
+                        HashMap<String, String> awsTranslateMap = WSManager.getInstance().getAwsTranslateMap();
+                        awsTranslateMap.put("AccessKeyId", accessKeyId);
+                        awsTranslateMap.put("SecretAccessKey", accessKeySecret);
+                        awsTranslateMap.put("SessionToken", sessionToken);
+
+                        WSManager.getInstance().initAWS(context);
+                    }
+
+                    @Override
+                    public void error(int code, String error) {
+                        LogUtil.e(TAG, "requestAwsSts fail code:" + code + " error:" + error);
+                    }
+                });
+            } else {
+                LogUtil.e(TAG, "init fail");
+            }
+        } catch (Exception e) {
+            LogUtil.e(TAG, "e:" + e);
         }
     }
 

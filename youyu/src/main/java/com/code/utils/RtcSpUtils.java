@@ -78,4 +78,12 @@ public class RtcSpUtils {
     public String getUserUid() {
         return (String) RtcSpBase.get("user_uid", "");
     }
+
+    public void setPaasImPrefix(String paasImPrefix) {
+        RtcSpBase.put("paasImPrefix", paasImPrefix);
+    }
+
+    public String getPaasImPrefix() {
+        return (String) RtcSpBase.get("paasImPrefix", "");
+    }
 }

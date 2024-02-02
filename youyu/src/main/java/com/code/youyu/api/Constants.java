@@ -16,6 +16,9 @@ public class Constants {
     public static final String STATES_ACK = "366e727b";
     public static final String CHANNEL_MATCH = "807c0cc4";
     public static final String CHANNEL_SKIP = "deef91bb";
+
+    public static final int INIT_AWS_MAX_NUM = 5;
+
     public static final int VIDEO = 1;
     public static final int AUDIO = 0;
 
@@ -31,8 +34,8 @@ public class Constants {
     public static final int ROOM_STATE_ERROR = -2;
 
     public static final String AWS_HTTPS_HEAD = "https://ujoy-paas-formal-eks.s3.us-west-2.amazonaws.com/";
-    public static final String Bucket = "ujoy-paas-formal-eks";
-    public static final String Region = "us-west-2";
+    public static final String Bucket = "ujoy-paas-test-im";
+    public static final String Region = "ap-southeast-1";//""us-west-2";
     public static final String AWS_KEY = "broadcaster/cover/";
     public static final int MSG_RECEIVER = 2;
     public static final int MSG_SENDER = 1;

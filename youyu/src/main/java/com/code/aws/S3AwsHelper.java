@@ -7,6 +7,7 @@ import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.code.okhttp.WSManager;
 import com.code.utils.LogUtil;
+import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 
 import java.io.File;
@@ -34,21 +35,28 @@ public class S3AwsHelper {
         return single;
     }
 
-    public void uploadWithTransferUtility(final String msgFp, final String filepath, final int status, IAWSFileRequest request) {
+    public void uploadWithTransferUtility(final String msgFp, final String filepath, final String ext, final int status, long account, IAWSFileRequest request) {
         TransferUtility transferUtility = WSManager.getInstance().getTransferUtility();
         if (transferUtility == null) {
             LogUtil.e(TAG, "uploadWithTransferUtility::get transfer utility fail");
             return;
         }
-        LogUtil.d(TAG, "uploadWithTransferUtility::key is: " + Constants.AWS_KEY);
-        String fileext = "png";
-        String contentType = "image/";
-        if (status == Constants.MSG_SEND_VOICE) {
-            fileext = "mp4";
-            contentType = "video/";
+        String paasImPrefix = RtcSpUtils.getInstance().getPaasImPrefix();
+        String contentType;
+        if (account != 0L) {
+            paasImPrefix = paasImPrefix + ":" + account;
         }
+        if (status == Constants.MSG_SEND_VOICE) {
+            contentType = paasImPrefix + "/voice/";
+        } else if (status == Constants.MSG_SEND_IMAGE) {
+            contentType = paasImPrefix + "/image/";
+        } else {
+            LogUtil.e(TAG, "uploadWithTransferUtility file type is unknown");
+            return;
+        }
+        LogUtil.d(TAG, "uploadWithTransferUtility::key is: " + Constants.AWS_KEY + " paasImPrefix:" + paasImPrefix + " account:" + account + " contentType:" + contentType);
         ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentType(contentType + fileext);
+        objectMetadata.setContentType(contentType + ext);
         final TransferObserver uploadObserver = transferUtility.upload(Constants.AWS_KEY, new File(filepath), objectMetadata);
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
@@ -85,7 +93,7 @@ public class S3AwsHelper {
         });
     }
 
-    public void downloadWithTransferUtility(String awsKey, String msgFp, int mediaType, String downloadPath, IAWSFileRequest request) {
+    public void downloadWithTransferUtility(String awsKey, String msgFp, int mediaType, long account, String downloadPath, IAWSFileRequest request) {
         TransferUtility transferUtility = WSManager.getInstance().getTransferUtility();
         if (transferUtility == null) {
             LogUtil.e(TAG, "downloadWithTransferUtility::get transfer utility fail");
@@ -100,7 +108,7 @@ public class S3AwsHelper {
             boolean mkdir = folder.mkdir();
             LogUtil.d(TAG, "downloadWithTransferUtility::mkdir is: " + mkdir);
         }
-        final File localMediaFileByUrl = findLocalMediaFileByUrl(awsKey, mediaType, downloadPath);
+        final File localMediaFileByUrl = findLocalMediaFileByUrl(awsKey, mediaType, account, downloadPath);
         if (localMediaFileByUrl.exists()) {
             request.aws_success(Constants.AWS_DOWNLOAD, msgFp, localMediaFileByUrl.getPath());
             downloadList.remove(awsKey);
@@ -158,19 +166,26 @@ public class S3AwsHelper {
         });
     }
 
-    private File findLocalMediaFileByUrl(String fileUrl, int type, String downloadPath) {
+    private File findLocalMediaFileByUrl(String fileUrl, int type, long account, String downloadPath) {
         try {
             int i = fileUrl.indexOf("?");
             if (i > 0) {
                 fileUrl = fileUrl.substring(0, i);
             }
-            LogUtil.d(TAG, "findLocalMediaFileByUrl::filepath is: " + fileUrl);
+            String paasImPrefix = RtcSpUtils.getInstance().getPaasImPrefix();
+            if (account != 0L) {
+                paasImPrefix = paasImPrefix + ":" + account;
+            }
+            LogUtil.d(TAG, "findLocalMediaFileByUrl::filepath is: " + fileUrl + " paasImPrefix:" + paasImPrefix + " account:" + account);
             String fileExt = "";
             int filePublicIndex;
             if (type == Constants.MSG_SEND_VOICE) {
-                filePublicIndex = fileUrl.indexOf("story/");
+                filePublicIndex = fileUrl.indexOf(paasImPrefix + "/voice/");
+            } else if (type == Constants.MSG_SEND_IMAGE) {
+                filePublicIndex = fileUrl.indexOf(paasImPrefix + "/image/");
             } else {
-                filePublicIndex = fileUrl.indexOf(Constants.AWS_KEY);
+                LogUtil.e(TAG, "findLocalMediaFileByUrl file type is unknown");
+                return null;
             }
             if (filePublicIndex < 0) {
                 filePublicIndex = 0;

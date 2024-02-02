@@ -2,6 +2,7 @@ package com.code.youyu.api;
 
 import com.code.bean.AccountBean;
 import com.code.bean.AccountStateBean;
+import com.code.bean.AwsStsBean;
 import com.code.bean.ChannelTokenBean;
 import com.code.bean.ChannelResultBean;
 import com.code.bean.JoinChannelBean;
@@ -33,7 +34,7 @@ public interface HttpApi {
     String START_MATCH = "channel/channel/match";
     String START_SKIP = "channel/channel/match/skip";
     String GET_LANGUAGE_LIST = "broadcaster/language";
-
+    String GET_STS = "sts/aws";
     @GET(GET_CHANNEL_TOKEN)
     Observable<ChannelTokenBean> getChannelToken(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token, @Path("channelId") String channelId);
 
@@ -66,7 +67,9 @@ public interface HttpApi {
 
     @GET(GET_LANGUAGE_LIST)
     Observable<LanguageBean> getLanguageList(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp, @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token);
-
+    @GET(GET_STS)
+    Observable<AwsStsBean> requestAwsSts(@Header("Authorization") String authorization, @Header("X-Uyj-Timestamp") String X_Uyj_Timestamp
+            , @Header("Content-Type") String Content_Type, @Header("Session-Token") String Session_Token);
     /*==============================model=======================================*/
     String BASE_BROADCASTER_URL = "https://broadcaster.streamingxapp.com/v1/";
     String BASE_BROADCASTER_TEST_URL = "https://broadcaster.hitradegate.com/v1/";

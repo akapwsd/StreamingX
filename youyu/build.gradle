@@ -69,7 +69,7 @@ android {
 }
 
 greendao {
-    schemaVersion 3 //greendao version
+    schemaVersion 4 //greendao version
     daoPackage 'com.code.data.greendao'
     targetGenDir 'src/main/java'
 }
