@@ -1007,7 +1007,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         this.chatMsgListener = chatMsgListener;
         PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder().setMsg(msgBase.build()).build();
         byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
-        LogUtil.d(TAG, "broadcastMediaSend sendTextMsg data:" + Arrays.toString(bytes));
+        LogUtil.d(TAG, "broadcastMediaSend sendMediaMsg data:" + Arrays.toString(bytes));
         send(ByteString.of(bytes));
         return msgBase.getMsgFp();
     }

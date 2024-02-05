@@ -10,11 +10,13 @@ import com.code.utils.LogUtil;
 import com.code.utils.RtcSpUtils;
 import com.code.youyu.api.Constants;
 import com.google.gson.Gson;
+import com.google.protobuf.InvalidProtocolBufferException;
 
 import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.util.List;
 
+import uyujoy.api.paasim.frontend.MediaBase;
 import uyujoy.api.paasim.frontend.MsgBase;
 
 public class MessageHelper {
@@ -103,48 +105,73 @@ public class MessageHelper {
 
     public synchronized void insertOrReplaceDataData(MsgBase.paasMsgRecord paasMsgRecord) {
         LogUtil.d(TAG, "insertData start insert data! paasMsgRecord:" + paasMsgRecord);
-        synchronized (msgBeanDao) {
-            MsgBean msgBean = new MsgBean();
-            msgBean.setAvatar(paasMsgRecord.getUser().getAvatar());
-            msgBean.setNickName(paasMsgRecord.getUser().getName());
-            msgBean.setContent(paasMsgRecord.getMsgTxt());
-            msgBean.setActualTime(paasMsgRecord.getSendTime());
-            msgBean.setFp(paasMsgRecord.getMsgFp());
-            msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
-            msgBean.setIsBroadcaster(paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER);
-            msgBean.setSourceType(Constants.MSG_SENDER);
-            if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
-                msgBean.setSourceType(Constants.MSG_SENDER);
-                msgBean.setPeerUid(paasMsgRecord.getTo().getId());
-                msgBean.setAccount(paasMsgRecord.getTo().getAccount());
-                if (paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER) {
-                    msgBean.setUserType(Constants.TYPE_BROADCASTER);
+        try {
+            synchronized (msgBeanDao) {
+                MsgBean msgBean = new MsgBean();
+                msgBean.setAvatar(paasMsgRecord.getUser().getAvatar());
+                msgBean.setNickName(paasMsgRecord.getUser().getName());
+                msgBean.setActualTime(paasMsgRecord.getSendTime());
+                msgBean.setFp(paasMsgRecord.getMsgFp());
+                msgBean.setUid(RtcSpUtils.getInstance().getUserUid());
+                msgBean.setIsBroadcaster(paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER);
+                if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getFrom().getId())) {
+                    msgBean.setSourceType(Constants.MSG_SENDER);
+                    msgBean.setPeerUid(paasMsgRecord.getTo().getId());
+                    msgBean.setAccount(paasMsgRecord.getTo().getAccount());
+                    if (paasMsgRecord.getTo().getType() == MsgBase.UserType.BROADCASTER) {
+                        msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                    } else {
+                        msgBean.setUserType(Constants.TYPE_USER);
+                    }
+                } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo().getId())) {
+                    msgBean.setSourceType(Constants.MSG_RECEIVER);
+                    msgBean.setPeerUid(paasMsgRecord.getFrom().getId());
+                    msgBean.setAccount(paasMsgRecord.getFrom().getAccount());
+                    if (paasMsgRecord.getFrom().getType() == MsgBase.UserType.BROADCASTER) {
+                        msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                    } else {
+                        msgBean.setUserType(Constants.TYPE_USER);
+                    }
                 } else {
-                    msgBean.setUserType(Constants.TYPE_USER);
+                    msgBean.setSourceType(Constants.MSG_UNKNOWN);
+                    LogUtil.e(TAG, "insertOrReplaceDataData fail data is error");
+                    return;
                 }
-            } else if (RtcSpUtils.getInstance().getUserUid().equals(paasMsgRecord.getTo().getId())) {
-                msgBean.setSourceType(Constants.MSG_RECEIVER);
-                msgBean.setPeerUid(paasMsgRecord.getFrom().getId());
-                msgBean.setAccount(paasMsgRecord.getFrom().getAccount());
-                if (paasMsgRecord.getFrom().getType() == MsgBase.UserType.BROADCASTER) {
-                    msgBean.setUserType(Constants.TYPE_BROADCASTER);
+                msgBean.setState(Constants.SENDING);
+                int msgType = paasMsgRecord.getMsgType();
+                LogUtil.d(TAG, "insertOrReplaceDataData msgType:" + msgType);
+                msgBean.setStatus(msgType);
+                if (msgType == Constants.MSG_SEND_IMAGE) {
+                    MediaBase.mediaImage mediaImage = MediaBase.mediaImage.parseFrom(paasMsgRecord.getMedia().getMediaContent());
+                    msgBean.setLocalPath(mediaImage.getPreview().getUrl());
+                    msgBean.setHash(mediaImage.getPreview().getHash());
+                    msgBean.setWight(mediaImage.getPreview().getWight());
+                    msgBean.setHeight(mediaImage.getPreview().getHeight());
+                    msgBean.setSize(mediaImage.getPreview().getSize());
+                    msgBean.setExt(mediaImage.getExt());
+                } else if (msgType == Constants.MSG_SEND_VOICE) {
+                    MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.parseFrom(paasMsgRecord.getMedia().getMediaContent());
+                    msgBean.setLocalPath(mediaAudio.getUrl());
+                    msgBean.setHash(mediaAudio.getHash());
+                    msgBean.setTime(mediaAudio.getTimeLen());
+                    msgBean.setSize(mediaAudio.getSize());
+                    msgBean.setExt(mediaAudio.getExtName());
+                } else if (msgType == Constants.MSG_SEND_TEXT) {
+                    msgBean.setContent(paasMsgRecord.getMsgTxt());
                 } else {
-                    msgBean.setUserType(Constants.TYPE_USER);
+                    LogUtil.e(TAG, "insertOrReplaceDataData fail data type is error");
+                    return;
                 }
-            } else {
-                msgBean.setSourceType(Constants.MSG_UNKNOWN);
-                LogUtil.e(TAG, "insertOrReplaceDataData fail data is error");
-                return;
+                long l = msgBeanDao.insertOrReplace(msgBean);
+                LogUtil.d(TAG, "insertData::msg insert to database index is " + l);
+                if (greendaoDataListener != null && QueryId.equals(msgBean.getPeerUid())) {
+                    greendaoDataListener.DataChange(msgBean);
+                }
+                ChatListHelper.getSingleton().insertOrReplaceData(msgBean);
+                UserInfoHelper.getSingleton().insertOrReplaceData(msgBean);
             }
-            msgBean.setState(Constants.SENDING);
-            msgBean.setStatus(paasMsgRecord.getMsgType());
-            long l = msgBeanDao.insertOrReplace(msgBean);
-            LogUtil.d(TAG, "insertData::msg insert to database index is " + l);
-            if (greendaoDataListener != null && QueryId.equals(msgBean.getPeerUid())) {
-                greendaoDataListener.DataChange(msgBean);
-            }
-            ChatListHelper.getSingleton().insertOrReplaceData(msgBean);
-            UserInfoHelper.getSingleton().insertOrReplaceData(msgBean);
+        } catch (InvalidProtocolBufferException e) {
+            throw new RuntimeException(e);
         }
     }
 
