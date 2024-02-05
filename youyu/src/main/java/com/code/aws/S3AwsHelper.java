@@ -35,12 +35,13 @@ public class S3AwsHelper {
         return single;
     }
 
-    public void uploadWithTransferUtility(final String msgFp, final String filepath, final String ext, final int status, long account, IAWSFileRequest request) {
+    public void uploadWithTransferUtility(final String msgFp, final String filepath, final String ext, final String hash, final int status, long account, IAWSFileRequest request) {
         TransferUtility transferUtility = WSManager.getInstance().getTransferUtility();
         if (transferUtility == null) {
             LogUtil.e(TAG, "uploadWithTransferUtility::get transfer utility fail");
             return;
         }
+        String key = Constants.IM_AWS_KEY + hash + "." + ext;
         String paasImPrefix = RtcSpUtils.getInstance().getPaasImPrefix();
         String contentType;
         if (account != 0L) {
@@ -54,10 +55,10 @@ public class S3AwsHelper {
             LogUtil.e(TAG, "uploadWithTransferUtility file type is unknown");
             return;
         }
-        LogUtil.d(TAG, "uploadWithTransferUtility::key is: " + Constants.AWS_KEY + " paasImPrefix:" + paasImPrefix + " account:" + account + " contentType:" + contentType);
+        LogUtil.d(TAG, "uploadWithTransferUtility::key is: " + key + " paasImPrefix:" + paasImPrefix + " account:" + account + " contentType:" + contentType);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(contentType + ext);
-        final TransferObserver uploadObserver = transferUtility.upload(Constants.AWS_KEY, new File(filepath), objectMetadata);
+        final TransferObserver uploadObserver = transferUtility.upload(key, new File(filepath), objectMetadata);
         uploadObserver.setTransferListener(new TransferListener() {
             @Override
             public void onStateChanged(int id, TransferState state) {

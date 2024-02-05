@@ -1016,6 +1016,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         File file = new File(filePath);
         if (file.exists()) {
             String fileSuffix = "";
+            String hash = "";
             this.chatMsgListener = chatMsgListener;
             MediaBase.mediaImagePreview.Builder mediaImagePreview = null;
             MediaBase.mediaImage.Builder mediaImage = null;
@@ -1041,20 +1042,20 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             msgBase.setSendTime(System.currentTimeMillis());
             msgBase.setUser(userInfo.build());
             mediaRecord.setMediaType(mediaType);
+            fileSuffix = DataUtils.getFileSuffix(file.getName());
+            hash = DataUtils.fileToHash(filePath);
             if (mediaType == Constants.MSG_SEND_IMAGE) {
-                fileSuffix = DataUtils.getFileSuffix(file.getName());
-                mediaImagePreview = MediaBase.mediaImagePreview.newBuilder().setSize((int) file.length()).setHash(DataUtils.fileToHash(filePath)).setUrl(filePath).setHeight(DataUtils.fileToBitmap(filePath).getHeight()).setWight(DataUtils.fileToBitmap(filePath).getWidth());
+                mediaImagePreview = MediaBase.mediaImagePreview.newBuilder().setSize((int) file.length()).setHash(hash).setUrl(filePath).setHeight(DataUtils.fileToBitmap(filePath).getHeight()).setWight(DataUtils.fileToBitmap(filePath).getWidth());
                 mediaImage = MediaBase.mediaImage.newBuilder().setExt(fileSuffix);
             } else if (mediaType == Constants.MSG_SEND_VOICE) {
-                fileSuffix = DataUtils.getFileSuffix(file.getName());
-                mediaAudio = MediaBase.mediaAudio.newBuilder().setExtName(fileSuffix).setSize((int) file.length()).setHash(DataUtils.fileToHash(filePath)).setName(file.getName()).setUrl(filePath).setTimeLen((int) DataUtils.getMediaTime(filePath));
+                mediaAudio = MediaBase.mediaAudio.newBuilder().setExtName(fileSuffix).setSize((int) file.length()).setHash(hash).setName(file.getName()).setUrl(filePath).setTimeLen((int) DataUtils.getMediaTime(filePath));
             }
             MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
             MessageHelper.getSingleton().insertOrReplaceDataData(msgBase.build());
             MediaBase.mediaImage.Builder finalMediaImage = mediaImage;
             MediaBase.mediaAudio.Builder finalMediaAudio = mediaAudio;
             MediaBase.mediaImagePreview.Builder finalMediaImagePreview = mediaImagePreview;
-            S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, fileSuffix, mediaType, account, new S3AwsHelper.IAWSFileRequest() {
+            S3AwsHelper.getInstance().uploadWithTransferUtility(msgFp, filePath, fileSuffix, hash, mediaType, account, new S3AwsHelper.IAWSFileRequest() {
                 @Override
                 public void aws_success(int requestType, String msgFp, String key) {
                     byte[] byteData = new byte[0];

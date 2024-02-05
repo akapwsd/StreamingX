@@ -36,7 +36,7 @@ public class Constants {
     public static final String AWS_HTTPS_HEAD = "https://ujoy-paas-formal-eks.s3.us-west-2.amazonaws.com/";
     public static final String Bucket = "ujoy-paas-test-im";
     public static final String Region = "ap-southeast-1";//""us-west-2";
-    public static final String AWS_KEY = "broadcaster/cover/";
+    public static final String IM_AWS_KEY = "im/file/";
     public static final int MSG_RECEIVER = 2;
     public static final int MSG_SENDER = 1;
     public static final int MSG_UNKNOWN = -1;
