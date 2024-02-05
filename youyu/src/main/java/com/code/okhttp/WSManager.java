@@ -1047,8 +1047,10 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
             if (mediaType == Constants.MSG_SEND_IMAGE) {
                 mediaImagePreview = MediaBase.mediaImagePreview.newBuilder().setSize((int) file.length()).setHash(hash).setUrl(filePath).setHeight(DataUtils.fileToBitmap(filePath).getHeight()).setWight(DataUtils.fileToBitmap(filePath).getWidth());
                 mediaImage = MediaBase.mediaImage.newBuilder().setExt(fileSuffix);
+                msgBase.setMedia(mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(mediaImage.build().toByteArray())).build());
             } else if (mediaType == Constants.MSG_SEND_VOICE) {
                 mediaAudio = MediaBase.mediaAudio.newBuilder().setExtName(fileSuffix).setSize((int) file.length()).setHash(hash).setName(file.getName()).setUrl(filePath).setTimeLen((int) DataUtils.getMediaTime(filePath));
+                msgBase.setMedia(mediaRecord.setMediaContent(com.google.protobuf.ByteString.copyFrom(mediaAudio.build().toByteArray())).build());
             }
             MessageLoopThread.getInstance().addWaitMsg(chatMsgListener, msgFp, msgBase.getMsgType() + "_" + msgBase.getSendTime());
             MessageHelper.getSingleton().insertOrReplaceDataData(msgBase.build());
