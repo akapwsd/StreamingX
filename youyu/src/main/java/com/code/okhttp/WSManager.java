@@ -1003,6 +1003,15 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         });
     }
 
+    public String broadcastMediaSend(MsgBase.paasMsgRecord.Builder msgBase, ChatMsgListener chatMsgListener) {
+        this.chatMsgListener = chatMsgListener;
+        PaasIm.paasImMsgSend paasImMsgSend = PaasIm.paasImMsgSend.newBuilder().setMsg(msgBase.build()).build();
+        byte[] bytes = DataUtils.assembleData(0xa58faca5, paasImMsgSend.toByteArray());
+        LogUtil.d(TAG, "broadcastMediaSend sendTextMsg data:" + Arrays.toString(bytes));
+        send(ByteString.of(bytes));
+        return msgBase.getMsgFp();
+    }
+
     public String sendMediaMsg(String mUid, String peerUid, boolean isBroadcaster, long account, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         File file = new File(filePath);
         if (file.exists()) {

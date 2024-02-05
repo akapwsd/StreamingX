@@ -664,10 +664,6 @@ public class StreamingXRtcManager {
         return WSManager.getInstance().sendMediaMsg(mUid, peerUid, false, 0L, filePath, mediaType, nickName, avatar, chatMsgListener);
     }
 
-    public String broadcasterSendMedia(String mUid, String peerUid, boolean isBroadcast, long account, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
-        return WSManager.getInstance().sendMediaMsg(mUid, peerUid, isBroadcast, account, filePath, mediaType, nickName, avatar, chatMsgListener);
-    }
-
     public String sendMediaMsgToBroadcaster(String mUid, String peerUid, String filePath, int mediaType, String nickName, String avatar, ChatMsgListener chatMsgListener) {
         return WSManager.getInstance().sendMediaMsg(mUid, peerUid, true, 0L, filePath, mediaType, nickName, avatar, chatMsgListener);
     }
