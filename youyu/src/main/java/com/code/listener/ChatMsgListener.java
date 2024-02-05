@@ -12,7 +12,7 @@ package com.code.listener;
 public interface ChatMsgListener {
     void sendResult(String fp, int state);
 
-    void sendFail(int code, String error);
+    void sendFail(String fp, int code, String error);
 
-    void sendProgress(int progress);
+    void sendProgress(String fp, int progress);
 }

@@ -95,7 +95,7 @@ public class MessageLoopThread {
                 return;
             }
             MessageHelper.getSingleton().modifyMessageState(fp, Constants.SEND_FAIL);
-            chatMsgListener.sendFail(Constants.SEND_FAIL, "send msg fail");
+            chatMsgListener.sendFail(fp, Constants.SEND_FAIL, "send msg fail");
         }
     }
 
@@ -137,14 +137,14 @@ public class MessageLoopThread {
                                     if (nowTime - time > outTime) {
                                         MessageHelper.getSingleton().modifyMessageState(fp, Constants.SEND_FAIL);
                                         waitingReceiptMap.remove(fp);
-                                        chatMsgListener.sendFail(Constants.SEND_TIMEOUT, "send msg time out");
+                                        chatMsgListener.sendFail(fp, Constants.SEND_TIMEOUT, "send msg time out");
                                     }
                                 }
                             } else {
                                 LogUtil.e(TAG, "CHECK_DATA::msg info is null");
                                 MessageHelper.getSingleton().modifyMessageState(fp, Constants.SEND_FAIL);
                                 waitingReceiptMap.remove(fp);
-                                chatMsgListener.sendFail(Constants.SEND_TIMEOUT, "send msg time out");
+                                chatMsgListener.sendFail(fp, Constants.SEND_TIMEOUT, "send msg time out");
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
