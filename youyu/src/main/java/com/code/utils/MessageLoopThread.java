@@ -69,7 +69,7 @@ public class MessageLoopThread {
                         LogUtil.d(TAG, "removeReceivedHz::remove fp: " + fp);
                     }
                 }
-                MessageHelper.getSingleton().modifyMessageState(fp, Constants.SEND_SUCCESS); //消息发送成功，对方还未阅读
+                MessageHelper.getSingleton().modifyMessageState(fp, Constants.SEND_SUCCESS);
             } else {
                 handSendFailMsg(fp);
             }

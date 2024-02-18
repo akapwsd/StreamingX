@@ -1082,11 +1082,13 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
 
                 @Override
                 public void aws_progress(int requestType, String msgFp, int progress) {
+                    MessageHelper.getSingleton().modifyMessageProgress(msgFp, progress);
                     chatMsgListener.sendProgress(msgFp, progress);
                 }
 
                 @Override
                 public void aws_error(int requestType, String msgFp, int error_code, String error_msg) {
+                    MessageHelper.getSingleton().modifyMessageState(msgFp, Constants.SEND_FAIL); //消息发送成功，对方还未阅读
                     chatMsgListener.sendFail(msgFp, error_code, error_msg);
                 }
             });
