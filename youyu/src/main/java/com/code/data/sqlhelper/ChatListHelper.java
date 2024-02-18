@@ -73,6 +73,7 @@ public class ChatListHelper {
             chatListBean.setAccount(msgBean.getAccount());
             chatListBean.setSourceType(msgBean.getSourceType());
             chatListBean.setUserType(msgBean.getUserType());
+            chatListBean.setStatus(msgBean.getStatus());
             if (chatListBeanDao != null) {
                 chatListBeanDao.insertOrReplace(chatListBean);
             }
@@ -93,6 +94,7 @@ public class ChatListHelper {
             unique.setSourceType(msgBean.getSourceType());
             unique.setAccount(msgBean.getAccount());
             unique.setUserType(msgBean.getUserType());
+            unique.setStatus(msgBean.getStatus());
             if (chatListBeanDao != null) {
                 chatListBeanDao.update(unique);
             }
