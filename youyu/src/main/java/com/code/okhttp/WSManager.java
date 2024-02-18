@@ -502,6 +502,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
 
     @Override
     public void result(boolean mInitState) {
+        LogUtil.d(TAG, "GreenDao result mInitState:" + mInitState);
         if (mInitState) {
             if (isNeedGetState) {
                 getStates();
