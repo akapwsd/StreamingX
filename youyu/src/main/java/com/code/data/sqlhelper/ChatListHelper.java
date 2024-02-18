@@ -21,6 +21,8 @@ public class ChatListHelper {
         DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
         if (daoSession != null) {
             chatListBeanDao = daoSession.getChatListBeanDao();
+        } else {
+            LogUtil.e(TAG, "daoSession is null");
         }
     }
 
@@ -28,7 +30,11 @@ public class ChatListHelper {
 
     public static ChatListHelper getSingleton() {
         if (chatListHelper == null) {
-            chatListHelper = new ChatListHelper();
+            synchronized (ChatListHelper.class) {
+                if (chatListHelper == null) {
+                    chatListHelper = new ChatListHelper();
+                }
+            }
         }
         return chatListHelper;
     }
