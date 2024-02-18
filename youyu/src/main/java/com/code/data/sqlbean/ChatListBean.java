@@ -159,4 +159,23 @@ public class ChatListBean {
     public void setUserAvatar(String userAvatar) {
         this.userAvatar = userAvatar;
     }
+
+    @Override
+    public String toString() {
+        return "ChatListBean{" +
+                "id=" + id +
+                ", mUid='" + mUid + '\'' +
+                ", peerUid='" + peerUid + '\'' +
+                ", userType=" + userType +
+                ", unreadMsgCount=" + unreadMsgCount +
+                ", account=" + account +
+                ", oldMessageTime=" + oldMessageTime +
+                ", oldMessage='" + oldMessage + '\'' +
+                ", status=" + status +
+                ", sourceType=" + sourceType +
+                ", nickName='" + nickName + '\'' +
+                ", sendState=" + sendState +
+                ", userAvatar='" + userAvatar + '\'' +
+                '}';
+    }
 }

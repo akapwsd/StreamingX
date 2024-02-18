@@ -248,7 +248,7 @@ public class MessageHelper {
      * state //数据状态 1成功 2失败 3发送中 4暂停
      */
     public void modifyMessageProgress(final String fp, final double progress) {
-        LogUtil.d("modifyMessageProgress", "fp :" + fp + "  progress" + progress);
+        LogUtil.d(TAG, "modifyMessageProgress fp :" + fp + "  progress" + progress);
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
         MsgBean unique = qb.where(MsgBeanDao.Properties.Fp.eq(fp)).build().forCurrentThread().unique();
         if (unique != null) {
@@ -317,7 +317,9 @@ public class MessageHelper {
 
     public long getLastPtsDate() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()), MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()))
+                .orderDesc(MsgBeanDao.Properties.ActualTime)
+                .limit(1).build().forCurrentThread().unique();
         if (msgBean != null) {
             return msgBean.getActualTime();
         } else {
@@ -327,7 +329,7 @@ public class MessageHelper {
 
     public long getLastPts() {
         QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
-        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid()), MsgBeanDao.Properties.SourceType.eq(Constants.MSG_RECEIVER)).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
+        MsgBean msgBean = qb.where(MsgBeanDao.Properties.Uid.eq(RtcSpUtils.getInstance().getUserUid())).orderDesc(MsgBeanDao.Properties.ActualTime).limit(1).build().forCurrentThread().unique();
         if (msgBean != null) {
             return msgBean.getPts();
         } else {
