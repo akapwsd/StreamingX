@@ -514,7 +514,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
     }
 
     WSManager() {
-        GreenDaoHelper.getSingleTon().setGreenDaoInitResultListener(this);
+        GreenDaoHelper.getSingleTon().setGreenDaoInitResultListener(TAG, this);
     }
 
     private static final class SInstanceHolder {
@@ -1149,9 +1149,9 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
         send(ByteString.of(bytes));
     }
 
-    public List<ChatListBean> getChatList(String uid) {
+    public void getChatList(String uid, ChatListHelper.QueryResultListener listener) {
         LogUtil.d(TAG, "getChatList is start uid:" + uid);
-        return ChatListHelper.getSingleton().getAllChatList(uid);
+        ChatListHelper.getSingleton().getAllChatList(uid, listener);
     }
 
     public List<MsgBean> getChatMsgList(String uid, String peerUid, int userType, long account) {

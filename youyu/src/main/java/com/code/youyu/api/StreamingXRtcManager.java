@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 import com.code.bean.ChannelTokenBean;
 import com.code.data.sqlbean.ChatListBean;
 import com.code.data.sqlbean.MsgBean;
+import com.code.data.sqlhelper.ChatListHelper;
 import com.code.listener.ChannelMsgListener;
 import com.code.listener.ChatMsgListener;
 import com.code.listener.DownloadListener;
@@ -688,8 +689,8 @@ public class StreamingXRtcManager {
         WSManager.getInstance().getStates();
     }
 
-    public List<ChatListBean> getChatList(String uid) {
-        return WSManager.getInstance().getChatList(uid);
+    public void getChatList(String uid, ChatListHelper.QueryResultListener listener) {
+        WSManager.getInstance().getChatList(uid, listener);
     }
 
     public List<MsgBean> getChatMsgList(String uid, String peerUid, int userType) {

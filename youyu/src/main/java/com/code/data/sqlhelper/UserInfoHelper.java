@@ -13,11 +13,12 @@ import org.greenrobot.greendao.query.QueryBuilder;
 import java.util.List;
 
 
-public class UserInfoHelper {
+public class UserInfoHelper implements GreenDaoHelper.GreenDaoInitResultListener {
     private static final String TAG = "UserInfoHelper";
     private UserInfoBeanDao userInfoBeanDao;
 
     public UserInfoHelper() {
+        GreenDaoHelper.getSingleTon().setGreenDaoInitResultListener(TAG, this);
         DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
         if (daoSession != null) {
             userInfoBeanDao = daoSession.getUserInfoBeanDao();
@@ -96,5 +97,10 @@ public class UserInfoHelper {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void result(boolean mInitState) {
+
     }
 }

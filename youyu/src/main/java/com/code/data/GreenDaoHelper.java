@@ -4,12 +4,16 @@ import android.content.Context;
 
 import com.code.data.greendao.DaoMaster;
 import com.code.data.greendao.DaoSession;
+import com.code.listener.IRtcEngineEventCallBackHandler;
 import com.code.utils.LogUtil;
 import com.code.utils.ThreadPoolUtils;
 import com.code.youyu.api.StreamingXRtcManager;
 
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.identityscope.IdentityScopeType;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class GreenDaoHelper {
     private static final String TAG = "GreenDaoHelper";
@@ -19,7 +23,7 @@ public class GreenDaoHelper {
     private DaoMaster mDaoMaster;
     private DaoSession mDaoSession;
     private boolean mInitState;
-    private GreenDaoInitResultListener greenDaoInitResultListener;
+    private final HashMap<String, GreenDaoInitResultListener> greenDaoInitMap = new HashMap<>();
     private static GreenDaoHelper greenDaoUtils;
 
     private GreenDaoHelper() {
@@ -37,7 +41,7 @@ public class GreenDaoHelper {
     }
 
     public void initGreenDao(Context context) {
-//        ThreadPoolUtils.execute(() -> {
+        ThreadPoolUtils.execute(() -> {
             LogUtil.d(TAG, "initGreenDao is start!");
             mHelper = new SqlOpenHelper(context, DB_NAME, null);
             LogUtil.d(TAG, "===============================NORMAL DATABASE==========================");
@@ -51,11 +55,14 @@ public class GreenDaoHelper {
                 LogUtil.d(TAG, "initGreenDao::listener is null");
                 mInitState = false;
             }
-            if (greenDaoInitResultListener != null) {
-                greenDaoInitResultListener.result(mInitState);
+            for (Map.Entry<String, GreenDaoInitResultListener> entry : greenDaoInitMap.entrySet()) {
+                GreenDaoInitResultListener greenDaoInitResultListener = entry.getValue();
+                if (greenDaoInitResultListener != null) {
+                    greenDaoInitResultListener.result(mInitState);
+                }
             }
             LogUtil.d(TAG, "initGreenDao is end!");
-//        });
+        });
     }
 
     public DaoSession getmDaoSession() {
@@ -76,8 +83,8 @@ public class GreenDaoHelper {
         DaoMaster.createAllTables(daoMaster.getDatabase(), true);
     }
 
-    public void setGreenDaoInitResultListener(GreenDaoInitResultListener greenDaoInitResultListener) {
-        this.greenDaoInitResultListener = greenDaoInitResultListener;
+    public void setGreenDaoInitResultListener(String TAG, GreenDaoInitResultListener greenDaoInitResultListener) {
+        greenDaoInitMap.put(TAG, greenDaoInitResultListener);
     }
 
     public interface GreenDaoInitResultListener {

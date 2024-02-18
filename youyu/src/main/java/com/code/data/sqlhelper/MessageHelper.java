@@ -19,7 +19,7 @@ import java.util.List;
 import uyujoy.api.paasim.frontend.MediaBase;
 import uyujoy.api.paasim.frontend.MsgBase;
 
-public class MessageHelper {
+public class MessageHelper implements GreenDaoHelper.GreenDaoInitResultListener {
     private static final String TAG = "MessageHelper";
     private Gson gson;
     private static MessageHelper messageHelper;
@@ -28,6 +28,7 @@ public class MessageHelper {
     private String QueryId = "";
 
     public MessageHelper() {
+        GreenDaoHelper.getSingleTon().setGreenDaoInitResultListener(TAG, this);
         gson = new Gson();
         DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
         if (daoSession != null) {
@@ -62,6 +63,11 @@ public class MessageHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void result(boolean mInitState) {
+
     }
 
     public interface GreenDaoDataListener {
