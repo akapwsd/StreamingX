@@ -164,6 +164,7 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
     }
 
     public void delete(String mUid, String peerId, int userType, long account) {
+        LogUtil.d(TAG, "delete is start mUid:" + mUid + " peerId:" + peerId + " userType:" + userType + " account:" + account);
         DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
         if (daoSession != null) {
             chatListBeanDao = daoSession.getChatListBeanDao();
@@ -185,12 +186,8 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
         if (dataListener != null) {
             dataListener.delete(peerId);
         }
-        ChatListBeanDao tempChatMessageBeanDao = GreenDaoHelper.getSingleTon().getmDaoSession().getChatListBeanDao();
-        QueryBuilder<ChatListBean> tempChatMessageBeanQueryBuilder = tempChatMessageBeanDao.queryBuilder();
-        List<ChatListBean> list = tempChatMessageBeanQueryBuilder.where(ChatListBeanDao.Properties.MUid.eq(mUid), ChatListBeanDao.Properties.PeerUid.eq(peerId)).build().forCurrentThread().list();
-        if (list != null) {
-            tempChatMessageBeanDao.deleteInTx(list);
-        }
+        MessageHelper.getSingleton().deleteSomeOneAllMsg(mUid, peerId, userType, account);
+        LogUtil.d(TAG, "delete is end");
     }
 
     public void deleteAll(String mUid) {

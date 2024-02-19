@@ -194,6 +194,31 @@ public class MessageHelper implements GreenDaoHelper.GreenDaoInitResultListener 
         }
     }
 
+    public void deleteAllMessage() {
+        LogUtil.d(TAG, "deleteAllMessage is start");
+        try {
+            msgBeanDao.deleteAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        LogUtil.d(TAG, "deleteAllMessage is end");
+    }
+
+    public void deleteSomeOneAllMsg(String uid, String peerUid, int userType, long account) {
+        LogUtil.d(TAG, "deleteSomeOneAllMsg is start uid:" + uid + " peerUid:" + peerUid + " userType:" + userType + " account:" + account);
+        QueryBuilder<MsgBean> qb = msgBeanDao.queryBuilder();
+        List<MsgBean> list = qb.where(MsgBeanDao.Properties.Uid.eq(uid)
+                , MsgBeanDao.Properties.PeerUid.eq(peerUid)
+                , MsgBeanDao.Properties.UserType.eq(userType)
+                , MsgBeanDao.Properties.Account.eq(account)).build().forCurrentThread().list();
+        if (list != null) {
+            for (MsgBean unique : list) {
+                msgBeanDao.deleteInTx(unique);
+            }
+        }
+        LogUtil.d(TAG, "deleteSomeOneAllMsg is end");
+    }
+
     /**
      * delete msg by fp
      */
