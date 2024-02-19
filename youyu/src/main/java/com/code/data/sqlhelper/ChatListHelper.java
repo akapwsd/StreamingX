@@ -113,6 +113,10 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
     public void insertOrReplaceData(MsgBean msgBean) {
         if (chatListBeanDao == null) {
             eventMap.put(EVENT_INSERT, msgBean);
+            DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
+            if (daoSession != null) {
+                chatListBeanDao = daoSession.getChatListBeanDao();
+            }
             return;
         }
         ChatListBean unique = getChatListBean(msgBean.getUid(), msgBean.getPeerUid(), msgBean.getUserType(), msgBean.getAccount());
@@ -167,6 +171,10 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
             userInfoBean.setUserType(userType);
             userInfoBean.setAccount(account);
             eventMap.put(EVENT_DELETE, userInfoBean);
+            DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
+            if (daoSession != null) {
+                chatListBeanDao = daoSession.getChatListBeanDao();
+            }
             return;
         }
         QueryBuilder<ChatListBean> qb = chatListBeanDao.queryBuilder();
@@ -188,6 +196,10 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
     public void deleteAll(String mUid) {
         if (chatListBeanDao == null) {
             eventMap.put(EVENT_DELETE_ALL, mUid);
+            DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
+            if (daoSession != null) {
+                chatListBeanDao = daoSession.getChatListBeanDao();
+            }
             return;
         }
         ChatListBeanDao tempChatMessageBeanDao = GreenDaoHelper.getSingleTon().getmDaoSession().getChatListBeanDao();
@@ -219,6 +231,10 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
                 userInfoBean.setUserType(userType);
                 userInfoBean.setAccount(account);
                 eventMap.put(EVENT_QUERY_LIST_BEAN, userInfoBean);
+                DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
+                if (daoSession != null) {
+                    chatListBeanDao = daoSession.getChatListBeanDao();
+                }
                 return;
             }
             QueryBuilder<ChatListBean> qb = chatListBeanDao.queryBuilder();
@@ -237,6 +253,10 @@ public class ChatListHelper implements GreenDaoHelper.GreenDaoInitResultListener
             if (chatListBeanDao == null) {
                 LogUtil.e(TAG, "getAllChatList is start chatListBeanDao is null");
                 eventMap.put(EVENT_GET_ALL_DATA, mUid);
+                DaoSession daoSession = GreenDaoHelper.getSingleTon().getmDaoSession();
+                if (daoSession != null) {
+                    chatListBeanDao = daoSession.getChatListBeanDao();
+                }
                 return;
             }
             LogUtil.d(TAG, "getAllChatList is start search mUid:" + mUid);
