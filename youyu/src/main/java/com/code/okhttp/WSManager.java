@@ -345,6 +345,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                     MediaBase.mediaRecord media = msg.getMedia();
                     if (msgType == Constants.MSG_SEND_IMAGE) {
                         MediaBase.mediaImage mediaImage = MediaBase.mediaImage.parseFrom(media.getMediaContent());
+                        LogUtil.d(TAG, "mediaImage:" + mediaImage);
                         msgBean.setLocalPath(mediaImage.getPreview().getUrl());
                         msgBean.setHash(mediaImage.getPreview().getHash());
                         msgBean.setWight(mediaImage.getPreview().getWight());
@@ -352,6 +353,7 @@ public class WSManager implements GreenDaoHelper.GreenDaoInitResultListener {
                         msgBean.setSize(mediaImage.getPreview().getSize());
                     } else if (msgType == Constants.MSG_SEND_VOICE) {
                         MediaBase.mediaAudio mediaAudio = MediaBase.mediaAudio.parseFrom(media.getMediaContent());
+                        LogUtil.d(TAG, "mediaAudio:" + mediaAudio);
                         msgBean.setLocalPath(mediaAudio.getUrl());
                         msgBean.setHash(mediaAudio.getHash());
                         msgBean.setSize(mediaAudio.getSize());
