@@ -1,70 +1,70 @@
 package com.code.bean;
 
 public class AwsStsBean {
-    private String AccessKeyId = "";
-    private String AccessKeySecret = "";
-    private String SecurityToken = "";
-    private String Expiration = "";
-    private int StatusCode = 0;
-    private String PaasImPrefix = "";
+    private String accessKeyId = "";
+    private String accessKeySecret = "";
+    private String securityToken = "";
+    private String expiration = "";
+    private int statusCode = 0;
+    private String paasImPrefix = "";
 
     public String getAccessKeyId() {
-        return AccessKeyId;
+        return accessKeyId;
     }
 
     public void setAccessKeyId(String accessKeyId) {
-        AccessKeyId = accessKeyId;
+        this.accessKeyId = accessKeyId;
     }
 
     public String getAccessKeySecret() {
-        return AccessKeySecret;
+        return accessKeySecret;
     }
 
     public void setAccessKeySecret(String accessKeySecret) {
-        AccessKeySecret = accessKeySecret;
+        this.accessKeySecret = accessKeySecret;
     }
 
     public String getSecurityToken() {
-        return SecurityToken;
+        return securityToken;
     }
 
     public void setSecurityToken(String securityToken) {
-        SecurityToken = securityToken;
+        this.securityToken = securityToken;
     }
 
     public String getExpiration() {
-        return Expiration;
+        return expiration;
     }
 
     public void setExpiration(String expiration) {
-        Expiration = expiration;
+        this.expiration = expiration;
     }
 
     public int getStatusCode() {
-        return StatusCode;
+        return statusCode;
     }
 
     public void setStatusCode(int statusCode) {
-        StatusCode = statusCode;
+        this.statusCode = statusCode;
     }
 
     public String getPaasImPrefix() {
-        return PaasImPrefix;
+        return paasImPrefix;
     }
 
     public void setPaasImPrefix(String paasImPrefix) {
-        PaasImPrefix = paasImPrefix;
+        this.paasImPrefix = paasImPrefix;
     }
 
     @Override
     public String toString() {
         return "AwsStsBean{" +
-                "AccessKeyId='" + AccessKeyId + '\'' +
-                ", AccessKeySecret='" + AccessKeySecret + '\'' +
-                ", SecurityToken='" + SecurityToken + '\'' +
-                ", Expiration='" + Expiration + '\'' +
-                ", StatusCode=" + StatusCode +
-                ", PaasImPrefix='" + PaasImPrefix + '\'' +
+                "accessKeyId='" + accessKeyId + '\'' +
+                ", accessKeySecret='" + accessKeySecret + '\'' +
+                ", securityToken='" + securityToken + '\'' +
+                ", expiration='" + expiration + '\'' +
+                ", statusCode=" + statusCode +
+                ", paasImPrefix='" + paasImPrefix + '\'' +
                 '}';
     }
 }
